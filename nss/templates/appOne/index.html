@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Teem</title>
+    <link rel="stylesheet" href="{% static "css/styles.css" %}"/>
+  </head>
+  <body>
+    <p>MAIN PAGE</p>
+    <h1>Bienvenidos a Teem</h1>
+    <h2>Estas son las areas de la BD: </h2>
+    <div class="areashtml">
+      {% if access_records %}
+        <table>
+          <thead>
+            <th>Areas</th>
+          </thead>
+          {% for acc in access_records %}
+          <tr>
+            <td>{{acc.area}}</td>
+          </tr>
+          {%endfor%}
+        </table>
+        {%else%}
+        <p>NO HAY AREAS REGISTRADAS</p>
+        {%endif%}
+    </div>
+  </body>
+</html>
