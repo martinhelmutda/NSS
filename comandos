@@ -1,0 +1,12 @@
+get info from our virtual environments.
+>> conda  info --envs
+
+Activate an environments
+>> activate MyEnvName
+
+Start a project
+>> django admin startproject Project_Name
+
+Start an app
+Move to project folder.
+>> python manage.py startapp app_Name
