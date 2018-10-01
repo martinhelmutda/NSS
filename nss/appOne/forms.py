@@ -1,5 +1,7 @@
 from django import forms
+from django.db import models
 from django.core import validators
+from appOne.models import area
 
 
 class FormProyecto(forms.Form):
@@ -12,6 +14,7 @@ class FormProyecto(forms.Form):
     ProFrase= forms.CharField(label='Frase')
     ProCreationDate = forms.DateField(label='Inició',widget=forms.SelectDateWidget())
     ProArea= forms.ChoiceField(label='Área')
+    ProArea2 = models.ForeignKey(area, on_delete=models.SET_NULL, null=True)
     #Integrantes
     #Roles
     RolNombre=forms.ChoiceField(label='Rol')
