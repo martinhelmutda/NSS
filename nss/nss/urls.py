@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-=======
+
 """nss URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -30,4 +29,4 @@ urlpatterns = [
 
 #models
 #Help us incorporate a database into a django project
->>>>>>> 1a98ce572f7d89379085e64e48336d78ff64e891
+
