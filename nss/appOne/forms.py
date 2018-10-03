@@ -1,8 +1,40 @@
 from django import forms
 from django.db import models
 from django.core import validators
-from appOne.models import area
+from appOne.models import area, proyecto, location
 
+class NewProjectForm1(forms.ModelForm):
+    class Meta():
+         model = proyecto
+         fields = '__all__'
+
+class NewProjectForm2(forms.ModelForm):
+    class Meta():
+         model = area
+         fields = '__all__'
+
+class NewProjectForm3(forms.ModelForm):
+    class Meta():
+         model = location
+         fields = '__all__'
+
+
+
+"""
+AREAS_CHOICES = (
+    ('0', '---'),
+    ('1', 'Musica'),
+    ('2', 'Arte'),
+    ('3', 'Literatura'),
+    ('4', 'Otro'),
+)
+ROL_CHOICES = (
+    ('0', '---'),
+    ('1', 'Financiero'),
+    ('2', 'Programador'),
+    ('3', 'Administrador'),
+    ('4', 'Otro'),
+)
 
 class FormProyecto(forms.Form):
     #Info del proyecto
@@ -13,11 +45,10 @@ class FormProyecto(forms.Form):
     ProLocation = forms.CharField(label='Ubicación')
     ProFrase= forms.CharField(label='Frase')
     ProCreationDate = forms.DateField(label='Inició',widget=forms.SelectDateWidget())
-    ProArea= forms.ChoiceField(label='Área')
-    ProArea2 = models.ForeignKey(area, on_delete=models.SET_NULL, null=True)
+    ProArea = forms.CharField( label='Área', widget=forms.Select(choices=AREAS_CHOICES))
     #Integrantes
     #Roles
-    RolNombre=forms.ChoiceField(label='Rol')
+    RolNombre=forms.CharField( label='Rol', widget=forms.Select(choices=ROL_CHOICES))
     ProConfirmation = forms.BooleanField(label='Recibir correo de confirmación',required=False)
     RolExpirationDate = forms.DateField(label='Fecha límite para aplicar',widget=forms.SelectDateWidget())
 
@@ -32,3 +63,4 @@ class FormProyecto(forms.Form):
 
         #if email != vmail:
             #raise forms.ValidationError("MAKE SURE EMAILS MATCH!")
+"""
