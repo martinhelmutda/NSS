@@ -7,6 +7,18 @@ class NewProjectForm(forms.ModelForm):
     class Meta():
          model = proyecto
          fields = '__all__'
+         labels = {
+         'ProName': ('Nombre'),
+         'ProDescription': ('Descripción'),
+         'ProVideo': ('Video'),
+         'ProAboutUs': ('Acerca de nosotros'),
+         'ProFrase': ('Frase'),
+         'ProCreationDate': ('Fecha de creación'),
+         'ProArea': ('Área'),
+         'proLocation': ('Ubicación'),
+         }
+
+
 
 """
 AREAS_CHOICES = (
