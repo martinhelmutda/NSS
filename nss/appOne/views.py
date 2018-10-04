@@ -23,6 +23,8 @@ def FormProyecto(request):
 
     if request.method == 'POST':
         form = NewProjectForm(request.POST)
+        if condition:
+            pass
 
         if form.is_valid:
             print("LISTO")
