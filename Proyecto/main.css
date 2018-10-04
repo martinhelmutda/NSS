@@ -1,0 +1,57 @@
+.perfil {
+	padding-top: 15px;
+}
+
+.menu {
+	height: 80px;
+}
+
+.prin {
+	padding-bottom: 15px;
+	
+}
+
+.prin2 {
+	padding-bottom: 8px !important;
+	
+}
+
+a.item {
+	color: grey !important;
+}
+/* CONTROL DEL GRID NADA MAS */
+.column {
+	border: 1px solid white;
+}
+/*
+.row {
+	border: 1px solid blue;
+}
+
+
+ ..... */
+.row {
+	margin-top: 40px;
+}
+.bar{
+	margin-top : 20px;
+}
+
+#marcador {
+	color: teal;
+}
+
+
+#box1 {
+	border: 2px solid #efefef;
+	text-align: center;
+
+}
+
+.p2 {
+	text-align: center;
+}
+
+body {
+	font-size: 18px;
+}
