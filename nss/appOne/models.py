@@ -16,14 +16,15 @@ class location(models.Model):
 
 class proyecto(models.Model):
     #Info del proyecto
-    ProName = models.CharField(unique = True, max_length=40)
-    ProDescription = models.CharField(max_length=40)
+    #id=models.CharField( unique = True, max_length=40, primary_key=True)
+    ProName = models.CharField( max_length=40,default='')
+    ProDescription = models.CharField(max_length=40,default='')
     ProVideo =models.URLField()
     ProAboutUs= models.CharField(max_length=40, default='')
     ProFrase= models.CharField(max_length=40, default='')
     ProCreationDate = models.DateField()
-    ProArea=models.ForeignKey('area', on_delete=models.PROTECT)
-    proLocation=models.ForeignKey('location', on_delete=models.PROTECT)
+    ProArea=models.ForeignKey('area', on_delete=models.PROTECT,default='')
+    proLocation=models.ForeignKey('location', on_delete=models.PROTECT,default='')
 
     def __str__(self):
         return self.ProName

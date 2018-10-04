@@ -4,7 +4,7 @@ from django.core.mail import send_mail
 #Importo mis tablas
 from appOne.models import area, proyecto
 from . import forms
-from appOne.forms import NewProjectForm1, NewProjectForm2
+from appOne.forms import NewProjectForm
 
 # Create your views here.
 def index(request):
@@ -13,15 +13,16 @@ def index(request):
     return render(request, 'appOne/index.html', context=area_dict)
     #return HttpResponse("Main page")
 
-def proyecto(request):
+def verProyecto(request):
     proyectodict = {'proyecto_insert': 'PAGINA DE PROYECTO'}
     return render(request, 'appOne/proyecto.html', context=proyectodict) # appOne/proyecto.html ha ce referencia al html en templates
 
+
 def FormProyecto(request):
-    form = NewProjectForm1()
+    form = NewProjectForm()
 
     if request.method == 'POST':
-        form = NewProjectForm1(request.POST)
+        form = NewProjectForm(request.POST)
 
         if form.is_valid:
             print("LISTO")

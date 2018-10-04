@@ -3,22 +3,10 @@ from django.db import models
 from django.core import validators
 from appOne.models import area, proyecto, location
 
-class NewProjectForm1(forms.ModelForm):
+class NewProjectForm(forms.ModelForm):
     class Meta():
          model = proyecto
          fields = '__all__'
-
-class NewProjectForm2(forms.ModelForm):
-    class Meta():
-         model = area
-         fields = '__all__'
-
-class NewProjectForm3(forms.ModelForm):
-    class Meta():
-         model = location
-         fields = '__all__'
-
-
 
 """
 AREAS_CHOICES = (
