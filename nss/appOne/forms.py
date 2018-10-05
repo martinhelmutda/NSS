@@ -1,28 +1,60 @@
 from django import forms
 from django.db import models
 from django.core import validators
-from appOne.models import area, proyecto, location
+from appOne.models import area, proyecto, location, rolInfo
+
+class DateInput(forms.DateInput):
+    input_type = 'date'
+
+
+class DateInput(forms.DateInput):
+    input_type = 'date'
+
 
 class NewProjectForm(forms.ModelForm):
     class Meta():
          model = proyecto
+        # fields = '__all__'
+         exclude = ['proRoles']
+         labels = {
+         'ProName': ('Nombre'),
+         'ProDescription': ('Descripción'),
+         'ProVideo': ('Video'),
+         'ProAboutUs': ('Acerca de nosotros'),
+         'ProFrase': ('Frase'),
+         'ProCreationDate': ('Fecha de creación'),
+         'ProArea': ('Área'),
+         'proLocation': ('Ubicación'),
+         }
+         widgets = {
+         'ProCreationDate': DateInput()
+
+         }
+
+class NewRolForm(forms.ModelForm):
+    class Meta():
+         model = rolInfo
          fields = '__all__'
+        # exclude = ['proRoles']
+         labels = {
+         'rol': ('Rol'),
+         'fechaLimite': ('Fecha límite para aplicar'),
+         'cantidad': ('Cantidad'),
+         'rolDescripcion': ('Descripción'),
+         'RolLocation': ('Ubicación'),
+         }
+         widgets = {
+         'fechaLimite': DateInput()
+
+         }
+
 
 """
-AREAS_CHOICES = (
-    ('0', '---'),
-    ('1', 'Musica'),
-    ('2', 'Arte'),
-    ('3', 'Literatura'),
-    ('4', 'Otro'),
-)
-ROL_CHOICES = (
-    ('0', '---'),
-    ('1', 'Financiero'),
-    ('2', 'Programador'),
-    ('3', 'Administrador'),
-    ('4', 'Otro'),
-)
+Set required fields on forms
+Set widgets
+Check selection on display. To add area or rol -> https://www.caktusgroup.com/blog/2018/05/07/creating-dynamic-forms-django/
+Add table Rol
+Add table integrantes
 
 class FormProyecto(forms.Form):
     #Info del proyecto
