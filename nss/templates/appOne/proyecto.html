@@ -3,10 +3,8 @@
 <head>
     <title> Proyecto </title>
     <meta charset="utf-8">
-
-    <link rel="stylesheet" href="../../static/css/semantic/out/semantic.css">
-    <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
-    <link rel="stylesheet" href="../../static/css/styles.css">
+    <link rel="stylesheet" href="{% static "css/semantic/out/semantic.css" %}">
+    <link rel="stylesheet" href="{% static "css/styles.css" %}">
 
 </head>
 <body>
@@ -61,7 +59,7 @@
                     </div>
                 </div>
                 <div class="column">
-                    <img  class="ui huge fluid rounded image" src="../../static/img/proyecto.jpg" alt="Proyecto" id="img2">
+                    <img  class="ui huge fluid rounded image" src="{% static "img/proyecto.jpg" %}" alt="Proyecto" id="img2">
                 </div>
             </div>
         </div>
@@ -96,7 +94,7 @@
                         <h3>Jack Shaw </h3> Designer, photographer, traveler <br><a href="#"> Ver perfil</a>
                     </div>
                     <div class="four wide column">
-                        <img class="ui tiny circular middle aligned image" src="../../static/img/profile.jpg">
+                        <img class="ui tiny circular middle aligned image" src="{% static "img/profile.jpg" %}" alt="Profile">
                     </div>
                 </div>
             </div>
@@ -187,10 +185,8 @@
     </div>
 </div>
 </body>
-
+<script src="{% static "css/semantic/out/semantic.js" %}"></script>
 <script
-src="https://code.jquery.com/jquery-3.1.1.min.js"
-integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-crossorigin="anonymous"></script>
-<script src="semantic/dist/semantic.min.js"></script>
+  src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+<script src="{% static "css/semantic/out/semantic.js" %}"></script>
 </html>
