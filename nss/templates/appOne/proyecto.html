@@ -1,11 +1,196 @@
 <!DOCTYPE html>
-<!-- {% load staticfiles %} -->
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Proyecto</title>
-  </head>
-  <body>
-    {{proyecto_insert}}
-  </body>
+<html>
+<head>
+	<title> Proyecto </title>
+	<meta charset="utf-8">
+
+	<link rel="stylesheet" href="../../static/css/semantic/out/semantic.css">
+	<link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+	<link rel="stylesheet" href="../../static/css/styles.css">
+
+</head>
+<body>
+
+<div class="ui secondary pointing icon menu prin">
+  <a class="item">
+    Explorar
+  </a>
+  <a class="ui item prin2"> <i class="large icons">
+   <i class="search icon"></i> </i> Buscar </a>
+    <a class="item "> Friends </a>
+
+  <div class="right icon menu prin">
+    <a class="ui item"> Logout </a>
+   <i class=" huge user circle link icon perfil "></i>
+  </div>
+</div>
+
+<div class="container">
+	<div class="ui two column grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui grid container">
+					<div class="four wide column">
+						<h3 id="marcador">Proyecto : </h3>
+					</div>
+					<div class="seven wide column">
+						<h2> Proyecto 1  </h2>
+					</div>
+					<div class="four wide column">
+						<p id="marcador">
+						<i class="ui music link teal icon"></i>
+						Musica
+					</p>
+					</div>
+				</div>
+				<div class="ui small active progress warning">
+  					<div class="bar"></div> <div class="  label">Estado: En desarrollo </div>
+				</div>
+				<div class="container">
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia, error molestiae culpa incidunt soluta ratione sed perferendis architecto, quae et provident fugit laborum doloribus. Tempora iusto, odio omnis corporis eos! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis consequatur sint, hic obcaecati iure officia dicta magni inventore excepturi nesciunt! Accusantium veritatis ex corporis beatae porro, mollitia accusamus aliquid asperiores?</p>
+				</div>
+			</div>
+			<div class="column">
+				<div class="ui grid container">
+					<div class="nine wide column"></div>
+					<div class="seven wide column">
+						<p id="marcador">
+							<i class="ui map marker link teal icon"></i>
+							Queretaro, Queretaro
+						</p>
+					</div>
+				</div>
+				<div class="column">
+					<img  class="ui huge fluid rounded image" src="../../static/img/proyecto.jpg" alt="Proyecto" id="img2">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- FIN DE PRIMERA PARTE -->
+
+<div class="container">
+	<div class="ui two column grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui grid container">
+					<div class="two wide column"></div>
+					<div class="three wide column">
+						<i class="large facebook link fitted icon"></i>
+						<i class="large twitter  link icon"></i>
+					</div>
+				</div>
+				<div class="ui grid container">
+					<div class="two wide column"></div>
+					<div class="six wide column">
+						<h2 id="marcador"> Aplicar : </h2>
+					</div>
+				</div>
+
+			</div>
+			<div class="column">
+				<div class="ui grid container">
+					<div class="eight wide column"></div>
+					<div class="four wide column">
+						<h3>Jack Shaw </h3> Designer, photographer, traveler <br><a href="#"> Ver perfil</a>
+					</div>
+					<div class="four wide column">
+						<img class="ui tiny circular middle aligned image" src="../../static/img/profile.jpg">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<br><br><br>
+<div class="container">
+	<div class="ui grid container">
+		<div class="four wide column " id="box1">
+			<i class="huge camera icon"></i>
+			<h3 id="marcador">Fotografo</h3>
+			<p> 2 lugares </p>
+			<br><br><br>
+			<button class="ui primary button "> Aplicar </button>
+			<p id="marcador"> <br>Recomendar</p>
+		</div>
+
+		<div class="four wide column " id="box1">
+			<i class="huge user circle icon"></i>
+			<h3 id="marcador">Manager</h3>
+			<p> 1 Lugar </p>
+			<br><br><br>
+			<button class="ui primary button "> Aplicar </button>
+			<p id="marcador"> <br>Recomendar</p>
+		</div>
+
+		<div class="four wide column " id="box1">
+			<i class="huge user circle icon"></i>
+			<h3 id="marcador">Marketing</h3>
+			<p> 5 lugares </p>
+			<br><br><br>
+			<button class="ui primary button "> Aplicar </button>
+			<p id="marcador"> <br>Recomendar</p>
+		</div>
+		<div class="four wide column " id="box1">
+			<i class="huge user circle icon"></i>
+			<h3 id="marcador">Productor Musical</h3>
+			<p> 2 lugares </p>
+			<br><br><br>
+			<button class="ui primary button "> Aplicar </button>
+			<p id="marcador"> <br>Recomendar</p>
+		</div>
+
+	</div>
+
+</div>
+
+<br><br><br><br>
+
+<div class="container">
+	<div class="ui grid container">
+		<h2 id="marcador">Sobre Nosotros</h2>
+		<p id="descripcion"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet consectetur explicabo et, odio recusandae voluptatum tempora assumenda vero? Eligendi, natus aut enim excepturi odit? Incidunt, modi quia dolore aliquid dignissimos. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere fuga nam quia iusto magnam dolor quos fugiat, ex quae molestias reprehenderit mollitia, animi voluptatem sequi dolore, recusandae, aut enim aperiam! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos deserunt dolores mollitia eveniet, cupiditate dolor natus autem laborum tempore reiciendis, in fugit perferendis deleniti assumenda temporibus, explicabo ipsam facilis ab.</p>
+	</div>
+<br><br><br>
+	<div class="ui grid container">
+		<div class="four wide column"><i class="ui  user circle icon "></i> Andres</div>
+		<div class="four wide column"><i class="ui  user circle icon "></i> Cesar</div>
+		<div class="four wide column"><i class="ui  user circle icon "></i> Martin</div>
+		<div class="four wide column"><i class="ui  user circle icon "></i> Arturo</div>
+		<div class="four wide column"><i class="ui  user circle icon "></i> Angie</div>
+		<div class="four wide column"><i class="ui  user circle icon "></i> Sergio</div>
+		<div class="four wide column"><i class="ui  user circle icon "></i> Miguel</div>
+		<div class="four wide column"><i class="ui  user circle icon "></i> Jason</div>
+	</div>
+</div>
+
+<div class="ui secondary pointing icon bottom menu prin">
+	<i class=" huge pushed link icon perfil "></i><a class="ui item"> TEEM </a>
+  <a class="item">  </a>
+  <a class="item ">  </a>
+  <a class="item ">  </a>
+  <a class="item ">  </a>
+  <a class="item ">  </a>
+  <a class="ui item ">   NOSOTROS </a>
+  <a class="item "> CONTACTO </a>
+  <a class="item ">  FAQ</a>
+  <a class="item "> INICIO </a>
+  <a class="ui item ">   </a>
+	<a class="ui item ">  </a>
+	<a class="ui item ">   </a>
+	<a class="ui item ">  </a>
+	<div class="right bottom fixed menu">
+		<a class="ui item ">  <i class="ui facebook link  icon"></i> </a>
+		<a class="ui item ">  <i class="ui twitter link icon"></i> </a>
+		<a class="ui item ">  <i class="ui instagram  link icon"></i> </a>
+	</div>
+</div>
+</body>
+
+<script
+src="https://code.jquery.com/jquery-3.1.1.min.js"
+integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+crossorigin="anonymous"></script>
+<script src="semantic/dist/semantic.min.js"></script>
 </html>
