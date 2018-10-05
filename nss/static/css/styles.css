@@ -1,6 +1,124 @@
-p{
-  color: red;
+* {
+    font-family: 'Open Sans', sans-serif !important;
+    font-size: 15px;
 }
+
+.small {
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: 12px;
+}
+
 h1{
-  color: pink;
+    font-family: 'Alegreya Sans SC', sans-serif !important;
+    font-size: 42px !important;
+}
+
+h2{
+    font-family: 'Alegreya Sans SC', sans-serif !important;
+    font-size: 36px !important;
+}
+
+h3{
+    font-family: 'Alegreya Sans SC', sans-serif !important;
+    font-size: 28px !important;
+}
+
+h4{
+    font-family: 'Alegreya Sans SC', sans-serif !important;
+    font-size: 24px !important;
+}
+
+h5{
+    font-family: 'Alegreya Sans SC', sans-serif !important;
+    font-size: 18px !important;
+}
+/*Blue*/
+.bg-prim {
+    background-color: #218380 !important;
+}
+/*Purple*/
+.bg-sec {
+    background-color: #8f2d56 !important
+}
+/*Pink*/
+.bg-ter {
+    background-color: #d81159 !important;
+}
+/*Yellow*/
+.bg-qua {
+    background-color: #ffbc42 !important;
+}
+.bg-white {
+    background-color: #FFFFFF !important;
+}
+.bg-gray {
+    background-color: #f9f5f6 !important;
+}
+.bg-dark {
+    background-color: gray !important;
+}
+
+.opa {
+    opacity: .8;
+}
+
+/*Blue*/
+.text-prim {
+    color: #218380 !important;
+}
+/*Purple*/
+.text-sec {
+    color: #8f2d56 !important;
+}
+/*Pink*/
+.text-ter {
+    color: #d81159 !important;
+}
+/*Yellow*/
+.text-qua {
+    color: #ffbc42 !important;
+}
+.text-white {
+    color: #FFFFFF !important;
+}
+.text-black {
+    color: black !important;
+}
+.text-white:hover {
+    color: #FFFFFF !important;
+}
+.text-white:active {
+    color: #FFFFFF !important;
+}
+
+.text-gray{
+    color: #636363; !important;
+}
+
+.shadow {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.transparent {
+    opacity: .95;
+}
+
+.number1 {
+    z-index: 4;
+}
+.number2 {
+    z-index: 3;
+}
+.right {
+    right: 0%;
+}
+
+.round {
+    border-radius: 5px;
+}
+
+.sticky {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
 }
