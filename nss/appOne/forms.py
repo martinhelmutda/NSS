@@ -1,7 +1,11 @@
 from django import forms
 from django.db import models
 from django.core import validators
-from appOne.models import area, proyecto, location
+from appOne.models import area, proyecto, location, rolInfo
+
+class DateInput(forms.DateInput):
+    input_type = 'date'
+
 
 class DateInput(forms.DateInput):
     input_type = 'date'
@@ -10,7 +14,8 @@ class DateInput(forms.DateInput):
 class NewProjectForm(forms.ModelForm):
     class Meta():
          model = proyecto
-         fields = '__all__'
+        # fields = '__all__'
+         exclude = ['proRoles']
          labels = {
          'ProName': ('Nombre'),
          'ProDescription': ('Descripción'),
@@ -26,6 +31,22 @@ class NewProjectForm(forms.ModelForm):
 
          }
 
+class NewRolForm(forms.ModelForm):
+    class Meta():
+         model = rolInfo
+         fields = '__all__'
+        # exclude = ['proRoles']
+         labels = {
+         'rol': ('Rol'),
+         'fechaLimite': ('Fecha límite para aplicar'),
+         'cantidad': ('Cantidad'),
+         'rolDescripcion': ('Descripción'),
+         'RolLocation': ('Ubicación'),
+         }
+         widgets = {
+         'fechaLimite': DateInput()
+
+         }
 
 
 """
