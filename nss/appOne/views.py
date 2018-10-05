@@ -35,6 +35,23 @@ def FormProyecto(request):
             print("ERROR EN EL FORM")
     return render(request,'appOne/createPro.html',{'form':form, 'form2':form2})
 
+# destruir después de usar
+#
+def FormProyecto2(request):
+    form = NewProjectForm()
+    if request.method == 'POST':
+        form = NewProjectForm(request.POST)
+
+        if form.is_valid:
+            print("LISTO")
+            form.save(commit=True)
+            return index(request)
+        else:
+            print("ERROR EN EL FORM")
+    return render(request,'appOne/altCreaPro.html',{'form':form})
+#
+# destruir después de usar
+
 """
 def FormProyecto(request):
     form = forms.FormProyecto()
