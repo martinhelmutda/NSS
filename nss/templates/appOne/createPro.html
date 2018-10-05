@@ -13,16 +13,20 @@
   </head>
   <body>
     <div class="container">
-      <h1 class="content">Crea tu proyecto</h1>
+      <h1 class="content">Crea tu proyecto</h1><br><br>
       <form method="POST">
       <!--  <div class="fieldWrapper">
             {{ form.ProName.errors }}
             {{ form.ProName.label_tag }}
             {{ form.ProName }}
         </div>-->
+        <h3>Háblanos de tu proyecto</h3> <br>
         {{form.as_p}}
+      <h3>Agrega roles</h3> <br>
+        {{form2.as_p}}
+        <button class="ui black button">Agregar Rol</button><br><br>
         {% csrf_token %}
-        <input type="submit" class='btn btn-primary' value="Submit">
+        <input type="submit" class="positive ui button" value="Submit">
       </form>
     </div>
 

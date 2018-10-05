@@ -4,7 +4,7 @@ from django.core.mail import send_mail
 #Importo mis tablas
 from appOne.models import area, proyecto
 from . import forms
-from appOne.forms import NewProjectForm
+from appOne.forms import NewProjectForm, NewRolForm
 
 # Create your views here.
 def index(request):
@@ -20,19 +20,20 @@ def verProyecto(request):
 
 def FormProyecto(request):
     form = NewProjectForm()
+    form2 = NewRolForm()
 
     if request.method == 'POST':
         form = NewProjectForm(request.POST)
-        if condition:
-            pass
-
+        form2 = NewRolForm(request.POST)
+    
         if form.is_valid:
             print("LISTO")
             form.save(commit=True)
+            form2.save(commit=True)
             return index(request)
         else:
             print("ERROR EN EL FORM")
-    return render(request,'appOne/createPro.html',{'form':form})
+    return render(request,'appOne/createPro.html',{'form':form, 'form2':form2})
 
 """
 def FormProyecto(request):
