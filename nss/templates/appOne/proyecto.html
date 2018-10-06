@@ -1,11 +1,8 @@
 <!DOCTYPE html>
-<html>
+{% extends "appOne/base.html" %}
+{% block body_block %}
 <head>
     <title> Proyecto </title>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="{% static "css/semantic/out/semantic.css" %}">
-    <link rel="stylesheet" href="{% static "css/styles.css" %}">
-
 </head>
 <body>
 
@@ -185,8 +182,4 @@
     </div>
 </div>
 </body>
-<script src="{% static "css/semantic/out/semantic.js" %}"></script>
-<script
-  src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-<script src="{% static "css/semantic/out/semantic.js" %}"></script>
-</html>
+{% endblock %}

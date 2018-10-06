@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load staticfiles %}
 <html lang="es">
 	<head>
 		<meta charset="utf-8">
@@ -11,17 +12,15 @@
 
 		<title>TEEM</title>
 
-        <!-- Custom Fonts -->
+    <!-- Custom Fonts -->
 		<link href="https://fonts.googleapis.com/css?family=Alegreya+Sans+SC|Montserrat|Open+Sans" rel="stylesheet">
 		<link rel="icon" href="img/favicon.ico">
 
 		<!-- Font Awesome -->
 		<link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" rel="stylesheet">
-		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 
-		<!-- Bootstrap core CSS -->
-		<link href="css/bootstrapmin.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
+		<link rel="stylesheet" href="{% static "css/semantic/out/semantic.css" %}">
+    <link rel="stylesheet" href="{% static "css/styles.css" %}">
 
 	</head>
     <body class ="bg-gray">
@@ -40,3 +39,36 @@
 				</div>
 			</div>
 		</nav>
+
+		{% block body_block %}
+		<!-- Other Htmls go here -->
+		{% endblock %}
+
+		<footer class="page-footer font-small blue pt-4 mt-4 bg-gray inshadow footer navbar-fixed-bottom">
+
+			<!--Footer Links-->
+			<div class="container-fluid text-center text-md-left">
+				<div class="row">
+
+					<!--First column-->
+					<div class="row" style="text-align: center; vertical-align: middle; margin: auto">
+
+					</div>
+				</div>
+			</div>
+			<br><br>
+			<!--/.Footer Links-->
+
+			<!--Copyright-->
+			<div class="footer-copyright py-3 text-center shadow">
+			</div>
+			<!--/.Copyright-->
+
+		</footer>
+
+		</body>
+		<script src="{% static "css/semantic/out/semantic.js" %}"></script>
+	  <script
+	    src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+	  <script src="{% static "css/semantic/out/semantic.js" %}"></script>
+</html>
