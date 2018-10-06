@@ -1,14 +1,17 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.core.mail import send_mail
-#Importo mis tablas
-from appOne.models import area, proyecto
+from appOne.models import area, proyecto, rolInfo, rol, location
 from . import forms
-from appOne.forms import NewProjectForm, NewRolForm
+from appOne.forms import formProyecto
+from django.urls import reverse
+from urllib.parse import urlencode
+from flask import Flask, render_template, request, redirect
 
 # Create your views here.
-def index(request):
+def index(request): #index(request, nombre):
     areas_list = area.objects.order_by('area')
+    #area_dict= {'access_records': areas_list, 'nombre':nombre}
     area_dict= {'access_records': areas_list}
     return render(request, 'appOne/index.html', context=area_dict)
     #return HttpResponse("Main page")
@@ -19,21 +22,28 @@ def verProyecto(request):
 
 
 def FormProyecto(request):
-    form = NewProjectForm()
-    form2 = NewRolForm()
+    form = formProyecto()
 
     if request.method == 'POST':
-        form = NewProjectForm(request.POST)
-        form2 = NewRolForm(request.POST)
-    
-        if form.is_valid:
-            print("LISTO")
-            form.save(commit=True)
-            form2.save(commit=True)
+        form=formProyecto(request.POST)
+
+        if form.is_valid():
+            print("VALIDATION SUCCESS!")
+            print(form.cleaned_data['proName'])
+            r = rolInfo(rol=form.cleaned_data['rolNombre'],fechaLimite=form.cleaned_data['rolFechaLimite'],
+                        rolcantidad=form.cleaned_data['rolCantidad'],rolDescripcion=form.cleaned_data['rolDescripcion'],
+                        rolLocation=form.cleaned_data['rolLocation'])
+            r.save()
+            p = proyecto(proName=form.cleaned_data['proName'],proDescription=form.cleaned_data['proDescription'],
+                        proVideo=form.cleaned_data['proVideo'],proAboutUs=form.cleaned_data['proAboutUs'],
+                        proFrase=form.cleaned_data['proFrase'],proCreationDate=form.cleaned_data['proCreationDate'],
+                        proArea=form.cleaned_data['proArea'],proLocation=form.cleaned_data['proLocation'])
+            p.save()
+            p.proRoles.add(r)
             return index(request)
         else:
-            print("ERROR EN EL FORM")
-    return render(request,'appOne/createPro.html',{'form':form, 'form2':form2})
+            print('ERROR EN EL FORM')
+    return render(request,'appOne/createPro.html',{'form':form})
 
 # destruir después de usar
 #

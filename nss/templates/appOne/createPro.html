@@ -23,8 +23,36 @@
         <h3>Háblanos de tu proyecto</h3> <br>
         {{form.as_p}}
       <h3>Agrega roles</h3> <br>
-        {{form2.as_p}}
-        <button class="ui black button">Agregar Rol</button><br><br>
+      <div class="input-group-append">
+              <button class="btn btn-success add-form-row">+</button>
+          </div>
+       <div class="fieldWrapper">
+            {{ form.rolNombre.errors }}
+            {{ form.rolNombre.label_tag }}
+            {{ form.rolNombre }}
+        </div>
+        <div class="fieldWrapper">
+             {{ form.rolFechaLimite.errors }}
+             {{ form.rolFechaLimite.label_tag }}
+             {{ form.rolFechaLimite }}
+         </div>
+         <div class="fieldWrapper">
+              {{ form.rolCantidad.errors }}
+              {{ form.rolCantidad.label_tag }}
+              {{ form.rolCantidad }}
+          </div>
+          <div class="fieldWrapper">
+               {{ form.rolDescripcion.errors }}
+               {{ form.rolDescripcion.label_tag }}
+               {{ form.rolDescripcion }}
+           </div>
+           <div class="fieldWrapper">
+                {{ form.rolLocation.errors }}
+                {{ form.rolLocation.label_tag }}
+                {{ form.rolLocation }}
+            </div>
+
+        <!--<button class="ui black button">Agregar Rol</button><br><br>-->
         {% csrf_token %}
         <input type="submit" class="positive ui button" value="Submit">
       </form>

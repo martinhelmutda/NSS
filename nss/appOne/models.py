@@ -3,13 +3,13 @@ from django.db import models
 # Create your models here.
 
 class area(models.Model):
-     area = models.CharField(max_length = 50, unique = True, default='Sin area')
+     area = models.CharField(primary_key=True,max_length = 50, unique = True, default='')
 
      def __str__(self):
         return self.area
 
 class location(models.Model):
-     location = models.CharField(max_length = 50, unique = True, default='Sin ubicacion')
+     location = models.CharField(primary_key=True,max_length = 50, unique = True, default='')
 
      def __str__(self):
         return self.location
@@ -24,25 +24,24 @@ class rol(models.Model):
 class rolInfo(models.Model):
     rol =  models.ForeignKey(rol, on_delete=models.CASCADE)
     fechaLimite=models.DateField()
-    cantidad= models.PositiveIntegerField(default=1)
+    rolcantidad= models.PositiveIntegerField(default=1)
     rolDescripcion = models.TextField(max_length=800, default='')
-    RolLocation=models.ForeignKey('location', on_delete=models.PROTECT,default='')
+    rolLocation=models.ForeignKey('location', on_delete=models.PROTECT,default='')
 
     def __str__(self):
         return self.rolDescripcion
 
 class proyecto(models.Model):
     #Info del proyecto
-    #id=models.CharField( unique = True, max_length=40, primary_key=True)
-    ProName = models.CharField( max_length=40,default='')
-    ProDescription = models.TextField(max_length=800,default='')
-    ProVideo =models.URLField()
-    ProAboutUs= models.TextField(max_length=800, default='')
-    ProFrase= models.CharField(max_length=200, default='')
-    ProCreationDate = models.DateField()
-    ProArea=models.ForeignKey('area', on_delete=models.PROTECT,default='')
+    proName = models.CharField(max_length=40,default='')
+    proDescription = models.TextField(max_length=800,default='')
+    proVideo =models.URLField()
+    proAboutUs= models.TextField(max_length=800, default='')
+    proFrase= models.CharField(max_length=200, default='')
+    proCreationDate = models.DateField()
+    proArea=models.ForeignKey('area', on_delete=models.PROTECT,default='')
     proLocation=models.ForeignKey('location', on_delete=models.PROTECT,default='')
-    proRoles = models.ManyToManyField('rolInfo')
+    proRoles = models.ManyToManyField('rolInfo') # https://stackoverflow.com/questions/2216974/django-modelform-for-many-to-many-fields
 
     def __str__(self):
-        return self.ProName
+        return self.proName

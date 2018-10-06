@@ -1,60 +1,43 @@
 from django import forms
+from django.forms import CharField, ModelMultipleChoiceField, ModelChoiceField
 from django.db import models
 from django.core import validators
-from appOne.models import area, proyecto, location, rolInfo
+from appOne.models import area, proyecto, location, rolInfo, rol
 
-class DateInput(forms.DateInput):
-    input_type = 'date'
+class formProyecto(forms.Form):
+    #Info del proyecto
+    proName = forms.CharField(label='Nombre', max_length=40)
+    proDescription = forms.CharField(label='Descripción',widget=forms.Textarea)
+    proVideo =forms.URLField(label='Link a video')
+    proAboutUs= forms.CharField(label='Acerca de nosotros', widget=forms.Textarea, required=False)
+    proFrase= forms.CharField(label='Frase')
+    proCreationDate = forms.DateField(label='Inició',widget=forms.SelectDateWidget(), required=False)
+    proArea = ModelChoiceField(label='Área',queryset=area.objects.all(),required=False)
+    proLocation = ModelChoiceField(label='Ubicación',queryset=location.objects.all())
+    #ProImagen = forms.ImageField(label='Imagen',required=False)
+    #Integrantes
+    #Roles
+    rolNombre=ModelChoiceField(label='Rol', queryset=rol.objects.all())
+    rolFechaLimite =  forms.DateField(label='Fecha límite para aplicar',widget=forms.SelectDateWidget())
+    rolCantidad = forms.IntegerField(label='Cantidad')
+    rolDescripcion=forms.CharField(label='Descripción del rol',widget=forms.Textarea)
+    rolLocation = ModelChoiceField(label='Ubicación del rol',queryset=location.objects.all())
 
-
-class DateInput(forms.DateInput):
-    input_type = 'date'
-
-
-class NewProjectForm(forms.ModelForm):
-    class Meta():
-         model = proyecto
-        # fields = '__all__'
-         exclude = ['proRoles']
-         labels = {
-         'ProName': ('Nombre'),
-         'ProDescription': ('Descripción'),
-         'ProVideo': ('Video'),
-         'ProAboutUs': ('Acerca de nosotros'),
-         'ProFrase': ('Frase'),
-         'ProCreationDate': ('Fecha de creación'),
-         'ProArea': ('Área'),
-         'proLocation': ('Ubicación'),
-         }
-         widgets = {
-         'ProCreationDate': DateInput()
-
-         }
-
-class NewRolForm(forms.ModelForm):
-    class Meta():
-         model = rolInfo
-         fields = '__all__'
-        # exclude = ['proRoles']
-         labels = {
-         'rol': ('Rol'),
-         'fechaLimite': ('Fecha límite para aplicar'),
-         'cantidad': ('Cantidad'),
-         'rolDescripcion': ('Descripción'),
-         'RolLocation': ('Ubicación'),
-         }
-         widgets = {
-         'fechaLimite': DateInput()
-
-         }
-
+    #ProConfirmation = forms.BooleanField(label='Recibir correo de confirmación',required=False)
+    #email = forms.EmailField()
+    #verify_email = forms.EmailField(label='Enter your email again:')
+    def clean(self):
+        cleaned_data = super().clean()
+        #name=all_clean_data['ProName']
 
 """
 Set required fields on forms
 Set widgets
+Validar fechas
 Check selection on display. To add area or rol -> https://www.caktusgroup.com/blog/2018/05/07/creating-dynamic-forms-django/
 Add table Rol
-Add table integrantes
+El id de location deberia ser el nombre no un id numerico
+Add table Integrantes
 
 class FormProyecto(forms.Form):
     #Info del proyecto
