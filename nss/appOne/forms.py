@@ -3,17 +3,17 @@ from django.forms import formset_factory, CharField, ModelMultipleChoiceField, M
 from django.db import models
 from django.core import validators
 from appOne.models import area, proyecto, location, rolInfo, rol
+from crispy_forms.helper import FormHelper
 
 class formProyecto(forms.Form):
     #Info del proyecto
-    proName = forms.CharField(label='Nombre', max_length=40)
+    proName = forms.CharField(label='Nombre',max_length=40, widget=forms.TextInput(attrs={'placeholder': 'Ejemplo: Kunigo Web Site', 'class': 'field'}))
     proDescription = forms.CharField(label='Descripción',widget=forms.Textarea)
-    proVideo =forms.URLField(label='Link a video')
+    proVideo =forms.URLField(label='Link a video', widget=forms.TextInput(attrs={'placeholder':'Ejemplo: www.youtube.com/MyVideo'}))
     proAboutUs= forms.CharField(label='Acerca de nosotros', widget=forms.Textarea, required=False)
     proFrase= forms.CharField(label='Frase')
-    proCreationDate = forms.DateField(label='Inició',widget=forms.SelectDateWidget(), required=False)
-    proArea = ModelChoiceField(label='Área',queryset=area.objects.all(),required=False)
-    proLocation = ModelChoiceField(label='Ubicación',queryset=location.objects.all())
+    proCreationDate = forms.DateField(label='Inició',widget=forms.SelectDateWidget(attrs={'class':'ui fluid dropdown'}), required=False)
+    proLocation = ModelChoiceField(label='Ubicación',widget=forms.Select(attrs={'class': 'ui fluid dropdown'}) ,queryset=location.objects.all())
     #ProImagen = forms.ImageField(label='Imagen',required=False)
     #Integrantes
 

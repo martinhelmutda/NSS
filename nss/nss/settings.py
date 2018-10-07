@@ -41,6 +41,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+                  
+##terceros
+    'crispy_forms',
+##proyecto
     'appOne',
 ]
 
@@ -84,13 +88,10 @@ DATABASES = {                                   #Nos conectamos a la base de dat
         'NAME': 'kunigo',
         'USER': 'root',
         'PASSWORD': '',
-<<<<<<< HEAD
+
         #'HOST': '127.0.0.1',
         'HOST': '192.168.64.2',
-=======
-       'HOST': '127.0.0.1',
-#        'HOST': '192.168.64.2',
->>>>>>> 3fd5f39cf246871ec3d3b8a30a46bb90baa19789
+
         'PORT': '3306',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
@@ -140,3 +141,5 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
                   STATIC_DIR,
                   ]
+
+CRISPY_TEMPLATE_PACK = 'semantic-ui'
