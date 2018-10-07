@@ -100,7 +100,14 @@ $(document).ready(function() {
 
   // show dropdown on hover
   $('.main.menu  .ui.dropdown').dropdown({
-    on: 'click'
-  });
+                                         on: 'click'
+                                         });
 
+
+
+});
+
+
+$(function() {
+    $('.ui.dropdown').dropdown();
 });
