@@ -1,5 +1,5 @@
 from django import forms
-from django.forms import CharField, ModelMultipleChoiceField, ModelChoiceField
+from django.forms import formset_factory, CharField, ModelMultipleChoiceField, ModelChoiceField, BaseFormSet
 from django.db import models
 from django.core import validators
 from appOne.models import area, proyecto, location, rolInfo, rol
@@ -16,12 +16,6 @@ class formProyecto(forms.Form):
     proLocation = ModelChoiceField(label='Ubicación',queryset=location.objects.all())
     #ProImagen = forms.ImageField(label='Imagen',required=False)
     #Integrantes
-    #Roles
-    rolNombre=ModelChoiceField(label='Rol', queryset=rol.objects.all())
-    rolFechaLimite =  forms.DateField(label='Fecha límite para aplicar',widget=forms.SelectDateWidget())
-    rolCantidad = forms.IntegerField(label='Cantidad')
-    rolDescripcion=forms.CharField(label='Descripción del rol',widget=forms.Textarea)
-    rolLocation = ModelChoiceField(label='Ubicación del rol',queryset=location.objects.all())
 
     #ProConfirmation = forms.BooleanField(label='Recibir correo de confirmación',required=False)
     #email = forms.EmailField()
@@ -30,13 +24,43 @@ class formProyecto(forms.Form):
         cleaned_data = super().clean()
         #name=all_clean_data['ProName']
 
+class formProyectoAddRol(forms.Form):
+    rolNombre=ModelChoiceField(label='Rol', queryset=rol.objects.all())
+    rolFechaLimite =  forms.DateField(label='Fecha límite para aplicar',widget=forms.SelectDateWidget())
+    rolCantidad = forms.IntegerField(label='Cantidad')
+    rolDescripcion=forms.CharField(label='Descripción del rol',widget=forms.Textarea)
+    rolLocation = ModelChoiceField(label='Ubicación del rol',queryset=location.objects.all())
+    #def clean(self):
+    #    cleaned_data = super().clean()
+
+class baseProyectoAddRol(BaseFormSet):
+    rolNombre = []
+    rolFechaLimite = []
+    rolCantidad = []
+    rolDescripcion = []
+    rolNomrolLocationbre = []
+    def clean(self):
+        for form in self.forms:
+            Nombre=form.cleaned_data['rolNombre']
+            rolNombre.append(Nombre)
+            FechaLimite=form.cleaned_data['rolFechaLimite']
+            rolFechaLimite.append(FechaLimite)
+            Cantidad+=form.cleaned_data['rolCantidad']
+            rolCantidad.append(Cantidad)
+            Descripcion+=form.cleaned_data['rolDescripcion']
+            rolDescripcion.append(Descripcion)
+            Location+=form.cleaned_data['rolLocation']
+            rolLocation.append(Location)
+
+
+rolesFormset = formset_factory(formProyectoAddRol, formset=baseProyectoAddRol, max_num=10)
+#https://medium.com/@taranjeet/adding-forms-dynamically-to-a-django-formset-375f1090c2b0
+#https://stackoverflow.com/questions/501719/dynamically-adding-a-form-to-a-django-formset-with-ajax
 """
 Set required fields on forms
 Set widgets
 Validar fechas
 Check selection on display. To add area or rol -> https://www.caktusgroup.com/blog/2018/05/07/creating-dynamic-forms-django/
-Add table Rol
-El id de location deberia ser el nombre no un id numerico
 Add table Integrantes
 
 class FormProyecto(forms.Form):

@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.core.mail import send_mail
 from appOne.models import area, proyecto, rolInfo, rol, location
 from . import forms
-from appOne.forms import formProyecto
+from appOne.forms import formProyecto, rolesFormset
 from django.urls import reverse
 from urllib.parse import urlencode
 from flask import Flask, render_template, request, redirect
@@ -22,28 +22,34 @@ def verProyecto(request):
 
 
 def FormProyecto(request):
-    form = formProyecto()
+    formPro = formProyecto()
+    formRol=rolesFormset()
 
     if request.method == 'POST':
-        form=formProyecto(request.POST)
+        formPro=formProyecto(request.POST)
+        formRol=rolesFormset(request.POST,request.FILES)
 
-        if form.is_valid():
+        if formPro.is_valid() and formRol.is_valid():
             print("VALIDATION SUCCESS!")
-            print(form.cleaned_data['proName'])
-            r = rolInfo(rol=form.cleaned_data['rolNombre'],fechaLimite=form.cleaned_data['rolFechaLimite'],
-                        rolcantidad=form.cleaned_data['rolCantidad'],rolDescripcion=form.cleaned_data['rolDescripcion'],
-                        rolLocation=form.cleaned_data['rolLocation'])
-            r.save()
-            p = proyecto(proName=form.cleaned_data['proName'],proDescription=form.cleaned_data['proDescription'],
-                        proVideo=form.cleaned_data['proVideo'],proAboutUs=form.cleaned_data['proAboutUs'],
-                        proFrase=form.cleaned_data['proFrase'],proCreationDate=form.cleaned_data['proCreationDate'],
-                        proArea=form.cleaned_data['proArea'],proLocation=form.cleaned_data['proLocation'])
+            print(formPro.cleaned_data)
+            print(formRol.cleaned_data)
+            for form in formRol:
+                print(form.cleaned_data)
+            p = proyecto(proName=formPro.cleaned_data['proName'],proDescription=formPro.cleaned_data['proDescription'],
+                        proVideo=formPro.cleaned_data['proVideo'],proAboutUs=formPro.cleaned_data['proAboutUs'],
+                        proFrase=formPro.cleaned_data['proFrase'],proCreationDate=formPro.cleaned_data['proCreationDate'],
+                        proArea=formPro.cleaned_data['proArea'],proLocation=formPro.cleaned_data['proLocation'])
             p.save()
-            p.proRoles.add(r)
+            for form in formRol:
+                r = rolInfo(rol=form.cleaned_data['rolNombre'],fechaLimite=form.cleaned_data['rolFechaLimite'],
+                            rolcantidad=form.cleaned_data['rolCantidad'],rolDescripcion=form.cleaned_data['rolDescripcion'],
+                            rolLocation=form.cleaned_data['rolLocation'])
+                r.save()
+                p.proRoles.add(r)
             return index(request)
         else:
             print('ERROR EN EL FORM')
-    return render(request,'appOne/createPro.html',{'form':form})
+    return render(request,'appOne/createPro.html',{'formRol':formRol, 'formProyecto':formPro})
 
 # destruir después de usar
 #
