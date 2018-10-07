@@ -29,4 +29,3 @@ urlpatterns = [
 
 #models
 #Help us incorporate a database into a django project
-

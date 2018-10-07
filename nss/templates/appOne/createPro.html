@@ -13,21 +13,61 @@
     <div class="container">
       <h1 class="content">Crea tu proyecto</h1><br><br>
       <form method="POST">
+      {% csrf_token %}
+      {{ formRol.management_form }}
+      <div class="col-2">
+          <label>{{formProyecto.as_p}}</label>
+      </div>
+      FOR INICIO
+      {% for x in formRol %}
+          <div class='table'>
+            <table class='no_error'>
+              {% for field in x %}
+                   {{ field.label_tag }}
+                   {{ field }}
+               {% endfor %}
+                <br><br>
+
+            </table>
+          </div>
+        {% endfor %}
+        FOR TERMINA
+        <input type="button" value="Add More" id="add_more">
+        <input type="submit" class="positive ui button" value="Submit">
       <!--  <div class="fieldWrapper">
             {{ form.ProName.errors }}
             {{ form.ProName.label_tag }}
             {{ form.ProName }}
         </div>-->
-        <h3>Háblanos de tu proyecto</h3> <br>
-        {{form.as_p}}
-      <h3>Agrega roles</h3> <br>
-        {{form2.as_p}}
-        <button class="ui black button">Agregar Rol</button><br><br>
-        {% csrf_token %}
-        <input type="submit" class="positive ui button" value="Submit">
+        <!--<button class="ui black button">Agregar Rol</button><br><br>-->
+
+
       </form>
     </div>
 
+
+
+    <script type='text/javascript'>
+          $('#add_more').click(function() {
+        cloneMore('div.table:last', 'service');
+      });
+      function cloneMore(selector, type) {
+          var newElement = $(selector).clone(true);
+          var total = $('#id_' + type + '-TOTAL_FORMS').val();
+          newElement.find(':input').each(function() {
+              var name = $(this).attr('name').replace('-' + (total-1) + '-','-' + total + '-');
+              var id = 'id_' + name;
+              $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
+          });
+          newElement.find('label').each(function() {
+              var newFor = $(this).attr('for').replace('-' + (total-1) + '-','-' + total + '-');
+              $(this).attr('for', newFor);
+          });
+          total++;
+          $('#id_' + type + '-TOTAL_FORMS').val(total);
+          $(selector).after(newElement);
+      }
+    </script>
 
 
   </body>
