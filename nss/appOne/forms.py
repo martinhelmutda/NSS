@@ -6,15 +6,16 @@ from appOne.models import area, proyecto, location, rolInfo, rol
 
 class formProyecto(forms.Form):
     #Info del proyecto
-    proName = forms.CharField(label='Nombre', max_length=40)
+    proName = forms.CharField(label='Nombre', widget=forms.TextInput)
+    pro = forms.CharField(label='Nombre', widget=forms.Textarea)
     proDescription = forms.CharField(label='Descripción',widget=forms.Textarea)
     proVideo =forms.URLField(label='Link a video')
     proAboutUs= forms.CharField(label='Acerca de nosotros', widget=forms.Textarea, required=False)
     proFrase= forms.CharField(label='Frase')
-    proCreationDate = forms.DateField(label='Inició',widget=forms.SelectDateWidget(), required=False)
+    proCreationDate = forms.DateField(label='Inició',widget=forms.SelectDateWidget,required=False)
     proArea = ModelChoiceField(label='Área',queryset=area.objects.all(),required=False)
     proLocation = ModelChoiceField(label='Ubicación',queryset=location.objects.all())
-    #ProImagen = forms.ImageField(label='Imagen',required=False)
+    ProImagen = forms.ImageField(label='Imagen',required=False)
     #Integrantes
 
     #ProConfirmation = forms.BooleanField(label='Recibir correo de confirmación',required=False)

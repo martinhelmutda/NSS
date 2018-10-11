@@ -47,32 +47,39 @@
 
 
 
-    <script type='text/javascript'>
-          $('#add_more').click(function() {
-        cloneMore('div.table:last', 'service');
-      });
-      function cloneMore(selector, type) {
-          var newElement = $(selector).clone(true);
-          var total = $('#id_' + type + '-TOTAL_FORMS').val();
-          newElement.find(':input').each(function() {
-              var name = $(this).attr('name').replace('-' + (total-1) + '-','-' + total + '-');
-              var id = 'id_' + name;
-              $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
-          });
-          newElement.find('label').each(function() {
-              var newFor = $(this).attr('for').replace('-' + (total-1) + '-','-' + total + '-');
-              $(this).attr('for', newFor);
-          });
-          total++;
-          $('#id_' + type + '-TOTAL_FORMS').val(total);
-          $(selector).after(newElement);
-      }
-    </script>
-
-
   </body>
-  <script src="{% static "css/semantic/out/semantic.js" %}"></script>
-  <script
-    src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-  <script src="{% static "css/semantic/out/semantic.js" %}"></script>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+  <script src="{% static "css/semantic/out/semantic.min.js" %}"></script>
+    <script type='text/javascript'>
+co=1;
+            $('#add_more').click(function() {
+              console.log("HOLA")
+          cloneMore('div.table:last', 'service');
+        });
+        function cloneMore(selector, type) {
+            var newElement = $(selector).clone(true);
+            var total = $('#id_' + type + '-TOTAL_FORMS').val();
+            console.log("total "+total)
+            newElement.find(':input').each(function() {
+                var name = $(this).attr('name').replace('-' + (co-1) + '-','-' + co+ '-');
+                var id = 'id_' + name;
+                console.log("id "+id)
+                $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
+            });
+            newElement.find('label').each(function() {
+                var newFor = $(this).attr('for').replace('-' + (co-1) + '-','-' + co + '-');
+                $(this).attr('for', newFor);
+            });
+            total=total+1;
+            co=co+1;
+            console.log("total "+total)
+            console.log("co "+co)
+            $('#id_' + type + '-TOTAL_FORMS').val(co);
+            $(selector).after(newElement);
+        }
+      </script>
+
+
+
+
 </html>

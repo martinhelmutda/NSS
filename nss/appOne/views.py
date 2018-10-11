@@ -54,9 +54,10 @@ def FormProyecto(request):
 # destruir después de usar
 #
 def FormProyecto2(request):
-    form = NewProjectForm()
+    form = formProyecto()
+
     if request.method == 'POST':
-        form = NewProjectForm(request.POST)
+        form = formProyecto(request.POST)
 
         if form.is_valid:
             print("LISTO")
