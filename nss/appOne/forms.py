@@ -15,6 +15,7 @@ class formProyecto(forms.Form):
     proCreationDate = forms.DateField(label='Inició',widget=forms.SelectDateWidget(attrs={'class':'ui fluid dropdown'}), required=False)
     proLocation = ModelChoiceField(label='Ubicación',widget=forms.Select(attrs={'class': 'ui fluid dropdown'}) ,queryset=location.objects.all())
     #ProImagen = forms.ImageField(label='Imagen',required=False)
+    #ProImagen = forms.ImageField(label='Imagen',required=False)
     #Integrantes
 
     #ProConfirmation = forms.BooleanField(label='Recibir correo de confirmación',required=False)
