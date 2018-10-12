@@ -20,7 +20,6 @@ class rol(models.Model):
     def __str__(self):
         return self.rol
 
-
 class rolInfo(models.Model):
     rol =  models.ForeignKey(rol, on_delete=models.CASCADE)
     fechaLimite=models.DateField()
@@ -45,3 +44,10 @@ class proyecto(models.Model):
 
     def __str__(self):
         return self.proName
+
+class proyectoImagen(models.Model):
+    proImage=models.ImageField(default='', upload_to='proImage')
+    proyecto=models.ForeignKey('proyecto', on_delete=models.CASCADE,default='')
+
+    def __str__(self):
+        return str(self.proImage)

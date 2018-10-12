@@ -13,9 +13,9 @@ class formProyecto(forms.Form):
     proAboutUs= forms.CharField(label='Acerca de nosotros', widget=forms.Textarea, required=False)
     proFrase= forms.CharField(label='Frase')
     proCreationDate = forms.DateField(label='Inició',widget=forms.SelectDateWidget(attrs={'class':'ui fluid dropdown'}), required=False)
-    proLocation = ModelChoiceField(label='Ubicación',widget=forms.Select(attrs={'class': 'ui fluid dropdown'}) ,queryset=location.objects.all())
-    #ProImagen = forms.ImageField(label='Imagen',required=False)
-    #ProImagen = forms.ImageField(label='Imagen',required=False)
+    proArea= ModelChoiceField(label='Area',widget=forms.Select(attrs={'class': 'ui fluid dropdown'}) ,queryset=area.objects.all(), initial=0)
+    proLocation = ModelChoiceField(label='Ubicación',widget=forms.Select(attrs={'class': 'ui fluid dropdown'}) ,queryset=location.objects.all(), initial=0)
+    proImage = forms.ImageField(label='Imagen',required=False)
     #Integrantes
 
     #ProConfirmation = forms.BooleanField(label='Recibir correo de confirmación',required=False)
@@ -26,35 +26,40 @@ class formProyecto(forms.Form):
         #name=all_clean_data['ProName']
 
 class formProyectoAddRol(forms.Form):
-    rolNombre=ModelChoiceField(label='Rol', queryset=rol.objects.all())
+    rolNombre=ModelChoiceField(label='Rol', queryset=rol.objects.all(), initial=0)
     rolFechaLimite =  forms.DateField(label='Fecha límite para aplicar',widget=forms.SelectDateWidget())
     rolCantidad = forms.IntegerField(label='Cantidad')
     rolDescripcion=forms.CharField(label='Descripción del rol',widget=forms.Textarea)
-    rolLocation = ModelChoiceField(label='Ubicación del rol',queryset=location.objects.all())
+    rolLocation = ModelChoiceField(label='Ubicación del rol',queryset=location.objects.all(), initial=0)
     #def clean(self):
     #    cleaned_data = super().clean()
 
 class baseProyectoAddRol(BaseFormSet):
-    rolNombre = []
-    rolFechaLimite = []
-    rolCantidad = []
-    rolDescripcion = []
-    rolNomrolLocationbre = []
+    #rolNombre = []
+    #rolFechaLimite = []
+    #rolCantidad = []
+    #rolDescripcion = []
+    #rolNomrolLocationbre = []
+    #info=[]
     def clean(self):
+        info=[]
         for form in self.forms:
-            Nombre=form.cleaned_data['rolNombre']
-            rolNombre.append(Nombre)
-            FechaLimite=form.cleaned_data['rolFechaLimite']
-            rolFechaLimite.append(FechaLimite)
-            Cantidad+=form.cleaned_data['rolCantidad']
-            rolCantidad.append(Cantidad)
-            Descripcion+=form.cleaned_data['rolDescripcion']
-            rolDescripcion.append(Descripcion)
-            Location+=form.cleaned_data['rolLocation']
-            rolLocation.append(Location)
+            #Nombre=form.cleaned_data['rolNombre']
+            #rolNombre.append(Nombre)
+            #FechaLimite=form.cleaned_data['rolFechaLimite']
+            #rolFechaLimite.append(FechaLimite)
+            #Cantidad+=form.cleaned_data['rolCantidad']
+            #rolCantidad.append(Cantidad)
+            #Descripcion+=form.cleaned_data['rolDescripcion']
+            #rolDescripcion.append(Descripcion)
+            #Location+=form.cleaned_data['rolLocation']
+            #rolLocation.append(Location)
+            cleaned_data = super().clean()
+            info.append(cleaned_data)
 
 
-rolesFormset = formset_factory(formProyectoAddRol, formset=baseProyectoAddRol, max_num=10)
+
+rolesFormset = formset_factory(formProyectoAddRol, extra=2, can_delete=True)#, formset=baseProyectoAddRol, max_num=10)
 #https://medium.com/@taranjeet/adding-forms-dynamically-to-a-django-formset-375f1090c2b0
 #https://stackoverflow.com/questions/501719/dynamically-adding-a-form-to-a-django-formset-with-ajax
 """
