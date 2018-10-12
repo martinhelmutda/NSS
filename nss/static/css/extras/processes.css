@@ -18,7 +18,7 @@
     padding:20px;
 }
 #account{
-    display: block;
+    display: flex;
     padding:20px;
 }
 

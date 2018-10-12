@@ -21,7 +21,7 @@
     <div class="ui borderless main menu fixed" style="position: fixed; top: 0px; left: auto; z-index: 10;">
       <div class="ui text container">
     <div class="header item">
-        <img class="logo" src=""{% static "img/logo.png">
+        <img class="logo" src="{% static "img/logo.png" %}">
           Teem
         </div>
         <a href="#" class="item">Blog</a>
@@ -125,8 +125,6 @@
                 {{ form.proName }}
               </div>
               <div class="fieldWrapper">
-
-
             <input type="text" name="" value="{{ form.ProName}}">
 
               </div>
@@ -406,9 +404,12 @@
               </div>
             </div>
           </div>
-
-
-          <div class="ui button next1" tabindex="0">Siguiente</div>
+          <div class="ui animated button" id="CreaSig1" tabindex="0">
+            <div class="visible content">Siguiente</div>
+            <div class="hidden content">
+              <i class="right arrow icon"></i>
+            </div>
+          </div>
         </form>
 
       </div>
@@ -436,8 +437,8 @@
           </div>
 
           <div class="two ui buttons">
-            <button class="ui  inverted violet  medium button prev1">Previous</button>
-            <button class="ui  inverted violet  medium button next2">Next</button>
+            <button class="ui button" id="CreaPrev1">Previous</button>
+            <button class="ui button" id="CreaSig2">Next</button>
           </div>
         </form>
       </div>
@@ -474,8 +475,8 @@
 
             {% endfor %}
           <div class="two ui buttons">
-            <button class="ui  inverted violet  medium button prev2">Previous</button>
-            <button class="ui  inverted violet  medium button submit" type="submit">Submit</button>
+            <button class="ui  button prev2" id="CreaPrev2">Previous</button>
+            <button class="ui  button submit" type="submit" id="CreaSig3">Submit</button>
           </div>
         </form>
       </div>
