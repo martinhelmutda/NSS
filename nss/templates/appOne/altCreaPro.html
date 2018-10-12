@@ -122,25 +122,7 @@
             <label>Nombre del Proyecto</label>
             <div class="one field">
               <div class="fieldWrapper">
-
-                {{ form.proName.label_tag }}
                 {{ form.proName }}
-                {{ form.proDescription.label_tag }}
-                {{ form.proDescription}}
-                {{ form.proVideo.label_tag }}
-                {{ form.proVideo }}
-                {{ form.proAboutUs.label_tag }}
-                {{ form.proAboutUs }}
-                {{ form.proFrase.label_tag }}
-                {{ form.proFrase }}
-                {{ form.proCreationDate.label_tag }}
-                {{ form.proCreationDate }}
-                {{ form.proDescription.label_tag }}
-                {{ form.proDescription }}
-                {{ form.proArea.label_tag }}
-
-
-
               </div>
               <div class="fieldWrapper">
 
@@ -453,12 +435,6 @@
             {{formPro.proDescription}}
           </div>
 
-          <div class="field">
-            <div class="ui left icon input">
-              <i class="github icon"></i>
-              <input type="text" placeholder="github">
-            </div>
-          </div>
           <div class="two ui buttons">
             <button class="ui  inverted violet  medium button prev1">Previous</button>
             <button class="ui  inverted violet  medium button next2">Next</button>
@@ -472,18 +448,31 @@
           <h1 class="font" style="color:orange;">¿Qué buscas?</h1>
         </div>
         <form class="ui form">
-          <div class="field">
-            <input type="text" placeholder="First Name">
-          </div>
-          <div class="field">
-            <input type="text" placeholder="Last Name">
-          </div>
-          <div class="field">
-            <input type="text" placeholder="Phone">
-          </div>
-          <div class="field">
-            <input type="text" placeholder="Skills">
-          </div>
+          {% csrf_token %}
+
+          {% for x in formRol %}
+            <div class="field">
+              <label for="">Nombre del Rol:</label>
+                {{ x.rolNombre }}
+            </div>
+            <div class="field">
+              <label for="">Descripción del Rol:</label>
+                {{ x.rolDescripcion }}
+            </div>
+            <div class="two fields">
+              <div class="field">
+                <label for="">Lugar de disponibilidad:</label>
+                {{ x.rolLocation }}
+              </div>
+              <div class="field">
+                <label for="">Fecha límite para solicitar puesto:</label>
+                <div class="equal width fields django-date">
+                    {{x.rolFechaLimite}}
+                </div>
+              </div>
+            </div>
+
+            {% endfor %}
           <div class="two ui buttons">
             <button class="ui  inverted violet  medium button prev2">Previous</button>
             <button class="ui  inverted violet  medium button submit" type="submit">Submit</button>
@@ -492,42 +481,7 @@
       </div>
     </div>
 
-    <div class="ui text container">
-
-
-      <div class="ui fluid selection dropdown">
-        <input type="hidden" name="user">
-        <i class="dropdown icon"></i>
-        <div class="default text">Select Friend</div>
-        <div class="menu">
-          <div class="item" data-value="jenny">
-            <img class="ui mini avatar image" src="/images/avatar/small/jenny.jpg">
-            Jenny Hess
-          </div>
-          <div class="item" data-value="elliot">
-            <img class="ui mini avatar image" src="/images/avatar/small/elliot.jpg">
-            Elliot Fu
-          </div>
-          <div class="item" data-value="stevie">
-            <img class="ui mini avatar image" src="/images/avatar/small/stevie.jpg">
-            Stevie Feliciano
-          </div>
-          <div class="item" data-value="christian">
-            <img class="ui mini avatar image" src="/images/avatar/small/christian.jpg">
-            Christian
-          </div>
-          <div class="item" data-value="matt">
-            <img class="ui mini avatar image" src="/images/avatar/small/matt.jpg">
-            Matt
-          </div>
-          <div class="item" data-value="justen">
-            <img class="ui mini avatar image" src="/images/avatar/small/justen.jpg">
-            Justen Kitsune
-          </div>
-        </div>
-      </div>
-
-
+    <div class="ui  footer">
       <div class="ui inverted vertical footer segment">
         <div class="ui center aligned container">
           <div class="ui stackable inverted divided grid">

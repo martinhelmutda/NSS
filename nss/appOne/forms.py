@@ -26,11 +26,11 @@ class formProyecto(forms.Form):
         #name=all_clean_data['ProName']
 
 class formProyectoAddRol(forms.Form):
-    rolNombre=ModelChoiceField(label='Rol', queryset=rol.objects.all())
-    rolFechaLimite =  forms.DateField(label='Fecha límite para aplicar',widget=forms.SelectDateWidget())
-    rolCantidad = forms.IntegerField(label='Cantidad')
+    rolNombre=ModelChoiceField(label='Rol', queryset=rol.objects.all(), widget=forms.TextInput(attrs={'class':'field'}))
+    rolFechaLimite =  forms.DateField(label='Fecha límite para aplicar',widget=forms.SelectDateWidget(attrs={'class':'ui fluid dropdown'}))
+    rolCantidad = forms.IntegerField(label='Cantidad', widget=forms.TextInput(attrs={'placeholder':'1', 'class':'field'}))
     rolDescripcion=forms.CharField(label='Descripción del rol',widget=forms.Textarea)
-    rolLocation = ModelChoiceField(label='Ubicación del rol',queryset=location.objects.all())
+    rolLocation = ModelChoiceField(label='Ubicación del rol',queryset=location.objects.all(), widget=forms.Select(attrs={'class':'ui fluid dropdown'}))
     #def clean(self):
     #    cleaned_data = super().clean()
 
