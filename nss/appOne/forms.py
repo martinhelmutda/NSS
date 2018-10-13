@@ -7,9 +7,9 @@ from crispy_forms.helper import FormHelper
 
 class formProyecto(forms.Form):
     #Info del proyecto
-    proName = forms.CharField(label='Nombre',max_length=40, widget=forms.TextInput(attrs={ 'class': 'field'}))
-    proDescription = forms.CharField(label='Descripción',widget=forms.Textarea)
-    proVideo =forms.URLField(label='Link a video', widget=forms.TextInput(attrs={}))
+    proName = forms.CharField(label='Nombre',max_length=40, widget=forms.TextInput(attrs={'placeholder': 'Ejemplo: Kunigo Web Site', 'class': 'field'}))
+    proDescription = forms.CharField(label='Descripción',widget=forms.Textarea, required=False)
+    proVideo =forms.URLField(label='Link a video', widget=forms.TextInput(attrs={'placeholder':'Ejemplo: www.youtube.com/MyVideo'}),required=False)
     proAboutUs= forms.CharField(label='Acerca de nosotros', widget=forms.Textarea, required=False)
     proFrase= forms.CharField(label='Frase')
     proCreationDate = forms.DateField(label='Inició',widget=forms.SelectDateWidget(attrs={'class':'ui fluid dropdown'}), required=False)
