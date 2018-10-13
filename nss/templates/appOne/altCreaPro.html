@@ -68,7 +68,6 @@
         </div>
       </a>
     </div>
-  </div>
 
 
   <div class="ui borderless main menu placeholder " style="display: block; visibility: hidden;">
@@ -102,7 +101,7 @@
 
 
   <div class="ui centered grid">
-    <div id="account">
+    <div id="create_project_segment">
       <div class="ui  segment container " id="signUpBox" style="background-color: #F1F0FF;border-radius:5px;">
         <div class="ui header">
           <h1 class="font" style="color:#300032;">Crea tu proyecto</h1>
@@ -135,7 +134,6 @@
             <div class="field">
               <label for="">Categoría</label>
                 {{formPro.proLocation}}
-              </select>
             </div>
             <div class="field">
               <label for="">Fecha inicio</label>
@@ -156,7 +154,7 @@
               <div class="ui fluid search selection dropdown">
                 <input type="hidden" name="country">
                 <i class="dropdown icon"></i>
-                <div class="default text">Selecciona etl país</div>
+                <div class="default text">Selecciona el país</div>
                 <div class="menu">
                   <div class="item" data-value="af"><i class="af flag"></i>Afghanistan</div>
                   <div class="item" data-value="ax"><i class="ax flag"></i>Aland Islands</div>
@@ -404,7 +402,7 @@
               </div>
             </div>
           </div>
-          <div class="ui animated button" id="CreaSig1" tabindex="0">
+          <div class="ui positive animated button" id="CreaSig1" tabindex="0">
             <div class="visible content">Siguiente</div>
             <div class="hidden content">
               <i class="right arrow icon"></i>
@@ -414,7 +412,7 @@
 
       </div>
     </div>
-    <div id="social">
+    <div id="create_description_segment">
       <div class="ui center aligned  stacked segment container " id="signUpBox" style="background-color: #F1F0FF;border-radius:5px;">
         <div class="ui centered header">
           <h1 class="font" style="color:rgb(50,153,153);">Cuéntanos más</h1>
@@ -436,14 +434,24 @@
             {{formPro.proDescription}}
           </div>
 
-          <div class="two ui buttons">
-            <button class="ui button" id="CreaPrev1">Previous</button>
-            <button class="ui button" id="CreaSig2">Next</button>
-          </div>
+            <!-- <button class="ui button">Previous</button>
+            <button class="ui button" id="CreaSig2">Next</button> -->
+            <div class="ui animated button" tabindex="0" id="CreaPrev1">
+              <div class="visible content">Atrás</div>
+              <div class="hidden content">
+                <i class="left arrow icon"></i>
+              </div>
+            </div>
+            <div class="ui positive animated button" tabindex="0" id="CreaSig2">
+              <div class="visible content">Siguiente</div>
+              <div class="hidden content">
+                <i class="right arrow icon"></i>
+              </div>
+            </div>
         </form>
       </div>
     </div>
-    <div id="personal">
+    <div id="create_rol_segment">
       <div class="ui center aligned tall stacked segment container " id="signUpBox" style="background-color: #F1F0FF;border-radius:5px;">
         <div class="ui centered header">
           <h1 class="font" style="color:orange;">¿Qué buscas?</h1>
@@ -475,8 +483,18 @@
 
             {% endfor %}
           <div class="two ui buttons">
-            <button class="ui  button prev2" id="CreaPrev2">Previous</button>
-            <button class="ui  button submit" type="submit" id="CreaSig3">Submit</button>
+            <div class="ui animated button" tabindex="0" id="CreaPrev2">
+              <div class="visible content">Atrás</div>
+              <div class="hidden content">
+                <i class="left arrow icon"></i>
+              </div>
+            </div>
+            <div class="ui positive animated button" tabindex="0" id="CreaSig3">
+              <div class="visible content">Siguiente</div>
+              <div class="hidden content">
+                <i class="right arrow icon"></i>
+              </div>
+            </div>
           </div>
         </form>
       </div>

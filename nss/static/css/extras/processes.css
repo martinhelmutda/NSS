@@ -8,17 +8,17 @@
     font-weight:300;
     font-size:40px;
 }
-#social{
-    display: none;
+#create_description_segment{
+    display: block;
     padding:20px;
 }
 
-#personal{
-    display:none;
+#create_rol_segment{
+    display: block;
     padding:20px;
 }
-#account{
-    display: flex;
+#create_project_segment{
+    display: block;
     padding:20px;
 }
 
