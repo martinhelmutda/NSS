@@ -12,7 +12,7 @@
   <body>
     <div class="container">
       <h1 class="content">Crea tu proyecto</h1><br><br>
-      <form method="POST" enctype="multipart/form-data">
+      <form method="POST" enctype="multipart/form-data"class="ui form">
       {% csrf_token %}
       {{ formRol.management_form }}
       <div class="col-2">

@@ -7,9 +7,9 @@ from crispy_forms.helper import FormHelper
 
 class formProyecto(forms.Form):
     #Info del proyecto
-    proName = forms.CharField(label='Nombre',max_length=40, widget=forms.TextInput(attrs={'placeholder': 'Ejemplo: Kunigo Web Site', 'class': 'field'}))
+    proName = forms.CharField(label='Nombre',max_length=40, widget=forms.TextInput(attrs={ 'class': 'field'}))
     proDescription = forms.CharField(label='Descripción',widget=forms.Textarea)
-    proVideo =forms.URLField(label='Link a video', widget=forms.TextInput(attrs={'placeholder':'Ejemplo: www.youtube.com/MyVideo'}))
+    proVideo =forms.URLField(label='Link a video', widget=forms.TextInput(attrs={}))
     proAboutUs= forms.CharField(label='Acerca de nosotros', widget=forms.Textarea, required=False)
     proFrase= forms.CharField(label='Frase')
     proCreationDate = forms.DateField(label='Inició',widget=forms.SelectDateWidget(attrs={'class':'ui fluid dropdown'}), required=False)
@@ -26,9 +26,9 @@ class formProyecto(forms.Form):
         #name=all_clean_data['ProName']
 
 class formProyectoAddRol(forms.Form):
-    rolNombre=ModelChoiceField(label='Rol', queryset=rol.objects.all(), widget=forms.TextInput(attrs={'class':'field'}), initial=0)
+    rolNombre= ModelChoiceField(label='rol',widget=forms.Select(attrs={'class': 'ui fluid dropdown'}) ,queryset=rol.objects.all(), initial=0)
     rolFechaLimite =  forms.DateField(label='Fecha límite para aplicar',widget=forms.SelectDateWidget(attrs={'class':'ui fluid dropdown'}))
-    rolCantidad = forms.IntegerField(label='Cantidad', widget=forms.TextInput(attrs={'placeholder':'1', 'class':'field'}))
+    rolCantidad = forms.IntegerField(label='Cantidad', widget=forms.TextInput(attrs={'class':'field'}))
     rolDescripcion=forms.CharField(label='Descripción del rol',widget=forms.Textarea)
     rolLocation = ModelChoiceField(label='Ubicación del rol',queryset=location.objects.all(), widget=forms.Select(attrs={'class':'ui fluid dropdown'}), initial=0)
     #def clean(self):
@@ -59,7 +59,7 @@ class baseProyectoAddRol(BaseFormSet):
 
 
 
-rolesFormset = formset_factory(formProyectoAddRol, extra=2, can_delete=True)#, formset=baseProyectoAddRol, max_num=10)
+rolesFormset = formset_factory(formProyectoAddRol, extra=2)#, formset=baseProyectoAddRol, max_num=10)
 #https://medium.com/@taranjeet/adding-forms-dynamically-to-a-django-formset-375f1090c2b0
 #https://stackoverflow.com/questions/501719/dynamically-adding-a-form-to-a-django-formset-with-ajax
 """
