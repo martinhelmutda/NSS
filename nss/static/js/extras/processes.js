@@ -35,6 +35,15 @@ $(document).ready(function() {
     $('#create_description_segment').show();
   });
 
+  $('#CreaSig3').on('click', function() {
+    // console.log('dfsagsd');
+    $('.ui.basic.modal').modal('show');
+    $('#create_rol_form' ).submit();
+    $('#create_project_form' ).submit();
+    $('#create_description_form' ).submit();
+  });
+
+
 
   $('.submit').one('click', function(p) {
     p.preventDefault();

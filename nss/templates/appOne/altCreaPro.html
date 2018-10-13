@@ -14,6 +14,22 @@
 </head>
 
 <body>
+  <div class="ui basic modal">
+    <div class="ui icon header">
+      <i class="check icon"></i>
+      <!-- <div class="ui active centered inline loader"></div> -->
+      ¡Feclicidades, tu nuevo proyecto se ha creado, ahora todos pueden verlo!
+    </div>
+    <div class="content">
+      <p>Podrás actualizar los datos del proyecto y añadir más campos si los necesitas</p>
+    </div>
+    <div class="actions">
+      <div class="ui green ok inverted button">
+        <i class="checkmark icon"></i>
+          Continuar
+      </div>
+    </div>
+  </div>
     <div class="ui container">
       <h1 class="ui header">Crear Proyecto</h1>
       <p>Crea un nuevo proyecto para mostrárselo al mundo</p>
@@ -114,7 +130,7 @@
           </div>
           <div class="ui primary button">Buscar</div>
         </div>
-        <form class="ui form" method="post">
+        <form class="ui form" method="post" id="create_project_form">
           {% csrf_token %}
           <h4 class="ui dividing header"></h4>
           <div class="field">
@@ -418,7 +434,7 @@
           <h1 class="font" style="color:rgb(50,153,153);">Cuéntanos más</h1>
         </div>
 
-        <form class="ui form">
+        <form class="ui form" id="create_description_form" method="post">
           {% csrf_token %}
           <div class="field">
             <label for="">Video del proyecto</label>
@@ -456,7 +472,7 @@
         <div class="ui centered header">
           <h1 class="font" style="color:orange;">¿Qué buscas?</h1>
         </div>
-        <form class="ui form">
+        <form class="ui form" id="create_rol_form" method="POST">
           {% csrf_token %}
 
           {% for x in formRol %}
@@ -482,20 +498,19 @@
             </div>
 
             {% endfor %}
-          <div class="two ui buttons">
+
             <div class="ui animated button" tabindex="0" id="CreaPrev2">
               <div class="visible content">Atrás</div>
               <div class="hidden content">
                 <i class="left arrow icon"></i>
               </div>
             </div>
-            <div class="ui positive animated button" tabindex="0" id="CreaSig3">
-              <div class="visible content">Siguiente</div>
-              <div class="hidden content">
+            <div class="ui positive animated fade button" tabindex="0" id="CreaSig3">
+              <div class="hidden content">Registrar</div>
+              <div class="visible content">
                 <i class="right arrow icon"></i>
               </div>
             </div>
-          </div>
         </form>
       </div>
     </div>
