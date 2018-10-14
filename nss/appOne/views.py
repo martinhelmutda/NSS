@@ -19,6 +19,12 @@ def verProyecto(request):
     proyectodict = {'proyecto_insert': 'PAGINA DE PROYECTO'}
     return render(request, 'appOne/proyecto.html', context=proyectodict) # appOne/proyecto.html ha ce referencia al html en templates
 
+def ver_proyecto(request, p_db, r_db):
+    pro_db = p_db
+    rol_db=r_db
+    proyectodict = {'proyecto_insert': 'PAGINA ','pro_db':pro_db,'rol_db':rol_db}
+    return render(request, 'appOne/proyecto.html', context=proyectodict) # appOne/proyecto.html ha ce referencia al html en templates
+
 
 def FormProyecto(request):
     formPro = formProyecto()
@@ -29,6 +35,11 @@ def FormProyecto(request):
         formRol=rolesFormset(request.POST,request.FILES)
 
         if formPro.is_valid() and formRol.is_valid():
+            pro_db={ "pro_nombre": str(formPro.cleaned_data['proName']),"pro_descripcion": str(formPro.cleaned_data['proDescription']),
+                    "pro_video": str(formPro.cleaned_data['proVideo']),"pro_nosotros": str(formPro.cleaned_data['proAboutUs']),
+                    "pro_frase": str(formPro.cleaned_data['proFrase']),"pro_fecha_creacion": str(formPro.cleaned_data['proCreationDate']),
+                    "pro_categoria": str(formPro.cleaned_data['proArea']),"pro_imagen": str(formPro.cleaned_data['proImage'])}
+            rol_db=[]
             print("VALIDATION SUCCESS!")
             print(formPro.cleaned_data)
             print(formRol.cleaned_data)
@@ -42,12 +53,18 @@ def FormProyecto(request):
             i = proyectoImagen(proImage=formPro.cleaned_data['proImage'], proyecto=p)
             i.save()
             for form in formRol:
+                x={"rol_nombre": str(form.cleaned_data['rolNombre']),"rol_fecha_limite": str(form.cleaned_data['rolFechaLimite']),
+                        "rol_cantidad": str(form.cleaned_data['rolCantidad']),"rol_descripcion": str(form.cleaned_data['rolDescripcion']),
+                        "rol_ubicacion": str(form.cleaned_data['rolLocation'])}
+                rol_db.append(x)
                 r = rolInfo(rol=form.cleaned_data['rolNombre'],fechaLimite=form.cleaned_data['rolFechaLimite'],
                             rolcantidad=form.cleaned_data['rolCantidad'],rolDescripcion=form.cleaned_data['rolDescripcion'],
                             rolLocation=form.cleaned_data['rolLocation'])
+
                 r.save()
                 p.proRoles.add(r)
-            return index(request)
+            #return index(request)
+            return ver_proyecto(request, pro_db, rol_db)
         else:
             print('ERROR EN EL FORM')
     return render(request,'appOne/createPro.html',{'formRol':formRol, 'formProyecto':formPro})

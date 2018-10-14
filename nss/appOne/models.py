@@ -46,7 +46,7 @@ class proyecto(models.Model):
         return self.proName
 
 class proyectoImagen(models.Model):
-    proImage=models.ImageField(default='', upload_to='proImage')
+    proImage=models.ImageField(default='', upload_to='pro_imagen', blank=True)
     proyecto=models.ForeignKey('proyecto', on_delete=models.CASCADE,default='')
 
     def __str__(self):
