@@ -50,7 +50,7 @@ INSTALLED_APPS = [
 ##terceros
     'crispy_forms',
 ##proyecto
-    'appOne',
+    'app_one',
 ]
 
 MIDDLEWARE = [
