@@ -21,9 +21,15 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
+<<<<<<< HEAD
     path('', views.index, name='index'), #Despliega lo de la funcion index en appOne/views.py/def index
     path('proyecto/', include('app_one.urls')),
     #path('crearProyecto/',include('appOne.urls')),
+=======
+    path('', views.index, name='index'), #Despliega lo de la funcion index en app_one/views.py/def index
+    path('proyecto/', include('app_one.urls')),
+    #path('crearProyecto/',include('app_one.urls')),
+>>>>>>> develop
     #path('createProyect/',views.form_name_view,name='form_name'),
     path('admin/', admin.site.urls),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
