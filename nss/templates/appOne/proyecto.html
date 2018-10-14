@@ -1,9 +1,52 @@
 <!DOCTYPE html>
 {% extends "appOne/base.html" %}
-{% load staticfiles %}
+{% load static %}
 {% block body_block %}
+<br><br><br><br><br>
 
+Nombre: <p>{{pro_db.pro_nombre}}</p>
+Descripcion: <p>{{pro_db.pro_descripcion}}</p>
+Video: <p>{{pro_db.pro_video}}</p>
+Sobre nosotros: <p>{{pro_db.pro_nosotros}}</p>
+Frase: <p>{{pro_db.pro_frase}}</p>
+fecha de creacion: <p>{{pro_db.pro_fecha_creacion}}</p>
+Categoría: <p>{{pro_db.pro_categoria}}</p>
+Imagen: <p>{{pro_db.pro_imagen}}</p>
+<img  src="{{pro_db.pro_imagen.url}}" alt="imagen del proyecto">
 
+<div class="">
+  {% if rol_db %}
+    <table>
+      <thead>
+        <th>Roles</th>
+      </thead>
+      {% for x in rol_db %}
+      <tr>
+        <td>nombre</td>
+        <td>fecha limite</td>
+        <td>cantidad</td>
+        <td>descripcion</td>
+        <td>ubicacion</td>
+      </tr>
+      <tr>
+        <td>{{x.rol_nombre}}</td>
+
+        <td>{{x.rol_fecha_limite}}</td>
+
+        <td>{{x.rol_cantidad}}</td>
+
+        <td>{{x.rol_descripcion}}</td>
+
+        <td>{{x.rol_ubicacion}}</td>
+      </tr>
+      {%endfor%}
+    </table>
+    {%else%}
+    <p>NO HAY AREAS REGISTRADAS</p>
+    {%endif%}
+</div>
+{% endblock %}
+<!--
 <div class="ui secondary pointing icon menu prin">
   <a class="item">
     Explorar
@@ -61,7 +104,7 @@
     </div>
 </div>
 
-<!-- FIN DE PRIMERA PARTE -->
+
 
 <div class="container">
     <div class="ui two column grid">
@@ -178,5 +221,4 @@
         <a class="ui item ">  <i class="ui twitter link icon"></i> </a>
         <a class="ui item ">  <i class="ui instagram  link icon"></i> </a>
     </div>
-</div>
-{% endblock %}
+</div>-->
