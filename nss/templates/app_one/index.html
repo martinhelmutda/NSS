@@ -10,7 +10,7 @@
   <body>
     <p>MAIN PAGE</p>
     <h1>Bienvenidos a Teem</h1>
-    <h1>{{nombre}}</h1>
+    <h1>{{name}}</h1>
     <h2>Estas son las areas de la BD: </h2>
     <div class="areashtml">
       {% if access_records %}
@@ -20,7 +20,7 @@
           </thead>
           {% for acc in access_records %}
           <tr>
-            <td>{{acc.area}}</td>
+            <td>{{acc.category}}</td>
           </tr>
           {%endfor%}
         </table>

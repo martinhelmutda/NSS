@@ -1,21 +1,23 @@
+#Last modified by César Buenfil on Oct 14,2018
+
 from django import forms
 from django.forms import formset_factory, CharField, ModelMultipleChoiceField, ModelChoiceField, BaseFormSet
 from django.db import models
 from django.core import validators
-from appOne.models import area, proyecto, location, rolInfo, rol
-from crispy_forms.helper import FormHelper
+from app_one.models import category, project, location, rolInfo, rol
+#from crispy_forms.helper import FormHelper
 
-class formProyecto(forms.Form):
-    #Info del proyecto
-    proName = forms.CharField(label='Nombre',max_length=40, widget=forms.TextInput(attrs={'placeholder': 'Ejemplo: Kunigo Web Site', 'class': 'field'}))
-    proDescription = forms.CharField(label='Descripción',widget=forms.Textarea, required=False)
-    proVideo =forms.URLField(label='Link a video', widget=forms.TextInput(attrs={'placeholder':'Ejemplo: www.youtube.com/MyVideo'}),required=False)
-    proAboutUs= forms.CharField(label='Acerca de nosotros', widget=forms.Textarea, required=False)
-    proFrase= forms.CharField(label='Frase')
-    proCreationDate = forms.DateField(label='Inició',widget=forms.SelectDateWidget(attrs={'class':'ui fluid dropdown'}), required=False)
-    proArea= ModelChoiceField(label='Area',widget=forms.Select(attrs={'class': 'ui fluid dropdown'}) ,queryset=area.objects.all(), initial=0)
-    proLocation = ModelChoiceField(label='Ubicación',widget=forms.Select(attrs={'class': 'ui fluid dropdown'}) ,queryset=location.objects.all(), initial=0)
-    proImage = forms.ImageField(label='Imagen',required=False)
+class formProject(forms.Form):
+    #Info del project
+    pro_name = forms.CharField(label='Nombre',max_length=40, widget=forms.TextInput(attrs={'placeholder': 'Ejemplo: ', 'class': 'field'}))
+    pro_description = forms.CharField(label='Descripción',widget=forms.Textarea, required=False)
+    pro_video = forms.URLField(label='Link a video', widget=forms.TextInput(attrs={'placeholder':'https://www.youtube.com/watch?v=dQw4w9WgXcQ'}),required=False)
+    pro_about_us = forms.CharField(label='Acerca de nosotros', widget=forms.Textarea, required=False)
+    pro_phrase = forms.CharField(label='Frase')
+    pro_creation_date = forms.DateField(label='Inició',widget=forms.SelectDateWidget(attrs={'class':'ui fluid dropdown'}), required=False)
+    pro_category = ModelChoiceField(label='Categoría',widget=forms.Select(attrs={'class': 'ui fluid dropdown'}) ,queryset=category.objects.all(), initial=0)
+    pro_location = ModelChoiceField(label='Ubicación',widget=forms.Select(attrs={'class': 'ui fluid dropdown'}) ,queryset=location.objects.all(), initial=0)
+    pro_img = forms.ImageField(label='Imagen',required=False)
     #Integrantes
 
     #ProConfirmation = forms.BooleanField(label='Recibir correo de confirmación',required=False)
@@ -25,16 +27,16 @@ class formProyecto(forms.Form):
         cleaned_data = super().clean()
         #name=all_clean_data['ProName']
 
-class formProyectoAddRol(forms.Form):
-    rolNombre= ModelChoiceField(label='rol',widget=forms.Select(attrs={'class': 'ui fluid dropdown'}) ,queryset=rol.objects.all(), initial=0)
-    rolFechaLimite =  forms.DateField(label='Fecha límite para aplicar',widget=forms.SelectDateWidget(attrs={'class':'ui fluid dropdown'}))
-    rolCantidad = forms.IntegerField(label='Cantidad', widget=forms.TextInput(attrs={'class':'field'}))
-    rolDescripcion=forms.CharField(label='Descripción del rol',widget=forms.Textarea)
-    rolLocation = ModelChoiceField(label='Ubicación del rol',queryset=location.objects.all(), widget=forms.Select(attrs={'class':'ui fluid dropdown'}), initial=0)
+class formProjectAddRol(forms.Form):
+    rol_name = ModelChoiceField(label='rol',widget=forms.Select(attrs={'class': 'ui fluid dropdown'}) ,queryset=rol.objects.all(), initial=0)
+    rol_due_date =  forms.DateField(label='Fecha límite para aplicar',widget=forms.SelectDateWidget(attrs={'class':'ui fluid dropdown'}))
+    rol_amount = forms.IntegerField(label='Cantidad', widget=forms.TextInput(attrs={'class':'field'}))
+    rol_description = forms.CharField(label='Descripción del rol',widget=forms.Textarea)
+    rol_location = ModelChoiceField(label='Ubicación del rol',queryset=location.objects.all(), widget=forms.Select(attrs={'class':'ui fluid dropdown'}), initial=0)
     #def clean(self):
     #    cleaned_data = super().clean()
 
-class baseProyectoAddRol(BaseFormSet):
+class baseProjectAddRol(BaseFormSet):
     #rolNombre = []
     #rolFechaLimite = []
     #rolCantidad = []
@@ -59,18 +61,18 @@ class baseProyectoAddRol(BaseFormSet):
 
 
 
-rolesFormset = formset_factory(formProyectoAddRol, extra=2)#, formset=baseProyectoAddRol, max_num=10)
+rol_formset = formset_factory(formProjectAddRol, extra=2)#, formset=baseprojectAddRol, max_num=10)
 #https://medium.com/@taranjeet/adding-forms-dynamically-to-a-django-formset-375f1090c2b0
 #https://stackoverflow.com/questions/501719/dynamically-adding-a-form-to-a-django-formset-with-ajax
 """
 Set required fields on forms
 Set widgets
 Validar fechas
-Check selection on display. To add area or rol -> https://www.caktusgroup.com/blog/2018/05/07/creating-dynamic-forms-django/
+Check selection on display. To add category or rol -> https://www.caktusgroup.com/blog/2018/05/07/creating-dynamic-forms-django/
 Add table Integrantes
 
-class FormProyecto(forms.Form):
-    #Info del proyecto
+class Formproject(forms.Form):
+    #Info del project
     ProName = forms.CharField(label='Nombre', max_length=40)
     ProDescription = forms.CharField(label='Descripción',widget=forms.Textarea)
     ProVideo =forms.URLField(label='Link a video')
@@ -78,7 +80,7 @@ class FormProyecto(forms.Form):
     ProLocation = forms.CharField(label='Ubicación')
     ProFrase= forms.CharField(label='Frase')
     ProCreationDate = forms.DateField(label='Inició',widget=forms.SelectDateWidget())
-    ProArea = forms.CharField( label='Área', widget=forms.Select(choices=AREAS_CHOICES))
+    Procategory = forms.CharField( label='Área', widget=forms.Select(choices=categoryS_CHOICES))
     #Integrantes
     #Roles
     RolNombre=forms.CharField( label='Rol', widget=forms.Select(choices=ROL_CHOICES))

@@ -164,7 +164,7 @@
               <label>Nombre del Proyecto</label>
               <div class="one field">
                 <div class="fieldWrapper">
-                  {{ form.proName }}
+                  {{ form_pro.pro_name }}
                 </div>
                 <div class="fieldWrapper">
                   <input type="text" name="" value="{{ form.ProName}}">
@@ -176,12 +176,12 @@
             <div class="two fields">
               <div class="field">
                 <label for="">Categoría</label>
-                {{formPro.proLocation}}
+                {{form_pro.pro_location}}
               </div>
               <div class="field">
                 <label for="">Fecha inicio</label>
                 <div class="equal width fields django-date">
-                  {{formPro.proCreationDate}}
+                  {{form_pro.pro_creation_date}}
                 </div>
               </div>
 
@@ -190,7 +190,7 @@
             <div class="two fields">
               <div class="field">
                 <label>Estado</label>
-                {{formPro.proLocation}}
+                {{form_pro.pro_location}}
               </div>
               <div class="field">
                 <label>País</label>
@@ -467,14 +467,14 @@
               <label for="">Video del proyecto</label>
               <div class="ui left icon input">
                 <i class="file video icon"></i>
-                {{formPro.proVideo}}
+                {{form_pro.pro_video}}
               </div>
               <!-- At the moment of introducing the video, a segment with the video will appear; -->
             </div>
 
             <div class="field">
               <label for="">Descripción del proyecto</label>
-              {{formPro.proDescription}}
+              {{form_pro.pro_description}}
             </div>
 
             <!-- <button class="ui button">Previous</button>
@@ -506,21 +506,21 @@
             {% for x in formRol %}
             <div class="field">
               <label for="">Nombre del Rol:</label>
-              {{ x.rolNombre }}
+              {{ x.rol_name }}
             </div>
             <div class="field">
               <label for="">Descripción del Rol:</label>
-              {{ x.rolDescripcion }}
+              {{ x.rol_description }}
             </div>
             <div class="two fields">
               <div class="field">
                 <label for="">Lugar de disponibilidad:</label>
-                {{ x.rolLocation }}
+                {{ x.rol_location }}
               </div>
               <div class="field">
                 <label for="">Fecha límite para solicitar puesto:</label>
                 <div class="equal width fields django-date">
-                  {{x.rolFechaLimite}}
+                  {{x.rol_due_date}}
                 </div>
               </div>
             </div>
