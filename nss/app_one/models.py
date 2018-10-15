@@ -1,4 +1,5 @@
 from django.db import models
+from embed_video.fields import EmbedVideoField
 
 # Create your models here.
 
@@ -34,7 +35,7 @@ class project(models.Model):
     #Info del proyecto
     pro_name = models.CharField(max_length=40,default='')
     pro_description = models.TextField(max_length=800,default='')
-    pro_video = models.URLField()
+    pro_video = EmbedVideoField() # models.URLField()
     pro_about_us = models.TextField(max_length=800, default='')
     pro_phrase = models.CharField(max_length=200, default='')
     pro_creation_date = models.DateField()
