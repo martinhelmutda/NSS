@@ -14,7 +14,7 @@ class formProject(forms.Form):
     pro_video = forms.URLField(label='Link a video', widget=forms.TextInput(attrs={'placeholder':'https://www.youtube.com/watch?v=dQw4w9WgXcQ'}),required=False)
     pro_about_us = forms.CharField(label='Acerca de nosotros', widget=forms.Textarea, required=False)
     pro_phrase = forms.CharField(label='Frase')
-    pro_creation_date = forms.DateField(label='Inició',widget=forms.SelectDateWidget(attrs={'class':'ui fluid dropdown'}), required=False)
+    pro_creation_date = forms.DateField(label='Inició',widget=forms.DateInput(attrs={'class':'ui fluid dropdown'}), required=False)
     pro_category = ModelChoiceField(label='Categoría',widget=forms.Select(attrs={'class': 'ui fluid dropdown'}) ,queryset=category.objects.all(), initial=0)
     pro_location = ModelChoiceField(label='Ubicación',widget=forms.Select(attrs={'class': 'ui fluid dropdown'}) ,queryset=location.objects.all(), initial=0)
     pro_img = forms.ImageField(label='Imagen',required=False)
@@ -29,7 +29,7 @@ class formProject(forms.Form):
 
 class formProjectAddRol(forms.Form):
     rol_name = ModelChoiceField(label='rol',widget=forms.Select(attrs={'class': 'ui fluid dropdown'}) ,queryset=rol.objects.all(), initial=0)
-    rol_due_date =  forms.DateField(label='Fecha límite para aplicar',widget=forms.TextInput(attrs={'class':'field'}))
+    rol_due_date =  forms.DateField(label='Fecha límite para aplicar',widget=forms.DateInput(attrs={'class':'field'}))
     rol_amount = forms.IntegerField(label='Cantidad', widget=forms.TextInput(attrs={'class':'field'}))
     rol_description = forms.CharField(label='Descripción del rol',widget=forms.Textarea)
     rol_location = ModelChoiceField(label='Ubicación del rol',queryset=location.objects.all(), widget=forms.Select(attrs={'class':'ui fluid dropdown'}), initial=0)

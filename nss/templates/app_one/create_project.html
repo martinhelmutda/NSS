@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="{% static "css/semantic/out/semantic.css" %}">
     <link rel="stylesheet" href="{% static "css/styles.css" %}">
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.0/dist/semantic.min.css"> -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
   </head>
   <body>
     <div class="container">
@@ -21,6 +25,8 @@
       <div class="col-2">
           <label>{{form_rol.as_table}}</label>
       </div>
+
+        <input type="text" name="birthday" value="10/24/1984" />
         <input type="button" value="Add More" id="add_more">
         <input type="submit" class="positive ui button" value="Submit">
       <!--  <div class="fieldWrapper">
@@ -33,8 +39,15 @@
       </form>
     </div>
   </body>
-  <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
   <script src="{% static "css/semantic/out/semantic.min.js" %}"></script>
+  <script type="text/javascript">
+  $(function() {
+    $('input[name="form-1-rol_due_date"]').daterangepicker({
+      singleDatePicker: true,
+      showDropdowns: true,
+    });
+  });
+  </script>
 <!--    <script type='text/javascript'>
 co=1;
             $('#add_more').click(function() {
