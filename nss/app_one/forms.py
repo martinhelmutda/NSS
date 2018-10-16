@@ -29,7 +29,7 @@ class formProject(forms.Form):
 
 class formProjectAddRol(forms.Form):
     rol_name = ModelChoiceField(label='rol',widget=forms.Select(attrs={'class': 'ui fluid dropdown'}) ,queryset=rol.objects.all(), initial=0)
-    rol_due_date =  forms.DateField(label='Fecha límite para aplicar',widget=forms.SelectDateWidget(attrs={'class':'ui fluid dropdown'}))
+    rol_due_date =  forms.DateField(label='Fecha límite para aplicar',widget=forms.TextInput(attrs={'class':'field'}))
     rol_amount = forms.IntegerField(label='Cantidad', widget=forms.TextInput(attrs={'class':'field'}))
     rol_description = forms.CharField(label='Descripción del rol',widget=forms.Textarea)
     rol_location = ModelChoiceField(label='Ubicación del rol',queryset=location.objects.all(), widget=forms.Select(attrs={'class':'ui fluid dropdown'}), initial=0)

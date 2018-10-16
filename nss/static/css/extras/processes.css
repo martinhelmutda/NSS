@@ -18,7 +18,7 @@
     padding:20px;
 }
 #create_project_segment{
-    display: block;
+    display: flex;
     padding:20px;
 }
 

@@ -6,6 +6,8 @@ $(document).ready(function() {
     // console.log('dfsagsd');
     $('#create_project_segment').hide();
     $('#create_project_segment').removeClass('transition visible');
+    $('#create_project_step').removeClass('active');
+    $('#create_description_step').addClass('active');
     $('#create_description_segment').transition('fly left');
     $('#create_description_segment').show();
   });
@@ -14,6 +16,8 @@ $(document).ready(function() {
     // console.log('NNUBYUNIM');
     $('#create_description_segment').hide();
     $('#create_description_segment').removeClass('transition visible');
+    $('#create_description_step').removeClass('active');
+    $('#create_project_step').addClass('active');
     $('#create_project_segment').transition('fly right');
     $('#create_project_segment').show();
   });
@@ -22,6 +26,8 @@ $(document).ready(function() {
     // console.log('dfsagsd');
     $('#create_description_segment').hide();
     $('#create_description_segment').removeClass('transition visible');
+    $('#create_description_step').removeClass('active');
+    $('#create_rol_step').addClass('active');
     $('#create_rol_segment').transition('fly left');
     $('#create_rol_segment').show();
   });
@@ -31,6 +37,8 @@ $(document).ready(function() {
     // console.log('dfsagsd');
     $('#create_rol_segment').hide();
     $('#create_rol_segment').removeClass('transition visible');
+    $('#create_rol_step').removeClass('active');
+    $('#create_description_step').addClass('active');
     $('#create_description_segment').transition('fly right');
     $('#create_description_segment').show();
   });
@@ -71,6 +79,18 @@ $(document).ready(function() {
   });
 });
 
+//This is the function that will run every detepicker calendar
+$(function() {
+  $('input[name="pro_creation_date"]').daterangepicker({
+    singleDatePicker: true,
+    showDropdowns: true,
+    minYear: 1901,
+    maxYear: parseInt(moment().format('YYYY'),10)
+  }, function(start, end, label) {
+    var years = moment().diff(start, 'years');
+    alert("You are " + years + " years old!");
+  });
+});
 
 $(function() {
   $('.ui.dropdown').dropdown();

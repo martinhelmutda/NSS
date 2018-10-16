@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 {% load static %}
-{% load crispy_forms_tags %}
 <html>
-
 <head>
   <title>SignUp</title>
   <link rel="stylesheet" href="{% static "css/semantic/out/semantic.css" %}">
   <link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="{% static "css/extras/processes.css" %}">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
   <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
   <script type="text/javascript" src="{% static "js/semantic.js" %}"></script>
   <script type="text/javascript" src="{% static "js/extras/processes.js" %}"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 </head>
 
 <body>
@@ -18,7 +19,7 @@
     <div class="ui icon header">
       <i class="check icon"></i>
       <!-- <div class="ui active centered inline loader"></div> -->
-      ¡Feclicidades, tu nuevo proyecto se ha creado, ahora todos pueden verlo!
+      ¡Felicidades, tu nuevo proyecto se ha creado, ahora todos pueden verlo!
     </div>
     <div class="content">
       <p>Podrás actualizar los datos del proyecto y añadir más campos si los necesitas</p>
@@ -26,52 +27,29 @@
     <div class="actions">
       <div class="ui green ok inverted button">
         <i class="checkmark icon"></i>
-          Continuar
+        Continuar
       </div>
     </div>
   </div>
-    <div class="ui container">
-      <h1 class="ui header">Crear Proyecto</h1>
-      <p>Crea un nuevo proyecto para mostrárselo al mundo</p>
-    </div>
+  <div class="ui container">
+    <h1 class="ui header">Crear Proyecto</h1>
+    <p>Crea un nuevo proyecto para mostrárselo al mundo</p>
+  </div>
 
 
-    <div class="ui borderless main menu fixed" style="position: fixed; top: 0px; left: auto; z-index: 10;">
-      <div class="ui text container">
-    <div class="header item">
+  <div class="ui borderless main menu fixed" style="position: fixed; top: 0px; left: auto; z-index: 10;">
+    <div class="ui text container">
+      <div class="header item">
         <img class="logo" src="{% static "img/logo.png" %}">
-          Teem
-        </div>
-        <a href="#" class="item">Blog</a>
-        <a href="#" class="item">Articles</a>
-        <a href="#" class="ui right floated dropdown item upward" tabindex="0">
-          Dropdown <i class="dropdown icon"></i>
-          <div class="menu transition hidden" tabindex="-1">
-            <div class="item">Link Item</div>
-            <div class="item">Link Item</div>
-            <div class="divider"></div>
-            <div class="header">Header Item</div>
-            <div class="item">
-              <i class="dropdown icon"></i>
-              Sub Menu
-              <div class="menu transition hidden">
-                <div class="item">Link Item</div>
-                <div class="item">Link Item</div>
-              </div>
-            </div>
-            <div class="item">Link Item</div>
-          </div>
-        </a>
+        Teem
       </div>
-      <a href="#" class="item">Explorar</a>
+      <a href="#" class="item">Blog</a>
       <a href="#" class="item">Articles</a>
       <a href="#" class="ui right floated dropdown item upward" tabindex="0">
-        <img class="ui tiny image" src="{% static "img/pedro.png" %}">
-        <span>Username</span>
-        <i class="dropdown icon"></i>
+        Dropdown <i class="dropdown icon"></i>
         <div class="menu transition hidden" tabindex="-1">
-          <div class="item">Perfil</div>
-          <div class="item">Configuración</div>
+          <div class="item">Link Item</div>
+          <div class="item">Link Item</div>
           <div class="divider"></div>
           <div class="header">Header Item</div>
           <div class="item">
@@ -86,6 +64,29 @@
         </div>
       </a>
     </div>
+    <a href="#" class="item">Explorar</a>
+    <a href="#" class="item">Articles</a>
+    <a href="#" class="ui right floated dropdown item upward" tabindex="0">
+      <img class="ui tiny image" src="{% static "img/pedro.png" %}">
+      <span>Username</span>
+      <i class="dropdown icon"></i>
+      <div class="menu transition hidden" tabindex="-1">
+        <div class="item">Perfil</div>
+        <div class="item">Configuración</div>
+        <div class="divider"></div>
+        <div class="header">Header Item</div>
+        <div class="item">
+          <i class="dropdown icon"></i>
+          Sub Menu
+          <div class="menu transition hidden">
+            <div class="item">Link Item</div>
+            <div class="item">Link Item</div>
+          </div>
+        </div>
+        <div class="item">Link Item</div>
+      </div>
+    </a>
+  </div>
 
 
   <div class="ui borderless main menu placeholder " style="display: block; visibility: hidden;">
@@ -119,31 +120,30 @@
 
 
   <div class="ui centered grid">
-
-
+    <div class="ui vertical segment">
       <div class="ui three top attached steps">
-      <div class="step">
-        <i class="plane icon"></i>
-        <div class="content">
-          <div class="title">Nuevo</div>
-          <div class="description">Elige cómo se llamrá tu proyecto</div>
+        <div class="active step" id="create_project_step">
+          <i class="plane icon"></i>
+          <div class="content">
+            <div class="title">Nuevo</div>
+            <div class="description">Elige cómo se llamrá tu proyecto</div>
+          </div>
+        </div>
+        <div class="step" id="create_description_step">
+          <i class="dollar icon"></i>
+          <div class="content">
+            <div class="title">Detalles</div>
+            <div class="description">Agrega más detalles para que puedean interesarse fácilmente</div>
+          </div>
+        </div>
+        <div class="step" id="create_rol_step">
+          <i class="info circle icon"></i>
+          <div class="content">
+            <div class="title">Reclutar</div>
+            <div class="description">Agrega los roles que estás buscando</div>
+          </div>
         </div>
       </div>
-      <div class="active step">
-        <i class="dollar icon"></i>
-        <div class="content">
-          <div class="title">Detalles</div>
-          <div class="description">Agrega más detalles para que puedean interesarse fácilmente</div>
-        </div>
-      </div>
-      <div class="disabled step">
-        <i class="info circle icon"></i>
-        <div class="content">
-          <div class="title">Reclutar</div>
-          <div class="description">Agrega los roles que estás buscando</div>
-        </div>
-      </div>
-    </div>
       <div id="create_project_segment">
         <div class="ui segment container " id="signUpBox" style="background-color: #F1F0FF;border-radius:5px;">
           <div class="ui header">
@@ -166,10 +166,6 @@
                 <div class="fieldWrapper">
                   {{ form_pro.pro_name }}
                 </div>
-                <div class="fieldWrapper">
-                  <input type="text" name="" value="{{ form.ProName}}">
-
-                </div>
               </div>
             </div>
             <h4 class="ui dividing header"></h4>
@@ -182,6 +178,7 @@
                 <label for="">Fecha inicio</label>
                 <div class="equal width fields django-date">
                   {{form_pro.pro_creation_date}}
+                  <!-- <input type="text" name="birthday" value="10/24/1984" /> -->
                 </div>
               </div>
 
@@ -542,8 +539,55 @@
           </form>
         </div>
       </div>
+    </div>
   </div>
-
 </body>
+<footer>
+  <div class="ui inverted vertical footer segment">
+    <div class="ui center aligned container">
+      <div class="ui stackable inverted divided grid">
+        <div class="three wide column">
+          <h4 class="ui inverted header">Group 1</h4>
+          <div class="ui inverted link list">
+            <a href="#" class="item">Link One</a>
+            <a href="#" class="item">Link Two</a>
+            <a href="#" class="item">Link Three</a>
+            <a href="#" class="item">Link Four</a>
+          </div>
+        </div>
+        <div class="three wide column">
+          <h4 class="ui inverted header">Group 2</h4>
+          <div class="ui inverted link list">
+            <a href="#" class="item">Link One</a>
+            <a href="#" class="item">Link Two</a>
+            <a href="#" class="item">Link Three</a>
+            <a href="#" class="item">Link Four</a>
+          </div>
+        </div>
+        <div class="three wide column">
+          <h4 class="ui inverted header">Group 3</h4>
+          <div class="ui inverted link list">
+            <a href="#" class="item">Link One</a>
+            <a href="#" class="item">Link Two</a>
+            <a href="#" class="item">Link Three</a>
+            <a href="#" class="item">Link Four</a>
+          </div>
+        </div>
+        <div class="seven wide column">
+          <h4 class="ui inverted header">Footer Header</h4>
+          <p>Extra space for a call to action inside the footer that could help re-engage users.</p>
+        </div>
+      </div>
+      <div class="ui inverted section divider"></div>
+      <img src="assets/images/logo.png" class="ui centered mini image">
+      <div class="ui horizontal inverted small divided link list">
+        <a class="item" href="#">Site Map</a>
+        <a class="item" href="#">Contact Us</a>
+        <a class="item" href="#">Terms and Conditions</a>
+        <a class="item" href="#">Privacy Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
 
 </html>
