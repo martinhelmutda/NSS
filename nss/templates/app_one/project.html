@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 {% extends "app_one/base.html" %}
 {% load static %}
+{% load embed_video_tags %}
 {% block body_block %}
 <br><br><br><br><br>
 
 Nombre: <p>{{pro_db.pro_name}}</p>
 Descripcion: <p>{{pro_db.pro_description}}</p>
 Video: <p>{{pro_db.pro_video}}</p>
+{% video pro_db.pro_video '800x600' %}
 Sobre nosotros: <p>{{pro_db.pro_about_us}}</p>
 Frase: <p>{{pro_db.pro_phrase}}</p>
 fecha de creacion: <p>{{pro_db.pro_creation_date}}</p>
 Categoría: <p>{{pro_db.pro_category}}</p>
 Imagen: <p>{{pro_db.pro_img}}</p>
-<img  src="{{pro_db.pro_img.url}}" alt="imagen del proyecto">
-
+<img src="{{img_url_db}}" alt="Imagen del projecto">
 <div class="">
   {% if rol_db %}
     <table>

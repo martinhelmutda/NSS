@@ -8,6 +8,7 @@ https://docs.djangoproject.com/en/2.1/topics/settings/
 
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
+pip install django-embed-video
 """
 
 import os
@@ -20,7 +21,7 @@ TEMPLATE_DIR = os.path.join(BASE_DIR,"templates") #Creo una variable con el path
 STATIC_DIR=os.path.join(BASE_DIR,"static")
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 MEDIA_URL="/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "nss/media")
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 print(__file__)
 print(TEMPLATE_DIR)
@@ -49,6 +50,7 @@ INSTALLED_APPS = [
 
 ##proyecto
     'app_one',
+    'embed_video',
 ]
 
 MIDDLEWARE = [

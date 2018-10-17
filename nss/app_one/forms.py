@@ -9,7 +9,7 @@ from app_one.models import category, project, location, rolInfo, rol
 
 class formProject(forms.Form):
     #Info del project
-    pro_name = forms.CharField(label='Nombre',max_length=40, widget=forms.TextInput(attrs={'placeholder': 'Ejemplo: ', 'class': 'field'}))
+    pro_name = forms.CharField(label='Nombre',max_length=40, widget=forms.TextInput(attrs={ 'class': 'field'}))
     pro_description = forms.CharField(label='Descripción',widget=forms.Textarea, required=False)
     pro_video = forms.URLField(label='Link a video', widget=forms.TextInput(attrs={'placeholder':'https://www.youtube.com/watch?v=dQw4w9WgXcQ'}),required=False)
     pro_about_us = forms.CharField(label='Acerca de nosotros', widget=forms.Textarea, required=False)

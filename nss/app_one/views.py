@@ -21,10 +21,11 @@ def see_project(request):
     project_dict = {'proyecto_insert': 'PAGINA DE PROYECTO'}
     return render(request, 'app_one/project.html', context=project_dict) # app_one/proyecto.html ha ce referencia al html en templates
 
-def see_project(request, p_db, r_db):
+def see_project(request, p_db, r_db, img_url_db):
     pro_db = p_db
     rol_db = r_db
-    project_dict = {'proyecto_insert': 'PAGINA ','pro_db':pro_db,'rol_db':rol_db}
+    img_url_db=img_url_db
+    project_dict = {'proyecto_insert': 'PAGINA ','pro_db':pro_db,'rol_db':rol_db, 'img_url_db':img_url_db}
     return render(request, 'app_one/project.html', context=project_dict) # app_one/proyecto.html ha ce referencia al html en templates
 
 
@@ -53,6 +54,8 @@ def form_project(request):
                         pro_category=form_pro.cleaned_data['pro_category'],pro_location=form_pro.cleaned_data['pro_location'])
             p.save()
             i = projectImg(pro_img=form_pro.cleaned_data['pro_img'], pro = p)
+            img_url="../media/pro_img/"+str(form_pro.cleaned_data['pro_img'])
+            print(img_url)
             i.save()
             for form in form_rol:
                 x={"rol_name": str(form.cleaned_data['rol_name']),"rol_due_date": str(form.cleaned_data['rol_due_date']),
@@ -66,7 +69,7 @@ def form_project(request):
                 r.save()
                 p.pro_roles.add(r)
             #return index(request)
-            return see_project(request, pro_db, rol_db)
+            return see_project(request, pro_db, rol_db, img_url)
         else:
             print('ERROR EN EL FORM')
     return render(request,'app_one/create_project.html',{'form_rol':form_rol, 'form_pro':form_pro})
