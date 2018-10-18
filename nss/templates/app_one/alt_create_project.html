@@ -458,7 +458,7 @@
             <h1 class="font" style="color:rgb(50,153,153);">Cuéntanos más</h1>
           </div>
 
-          <form class="ui form" id="create_description_form" >
+          <form class="ui form" id="create_description_form">
             {% csrf_token %}
             <div class="field">
               <label for="">Video del proyecto</label>
@@ -497,7 +497,7 @@
           <div class="ui centered header">
             <h1 class="font" style="color:orange;">¿Qué buscas?</h1>
           </div>
-          <form class="ui form" id="create_rol_form" method="POST">
+          <form class="ui form" id="create_rol_form" method="post">
             {% csrf_token %}
             {{ form_rol.management_form }}
             <div class="col-2">

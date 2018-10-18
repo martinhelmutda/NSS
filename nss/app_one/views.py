@@ -79,15 +79,13 @@ def form_project(request):
 #
 def form_project2(request):
     form_pro = formProject()
-    form_rol=rol_formset()
-    context={
-        'form_pro':form_pro,
-        'form_rol':form_rol,
-    }
+    form_rol = rol_formset()
+
     if request.method == 'POST':
         form_pro=formProject(request.POST,request.FILES)
         form_rol=rol_formset(request.POST,request.FILES)
-        print (request.POST)
+
+
         if form_pro.is_valid() and form_rol.is_valid():
             pro_db={"pro_name": str(form_pro.cleaned_data['pro_name']),"pro_description": str(form_pro.cleaned_data['pro_description']),
                     "pro_video": str(form_pro.cleaned_data['pro_video']),"pro_about_us": str(form_pro.cleaned_data['pro_about_us']),
@@ -122,8 +120,8 @@ def form_project2(request):
             #return index(request)
             return see_project(request, pro_db, rol_db, img_url)
         else:
-            print('ERROR EN EL FORM', request.POST)
-    return render(request,'app_one/alt_create_project.html',context)
+            print('ERROR EN EL FORM')
+    return render(request,'app_one/alt_create_project.html',{'form_rol':form_rol, 'form_pro':form_pro})
 
 #
 # destruir después de usar

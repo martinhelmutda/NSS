@@ -47,8 +47,8 @@ $(document).ready(function() {
     // console.log('dfsagsd');
     $('.ui.basic.modal').modal('show');
     $('#create_rol_form' ).submit();
-    $('#create_project_form' ).submit();
-    $('#create_description_form' ).submit();
+    // $('#create_project_form' ).submit();
+    // $('#create_description_form' ).submit();
   });
 
 
