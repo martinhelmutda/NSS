@@ -1,13 +1,17 @@
 #Last modified by César Buenfil on Oct 14,2018
 
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse
 from django.core.mail import send_mail
 from app_one.models import category, project, rolInfo, rol, location, projectImg
 from . import forms
-from app_one.forms import formProject, rol_formset
+from app_one.forms import formProject, rol_formset, UserForm, UserProfileInfoForm
 from django.urls import reverse
 from urllib.parse import urlencode
+
+#login
+from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def index(request): #index(request, nombre):
@@ -16,6 +20,72 @@ def index(request): #index(request, nombre):
     category_dict= {'access_records': categories_list}
     return render(request, 'app_one/index.html', context=category_dict)
     #return HttpResponse("Main page")
+
+@login_required
+def special(request):
+    return HttpResponse("You are logged in")
+
+@login_required
+def user_logout(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('index'))
+
+def register(request):
+
+    registered = False
+
+    if request.method == "POST":
+        user_form = UserForm(data=request.POST)
+        profile_form = UserProfileInfoForm(data=request.POST)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user = user_form.save()
+            user.set_password(user.password)
+            user.save()
+
+            profile = profile_form.save(commit=False)
+            profile.user = user
+
+            if 'profile_pic' in request.FILES:
+                profile.profile_pic = request.FILES['profile_pic']
+
+            profile.save()
+
+            registered = True
+
+        else:
+            print(user_form.errors,profile_form.errors)
+
+    else:
+        user_form = UserForm()
+        profile_form = UserProfileInfoForm()
+
+    return render(request,'app_one/registration.html',{'user_form':user_form,
+                                                       'profile_form':profile_form,
+                                                       'registered':registered})
+
+def user_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(username=username,password=password)
+
+        if user:
+            if user.is_active:
+                login(request,user)
+                return HttpResponseRedirect(reverse('index'))
+
+            else:
+                return HttpResponse("Account not Active")
+
+        else:
+            print("Someone tried to login and failed")
+            print("Username: {} and password {}".format(username,password))
+            return HttpResponse("Invalid login details supplied")
+
+    else:
+        return render(request,'app_one/login.html',{})
 
 def see_project(request):
     project_dict = {'proyecto_insert': 'PAGINA DE PROYECTO'}
