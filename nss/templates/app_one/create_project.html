@@ -19,9 +19,29 @@
       <form method="POST" enctype="multipart/form-data"class="ui form">
       {% csrf_token %}
       {{ form_rol.management_form }}
+
+<!--
+      <div class="uploader__box js-uploader__box l-center-box">
+        <form action="your/nonjs/fallback/" method="POST">
+            <div class="uploader__contents">
+                <label class="button button--secondary" for="fileinput">Select Files</label>
+                <input id="fileinput" class="uploader__file-input" type="file" multiple value="Select Files">
+            </div>
+            <input class="button button--big-bottom" type="submit" value="Upload Selected Files">
+        </form>
+      </div>
+-->
+      <div class="fieldWrapper">
+           {{ form.pro_img.errors }}
+           {{ form.pro_img.label_tag }}
+           {{ form.pro_img }}
+       </div>
+
+      <h3>Información del proyetco</h3>
       <div class="col-2">
           <label>{{form_pro.as_p}}</label>
       </div>
+      <h3>Información de los roles</h3>
       <div class="col-2">
           <label>{{form_rol.as_table}}</label>
       </div>
@@ -41,12 +61,26 @@
   </body>
   <script src="{% static "css/semantic/out/semantic.min.js" %}"></script>
   <script type="text/javascript">
-  $(function() {
-    $('input[name="form-1-rol_due_date"]').daterangepicker({
-      singleDatePicker: true,
-      showDropdowns: true,
+    $(function() {
+      $('input[class="datepicker"]').daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true,
+      });
     });
-  });
+    $(function() {
+      $('input[name="pro_creation_date"]').daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true,
+      });
+    });
+    $(function() {
+      $('input[id="pro_creation_date"]').daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true,
+      });
+    });
+
+    document.getElementById('fieldWrapper').innerHTML.setAttribute("multiple", "multiple");
   </script>
 <!--    <script type='text/javascript'>
 co=1;
