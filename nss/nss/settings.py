@@ -9,7 +9,14 @@ https://docs.djangoproject.com/en/2.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 pip install django-embed-video
+
+#pip install bcrypt
+#pip install django[argon2]
+
+#For images
+#pip install pillow
 """
+
 
 import os
 
@@ -146,3 +153,5 @@ STATICFILES_DIRS = [
                   ]
 
 CRISPY_TEMPLATE_PACK = 'semantic-ui'
+
+LOGIN_URL = 'app_one/user_login'
