@@ -157,7 +157,7 @@
             </div>
             <div class="ui primary button">Buscar</div>
           </div>
-          <form class="ui form" method="post" id="create_project_form">
+          <form class="ui form" id="create_project_form">
             {% csrf_token %}
             <h4 class="ui dividing header"></h4>
             <div class="field">
@@ -172,7 +172,7 @@
             <div class="two fields">
               <div class="field">
                 <label for="">Categoría</label>
-                {{form_pro.pro_location}}
+                {{form_pro.pro_category}}
               </div>
               <div class="field">
                 <label for="">Fecha inicio</label>
@@ -458,7 +458,7 @@
             <h1 class="font" style="color:rgb(50,153,153);">Cuéntanos más</h1>
           </div>
 
-          <form class="ui form" id="create_description_form" method="post">
+          <form class="ui form" id="create_description_form" >
             {% csrf_token %}
             <div class="field">
               <label for="">Video del proyecto</label>
@@ -499,8 +499,15 @@
           </div>
           <form class="ui form" id="create_rol_form" method="POST">
             {% csrf_token %}
+            {{ form_rol.management_form }}
+            <div class="col-2">
+                <label>{{form_pro.as_p}}</label>
+            </div>
+            <div class="col-2">
+                <label>{{form_rol.as_table}}</label>
+            </div>
 
-            {% for x in formRol %}
+            {% for x in form_rol %}
             <div class="field">
               <label for="">Nombre del Rol:</label>
               {{ x.rol_name }}

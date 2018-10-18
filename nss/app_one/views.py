@@ -37,6 +37,7 @@ def form_project(request):
         form_pro=formProject(request.POST,request.FILES)
         form_rol=rol_formset(request.POST,request.FILES)
 
+
         if form_pro.is_valid() and form_rol.is_valid():
             pro_db={"pro_name": str(form_pro.cleaned_data['pro_name']),"pro_description": str(form_pro.cleaned_data['pro_description']),
                     "pro_video": str(form_pro.cleaned_data['pro_video']),"pro_about_us": str(form_pro.cleaned_data['pro_about_us']),
@@ -78,37 +79,50 @@ def form_project(request):
 #
 def form_project2(request):
     form_pro = formProject()
-    #form_rol=rol_formset()
+    form_rol=rol_formset()
     context={
         'form_pro':form_pro,
-        #'form_rol':form_rol,
+        'form_rol':form_rol,
     }
-
     if request.method == 'POST':
-        form_pro=formProject(request.POST)
-        #form_rol=rol_formset(request.POST,request.FILES)
-
+        form_pro=formProject(request.POST,request.FILES)
+        form_rol=rol_formset(request.POST,request.FILES)
+        print (request.POST)
         if form_pro.is_valid() and form_rol.is_valid():
+            pro_db={"pro_name": str(form_pro.cleaned_data['pro_name']),"pro_description": str(form_pro.cleaned_data['pro_description']),
+                    "pro_video": str(form_pro.cleaned_data['pro_video']),"pro_about_us": str(form_pro.cleaned_data['pro_about_us']),
+                    "pro_phrase": str(form_pro.cleaned_data['pro_phrase']),"pro_creation_date": str(form_pro.cleaned_data['pro_creation_date']),
+                    "pro_category": str(form_pro.cleaned_data['pro_category']),"pro_img": str(form_pro.cleaned_data['pro_img'])}
+            rol_db=[]
             print("VALIDATION SUCCESS!")
             print(form_pro.cleaned_data)
-            #print(form_rol.cleaned_data)
-            #for form in form_rol:
-                #print(form.cleaned_data)
+            print(form_rol.cleaned_data)
+            for form in form_rol:
+                print(form.cleaned_data)
             p = project(pro_name=form_pro.cleaned_data['pro_name'],pro_description=form_pro.cleaned_data['pro_description'],
                         pro_video=form_pro.cleaned_data['pro_video'],pro_about_us=form_pro.cleaned_data['pro_about_us'],
                         pro_phrase=form_pro.cleaned_data['pro_phrase'],pro_creation_date=form_pro.cleaned_data['pro_creation_date'],
-                        pro_category=form_pro.cleaned_data['pro_category'],pro_location=form_pro.cleaned_data['pro_location'],
-                        pro_img=form_pro.cleaned_data['pro_category'])
+                        pro_category=form_pro.cleaned_data['pro_category'],pro_location=form_pro.cleaned_data['pro_location'])
             p.save()
-            #for form in form_rol:
-                #r = rolInfo(rol=form.cleaned_data['rolNombre'],fechaLimite=form.cleaned_data['rolFechaLimite'],
-                        #    rolcantidad=form.cleaned_data['rolCantidad'],rolDescripcion=form.cleaned_data['rolDescripcion'],
-                        #    rolLocation=form.cleaned_data['rolLocation'])
-                #r.save()
-                #p.proRoles.add(r)
-            return index(request)
+            i = projectImg(pro_img=form_pro.cleaned_data['pro_img'], pro = p)
+            img_url="../media/pro_img/"+str(form_pro.cleaned_data['pro_img'])
+            print(img_url)
+            i.save()
+            for form in form_rol:
+                x={"rol_name": str(form.cleaned_data['rol_name']),"rol_due_date": str(form.cleaned_data['rol_due_date']),
+                   "rol_amount": str(form.cleaned_data['rol_amount']),"rol_description": str(form.cleaned_data['rol_description']),
+                   "rol_location": str(form.cleaned_data['rol_location'])}
+                rol_db.append(x)
+                r = rolInfo(rol_name=form.cleaned_data['rol_name'],rol_due_date=form.cleaned_data['rol_due_date'],
+                            rol_amount=form.cleaned_data['rol_amount'],rol_description=form.cleaned_data['rol_description'],
+                            rol_location=form.cleaned_data['rol_location'])
+
+                r.save()
+                p.pro_roles.add(r)
+            #return index(request)
+            return see_project(request, pro_db, rol_db, img_url)
         else:
-            print('ERROR EN EL FORM')
+            print('ERROR EN EL FORM', request.POST)
     return render(request,'app_one/alt_create_project.html',context)
 
 #
