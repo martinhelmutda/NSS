@@ -50,7 +50,6 @@ def register(request):
                 profile.profile_pic = request.FILES['profile_pic']
 
             profile.save()
-
             registered = True
 
         else:

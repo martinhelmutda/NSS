@@ -1,3 +1,15 @@
+body > .login {
+  height: 90%;
+}
+
+.columnlogin {
+  max-width: 750px;
+}
+
+.cnt {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
 * {
     font-family: 'Open Sans', sans-serif;
     font-size: 15px;
@@ -52,7 +64,7 @@ h5{
     background-color: #FFFFFF;
 }
 .bg-gray {
-    background-color: #f9f5f6;
+    background-color: #f5f5f5;
 }
 .bg-dark {
     background-color: gray;
