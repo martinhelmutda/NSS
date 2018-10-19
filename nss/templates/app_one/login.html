@@ -1,0 +1,34 @@
+{% extends "app_one/base.html" %}
+{% load staticfiles %}
+{% block body_block %}
+
+<div class="ui middle aligned center aligned grid login">
+  <div class="column columnlogin">
+    <div class="ui placeholder segment">
+      <div class="content">
+        <div class="header"><h1>Log in</h1></div>
+      </div>
+      <div class="content">
+        <form class="ui large form" action="{% url 'app_one:user_login' %}" method="post">
+          {% csrf_token %}
+          <label for="username">Username:</label>
+          <input type="text" name="username" placeholder="Enter Username">
+
+          <label for="password">Password:</label>
+          <input type="password" name="password" placeholder="********">
+
+          <button class="ui fluid primary big button cnt" type="submit">Log in</button>
+
+        </form>
+        <div class="extra content">
+          <div class="ui message">
+            No tienes una cuenta? <a href="{% url 'app_one:register' %}">Registrar</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}
