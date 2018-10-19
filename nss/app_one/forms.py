@@ -20,7 +20,7 @@ class UserForm(forms.ModelForm):
 class UserProfileInfoForm(forms.ModelForm):
     class Meta():
         model = UserProfileInfo
-        fields = ('portfolio_site','profile_pic')   
+        fields = ('portfolio_site','profile_pic')
 
 class formProject(forms.Form):
     #Info del project
@@ -79,6 +79,10 @@ class baseProjectAddRol(BaseFormSet):
 rol_formset = formset_factory(formProjectAddRol, extra=2)#, formset=baseprojectAddRol, max_num=10)
 #https://medium.com/@taranjeet/adding-forms-dynamically-to-a-django-formset-375f1090c2b0
 #https://stackoverflow.com/questions/501719/dynamically-adding-a-form-to-a-django-formset-with-ajax
+
+
+
+
 """
 Set required fields on forms
 Set widgets

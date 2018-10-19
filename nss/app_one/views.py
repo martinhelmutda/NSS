@@ -196,6 +196,10 @@ def form_project2(request):
 #
 # destruir después de usar
 
+
+def fom_profile(arg):
+    return
+
 """
 def form_project(request):
     form = forms.formProject()
