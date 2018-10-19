@@ -61,7 +61,7 @@ class baseProjectAddRol(BaseFormSet):
 
 
 
-rol_formset = formset_factory(formProjectAddRol, extra=2)#, formset=baseprojectAddRol, max_num=10)
+rol_formset = formset_factory(formProjectAddRol, extra=1)#, formset=baseprojectAddRol, max_num=10)
 #https://medium.com/@taranjeet/adding-forms-dynamically-to-a-django-formset-375f1090c2b0
 #https://stackoverflow.com/questions/501719/dynamically-adding-a-form-to-a-django-formset-with-ajax
 """

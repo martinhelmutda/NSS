@@ -20,6 +20,7 @@
       {% csrf_token %}
       {{ form_rol.management_form }}
 
+
 <!--
       <div class="uploader__box js-uploader__box l-center-box">
         <form action="your/nonjs/fallback/" method="POST">
@@ -42,11 +43,15 @@
           <label>{{form_pro.as_p}}</label>
       </div>
       <h3>Información de los roles</h3>
-      <div class="col-2">
-          <label>{{form_rol.as_table}}</label>
+      <div class="table">
+        {% for form in form_rol %}
+        <ul>
+          <li>{{ form }}</li>
+        </ul>
+      {% endfor %}
       </div>
+      <input type="hidden" name="cantidad" id="cantidad"value="">
 
-        <input type="text" name="birthday" value="10/24/1984" />
         <input type="button" value="Add More" id="add_more">
         <input type="submit" class="positive ui button" value="Submit">
       <!--  <div class="fieldWrapper">
@@ -80,10 +85,10 @@
       });
     });
 
-    document.getElementById('fieldWrapper').innerHTML.setAttribute("multiple", "multiple");
+    //document.getElementById('fieldWrapper').innerHTML.setAttribute("multiple", "multiple");
   </script>
-<!--    <script type='text/javascript'>
-co=1;
+  <script type='text/javascript'>
+          co=1;
             $('#add_more').click(function() {
               console.log("HOLA")
           cloneMore('div.table:last', 'service');
@@ -108,8 +113,14 @@ co=1;
             console.log("co "+co)
             $('#id_' + type + '-TOTAL_FORMS').val(co);
             $(selector).after(newElement);
+            $('input[class="datepicker"]').daterangepicker({
+              singleDatePicker: true,
+              showDropdowns: true,
+            });
+            document.getElementById("cantidad").value = co;
+            console.log("cant " +   document.getElementById("cantidad").value);
         }
-      </script>-->
+      </script>
 
 
 
