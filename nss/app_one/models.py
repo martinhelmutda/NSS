@@ -1,3 +1,4 @@
+#Last modified by César Buenfil on Oct 19,2018
 from django.db import models
 from embed_video.fields import EmbedVideoField
 from django.contrib.auth.models import User

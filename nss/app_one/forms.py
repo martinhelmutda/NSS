@@ -1,4 +1,4 @@
-#Last modified by César Buenfil on Oct 14,2018
+#Last modified by César Buenfil on Oct 19,2018
 
 from django import forms
 from django.forms import formset_factory, CharField, ModelMultipleChoiceField, ModelChoiceField, BaseFormSet
