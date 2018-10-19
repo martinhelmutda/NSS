@@ -5,7 +5,22 @@ from django.forms import formset_factory, CharField, ModelMultipleChoiceField, M
 from django.db import models
 from django.core import validators
 from app_one.models import category, project, location, rolInfo, rol
+
+from django.contrib.auth.models import User
+from app_one.models import UserProfileInfo
 #from crispy_forms.helper import FormHelper
+
+class UserForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput())
+
+    class Meta():
+        model = User
+        fields = ('username','email','password')
+
+class UserProfileInfoForm(forms.ModelForm):
+    class Meta():
+        model = UserProfileInfo
+        fields = ('portfolio_site','profile_pic')   
 
 class formProject(forms.Form):
     #Info del project
