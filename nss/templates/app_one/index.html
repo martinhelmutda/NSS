@@ -1,13 +1,8 @@
 <!DOCTYPE html>
+{% extends "app_one/base.html" %}
 {% load staticfiles %}
 {% load static %}
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Teem</title>
-    <link rel="stylesheet" href="{% static "css/styles.css" %}"/>
-  </head>
-  <body>
+{% block body_block %}
     <p>MAIN PAGE</p>
     <h1>Bienvenidos a Teem</h1>
     <h1>{{name}}</h1>
@@ -29,5 +24,4 @@
         {%endif%}
     </div>
     <p>Ve a /proyecto para ver proyecto</p>
-  </body>
-</html>
+{% endblock %}

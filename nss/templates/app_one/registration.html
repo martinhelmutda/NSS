@@ -2,22 +2,35 @@
 {% load staticfiles %}
 {% block body_block %}
 
-<div class="jumbotron">
-  {% if registered %}
-    <h1>Thanks for registering</h1>
-  {% else %}
-    <h1>Register Here!</h1>
-    <h3>Fill out this form</h3>
-
-    <form enctype="multipart/form-data" method="post">
-      {% csrf_token %}
-      {{ user_form.as_p }}
-      {{ profile_form.as_p }}
-      <input type="submit" name="" value="Register">
-
-    </form>
-
-  {% endif %}
+{% if registered %}
+<div class="ui card">
+  <div class="content">
+    <div class="header"><h1>Gracias por registrarte!</h1></div>
+  </div>
+  <div class="content">
+  <div class="extra content">
+  </div>
 </div>
+
+{% else %}
+<div class="ui middle aligned center aligned grid login">
+  <div class="column columnlogin">
+    <div class="ui placeholder segment">
+      <div class="content">
+        <div class="header"><h1>Crear Cuenta</h1></div>
+      </div>
+      <div class="content">
+        <form class="ui form" enctype="multipart/form-data" method="post">
+          {% csrf_token %}
+          {{ user_form.as_p }}
+          {{ profile_form.as_p }}
+          <button class="ui fluid primary big button" type="submit">Registrar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endif %}
 
 {% endblock %}

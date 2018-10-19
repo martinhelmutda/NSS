@@ -12,15 +12,25 @@ from app_one.models import UserProfileInfo
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
+    verify_password = forms.CharField(widget=forms.PasswordInput(),label='Enter your password again')
+    botcatcher = forms.CharField(required=False,widget=forms.HiddenInput, validators=[validators.MaxLengthValidator(0)])
 
     class Meta():
         model = User
-        fields = ('username','email','password')
+        fields = ('username','first_name','last_name','email','password')
+
+    def clean(self):
+        all_clean_data = super().clean()
+        password = all_clean_data['password']
+        verify_password = all_clean_data['verify_password']
+
+        if password != verify_password:
+            raise forms.ValidationError("Passwords must match")
 
 class UserProfileInfoForm(forms.ModelForm):
     class Meta():
         model = UserProfileInfo
-        fields = ('portfolio_site','profile_pic')   
+        fields = ('profile_pic',)
 
 class formProject(forms.Form):
     #Info del project
