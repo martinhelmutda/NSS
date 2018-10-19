@@ -34,11 +34,10 @@
 					</div>
 				</a>
 			</div>
-			<a class="item" href="{% url 'app_one:form_project' %}">Crear Proyecto</a>
-			<a class="item" href="{% url 'app_one:form_project2' %}">Alt Crear Proyecto</a>
-
 
 			{% if user.is_authenticated %}
+			<a class="item" href="{% url 'app_one:form_project' %}">Crear Proyecto</a>
+			<a class="item" href="{% url 'app_one:form_project2' %}">Alt Crear Proyecto</a>
 			<a href="#" class="ui right floated dropdown item upward" tabindex="0">
 				<img class="ui tiny image" src="{% static "img/pedro.png" %}">
 				<span>Username</span>
