@@ -8,15 +8,21 @@ https://docs.djangoproject.com/en/2.1/topics/settings/
 
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
+pip install django-embed-video
 """
 
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 TEMPLATE_DIR = os.path.join(BASE_DIR,"templates") #Creo una variable con el path apuntando a mi carpeta templates
+
 STATIC_DIR=os.path.join(BASE_DIR,"static")
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+MEDIA_URL="/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
 print(__file__)
 print(TEMPLATE_DIR)
 
@@ -41,7 +47,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'appOne',
+
+##proyecto
+    'app_one',
+    'embed_video',
 ]
 
 MIDDLEWARE = [
@@ -59,7 +68,7 @@ ROOT_URLCONF = 'nss.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATE_DIR],
+        'DIRS': [TEMPLATE_DIR, MEDIA_ROOT],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -81,11 +90,15 @@ WSGI_APPLICATION = 'nss.wsgi.application'
 DATABASES = {                                   #Nos conectamos a la base de datos mySQL
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Kunigo',
+        'NAME': 'kunigo',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': '127.0.0.1',
+        #'HOST': '192.168.64.2',
         'PORT': '3306',
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
     }
 }
 
@@ -131,3 +144,5 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
                   STATIC_DIR,
                   ]
+
+CRISPY_TEMPLATE_PACK = 'semantic-ui'

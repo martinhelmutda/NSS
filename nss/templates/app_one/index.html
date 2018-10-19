@@ -1,14 +1,4 @@
 <!DOCTYPE html>
-<<<<<<< HEAD
-<!-- {% load staticfiles %} -->
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Proyecto</title>
-  </head>
-  <body>
-    {{proyecto_insert}}
-=======
 {% load staticfiles %}
 {% load static %}
 <html lang="en" dir="ltr">
@@ -20,6 +10,7 @@
   <body>
     <p>MAIN PAGE</p>
     <h1>Bienvenidos a Teem</h1>
+    <h1>{{name}}</h1>
     <h2>Estas son las areas de la BD: </h2>
     <div class="areashtml">
       {% if access_records %}
@@ -29,7 +20,7 @@
           </thead>
           {% for acc in access_records %}
           <tr>
-            <td>{{acc.area}}</td>
+            <td>{{acc.category}}</td>
           </tr>
           {%endfor%}
         </table>
@@ -38,6 +29,5 @@
         {%endif%}
     </div>
     <p>Ve a /proyecto para ver proyecto</p>
->>>>>>> d07b1a5a75f25c7af152026272f581adeaebf68b
   </body>
 </html>

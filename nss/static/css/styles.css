@@ -1,6 +1,180 @@
-p{
-  color: red;
+* {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 15px;
 }
+
+.small {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+}
+
 h1{
-  color: pink;
+    font-family: 'Alegreya Sans SC', sans-serif;
+    font-size: 42px;
+}
+
+h2{
+    font-family: 'Alegreya Sans SC', sans-serif;
+    font-size: 36px;
+}
+
+h3{
+    font-family: 'Alegreya Sans SC', sans-serif;
+    font-size: 28px;
+}
+
+h4{
+    font-family: 'Alegreya Sans SC', sans-serif;
+    font-size: 24px;
+}
+
+h5{
+    font-family: 'Alegreya Sans SC', sans-serif;
+    font-size: 18px;
+}
+/*Blue*/
+.bg-prim {
+    background-color: #218380;
+}
+/*Purple*/
+.bg-sec {
+    background-color: #8f2d56;
+}
+/*Pink*/
+.bg-ter {
+    background-color: #d81159;
+}
+/*Yellow*/
+.bg-qua {
+    background-color: #ffbc42;
+}
+.bg-white {
+    background-color: #FFFFFF;
+}
+.bg-gray {
+    background-color: #f9f5f6;
+}
+.bg-dark {
+    background-color: gray;
+}
+
+.opa {
+    opacity: .8;
+}
+
+/*Blue*/
+.text-prim {
+    color: #218380;
+}
+/*Purple*/
+.text-sec {
+    color: #8f2d56;
+}
+/*Pink*/
+.text-ter {
+    color: #d81159;
+}
+/*Yellow*/
+.text-qua {
+    color: #ffbc42;
+}
+.text-white {
+    color: #FFFFFF;
+}
+.text-black {
+    color: black;
+}
+.text-white:hover {
+    color: #FFFFFF;
+}
+.text-white:active {
+    color: #FFFFFF;
+}
+
+.text-gray{
+    color: #636363;
+}
+
+.shadow {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.transparent {
+    opacity: .95;
+}
+
+.number1 {
+    z-index: 4;
+}
+.number2 {
+    z-index: 3;
+}
+.right {
+    right: 0%;
+}
+
+.round {
+    border-radius: 5px;
+}
+
+.sticky {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+}
+
+.perfil {
+	padding-top: 15px;
+}
+
+.menu {
+	height: 80px;
+}
+
+.prin {
+	padding-bottom: 15px;
+
+}
+
+.prin2 {
+	padding-bottom: 8px ;
+
+}
+
+a.item {
+	color: grey ;
+}
+/* CONTROL DEL GRID NADA MAS */
+.column {
+	border: 1px solid white;
+}
+/*
+.row {
+	border: 1px solid blue;
+}
+ ..... */
+.row {
+	margin-top: 40px;
+}
+.bar{
+	margin-top : 20px;
+}
+
+#marcador {
+	color: teal;
+}
+
+
+#box1 {
+	border: 2px solid #efefef;
+	text-align: center;
+
+}
+
+.p2 {
+	text-align: center;
+}
+
+body {
+	font-size: 18px;
 }

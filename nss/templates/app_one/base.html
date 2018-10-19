@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="{% static "css/semantic/out/semantic.css" %}">
+		<link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" href="{% static "css/extras/processes.css" %}">
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+		<script type="text/javascript" src="{% static "js/semantic.js" %}"></script>
+		<script type="text/javascript" src="{% static "js/extras/processes.js" %}"></script>
+	</head>
+    <body class ="">
+		<!-- Static navbar -->
+		<div class="ui borderless main menu fixed" style="position: fixed; top: 0px; left: auto; z-index: 10;">
+			<div class="ui text container">
+		<div class="header item">
+				<img class="logo" src="{% static "img/logo.png" %}">
+					Teem
+				</div>
+				<a href="#" class="item">Blog</a>
+				<a href="#" class="item">Articles</a>
+				<a href="#" class="ui right floated dropdown item upward" tabindex="0">
+					Dropdown <i class="dropdown icon"></i>
+					<div class="menu transition hidden" tabindex="-1">
+						<div class="item">Link Item</div>
+						<div class="item">Link Item</div>
+						<div class="divider"></div>
+						<div class="header">Header Item</div>
+						<div class="item">
+							<i class="dropdown icon"></i>
+							Sub Menu
+							<div class="menu transition hidden">
+								<div class="item">Link Item</div>
+								<div class="item">Link Item</div>
+							</div>
+						</div>
+						<div class="item">Link Item</div>
+					</div>
+				</a>
+			</div>
+			<a href="#" class="item">Explorar</a>
+			<a href="#" class="item">Articles</a>
+			<a href="#" class="ui right floated dropdown item upward" tabindex="0">
+				<img class="ui tiny image" src="{% static "img/pedro.png" %}">
+				<span>Username</span>
+				<i class="dropdown icon"></i>
+				<div class="menu transition hidden" tabindex="-1">
+					<div class="item">Perfil</div>
+					<div class="item">Configuración</div>
+					<div class="divider"></div>
+					<div class="header">Header Item</div>
+					<div class="item">
+						<i class="dropdown icon"></i>
+						Sub Menu
+						<div class="menu transition hidden">
+							<div class="item">Link Item</div>
+							<div class="item">Link Item</div>
+						</div>
+					</div>
+					<div class="item">Link Item</div>
+				</div>
+			</a>
+		</div>
+
+		{% block body_block %}
+		<!-- Other Htmls go here -->
+		{% endblock %}
+
+
+
+
+	</body>
+</html>
