@@ -1,19 +1,6 @@
-<!DOCTYPE html>
+{% extends "app_one/base.html" %}
 {% load staticfiles %}
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Crear Proyecto</title>
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="{% static "css/semantic/out/semantic.css" %}">
-    <link rel="stylesheet" href="{% static "css/styles.css" %}">
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.0/dist/semantic.min.css"> -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-  </head>
-  <body>
+{% block body_block %}
     <div class="container">
       <h1 class="content">Crea tu proyecto</h1><br><br>
       <form method="POST" enctype="multipart/form-data"class="ui form">
@@ -76,8 +63,4 @@ co=1;
             $(selector).after(newElement);
         }
       </script>-->
-
-
-
-
-</html>
+{% endblock %}
