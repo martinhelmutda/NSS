@@ -1,3 +1,4 @@
+#Last modified by César Buenfil on Oct 19,2018
 from django.test import TestCase
 from app_one.models import category, location, rol, rolInfo, project
 # Create your tests here.

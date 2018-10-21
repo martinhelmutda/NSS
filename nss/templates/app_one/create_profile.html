@@ -1,0 +1,70 @@
+{% extends "app_one/base.html" %}
+{% load staticfiles %}
+{% block body_block %}
+  <div class="ui container segment">
+    {% if 'ok' in request.GET %}
+      <div class="ui dimmer modals page transition visible active" style="display: flex !important;">
+        <div class="ui icon header">
+          <i class="check icon"></i>
+          <!-- <div class="ui active centered inline loader"></div> -->
+          ¡Felicidades, tu nuevo proyecto se ha creado, ahora todos pueden verlo!
+        </div>
+        <div class="content">
+          <p>Podrás actualizar los datos del proyecto y añadir más campos si los necesitas</p>
+        </div>
+        <div class="actions">
+          <div class="ui green ok inverted button">
+            <i class="checkmark icon"></i>
+            Continuar
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+    <div class="ui container">
+      <h1 class="ui header">Crear Proyecto</h1>
+      <p>Crea un nuevo proyecto para mostrárselo al mundo</p>
+    </div>
+    <form class="ui form" method="post">
+      {% csrf_token %}
+      <div class="field">
+        <label>Nombre</label>
+        {{form_profile.name}}
+      </div>
+      {{form_profile.name.errors}}
+      <div class="field">
+        <label>Email</label>
+        {{form_profile.email}}
+      </div>
+      {{form_profile.email.errors}}
+      <div class="field">
+        <label for="">Edad</label>
+        {{form_profile.edad}}
+      </div>
+      {{form_profile.edad.errors}}
+      <div class="field">
+        <label for="">Carrera</label>
+        {{form_profile.carreer}}
+      </div>
+      <div class="field">
+        <label for="">Ocupación Actual</label>
+        {{form_profile.ocupation}}
+      </div>
+      <div class="field">
+        <label for="">Currículum</label>
+        {{form_profile.cv}}
+      </div>
+      <div class="field">
+        <label for="">Describe tu experiencia</label>
+        {{form_profile.experience}}
+      </div>
+      <div class="field">
+        <div class="ui checkbox">
+          <input type="checkbox" tabindex="0" class="hidden">
+          <label>Estoy de acuerdo con los términos y condiciones</label>
+        </div>
+      </div>
+      <button class="ui button" type="submit">Submit</button>
+    </form>
+  </div>
+{% endblock %}
