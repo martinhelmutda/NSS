@@ -1,9 +1,9 @@
 from django import template
-from pages.models import Page
+from projects.models import Project
 
 register = template.Library()
 
 @register.simple_tag
-def get_page_list():
-    pages = Page.objects.all()
-    return pages
+def get_project_list():
+    projects = Project.objects.all()
+    return projects

@@ -28,5 +28,10 @@ class Project(models.Model):
     pro_location = models.ForeignKey('location', on_delete=models.PROTECT,default='')
     pro_roles = models.ManyToManyField('rolInfo') # https://stackoverflow.com/questions/2216974/django-modelform-for-many-to-many-fields
     
+    class Meta:
+            verbose_name = "projects"
+            verbose_name_plural = "projects"
+            ordering = ['pro_name']
+    
     def __str__(self):
         return self.pro_name

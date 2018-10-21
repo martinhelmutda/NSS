@@ -1,8 +1,8 @@
 from django.contrib import admin
-from .models import Page
+from .models import Project
 
 # Register your models here.
-class PageAdmin(admin.ModelAdmin):
-    list_display = ('title', 'order')
+class ProjectAdmin(admin.ModelAdmin):
+    list_display = ('pro_name')
 
-admin.site.register(Page, PageAdmin)
+admin.site.register(Project, ProjectAdmin)
