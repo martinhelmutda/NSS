@@ -1,17 +1,20 @@
 #Last modified by César Buenfil on Oct 14,2018
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.mail import send_mail
 from app_one.models import category, project, rolInfo, rol, location, projectImg
 from . import forms
-from app_one.forms import formProject, rol_formset, UserForm, UserProfileInfoForm
+from app_one.forms import formProject, rol_formset, UserForm, UserProfileInfoForm, createProfileForm
 from django.urls import reverse
 from urllib.parse import urlencode
 
 #login
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
+
+#Class Based views
+from django.views.generic.base import TemplateView
 
 # Create your views here.
 def index(request): #index(request, nombre):
@@ -211,26 +214,55 @@ def form_project2(request):
 #
 # destruir después de usar
 
+def form_profile(request):
+    # print("Tipo de peticion: {}".format(request.method))
+    profile_form=createProfileForm()
 
-def fom_profile(arg):
-    return
+    if request.method == "POST":
+        profile_form=createProfileForm(data=request.POST)
+        if profile_form.is_valid():
+            name= request.POST.get('name','')
+            email= request.POST.get('email', '')
+            edad= request.POST.get('edad', '')
+            carreer= request.POST.get('carreer', '')
+            ocupation= request.POST.get('ocupation', '')
+            cv= request.POST.get('cv', '')
+            experience= request.POST.get('experience', '')
+            return redirect(reverse('form_profile')+"?ok")
+
+    return render(request,'app_one/create_profile.html',{'form_profile':profile_form})
+
+
+
+
+###Class Based Views
+
+
+class MyProjectsView(TemplateView):
+    template_name = "app_one/my_projects.html"
+
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name, {'title':"Otro pri"})
+
+
 
 """
-def form_project(request):
-    form = forms.formProject()
+    def form_project(request):
+        form = forms.formProject()
 
-    if request.method == 'POST':
-        form = forms.formProject(request.POST)
+        if request.method == 'POST':
+            form = forms.formProject(request.POST)
 
-        if form.is_valid():
-            # DO SOMETHING CODE
-            print("VALIDATION SUCCESS!")
-            #print("NAME: "+form.cleaned_data['name'])
-            #recipients=[]
-            #if ProConfirmation:
-                #print("Enviar email!")
-            #    send_mail('subject', 'message', 'A01421467@itesm.mx', 'angieguemes@gmail.com')
-            #    return HttpResponseRedirect('/thanks/')
+            if form.is_valid():
+                # DO SOMETHING CODE
+                print("VALIDATION SUCCESS!")
+                #print("NAME: "+form.cleaned_data['name'])
+                #recipients=[]
+                #if ProConfirmation:
+                    #print("Enviar email!")
+                #    send_mail('subject', 'message', 'A01421467@itesm.mx', 'angieguemes@gmail.com')
+                #    return HttpResponseRedirect('/thanks/')
 
-    return render(request,'app_one/createPro.html',{'form':form})
+        return render(request,'app_one/createPro.html',{'form':form})
 """

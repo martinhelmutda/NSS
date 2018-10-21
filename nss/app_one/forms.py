@@ -93,6 +93,18 @@ rol_formset = formset_factory(formProjectAddRol, extra=1)#, formset=baseprojectA
 #https://medium.com/@taranjeet/adding-forms-dynamically-to-a-django-formset-375f1090c2b0
 #https://stackoverflow.com/questions/501719/dynamically-adding-a-form-to-a-django-formset-with-ajax
 
+class createProfileForm(forms.Form):
+    name = forms.CharField( label='Nombre',required=True)
+    email  = forms.EmailField( label='Email', required=True, widget=forms.EmailInput(attrs={'placeholder':'Introduce tu email de contacto'}))
+    edad = forms.IntegerField(label='Edad', required=True)
+    carreer = forms.CharField( label='Carrera de estudio', required=True)
+    ocupation = forms.CharField(label='Ocupación Actual', max_length=100, required=True)
+    cv = forms.CharField(label='Trabajos Anteriores', required=True, widget=forms.Textarea())
+    experience = forms.CharField(label='Experiencia', max_length=1000, required=True, widget=forms.Textarea())
+
+    # def __init__(self, arg):
+    #     super(create_profile, self).__init__()
+    #     self.arg = arg
 
 
 
