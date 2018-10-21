@@ -8,5 +8,5 @@ urlpatterns=[
     path('altCrearProyecto', views.form_project2, name = 'form_project'),
     path('register/',views.register,name='register'),
     path('user_login/',views.user_login,name='user_login'),
-    path('create_pofile',views.form_profile, name='form_profile'),
+    path('create_profile/',views.form_profile, name='form_profile'),
 ]
