@@ -13,6 +13,9 @@ from urllib.parse import urlencode
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 
+#Class Based views
+from django.views.generic.base import TemplateView
+
 # Create your views here.
 def index(request): #index(request, nombre):
     categories_list = category.objects.order_by('category')
@@ -212,10 +215,22 @@ def form_profile(request):
             experience= request.POST.get('experience', '')
             return redirect(reverse('form_profile')+"?ok")
 
-
-
-
     return render(request,'app_one/create_profile.html',{'form_profile':profile_form})
+
+
+
+
+###Class Based Views
+
+
+class MyProjectsView(TemplateView):
+    template_name = "app_one/my_projects.html"
+
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name, {'title':"Otro pri"})
+
+
 
 """
     def form_project(request):
