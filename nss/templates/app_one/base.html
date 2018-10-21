@@ -4,14 +4,15 @@
 		<head>
 			<meta charset="utf-8">
 			<meta name="viewport" content="width=device-width, initial-scale=1">
+			<link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+			<link rel="stylesheet" href="{% static "css/styles.css" %}">
 			<link rel="stylesheet" href="{% static "css/semantic/out/semantic.css" %}">
 			<link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
 			<link rel="stylesheet" href="{% static "css/extras/processes.css" %}">
-			<link rel="stylesheet" href="{% static "css/styles.css" %}">
-			<script type="text/javascript" src="{% static "js/extras/processes.js" %}"></script>
-			  <script src="{% static "css/semantic/out/semantic.min.js" %}"></script>
 			<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 			<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+			<script type="text/javascript" src="{% static "js/semantic.js" %}"></script>
+			<script type="text/javascript" src="{% static "js/extras/processes.js" %}"></script>
 			<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 			<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 		</head>
@@ -70,53 +71,55 @@
         {% endblock %}
 
 	</body>
+
 	<footer>
-	  <div class="ui inverted vertical footer segment">
-	    <div class="ui center aligned container  shadow">
-	      <div class="ui stackable inverted divided grid">
-	        <div class="three wide column">
-	          <h4 class="ui inverted header ">Group 1</h4>
-	          <div class="ui inverted link list ">
-	            <a href="#" class="item">Link One</a>
-	            <a href="#" class="item">Link Two</a>
-	            <a href="#" class="item">Link Three</a>
-	            <a href="#" class="item">Link Four</a>
-	          </div>
-	        </div>
-	        <div class="three wide column">
-	          <h4 class="ui inverted header ">Group 2</h4>
-	          <div class="ui inverted link list ">
-	            <a href="#" class="item">Link One</a>
-	            <a href="#" class="item">Link Two</a>
-	            <a href="#" class="item">Link Three</a>
-	            <a href="#" class="item">Link Four</a>
-	          </div>
-	        </div>
-	        <div class="three wide column">
-	          <h4 class="ui inverted header ">Group 3</h4>
-	          <div class="ui inverted link list ">
-	            <a href="#" class="item">Link One</a>
-	            <a href="#" class="item">Link Two</a>
-	            <a href="#" class="item">Link Three</a>
-	            <a href="#" class="item">Link Four</a>
-	          </div>
-	        </div>
-	        <div class="seven wide column">
-	          <h4 class="ui inverted header " >Footer Header</h4>
-	          <p>Extra space for a call to action inside the footer that could help re-engage users.</p>
-	        </div>
-	      </div>
-	      <div class="ui inverted section divider "></div>
-	      <img src="assets/images/logo.png" class="ui centered mini image">
-	      <div class="ui horizontal inverted small divided link list ">
-	        <a class="item" href="#">Site Map</a>
-	        <a class="item" href="#">Contact Us</a>
-	        <a class="item" href="#">Terms and Conditions</a>
-	        <a class="item" href="#">Privacy Policy</a>
-	      </div>
-	    </div>
-	  </div>
-	</footer>
+	<div class="ui inverted vertical footer segment">
+		<div class="ui center aligned container">
+			<div class="ui stackable inverted divided grid">
+				<div class="three wide column">
+					<h4 class="ui inverted header">Group 1</h4>
+					<div class="ui inverted link list">
+						<a href="#" class="item">Link One</a>
+						<a href="#" class="item">Link Two</a>
+						<a href="#" class="item">Link Three</a>
+						<a href="#" class="item">Link Four</a>
+					</div>
+				</div>
+				<div class="three wide column">
+					<h4 class="ui inverted header">Group 2</h4>
+					<div class="ui inverted link list">
+						<a href="#" class="item">Link One</a>
+						<a href="#" class="item">Link Two</a>
+						<a href="#" class="item">Link Three</a>
+						<a href="#" class="item">Link Four</a>
+					</div>
+				</div>
+				<div class="three wide column">
+					<h4 class="ui inverted header">Group 3</h4>
+					<div class="ui inverted link list">
+						<a href="#" class="item">Link One</a>
+						<a href="#" class="item">Link Two</a>
+						<a href="#" class="item">Link Three</a>
+						<a href="#" class="item">Link Four</a>
+					</div>
+				</div>
+				<div class="seven wide column">
+					<h4 class="ui inverted header">Footer Header</h4>
+					<p>Extra space for a call to action inside the footer that could help re-engage users.</p>
+				</div>
+			</div>
+			<div class="ui inverted section divider"></div>
+			<img src="assets/images/logo.png" class="ui centered mini image">
+			<div class="ui horizontal inverted small divided link list">
+				<a class="item" href="#">Site Map</a>
+				<a class="item" href="#">Contact Us</a>
+				<a class="item" href="#">Terms and Conditions</a>
+				<a class="item" href="#">Privacy Policy</a>
+			</div>
+		</div>
+	</div>
+</footer>
+
 	{% block js_block %}
 	<!-- Other js go here -->
 	{% endblock %}

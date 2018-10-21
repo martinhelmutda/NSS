@@ -157,9 +157,11 @@ a.item {
 	color: grey ;
 }
 /* CONTROL DEL GRID NADA MAS */
-.column {
+
+/*Aquí está lo que no querías César*/
+/* .column {
 	border: 1px solid white;
-}
+} */
 /*
 .row {
 	border: 1px solid blue;

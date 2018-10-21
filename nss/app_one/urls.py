@@ -1,7 +1,6 @@
-#Last modified by César Buenfil on Oct 19,2018
+###Last modified by César Buenfil on Oct 19,2018
 from django.urls import path, include
-
-
+from app_one import views
 from .views import MyProjectsView
 
 app_name = 'app_one'
