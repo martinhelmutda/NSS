@@ -38,6 +38,11 @@ def form_project(request):
         form_rol=rol_formset(request.POST,request.FILES)
 
         cantidad= request.POST.get("cantidad", "")
+        if cantidad=='':
+            cantidad=1
+        else:
+            cantidad=int(cantidad)
+
 
         if form_pro.is_valid() and form_rol.is_valid():
             pro_db={"pro_name": str(form_pro.cleaned_data['pro_name']),"pro_description": str(form_pro.cleaned_data['pro_description']),
@@ -59,7 +64,7 @@ def form_project(request):
             i = projectImg(pro_img=form_pro.cleaned_data['pro_img'], pro = p)
             img_url="../media/pro_img/"+str(form_pro.cleaned_data['pro_img'])
             i.save()
-            for x in range(0, int(cantidad)):
+            for x in range(0, cantidad):
                 txt='form-'+str(x)+'-rol_name'
                 name= request.POST.get(txt, "")
                 txt='form-'+str(x)+'-rol_due_date'
@@ -69,12 +74,12 @@ def form_project(request):
                 txt='form-'+str(x)+'-rol_description'
                 description= request.POST.get(txt, "")
                 txt='form-'+str(x)+'-rol_location'
-                location= request.POST.get(txt, "")
+                loc= request.POST.get(txt, "")
                 y={"rol_name": name,"rol_due_date": due_date,"rol_amount": amount,
                     "rol_description":description, "rol_location": location}
                 rol_db.append(y)
-                r = rolInfo(rol_name=name,rol_due_date=due_date,rol_amount=amount,
-                            rol_description=description,rol_location=location)
+                r = rolInfo(rol_name=rol.objects.get(rol=name),rol_due_date=due_date,rol_amount=amount,
+                            rol_description=description,rol_location= location.objects.get(location=loc))
 
                 r.save()
                 p.pro_roles.add(r)
@@ -84,6 +89,7 @@ def form_project(request):
         else:
             print('ERROR EN EL FORM')
     return render(request,'app_one/create_project.html',{'form_rol':form_rol, 'form_pro':form_pro})
+
 
 # destruir después de usar
 #

@@ -70,20 +70,12 @@
       $('input[class="datepicker"]').daterangepicker({
         singleDatePicker: true,
         showDropdowns: true,
+        locale: {
+           format: 'YYYY-MM-DD'
+          }
       });
     });
-    $(function() {
-      $('input[name="pro_creation_date"]').daterangepicker({
-        singleDatePicker: true,
-        showDropdowns: true,
-      });
-    });
-    $(function() {
-      $('input[id="pro_creation_date"]').daterangepicker({
-        singleDatePicker: true,
-        showDropdowns: true,
-      });
-    });
+
 
     //document.getElementById('fieldWrapper').innerHTML.setAttribute("multiple", "multiple");
   </script>
@@ -116,6 +108,9 @@
             $('input[class="datepicker"]').daterangepicker({
               singleDatePicker: true,
               showDropdowns: true,
+              locale: {
+                 format: 'YYYY-MM-DD'
+                }
             });
             document.getElementById("cantidad").value = co;
             console.log("cant " +   document.getElementById("cantidad").value);

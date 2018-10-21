@@ -5,6 +5,7 @@ from django.forms import formset_factory, CharField, ModelMultipleChoiceField, M
 from django.db import models
 from django.core import validators
 from app_one.models import category, project, location, rolInfo, rol
+from django.conf import settings
 #from crispy_forms.helper import FormHelper
 
 class formProject(forms.Form):
@@ -29,7 +30,7 @@ class formProject(forms.Form):
 
 class formProjectAddRol(forms.Form):
     rol_name = ModelChoiceField(label='rol',widget=forms.Select(attrs={'class': 'ui fluid dropdown'}) ,queryset=rol.objects.all(), initial=0)
-    rol_due_date =  forms.DateField(label='Fecha límite para aplicar',widget=forms.DateInput(attrs={'class':'datepicker'}))
+    rol_due_date =  forms.DateField(label='Fecha límite para aplicar',widget=forms.DateInput(attrs={'class':'datepicker'}), required=False)
     rol_amount = forms.IntegerField(label='Cantidad', widget=forms.TextInput(attrs={'class':'field'}))
     rol_description = forms.CharField(label='Descripción del rol',widget=forms.Textarea)
     rol_location = ModelChoiceField(label='Ubicación del rol',queryset=location.objects.all(), widget=forms.Select(attrs={'class':'ui fluid dropdown'}), initial=0)
@@ -37,27 +38,30 @@ class formProjectAddRol(forms.Form):
     #    cleaned_data = super().clean()
 
 class baseProjectAddRol(BaseFormSet):
-    #rolNombre = []
-    #rolFechaLimite = []
-    #rolCantidad = []
-    #rolDescripcion = []
-    #rolNomrolLocationbre = []
-    #info=[]
     def clean(self):
-        info=[]
+        return [form.cleaned_data for form in self.forms]
+        """if any(self.errors):
+            # Don't bother validating the formset unless each form is valid on its own
+            return
+        #info=[]
+        rolNombre = []
+        rolFechaLimite = []
+        rolCantidad = []
+        rolDescripcion = []
+        rolLocation = []
         for form in self.forms:
-            #Nombre=form.cleaned_data['rolNombre']
-            #rolNombre.append(Nombre)
-            #FechaLimite=form.cleaned_data['rolFechaLimite']
-            #rolFechaLimite.append(FechaLimite)
-            #Cantidad+=form.cleaned_data['rolCantidad']
-            #rolCantidad.append(Cantidad)
-            #Descripcion+=form.cleaned_data['rolDescripcion']
-            #rolDescripcion.append(Descripcion)
-            #Location+=form.cleaned_data['rolLocation']
-            #rolLocation.append(Location)
-            cleaned_data = super().clean()
-            info.append(cleaned_data)
+            Nombre=form.cleaned_data['rol_name']
+            rolNombre.append(Nombre)
+            FechaLimite=form.cleaned_data['rol_due_date']
+            rolFechaLimite.append(FechaLimite)
+            Cantidad=form.cleaned_data['rol_amount']
+            rolCantidad.append(Cantidad)
+            Descripcion=form.cleaned_data['rol_description']
+            rolDescripcion.append(Descripcion)
+            Location=form.cleaned_data['rol_location']
+            rolLocation.append(Location)
+            #cleaned_data = super().clean()
+            #info.append(cleaned_data)"""
 
 
 
