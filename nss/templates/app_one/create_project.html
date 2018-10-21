@@ -1,5 +1,6 @@
 {% extends "app_one/base.html" %}
 {% load staticfiles %}
+
 {% block body_block %}
     <div class="container">
       <h1 class="content">Crea tu proyecto</h1><br><br>
@@ -8,17 +9,6 @@
       {{ form_rol.management_form }}
 
 
-<!--
-      <div class="uploader__box js-uploader__box l-center-box">
-        <form action="your/nonjs/fallback/" method="POST">
-            <div class="uploader__contents">
-                <label class="button button--secondary" for="fileinput">Select Files</label>
-                <input id="fileinput" class="uploader__file-input" type="file" multiple value="Select Files">
-            </div>
-            <input class="button button--big-bottom" type="submit" value="Upload Selected Files">
-        </form>
-      </div>
--->
       <div class="fieldWrapper">
            {{ form.pro_img.errors }}
            {{ form.pro_img.label_tag }}
@@ -50,57 +40,59 @@
 
       </form>
     </div>
-  </body>
-  <script src="{% static "css/semantic/out/semantic.min.js" %}"></script>
-  <script type="text/javascript">
-    $(function() {
-      $('input[class="datepicker"]').daterangepicker({
-        singleDatePicker: true,
-        showDropdowns: true,
-        locale: {
-           format: 'YYYY-MM-DD'
-          }
-      });
-    });
+{% endblock %}
 
-
-    //document.getElementById('fieldWrapper').innerHTML.setAttribute("multiple", "multiple");
-  </script>
-  <script type='text/javascript'>
-          co=1;
-            $('#add_more').click(function() {
-              console.log("HOLA")
-          cloneMore('div.table:last', 'service');
-        });
-        function cloneMore(selector, type) {
-            var newElement = $(selector).clone(true);
-            var total = $('#id_' + type + '-TOTAL_FORMS').val();
-            console.log("total "+total)
-            newElement.find(':input').each(function() {
-                var name = $(this).attr('name').replace('-' + (co-1) + '-','-' + co+ '-');
-                var id = 'id_' + name;
-                console.log("id "+id)
-                $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
-            });
-            newElement.find('label').each(function() {
-                var newFor = $(this).attr('for').replace('-' + (co-1) + '-','-' + co + '-');
-                $(this).attr('for', newFor);
-            });
-            total=total+1;
-            co=co+1;
-            console.log("total "+total)
-            console.log("co "+co)
-            $('#id_' + type + '-TOTAL_FORMS').val(co);
-            $(selector).after(newElement);
-            $('input[class="datepicker"]').daterangepicker({
-              singleDatePicker: true,
-              showDropdowns: true,
-              locale: {
-                 format: 'YYYY-MM-DD'
-                }
-            });
-            document.getElementById("cantidad").value = co;
-            console.log("cant " +   document.getElementById("cantidad").value);
+{% block js_block %}
+<script src="{% static "css/semantic/out/semantic.min.js" %}"></script>
+<script type="text/javascript">
+  $(function() {
+    $('input[class="datepicker"]').daterangepicker({
+      singleDatePicker: true,
+      showDropdowns: true,
+      locale: {
+         format: 'YYYY-MM-DD'
         }
-      </script>-->
+    });
+  });
+
+
+  //document.getElementById('fieldWrapper').innerHTML.setAttribute("multiple", "multiple");
+</script>
+<script type='text/javascript'>
+        co=1;
+          $('#add_more').click(function() {
+            console.log("HOLA")
+        cloneMore('div.table:last', 'service');
+      });
+      function cloneMore(selector, type) {
+          var newElement = $(selector).clone(true);
+          var total = $('#id_' + type + '-TOTAL_FORMS').val();
+          console.log("total "+total)
+          newElement.find(':input').each(function() {
+              var name = $(this).attr('name').replace('-' + (co-1) + '-','-' + co+ '-');
+              var id = 'id_' + name;
+              console.log("id "+id)
+              $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
+          });
+          newElement.find('label').each(function() {
+              var newFor = $(this).attr('for').replace('-' + (co-1) + '-','-' + co + '-');
+              $(this).attr('for', newFor);
+          });
+          total=total+1;
+          co=co+1;
+          console.log("total "+total)
+          console.log("co "+co)
+          $('#id_' + type + '-TOTAL_FORMS').val(co);
+          $(selector).after(newElement);
+          $('input[class="datepicker"]').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            locale: {
+               format: 'YYYY-MM-DD'
+              }
+          });
+          document.getElementById("cantidad").value = co;
+          console.log("cant " +   document.getElementById("cantidad").value);
+      }
+    </script>
 {% endblock %}
