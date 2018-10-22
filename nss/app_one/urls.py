@@ -1,4 +1,4 @@
-###Last modified by César Buenfil on Oct 19,2018
+###Last modified by Martín Helmut on Oct 20,2018
 from django.urls import path, include
 from app_one import views
 from .views import MyProjectsView
@@ -14,4 +14,5 @@ urlpatterns=[
     path('create_profile/',views.form_profile, name='form_profile'),
 
     path('my_projects/', MyProjectsView.as_view(), name='my_projects'),
+    path('projects/',include('projects.urls'))
 ]
