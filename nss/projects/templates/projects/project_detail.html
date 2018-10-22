@@ -1,0 +1,20 @@
+{% extends 'app_one/base.html' %}
+{% load static %}
+{% block title %}{{project.pro_name}}{% endblock %}
+{% block body_block %}
+<main role="main">
+  <div class="container">
+    <div class="row mt-3">
+      <div class="col-md-9 mx-auto">
+        <h2 class="section-heading mb-4">{{project.pro_name}}</h2>
+        <div>
+          {{project.pro_description|safe}}
+          {% if request.user.is_staff %}
+            <p><a href="#">Editar</a></p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}
