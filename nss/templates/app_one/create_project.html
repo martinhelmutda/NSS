@@ -8,16 +8,15 @@
       {% csrf_token %}
       {{ form_rol.management_form }}
 
-
-      <div class="fieldWrapper">
-           {{ form.pro_img.errors }}
-           {{ form.pro_img.label_tag }}
-           {{ form.pro_img }}
-       </div>
+  <!--    <div class="fieldWrapper">
+           {{ form_pro.pro_creation_date.errors }}
+           {{ form_pro.pro_creation_date.label_tag }}
+           {{ form_pro.pro_creation_date }}
+       </div>-->
 
       <h3>Información del proyetco</h3>
       <div class="col-2">
-          <label>{{form_pro.as_p}}</label>
+        {{form_pro.as_p}}
       </div>
       <h3>Información de los roles</h3>
       <div class="table">
@@ -54,9 +53,15 @@
         }
     });
   });
-
-
-  //document.getElementById('fieldWrapper').innerHTML.setAttribute("multiple", "multiple");
+  $(function() {
+    $('input[id="id_pro_creation_date"]').daterangepicker({
+      singleDatePicker: true,
+      showDropdowns: true,
+      locale: {
+         format: 'YYYY-MM-DD'
+        }
+    });
+  });
 </script>
 <script type='text/javascript'>
         co=1;
