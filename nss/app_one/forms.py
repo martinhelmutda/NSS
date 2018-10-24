@@ -4,7 +4,7 @@ from django import forms
 from django.forms import formset_factory, CharField, ModelMultipleChoiceField, ModelChoiceField, BaseFormSet
 from django.db import models
 from django.core import validators
-from app_one.models import category, project, location, rolInfo, rol
+from app_one.models import category, project, location, rolInfo, rol, projectImg
 from django.contrib.auth.models import User
 from app_one.models import UserProfileInfo
 from django.conf import settings
@@ -38,7 +38,7 @@ class formProject(forms.Form):
     pro_description = forms.CharField(label='Descripción',widget=forms.Textarea, required=False)
     pro_video = forms.URLField(label='Link a video', widget=forms.TextInput(attrs={'placeholder':'https://www.youtube.com/watch?v=dQw4w9WgXcQ'}),required=False)
     pro_about_us = forms.CharField(label='Acerca de nosotros', widget=forms.Textarea, required=False)
-    pro_phrase = forms.CharField(label='Frase')
+    pro_phrase = forms.CharField(label='Indica si el proyecto implica recompensa monetaria', widget=forms.Textarea)
     pro_creation_date = forms.DateField(label='Inició',widget=forms.DateInput(attrs={'class':'datepicker'}), required=False)
     pro_category = ModelChoiceField(label='Categoría',widget=forms.Select(attrs={'class': 'ui fluid dropdown'}) ,queryset=category.objects.all(), initial=0)
     pro_location = ModelChoiceField(label='Ubicación',widget=forms.Select(attrs={'class': 'ui fluid dropdown'}) ,queryset=location.objects.all(), initial=0)
@@ -60,6 +60,13 @@ class formProjectAddRol(forms.Form):
     rol_location = ModelChoiceField(label='Ubicación del rol',queryset=location.objects.all(), widget=forms.Select(attrs={'class':'ui fluid dropdown'}), initial=0)
     #def clean(self):
     #    cleaned_data = super().clean()
+
+class formImg(forms.ModelForm):
+    """docstring forformImg."""
+    class Meta():
+        model = projectImg
+        fields=('pro_img',)
+
 
 class baseProjectAddRol(BaseFormSet):
     def clean(self):

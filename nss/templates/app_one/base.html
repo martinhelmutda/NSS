@@ -1,49 +1,50 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="es">
-		<head>
-			<meta charset="utf-8">
-			<meta name="viewport" content="width=device-width, initial-scale=1">
+        <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
 
-			 <title>{% block title %}{% endblock %}</title>
+             <title>{% block title %}{% endblock %}</title>
 
-			<link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
-			<link rel="stylesheet" href="{% static "css/styles.css" %}">
-			<link rel="stylesheet" href="{% static "css/semantic/out/semantic.css" %}">
-			<link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
-			<link rel="stylesheet" href="{% static "css/extras/processes.css" %}">
-			<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-			<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-			<script type="text/javascript" src="{% static "js/semantic.js" %}"></script>
-			<script type="text/javascript" src="{% static "js/extras/processes.js" %}"></script>
-			<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-			<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-		</head>
+            <link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+            <link rel="stylesheet" href="{% static "css/styles.css" %}">
+            <link rel="stylesheet" href="{% static "css/semantic/out/semantic.css" %}">
+            <link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+            <link rel="stylesheet" href="{% static "css/extras/processes.css" %}">
+            <link rel="stylesheet" href="{% static "css/styles.css" %}">
+            <script type="text/javascript" src="{% static "js/extras/processes.js" %}"></script>
+              <script src="{% static "css/semantic/out/semantic.min.js" %}"></script>
+            <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+            <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+            <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+            <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+        </head>
     <body class="bg-gray">
-		<!-- Static navbar -->
-		<div class="ui borderless top menu stackable shadow">
-			<div class="ui container">
-				<div class="header item">
-					<a href="{% url 'index' %}" class="item"><img class="logo" src="{% static "img/logo.png" %}">Teem</a>
-				</div>
-				<a href="#" class="ui dropdown item upward" tabindex="0">Dropdown <i class="dropdown icon"></i>
-					<div class="menu transition hidden" tabindex="-1">
-						<div class="item">Link Item</div>
-						<div class="item">
-							<i class="dropdown icon"></i>
-							Sub Menu
-							<div class="menu transition right hidden">
-								<div class="item">Link Item</div>
-								<div class="item">Link Item</div>
-							</div>
-						</div>
-					</div>
-				</a>
+        <!-- Static navbar -->
+        <div class="ui borderless top menu stackable shadow">
+            <div class="ui container">
+                <div class="header item">
+                    <a href="{% url 'index' %}" class="item"><img class="logo" src="{% static "img/logo.png" %}">Teem</a>
+                </div>
+                <a href="#" class="ui dropdown item upward" tabindex="0">Dropdown <i class="dropdown icon"></i>
+                    <div class="menu transition hidden" tabindex="-1">
+                        <div class="item">Link Item</div>
+                        <div class="item">
+                            <i class="dropdown icon"></i>
+                            Sub Menu
+                            <div class="menu transition right hidden">
+                                <div class="item">Link Item</div>
+                                <div class="item">Link Item</div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
             </div>
 
-			{% if user.is_authenticated %}
-			<a class="item" href="{% url 'app_one:form_project' %}">Crear Proyecto</a>
-			<a class="item" href="{% url 'app_one:form_project2' %}">Alt Crear Proyecto</a>
+            {% if user.is_authenticated %}
+            <a class="item" href="{% url 'app_one:form_project' %}">Crear Proyecto</a>
+            <a class="item" href="{% url 'app_one:form_project2' %}">Alt Crear Proyecto</a>
 			<a class="item" href="{% url 'projects:projects' %}">MisProyectos</a>
 			<a class="item" href="{% url 'projects:create' %}">Crear</a>
             <a href="#" class="ui right floated dropdown item upward" tabindex="0">
@@ -63,69 +64,67 @@
                     </div>
                 </div>
             </a>
-			<a class="item" href="{% url 'logout' %}">Logout</a></div>
-			{% else %}
-			<a class="item" href="{% url 'app_one:register' %}">Registrar</a>
-			<a class="item" href="{% url 'app_one:user_login' %}">Log in</a>
-			{% endif %}
+            <a class="item" href="{% url 'logout' %}">Logout</a></div>
+            {% else %}
+            <a class="item" href="{% url 'app_one:register' %}">Registrar</a>
+            <a class="item" href="{% url 'app_one:user_login' %}">Log in</a>
+            {% endif %}
 
-		</div>
+        </div>
 
         {% block body_block %}
         <!-- Other Htmls go here -->
         {% endblock %}
 
-	</body>
-
-	<footer>
-	<div class="ui inverted vertical footer segment">
-		<div class="ui center aligned container">
-			<div class="ui stackable inverted divided grid">
-				<div class="three wide column">
-					<h4 class="ui inverted header">Group 1</h4>
-					<div class="ui inverted link list">
-						<a href="#" class="item">Link One</a>
-						<a href="#" class="item">Link Two</a>
-						<a href="#" class="item">Link Three</a>
-						<a href="#" class="item">Link Four</a>
-					</div>
-				</div>
-				<div class="three wide column">
-					<h4 class="ui inverted header">Group 2</h4>
-					<div class="ui inverted link list">
-						<a href="#" class="item">Link One</a>
-						<a href="#" class="item">Link Two</a>
-						<a href="#" class="item">Link Three</a>
-						<a href="#" class="item">Link Four</a>
-					</div>
-				</div>
-				<div class="three wide column">
-					<h4 class="ui inverted header">Group 3</h4>
-					<div class="ui inverted link list">
-						<a href="#" class="item">Link One</a>
-						<a href="#" class="item">Link Two</a>
-						<a href="#" class="item">Link Three</a>
-						<a href="#" class="item">Link Four</a>
-					</div>
-				</div>
-				<div class="seven wide column">
-					<h4 class="ui inverted header">Footer Header</h4>
-					<p>Extra space for a call to action inside the footer that could help re-engage users.</p>
-				</div>
-			</div>
-			<div class="ui inverted section divider"></div>
-			<img src="assets/images/logo.png" class="ui centered mini image">
-			<div class="ui horizontal inverted small divided link list">
-				<a class="item" href="#">Site Map</a>
-				<a class="item" href="#">Contact Us</a>
-				<a class="item" href="#">Terms and Conditions</a>
-				<a class="item" href="#">Privacy Policy</a>
-			</div>
-		</div>
-	</div>
-</footer>
-
-	{% block js_block %}
-	<!-- Other js go here -->
-	{% endblock %}
+    </body>
+    <footer>
+      <div class="ui inverted vertical footer segment">
+        <div class="ui center aligned container  shadow">
+          <div class="ui stackable inverted divided grid">
+            <div class="three wide column">
+              <h4 class="ui inverted header ">Group 1</h4>
+              <div class="ui inverted link list ">
+                <a href="#" class="item">Link One</a>
+                <a href="#" class="item">Link Two</a>
+                <a href="#" class="item">Link Three</a>
+                <a href="#" class="item">Link Four</a>
+              </div>
+            </div>
+            <div class="three wide column">
+              <h4 class="ui inverted header ">Group 2</h4>
+              <div class="ui inverted link list ">
+                <a href="#" class="item">Link One</a>
+                <a href="#" class="item">Link Two</a>
+                <a href="#" class="item">Link Three</a>
+                <a href="#" class="item">Link Four</a>
+              </div>
+            </div>
+            <div class="three wide column">
+              <h4 class="ui inverted header ">Group 3</h4>
+              <div class="ui inverted link list ">
+                <a href="#" class="item">Link One</a>
+                <a href="#" class="item">Link Two</a>
+                <a href="#" class="item">Link Three</a>
+                <a href="#" class="item">Link Four</a>
+              </div>
+            </div>
+            <div class="seven wide column">
+              <h4 class="ui inverted header " >Footer Header</h4>
+              <p>Extra space for a call to action inside the footer that could help re-engage users.</p>
+            </div>
+          </div>
+          <div class="ui inverted section divider "></div>
+          <img src="assets/images/logo.png" class="ui centered mini image">
+          <div class="ui horizontal inverted small divided link list ">
+            <a class="item" href="#">Site Map</a>
+            <a class="item" href="#">Contact Us</a>
+            <a class="item" href="#">Terms and Conditions</a>
+            <a class="item" href="#">Privacy Policy</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+    {% block js_block %}
+    <!-- Other js go here -->
+    {% endblock %}
 </html>

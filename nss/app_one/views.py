@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.core.mail import send_mail
 from app_one.models import category, project, rolInfo, rol, location, projectImg
 from . import forms
-from app_one.forms import formProject, rol_formset, UserForm, UserProfileInfoForm, createProfileForm
+from app_one.forms import formProject, rol_formset, UserForm, UserProfileInfoForm, createProfileForm, formImg
 from django.urls import reverse
 from urllib.parse import urlencode
 
@@ -93,21 +93,23 @@ def see_project(request):
     project_dict = {'proyecto_insert': 'PAGINA DE PROYECTO'}
     return render(request, 'app_one/project.html', context=project_dict) # app_one/proyecto.html ha ce referencia al html en templates
 
-def see_project(request, p_db, r_db, img_url_db):
+def see_project(request, p_db, r_db, i_db):
     pro_db = p_db
     rol_db = r_db
-    img_url_db=img_url_db
-    project_dict = {'proyecto_insert': 'PAGINA ','pro_db':pro_db,'rol_db':rol_db, 'img_url_db':img_url_db}
+    img_db=i_db
+    project_dict = {'pro_db':pro_db,'rol_db':rol_db, 'img_db':img_db}
     return render(request, 'app_one/project.html', context=project_dict) # app_one/proyecto.html ha ce referencia al html en templates
 
 
 def form_project(request):
     form_pro = formProject()
     form_rol = rol_formset()
+    form_img = formImg()
 
     if request.method == 'POST':
         form_pro=formProject(request.POST,request.FILES)
         form_rol=rol_formset(request.POST,request.FILES)
+        form_img=formImg(request.POST,request.FILES)
 
         cantidad= request.POST.get("cantidad", "")
         if cantidad=='':
@@ -117,25 +119,29 @@ def form_project(request):
 
 
         if form_pro.is_valid() and form_rol.is_valid():
+            #Las variables con terminacion _db son lstas que se iran al view see_project para mostrar la info de este proyecto.
             pro_db={"pro_name": str(form_pro.cleaned_data['pro_name']),"pro_description": str(form_pro.cleaned_data['pro_description']),
                     "pro_video": str(form_pro.cleaned_data['pro_video']),"pro_about_us": str(form_pro.cleaned_data['pro_about_us']),
                     "pro_phrase": str(form_pro.cleaned_data['pro_phrase']),"pro_creation_date": str(form_pro.cleaned_data['pro_creation_date']),
                     "pro_category": str(form_pro.cleaned_data['pro_category']),"pro_img": str(form_pro.cleaned_data['pro_img'])}
             rol_db=[]
+            img_db=[]
             print("VALIDATION SUCCESS!")
             print(form_pro.cleaned_data)
             #print(form_rol.cleaned_data)
             print("VALIDATION SUCCESS2!")
-            #for form in range(0, cantidad):
-                #print(form.cleaned_data)
             p = project(pro_name=form_pro.cleaned_data['pro_name'],pro_description=form_pro.cleaned_data['pro_description'],
                         pro_video=form_pro.cleaned_data['pro_video'],pro_about_us=form_pro.cleaned_data['pro_about_us'],
                         pro_phrase=form_pro.cleaned_data['pro_phrase'],pro_creation_date=form_pro.cleaned_data['pro_creation_date'],
                         pro_category=form_pro.cleaned_data['pro_category'],pro_location=form_pro.cleaned_data['pro_location'])
             p.save()
-            i = projectImg(pro_img=form_pro.cleaned_data['pro_img'], pro = p)
-            img_url="../media/pro_img/"+str(form_pro.cleaned_data['pro_img'])
-            i.save()
+            for field in request.FILES.keys():
+                for formfile in request.FILES.getlist(field):
+                    print(formfile)
+                    i = projectImg(pro_img=formfile, pro = p)
+                    img_url="../media/pro_img/"+str(formfile)
+                    img_db.append(img_url)
+                    i.save()
             for x in range(0, cantidad):
                 txt='form-'+str(x)+'-rol_name'
                 name= request.POST.get(txt, "")
@@ -157,10 +163,10 @@ def form_project(request):
                 p.pro_roles.add(r)
                 print(name)
 
-            return see_project(request, pro_db, rol_db, img_url)
+            return see_project(request, pro_db, rol_db, img_db)
         else:
             print('ERROR EN EL FORM')
-    return render(request,'app_one/create_project.html',{'form_rol':form_rol, 'form_pro':form_pro})
+    return render(request,'app_one/create_project.html',{'form_rol':form_rol, 'form_pro':form_pro, 'form_img':form_img})
 
 
 # destruir después de usar
@@ -250,10 +256,8 @@ class MyProjectsView(TemplateView):
 """
     def form_project(request):
         form = forms.formProject()
-
         if request.method == 'POST':
             form = forms.formProject(request.POST)
-
             if form.is_valid():
                 # DO SOMETHING CODE
                 print("VALIDATION SUCCESS!")
@@ -263,6 +267,5 @@ class MyProjectsView(TemplateView):
                     #print("Enviar email!")
                 #    send_mail('subject', 'message', 'A01421467@itesm.mx', 'angieguemes@gmail.com')
                 #    return HttpResponseRedirect('/thanks/')
-
         return render(request,'app_one/createPro.html',{'form':form})
 """
