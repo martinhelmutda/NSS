@@ -4,7 +4,7 @@ from django import forms
 from django.forms import formset_factory, CharField, ModelMultipleChoiceField, ModelChoiceField, BaseFormSet
 from django.db import models
 from django.core import validators
-from app_one.models import category, project, location, rolInfo, rol
+from app_one.models import category, project, location, rolInfo, rol, projectImg
 from django.contrib.auth.models import User
 from app_one.models import UserProfileInfo
 from django.conf import settings
@@ -60,6 +60,13 @@ class formProjectAddRol(forms.Form):
     rol_location = ModelChoiceField(label='Ubicación del rol',queryset=location.objects.all(), widget=forms.Select(attrs={'class':'ui fluid dropdown'}), initial=0)
     #def clean(self):
     #    cleaned_data = super().clean()
+
+class formImg(forms.ModelForm):
+    """docstring forformImg."""
+    class Meta():
+        model = projectImg
+        fields=('pro_img',)
+
 
 class baseProjectAddRol(BaseFormSet):
     def clean(self):

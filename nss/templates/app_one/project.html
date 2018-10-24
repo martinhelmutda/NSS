@@ -13,8 +13,11 @@ Sobre nosotros: <p>{{pro_db.pro_about_us}}</p>
 Frase: <p>{{pro_db.pro_phrase}}</p>
 fecha de creacion: <p>{{pro_db.pro_creation_date}}</p>
 Categoría: <p>{{pro_db.pro_category}}</p>
-Imagen: <p>{{pro_db.pro_img}}</p>
-<img src="{{img_url_db}}" alt="Imagen del projecto">
+Imagenes:
+{% for img in img_db %}
+  <br><img src="{{img}}" alt="Imagen del projecto" width="180" height="100">
+{%endfor%}
+
 <div class="">
   {% if rol_db %}
     <table>
