@@ -33,6 +33,8 @@ urlpatterns = [
     path('special/',views.special,name='special'),
     path('create_profile/',views.form_profile, name='form_profile'),
     path('projects/',include(projects_patterns)),
+    #Falta cambiarlo a path 
+    url(r'^', include('django.contrib.auth.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

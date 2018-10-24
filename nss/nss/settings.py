@@ -166,3 +166,5 @@ STATICFILES_DIRS = [
 CRISPY_TEMPLATE_PACK = 'semantic-ui'
 
 LOGIN_URL = 'app_one/user_login'
+# PARA EL MAIL Y EL RESET
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
