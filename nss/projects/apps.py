@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class PagesConfig(AppConfig):
-    name = 'pages'
+class ProjectsConfig(AppConfig):
+    name = 'projects'
     verbose_name = "Gestor de páginas"
