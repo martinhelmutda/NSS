@@ -65,6 +65,17 @@ INSTALLED_APPS = [
     'projects'
 ]
 
+#SOCIAL AUTH
+AUTHENTICATION_BACKENDS = [
+    'social_core.backends.github.GithubOAuth2',
+    'social_core.backends.google.GoogleOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+    'blog.authentication.EmailAuthbackend',
+]
+
+
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -73,6 +84,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'nss.urls'
@@ -88,6 +100,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -166,3 +180,6 @@ STATICFILES_DIRS = [
 CRISPY_TEMPLATE_PACK = 'semantic-ui'
 
 LOGIN_URL = 'app_one/user_login'
+#SOCIAL KEYS
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '61695347607-ip2fcoqo7c4tosf8cjq1vraqmcoanuo0.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'oGAyH6EvUgCEiEIN5PJt6kmN'
