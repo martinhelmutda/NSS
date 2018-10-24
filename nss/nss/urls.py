@@ -21,7 +21,8 @@ from app_one import views
 from django.conf import settings
 from django.conf.urls.static import static
 from projects.urls import projects_patterns
-
+from django.contrib.auth import views as auth_views
+from django.conf.urls import url
 
 urlpatterns = [
     path('', views.index, name='index'), #Despliega lo de la funcion index en appOne/views.py/def index
@@ -33,7 +34,7 @@ urlpatterns = [
     path('special/',views.special,name='special'),
     path('create_profile/',views.form_profile, name='form_profile'),
     path('projects/',include(projects_patterns)),
-    #Falta cambiarlo a path 
+    #Falta cambiarlo a path
     url(r'^', include('django.contrib.auth.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
