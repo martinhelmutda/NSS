@@ -2,6 +2,17 @@
 {% extends "app_one/base.html" %}
 {% load static %}
 {% load embed_video_tags %}
+
+{% block meta_block %}
+<meta property="og:url"           content="https://www.your-domain.com/your-page.html" />
+ <meta property="og:type"          content="website" />
+ <meta property="og:title"         content="Your Website Title" />
+ <meta property="og:description"   content="Your description" />
+ <meta property="og:image"         content="https://www.your-domain.com/path/image.jpg" />
+
+{% endblock %}
+
+
 {% block body_block %}
 <br><br><br><br><br>
 
@@ -13,8 +24,11 @@ Sobre nosotros: <p>{{pro_db.pro_about_us}}</p>
 Frase: <p>{{pro_db.pro_phrase}}</p>
 fecha de creacion: <p>{{pro_db.pro_creation_date}}</p>
 Categoría: <p>{{pro_db.pro_category}}</p>
-Imagen: <p>{{pro_db.pro_img}}</p>
-<img src="{{img_url_db}}" alt="Imagen del projecto">
+Imagenes:
+{% for img in img_db %}
+  <br><img src="{{img}}" alt="Imagen del projecto" width="180" height="100">
+{%endfor%}
+
 <div class="">
   {% if rol_db %}
     <table>
@@ -43,9 +57,24 @@ Imagen: <p>{{pro_db.pro_img}}</p>
       {%endfor%}
     </table>
     {%else%}
-    <p>NO HAY AREAS REGISTRADAS</p>
+    <p>NO HAY ROLES REGISTRADOS</p>
     {%endif%}
 </div>
+  <!-- Load Facebook SDK for JavaScript -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = 'https://connect.facebook.net/es_ES/sdk.js#xfbml=1&version=v3.2&appId=1801440776759214&autoLogAppEvents=1';
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+ <!-- Your share button code -->
+<div class="fb-share-button" data-href="http://127.0.0.1:8000/proyecto/createProyecto"
+data-layout="button_count" data-size="large" data-mobile-iframe="true"><a target="_blank"
+href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2F127.0.0.1%3A8000%2Fproyecto%2FcreateProyecto&amp;src=sdkpreparse"
+class="fb-xfbml-parse-ignore">Compartir</a></div>
 {% endblock %}
 <!--
 <div class="ui secondary pointing icon menu prin">

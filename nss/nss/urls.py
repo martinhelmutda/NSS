@@ -1,3 +1,4 @@
+#Last modified by César Buenfil on Oct 19,2018
 
 """nss URL Configuration
 
@@ -28,6 +29,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('logout/',views.user_logout,name='logout'),
     path('special/',views.special,name='special'),
+    path('create_profile/',views.form_profile, name='form_profile'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

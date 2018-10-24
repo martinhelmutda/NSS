@@ -1,3 +1,4 @@
+#Last modified by César Buenfil on Oct 19,2018
 from django.db import models
 from embed_video.fields import EmbedVideoField
 from django.contrib.auth.models import User
@@ -43,11 +44,11 @@ class rolInfo(models.Model):
 
 class project(models.Model):
     #Info del proyecto
-    pro_name = models.CharField(max_length=40,default='')
+    pro_name = models.CharField(max_length=50,default='')
     pro_description = models.TextField(max_length=800,default='')
     pro_video = EmbedVideoField() # models.URLField()
     pro_about_us = models.TextField(max_length=800, default='')
-    pro_phrase = models.CharField(max_length=200, default='')
+    pro_phrase = models.TextField(max_length=700, default='')
     pro_creation_date = models.DateField()
     pro_category = models.ForeignKey('category', on_delete=models.PROTECT,default='')
     pro_location = models.ForeignKey('location', on_delete=models.PROTECT,default='')

@@ -1,32 +1,68 @@
-<!DOCTYPE html>
+{% extends "app_one/base.html" %}
 {% load staticfiles %}
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Crear Proyecto</title>
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="{% static "css/semantic/out/semantic.css" %}">
-    <link rel="stylesheet" href="{% static "css/styles.css" %}">
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.0/dist/semantic.min.css"> -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-  </head>
-  <body>
+
+{% block body_block %}
     <div class="container">
       <h1 class="content">Crea tu proyecto</h1><br><br>
       <form method="POST" enctype="multipart/form-data"class="ui form">
       {% csrf_token %}
       {{ form_rol.management_form }}
-      <div class="col-2">
-          <label>{{form_pro.as_p}}</label>
-      </div>
-      <div class="col-2">
-          <label>{{form_rol.as_table}}</label>
-      </div>
 
-        <input type="text" name="birthday" value="10/24/1984" />
+      <!--<div class="fieldWrapper">
+           {{ form_pro.pro_creation_date.errors }}
+           {{ form_pro.pro_creation_date.label_tag }}
+           {{ form_pro.pro_creation_date }}
+       </div>-->
+
+      <h3>Información del proyetco</h3>
+
+      <div class="col-2">
+        {{ form_pro.pro_name.errors }}
+        {{ form_pro.pro_name.label_tag }}
+        {{ form_pro.pro_name }}
+
+        {{ form_pro.pro_video.errors }}
+        {{ form_pro.pro_video.label_tag }}
+        {{ form_pro.pro_video }}
+
+        {{ form_pro.pro_phrase.errors }}
+        {{ form_pro.pro_phrase.label_tag }}
+        {{ form_pro.pro_phrase }}
+
+        {{ form_pro.pro_category.errors }}
+        {{ form_pro.pro_category.label_tag }}
+        {{ form_pro.pro_category }}
+
+        {{ form_pro.pro_description.errors }}
+        {{ form_pro.pro_description.label_tag }}
+        {{ form_pro.pro_description }}
+
+        {{ form_pro.pro_about_us.errors }}
+        {{ form_pro.pro_about_us.label_tag }}
+        {{ form_pro.pro_about_us }}
+
+        {{ form_pro.pro_creation_date.errors }}
+        {{ form_pro.pro_creation_date.label_tag }}
+        {{ form_pro.pro_creation_date }}
+
+        {{ form_pro.pro_location.errors }}
+        {{ form_pro.pro_location.label_tag }}
+        {{ form_pro.pro_location }}
+
+        <br>
+        <input type="file" name="pro_img" id="id_pro_img" accept="image/*" multiple="">
+
+      </div>
+      <h3>Información de los roles</h3>
+      <div class="table">
+        {% for form in form_rol %}
+        <ul>
+          <li>{{ form }}</li>
+        </ul>
+      {% endfor %}
+      </div>
+      <input type="hidden" name="cantidad" id="cantidad"value="">
+
         <input type="button" value="Add More" id="add_more">
         <input type="submit" class="positive ui button" value="Submit">
       <!--  <div class="fieldWrapper">
@@ -38,46 +74,68 @@
 
       </form>
     </div>
-  </body>
-  <script src="{% static "css/semantic/out/semantic.min.js" %}"></script>
-  <script type="text/javascript">
-  $(function() {
-    $('input[name="form-1-rol_due_date"]').daterangepicker({
-      singleDatePicker: true,
-      showDropdowns: true,
-    });
-  });
-  </script>
-<!--    <script type='text/javascript'>
-co=1;
-            $('#add_more').click(function() {
-              console.log("HOLA")
-          cloneMore('div.table:last', 'service');
+{% endblock %}
+{% block js_block %}
+<!-- Other js go here -->
+    <script type="text/javascript">
+
+      $(function() {
+        $('input[id="id_pro_creation_date"]').daterangepicker({
+          singleDatePicker: true,
+          showDropdowns: true,
+          locale: {
+             format: 'YYYY-MM-DD'
+            }
         });
-        function cloneMore(selector, type) {
-            var newElement = $(selector).clone(true);
-            var total = $('#id_' + type + '-TOTAL_FORMS').val();
-            console.log("total "+total)
-            newElement.find(':input').each(function() {
-                var name = $(this).attr('name').replace('-' + (co-1) + '-','-' + co+ '-');
-                var id = 'id_' + name;
-                console.log("id "+id)
-                $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
-            });
-            newElement.find('label').each(function() {
-                var newFor = $(this).attr('for').replace('-' + (co-1) + '-','-' + co + '-');
-                $(this).attr('for', newFor);
-            });
-            total=total+1;
-            co=co+1;
-            console.log("total "+total)
-            console.log("co "+co)
-            $('#id_' + type + '-TOTAL_FORMS').val(co);
-            $(selector).after(newElement);
-        }
-      </script>-->
+        $('input[class="datepicker"]').daterangepicker({
+          singleDatePicker: true,
+          showDropdowns: true,
+          locale: {
+             format: 'YYYY-MM-DD'
+            }
+        });
+
+        console.log("HOLAA")
+      });
+
+    </script>
+    <script type='text/javascript'>
+            co=1;
+              $('#add_more').click(function() {
+                console.log("HOLA")
+            cloneMore('div.table:last', 'service');
+          });
+          function cloneMore(selector, type) {
+              var newElement = $(selector).clone(true);
+              var total = $('#id_' + type + '-TOTAL_FORMS').val();
+              console.log("total "+total)
+              newElement.find(':input').each(function() {
+                  var name = $(this).attr('name').replace('-' + (co-1) + '-','-' + co+ '-');
+                  var id = 'id_' + name;
+                  console.log("id "+id)
+                  $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
+              });
+              newElement.find('label').each(function() {
+                  var newFor = $(this).attr('for').replace('-' + (co-1) + '-','-' + co + '-');
+                  $(this).attr('for', newFor);
+              });
+              total=total+1;
+              co=co+1;
+              console.log("total "+total)
+              console.log("co "+co)
+              $('#id_' + type + '-TOTAL_FORMS').val(co);
+              $(selector).after(newElement);
+              $('input[class="datepicker"]').daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: true,
+                locale: {
+                   format: 'YYYY-MM-DD'
+                  }
+              });
+              document.getElementById("cantidad").value = co;
+              console.log("cant " +   document.getElementById("cantidad").value);
+          }
+        </script>
 
 
-
-
-</html>
+{% endblock %}
