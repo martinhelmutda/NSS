@@ -2,6 +2,7 @@
 {% load static %}
 {% block title %}Páginas{% endblock %}
 {% block body_block %}
+
 <h1>HOLA</h1>
 <main role="main">
   <div class="container mb-4">
@@ -15,14 +16,18 @@
               "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"
             </p>
             <p>{{project.pro_description|striptags|safe|truncatechars:"200"}}</p>
-                        {# <p><a href="{% url 'projects:project' project_id project.pro_name|slugify %}">Leer más</a> #}
+                        <p><a href="{% url 'projects:project' project.id project.pro_name|slugify %}">Leer más</a></p>
               <!--
               {% if request.user.is_staff %}
                 | <a href="#">Editar</a>
                 | <a href="#">Borrar</a>
               {% endif %}
               -->
-            </p>
+              <script type="text/javascript">
+              console.log("{% url 'projects:project' project.id project.pro_name|slugify %}");
+
+              </script>
+
           </div>
         </div>
       </div>

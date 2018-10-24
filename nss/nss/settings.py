@@ -61,7 +61,8 @@ INSTALLED_APPS = [
     'app_one',
     'embed_video',
     'ckeditor',
-    'projects.apps.ProjectsConfig',
+    # 'projects.apps.ProjectsConfig',
+    'projects'
 ]
 
 MIDDLEWARE = [
