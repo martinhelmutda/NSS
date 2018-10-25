@@ -166,4 +166,4 @@ STATICFILES_DIRS = [
 
 CRISPY_TEMPLATE_PACK = 'semantic-ui'
 
-LOGIN_URL = 'app_one/user_login'
+LOGIN_URL = 'account_app/user_login'

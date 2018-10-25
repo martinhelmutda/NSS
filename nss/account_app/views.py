@@ -62,7 +62,7 @@ def register(request):
         user_form = UserForm()
         profile_form = UserProfileInfoForm()
 
-    return render(request,'app_one/registration.html',{'user_form':user_form,
+    return render(request,'account_app/registration.html',{'user_form':user_form,
                                                        'profile_form':profile_form,
                                                        'registered':registered})
 
@@ -87,11 +87,11 @@ def user_login(request):
             return HttpResponse("Invalid login details supplied")
 
     else:
-        return render(request,'app_one/login.html',{})
+        return render(request,'account_app/login.html',{})
 
 def see_project(request):
     project_dict = {'proyecto_insert': 'PAGINA DE PROYECTO'}
-    return render(request, 'app_one/project.html', context=project_dict) # app_one/proyecto.html ha ce referencia al html en templates
+    return render(request, 'account_app/project.html', context=project_dict) # app_one/proyecto.html ha ce referencia al html en templates
 
 def see_project(request, p_db, r_db, i_db):
     pro_db = p_db
@@ -162,7 +162,7 @@ def form_project(request):
             return see_project(request, pro_db, rol_db, img_db)
         else:
             print('ERROR EN EL FORM')
-    return render(request,'app_one/create_project.html',{'form_rol':form_rol, 'form_pro':form_pro, 'form_img':form_img})
+    return render(request,'account_app/create_project.html',{'form_rol':form_rol, 'form_pro':form_pro, 'form_img':form_img})
 
 # destruir después de usar
 #
@@ -209,7 +209,7 @@ def form_project2(request):
             return see_project(request, pro_db, rol_db, img_url)
         else:
             print('ERROR EN EL FORM')
-    return render(request,'app_one/alt_create_project.html',{'form_rol':form_rol, 'form_pro':form_pro})
+    return render(request,'account_app/alt_create_project.html',{'form_rol':form_rol, 'form_pro':form_pro})
 
 #
 # destruir después de usar
@@ -229,7 +229,7 @@ def form_profile(request):
             experience= request.POST.get('experience', '')
             return redirect(reverse('form_profile')+"?ok")
 
-    return render(request,'app_one/create_profile.html',{'form_profile':profile_form})
+    return render(request,'account_app/create_profile.html',{'form_profile':profile_form})
 
 ###Class Based Views
 

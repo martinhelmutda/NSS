@@ -1,4 +1,4 @@
-{% extends "app_one/base.html" %}
+{% extends "account_app/base.html" %}
 {% load staticfiles %}
 {% block body_block %}
 
@@ -9,7 +9,7 @@
         <div class="header"><h1>Log in</h1></div>
       </div>
       <div class="content">
-        <form class="ui large form" action="{% url 'app_one:user_login' %}" method="post">
+        <form class="ui large form" action="{% url 'account_app:user_login' %}" method="post">
           {% csrf_token %}
           <label for="username">Username:</label>
           <input type="text" name="username" placeholder="Enter Username">
@@ -22,7 +22,7 @@
         </form>
         <div class="extra content">
           <div class="ui message">
-            No tienes una cuenta? <a href="{% url 'app_one:register' %}">Registrar</a>
+            No tienes una cuenta? <a href="{% url 'account_app:register' %}">Registrar</a>
           </div>
         </div>
       </div>
