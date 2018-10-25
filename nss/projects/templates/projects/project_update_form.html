@@ -3,45 +3,51 @@
 
 {% block body_block %}
     <div class="container">
-      <h1 class="content">Crea tu proyecto</h1><br><br>
-      <div class="ui grid container">
-        <div class="ui vertical segment">
-          <div class="ui header">
-            Crear Proyecto
-          </div>
-          <form method="POST" enctype="multipart/form-data"class="ui form">
-          {% csrf_token %}
-          {{ form_rol.management_form }}
+      <h1 class="content">Actualiza tu proyecto</h1><br><br>
 
-          {{form.as_p}}
-          <div class="fieldWrapper">
-               {{ project.pro_img.errors }}
-               {{ form.pro_img.label_tag }}
-               {{ form.pro_img }}
-           </div>
+      {% if 'ok' in request.GET %}
+        <p>
+          Página editada console
+        </p>
+        <p><a href="{% url 'projects:project' project.id project.pro_name|slugify %}">Leer más</a></p>
 
-          <div class="table">
-            {% for form in form_rol %}
-            <ul>
-              <li>{{ form }}</li>
-            </ul>
-          {% endfor %}
-          </div>
-          <input type="hidden" name="cantidad" id="cantidad"value="">
+      {% endif %}
+      <form method="POST" enctype="multipart/form-data"class="ui form">
+      {% csrf_token %}
+      {{ form_rol.management_form }}
 
-            <input type="button" value="Add More" id="add_more">
-            <input type="submit" class="positive ui button" value="Submit">
-          <!--  <div class="fieldWrapper">
-                {{ form.ProName.errors }}
-                {{ form.ProName.label_tag }}
-                {{ form.ProName }}
-            </div>-->
-            <!--<button class="ui black button">Agregar Rol</button><br><br>-->
 
-          </form>
-        </div>
+      <div class="fieldWrapper">
+           {{ project.pro_img.errors }}
+           {{ form.pro_img.label_tag }}
+           {{ form.pro_img }}
+       </div>
+
+      <h3>Información del proyetco</h3>
+      <div class="col-2">
+          <label>{{form_pro.as_p}}</label>
       </div>
+      <p>{{form.as_table}}</p>
+      <h3>Información de los roles</h3>
+      <div class="table">
+        {% for form in form_rol %}
+        <ul>
+          <li>{{ form }}</li>
+        </ul>
+      {% endfor %}
+      </div>
+      <input type="hidden" name="cantidad" id="cantidad"value="">
 
+        <input type="button" value="Add More" id="add_more">
+        <input type="submit" class="positive ui button" value="Actualiza">
+      <!--  <div class="fieldWrapper">
+            {{ form.ProName.errors }}
+            {{ form.ProName.label_tag }}
+            {{ form.ProName }}
+        </div>-->
+        <!--<button class="ui black button">Agregar Rol</button><br><br>-->
+
+      </form>
     </div>
 {% endblock %}
 
