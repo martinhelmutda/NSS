@@ -34,9 +34,7 @@ def user_logout(request):
     return HttpResponseRedirect(reverse('index'))
 
 def register(request):
-
     registered = False
-
     if request.method == "POST":
         user_form = UserForm(data=request.POST)
         profile_form = UserProfileInfoForm(data=request.POST)

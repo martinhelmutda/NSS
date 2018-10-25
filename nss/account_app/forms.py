@@ -30,7 +30,7 @@ class UserForm(forms.ModelForm):
 class UserProfileInfoForm(forms.ModelForm):
     class Meta():
         model = UserProfileInfo
-        fields = ('profile_pic',)
+        fields = ('portfolio_site','profile_pic')
 
 class formProject(forms.Form):
     #Info del project

@@ -24,6 +24,7 @@
         <form class="ui form" enctype="multipart/form-data" method="post">
           {% csrf_token %}
           {{ user_form.as_p }}
+          {{ profile_form.as_p }}
           <button class="ui fluid primary big button" type="submit">Registrar</button>
         </form>
       </div>
