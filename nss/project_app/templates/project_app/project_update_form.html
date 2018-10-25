@@ -9,7 +9,7 @@
         <p>
           Página editada console
         </p>
-        <p><a href="{% url 'projects:project' project.id project.pro_name|slugify %}">Leer más</a></p>
+        <p><a href="{% url 'project_app:project' project.id project.pro_name|slugify %}">Leer más</a></p>
 
       {% endif %}
       <form method="POST" enctype="multipart/form-data"class="ui form">

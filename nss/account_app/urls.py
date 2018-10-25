@@ -1,9 +1,9 @@
 ###Last modified by Martín Helmut on Oct 20,2018
 from django.urls import path, include
-from app_one import views
-from projects.urls import projects_patterns
+from account_app import views
+from project_app.urls import projects_patterns
 
-app_name = 'app_one'
+app_name = 'account_app'
 urlpatterns=[
 
     path('', views.see_project, name = 'see_project'),

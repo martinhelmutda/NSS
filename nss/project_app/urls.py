@@ -8,4 +8,4 @@ projects_patterns = ([
     path('create/', ProjectCreate.as_view(), name='create'),
     path('update/<int:pk>/', ProjectUpdate.as_view(), name='update'),
     path('delete/<int:pk>/', ProjectDelete.as_view(), name='delete'),
-], 'projects')
+], 'project_app')

@@ -45,10 +45,10 @@
             </div>
 
             {% if user.is_authenticated %}
-            <a class="item" href="{% url 'app_one:form_project' %}">Crear Proyecto</a>
-            <a class="item" href="{% url 'app_one:form_project2' %}">Alt Crear Proyecto</a>
-			<a class="item" href="{% url 'projects:projects' %}">MisProyectos</a>
-			<a class="item" href="{% url 'projects:create' %}">Crear</a>
+            <a class="item" href="{% url 'account_app:form_project' %}">Crear Proyecto</a>
+            <a class="item" href="{% url 'account_app:form_project2' %}">Alt Crear Proyecto</a>
+			<a class="item" href="{% url 'project_app:projects' %}">MisProyectos</a>
+			<a class="item" href="{% url 'project_app:create' %}">Crear</a>
             <a href="#" class="ui right floated dropdown item upward" tabindex="0">
                 Dropdown <i class="dropdown icon"></i>
                 <div class="menu transition hidden" tabindex="-1">
@@ -68,8 +68,8 @@
             </a>
             <a class="item" href="{% url 'logout' %}">Logout</a></div>
             {% else %}
-            <a class="item" href="{% url 'app_one:register' %}">Registrar</a>
-            <a class="item" href="{% url 'app_one:user_login' %}">Log in</a>
+            <a class="item" href="{% url 'account_app:register' %}">Registrar</a>
+            <a class="item" href="{% url 'account_app:user_login' %}">Log in</a>
             {% endif %}
 
         </div>

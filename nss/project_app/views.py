@@ -21,9 +21,9 @@ class ProjectDetailView(DetailView):
 class ProjectCreate(CreateView):
     model = Project
     form_class = CreateProjectForm
-    # success_url=reverse_lazy('projects:projects')
+    # success_url=reverse_lazy('project_app:project_app')
     def get_success_url(self):
-        return reverse_lazy('projects:project', args=[self.object.id, slugify(self.object.pro_name)])
+        return reverse_lazy('project_app:project', args=[self.object.id, slugify(self.object.pro_name)])
 
 class ProjectUpdate(UpdateView):
     model = Project
@@ -31,8 +31,8 @@ class ProjectUpdate(UpdateView):
     template_name_suffix = '_update_form'
 
     def get_success_url(self):
-        return reverse_lazy('projects:update', args=[self.object.id]) + '?ok'
+        return reverse_lazy('project_app:update', args=[self.object.id]) + '?ok'
 
 class ProjectDelete(DeleteView):
     model = Project
-    success_url = reverse_lazy('projects:projects')
+    success_url = reverse_lazy('project_app:project_app')

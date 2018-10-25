@@ -10,7 +10,7 @@
         <div>
           {{project.pro_description|safe}}
           {% if request.user.is_staff %}
-            <p><a href="{% url 'projects:update' project.id %}">Editar</a></p>
+            <p><a href="{% url 'project_app:update' project.id %}">Editar</a></p>
           {% endif %}
         </div>
       </div>

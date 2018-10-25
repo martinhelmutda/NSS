@@ -7,7 +7,7 @@
 <main role="main">
   <div class="container mb-4">
     {% for project in project_list|dictsort:"id" reversed%}
-      <div class="ui link cards" onclick="window.location.href={% url 'projects:project' project.id project.pro_name|slugify %}">
+      <div class="ui link cards" onclick="window.location.href={% url 'project_app:project' project.id project.pro_name|slugify %}">
         <div class="card">
           <div class="image">
             <img src="/images/avatar2/large/matthew.png">
@@ -36,15 +36,15 @@
         <div class="col-md-9 mx-auto">
           <div>
             {# <p>{{project.pro_description|striptags|safe|truncatechars:"200"}}</p> #}
-            <p><a href="{% url 'projects:project' project.id project.pro_name|slugify %}">Leer más</a></p>
+            <p><a href="{% url 'project_app:project' project.id project.pro_name|slugify %}">Leer más</a></p>
 
               {% if request.user.is_staff %}
-                | <a href="{% url 'projects:update' project.id %}">Editar</a>
-                | <a href="{% url 'projects:delete' project.id %}">Borrar</a>
+                | <a href="{% url 'project_app:update' project.id %}">Editar</a>
+                | <a href="{% url 'project_app:delete' project.id %}">Borrar</a>
               {% endif %}
 
               <script type="text/javascript">
-              console.log("{% url 'projects:project' project.id project.pro_name|slugify %}");
+              console.log("{% url 'project_app:project' project.id project.pro_name|slugify %}");
 
               </script>
 

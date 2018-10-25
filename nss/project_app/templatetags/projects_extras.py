@@ -1,9 +1,9 @@
 from django import template
-from projects.models import Project
+from project_app.models import Project
 
 register = template.Library()
 
 @register.simple_tag
 def get_project_list():
-    projects = Project.objects.all()
-    return projects
+    project_app = Project.objects.all()
+    return project_app

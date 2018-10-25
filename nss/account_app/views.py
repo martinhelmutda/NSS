@@ -3,9 +3,9 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.mail import send_mail
-from app_one.models import category, project, rolInfo, rol, location, projectImg
+from account_app.models import category, project, rolInfo, rol, location, projectImg
 from . import forms
-from app_one.forms import formProject, rol_formset, UserForm, UserProfileInfoForm, createProfileForm, formImg
+from account_app.forms import formProject, rol_formset, UserForm, UserProfileInfoForm, createProfileForm, formImg
 from django.urls import reverse
 from urllib.parse import urlencode
 
@@ -21,7 +21,7 @@ def index(request): #index(request, nombre):
     categories_list = category.objects.order_by('category')
     #category_dict= {'access_records': categorys_list, 'nombre':nombre}
     category_dict= {'access_records': categories_list}
-    return render(request, 'app_one/index.html', context=category_dict)
+    return render(request, 'account_app/index.html', context=category_dict)
     #return HttpResponse("Main page")
 
 @login_required

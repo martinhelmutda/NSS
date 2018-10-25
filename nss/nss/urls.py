@@ -17,22 +17,22 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from app_one import views
+from account_app import views
 from django.conf import settings
 from django.conf.urls.static import static
-from projects.urls import projects_patterns
+from project_app.urls import projects_patterns
 
 
 urlpatterns = [
     path('', views.index, name='index'), #Despliega lo de la funcion index en appOne/views.py/def index
-    path('proyecto/', include('app_one.urls')),
+    path('proyecto/', include('account_app.urls')),
     #path('crearProyecto/',include('appOne.urls')),
     #path('createProyect/',views.form_name_view,name='form_name'),
     path('admin/', admin.site.urls),
     path('logout/',views.user_logout,name='logout'),
     path('special/',views.special,name='special'),
     path('create_profile/',views.form_profile, name='form_profile'),
-    path('projects/',include(projects_patterns)),
+    path('project_app/',include(projects_patterns)),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

@@ -4,9 +4,9 @@ from django import forms
 from django.forms import formset_factory, CharField, ModelMultipleChoiceField, ModelChoiceField, BaseFormSet
 from django.db import models
 from django.core import validators
-from app_one.models import category, project, location, rolInfo, rol, projectImg
+from account_app.models import category, project, location, rolInfo, rol, projectImg
 from django.contrib.auth.models import User
-from app_one.models import UserProfileInfo
+from account_app.models import UserProfileInfo
 from django.conf import settings
 #from crispy_forms.helper import FormHelper
 

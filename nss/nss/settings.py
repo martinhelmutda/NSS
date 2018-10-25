@@ -58,11 +58,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
 ##proyecto
-    'app_one',
+    'account_app',
     'embed_video',
     'ckeditor',
     # 'projects.apps.ProjectsConfig',
-    'projects'
+    'project_app',
+
 ]
 
 MIDDLEWARE = [
