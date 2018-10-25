@@ -22,12 +22,17 @@
 
           <button class="ui fluid primary big button cnt" type="submit">Log in</button>
           <br /><br />
+          <p>-- OR --</p>
+
+          <a href="{% url 'social:begin' 'google-oauth2' %}">
+            <button type="button" name="button" class="ui fluid primary basic big button cnt">Google+</button>
+          </a>
         </form>
         <div class="extra content">
           <div class="ui message">
             No tienes una cuenta? <a href="{% url 'account_app:register' %}">Registrar</a>
             <br>
-            <a href="{% url 'password_reset' %}">Forgotten Your Password?</a>
+            <a href="{% url 'password_reset' %}">Olvidaste tu contrasena?</a>
           </div>
         </div>
       </div>
