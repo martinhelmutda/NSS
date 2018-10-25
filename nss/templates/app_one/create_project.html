@@ -49,6 +49,10 @@
         {{ form_pro.pro_location.label_tag }}
         {{ form_pro.pro_location }}
 
+        {{ form_pro.pro_img.errors }}
+        {{ form_pro.pro_location.label_tag }}
+        {{ form_pro.pro_location }}
+
         <br>
         <input type="file" name="pro_img" id="id_pro_img" accept="image/*" multiple="">
 
@@ -78,11 +82,12 @@
 {% block js_block %}
 <!-- Other js go here -->
     <script type="text/javascript">
-
+        var dateToday = new Date();
       $(function() {
         $('input[id="id_pro_creation_date"]').daterangepicker({
           singleDatePicker: true,
           showDropdowns: true,
+          maxDate: dateToday,
           locale: {
              format: 'YYYY-MM-DD'
             }
@@ -90,6 +95,7 @@
         $('input[class="datepicker"]').daterangepicker({
           singleDatePicker: true,
           showDropdowns: true,
+          minDate: dateToday,
           locale: {
              format: 'YYYY-MM-DD'
             }

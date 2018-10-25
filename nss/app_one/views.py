@@ -117,18 +117,15 @@ def form_project(request):
         else:
             cantidad=int(cantidad)
 
-
         if form_pro.is_valid() and form_rol.is_valid():
             #Las variables con terminacion _db son lstas que se iran al view see_project para mostrar la info de este proyecto.
             pro_db={"pro_name": str(form_pro.cleaned_data['pro_name']),"pro_description": str(form_pro.cleaned_data['pro_description']),
                     "pro_video": str(form_pro.cleaned_data['pro_video']),"pro_about_us": str(form_pro.cleaned_data['pro_about_us']),
                     "pro_phrase": str(form_pro.cleaned_data['pro_phrase']),"pro_creation_date": str(form_pro.cleaned_data['pro_creation_date']),
-                    "pro_category": str(form_pro.cleaned_data['pro_category']),"pro_img": str(form_pro.cleaned_data['pro_img'])}
+                    "pro_category": str(form_pro.cleaned_data['pro_category'])}
             rol_db=[]
             img_db=[]
             print("VALIDATION SUCCESS!")
-            print(form_pro.cleaned_data)
-            #print(form_rol.cleaned_data)
             print("VALIDATION SUCCESS2!")
             p = project(pro_name=form_pro.cleaned_data['pro_name'],pro_description=form_pro.cleaned_data['pro_description'],
                         pro_video=form_pro.cleaned_data['pro_video'],pro_about_us=form_pro.cleaned_data['pro_about_us'],
@@ -137,7 +134,6 @@ def form_project(request):
             p.save()
             for field in request.FILES.keys():
                 for formfile in request.FILES.getlist(field):
-                    print(formfile)
                     i = projectImg(pro_img=formfile, pro = p)
                     img_url="../media/pro_img/"+str(formfile)
                     img_db.append(img_url)
@@ -168,7 +164,6 @@ def form_project(request):
             print('ERROR EN EL FORM')
     return render(request,'app_one/create_project.html',{'form_rol':form_rol, 'form_pro':form_pro, 'form_img':form_img})
 
-
 # destruir después de usar
 #
 def form_project2(request):
@@ -178,7 +173,6 @@ def form_project2(request):
     if request.method == 'POST':
         form_pro=formProject(request.POST,request.FILES)
         form_rol=rol_formset(request.POST,request.FILES)
-
 
         if form_pro.is_valid() and form_rol.is_valid():
             pro_db={"pro_name": str(form_pro.cleaned_data['pro_name']),"pro_description": str(form_pro.cleaned_data['pro_description']),
@@ -219,7 +213,6 @@ def form_project2(request):
 
 #
 # destruir después de usar
-
 def form_profile(request):
     # print("Tipo de peticion: {}".format(request.method))
     profile_form=createProfileForm()
@@ -238,11 +231,7 @@ def form_profile(request):
 
     return render(request,'app_one/create_profile.html',{'form_profile':profile_form})
 
-
-
-
 ###Class Based Views
-
 
 class MyProjectsView(TemplateView):
     template_name = "app_one/my_projects.html"
@@ -250,8 +239,6 @@ class MyProjectsView(TemplateView):
 
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name, {'title':"Otro pri"})
-
-
 
 """
     def form_project(request):
