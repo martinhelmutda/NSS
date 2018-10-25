@@ -105,7 +105,7 @@ DATABASES = {                                   #Nos conectamos a la base de dat
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'kunigo',
         'USER': 'root',
-        'PASSWORD': '',
+        'PASSWORD': 'toor', # '' EN LOCAL
         'HOST': '127.0.0.1',
         #'HOST': '192.168.64.2',
         'PORT': '3306',
@@ -167,3 +167,6 @@ STATICFILES_DIRS = [
 CRISPY_TEMPLATE_PACK = 'semantic-ui'
 
 LOGIN_URL = 'account_app/user_login'
+
+# PARA EL MAIL Y EL RESET
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

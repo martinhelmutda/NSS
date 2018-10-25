@@ -34,6 +34,7 @@ urlpatterns = [
     path('special/',views.special,name='special'),
     #path('create_profile/',views.form_profile, name='form_profile'),
     path('project_app/',include(projects_patterns)),
+    path('', include('django.contrib.auth.urls')), # EMAIL RESET
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
