@@ -44,8 +44,7 @@ class rolInfo(models.Model):
     def __str__(self):
         return self.rol_description
 
-
-class Project(models.Model):
+class project(models.Model):
     #Info del proyecto
     pro_name = models.CharField(max_length=40,default='')
 
@@ -67,3 +66,10 @@ class Project(models.Model):
 
     def __str__(self):
         return self.pro_name
+
+class projectImg(models.Model):
+    pro_img = models.ImageField(default='', upload_to='pro_img', blank=True)
+    pro = models.ForeignKey('project', on_delete=models.CASCADE,default='')
+
+    def __str__(self):
+        return str(self.pro_img)
