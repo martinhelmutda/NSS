@@ -63,8 +63,21 @@ INSTALLED_APPS = [
     'ckeditor',
     # 'projects.apps.ProjectsConfig',
     'project_app',
+    #SOCIAL AUTH
+    'social_django',
 
 ]
+
+#AUTHENTIFICATION BACKENDS
+AUTHENTICATION_BACKENDS = [
+    'social_core.backends.facebook.FacebookOAuth2',
+    'social_core.backends.google.GoogleOAuth2',
+
+    'django.contrib.auth.backends.ModelBackend',
+    #'account_app.authentication.EmailAuthbackend',
+]
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -74,6 +87,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware', #SOCIAL
 ]
 
 ROOT_URLCONF = 'nss.urls'
@@ -89,6 +103,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -168,5 +184,12 @@ CRISPY_TEMPLATE_PACK = 'semantic-ui'
 
 LOGIN_URL = 'account_app/user_login'
 
+LOGIN_REDIRECT_URL ='index'
+
 # PARA EL MAIL Y EL RESET
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
+#SOCIAL API AND KEY
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '61695347607-ip2fcoqo7c4tosf8cjq1vraqmcoanuo0.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'oGAyH6EvUgCEiEIN5PJt6kmN'
