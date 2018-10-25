@@ -14,7 +14,7 @@ class CreateProjectForm(forms.ModelForm):
             'pro_video' : forms.TextInput(attrs={'placeholder':'https://www.youtube.com/watch?v=dQw4w9WgXcQ'}),
             'pro_about_us' : forms.Textarea(),
             'pro_phrase' : forms.Textarea(),
-            'pro_creation_date' : forms.DateInput(attrs={'class':'datepicker'}),
+            'pro_creation_date' : forms.DateInput(attrs={'class':'datepicker2'}),
             'pro_category' :forms.Select(attrs={'class': 'ui fluid dropdown'}),
             'pro_location' : forms.Select(attrs={'class': 'ui fluid dropdown'}),
             'pro_img' : forms.ImageField(label='Imagen'),
