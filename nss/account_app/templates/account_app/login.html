@@ -1,4 +1,4 @@
-{% extends "account_app/base.html" %}
+{% extends "base.html" %}
 {% load staticfiles %}
 {% block body_block %}
 
@@ -26,6 +26,8 @@
         <div class="extra content">
           <div class="ui message">
             No tienes una cuenta? <a href="{% url 'account_app:register' %}">Registrar</a>
+            <br>
+            <a href="{% url 'password_reset' %}">Forgotten Your Password?</a>
           </div>
         </div>
       </div>
