@@ -21,7 +21,8 @@ from account_app import views
 from django.conf import settings
 from django.conf.urls.static import static
 from project_app.urls import projects_patterns
-
+#SOCIAL AUTH
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('', views.index, name='index'), #Despliega lo de la funcion index en appOne/views.py/def index
@@ -35,6 +36,7 @@ urlpatterns = [
     #path('create_profile/',views.form_profile, name='form_profile'),
     path('project_app/',include(projects_patterns)),
     path('', include('django.contrib.auth.urls')), # EMAIL RESET
+    path('oauth/', include('social_django.urls', namespace="social")),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
