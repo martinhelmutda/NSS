@@ -28,14 +28,8 @@ class location(models.Model):
      def __str__(self):
         return self.location
 
-class rol(models.Model):
-    rol = models.CharField(primary_key=True, max_length = 15, unique = True, default='')
-
-    def __str__(self):
-        return self.rol
-
 class rolInfo(models.Model):
-    rol_name =  models.ForeignKey(rol, on_delete=models.CASCADE)
+    rol_name =  models.CharField(max_length = 150, unique = True, default='')
     rol_due_date = models.DateField()
     rol_amount = models.PositiveIntegerField(default=1)
     rol_description = models.TextField(max_length=800, default='')
