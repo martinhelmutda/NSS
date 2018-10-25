@@ -14,7 +14,7 @@
 </div>
 
 {% else %}
-<div class="ui middle aligned center aligned grid">
+<div class="ui middle aligned center aligned grid login">
   <div class="column columnlogin">
     <div class="ui placeholder segment">
       <div class="content">
@@ -24,7 +24,6 @@
         <form class="ui form" enctype="multipart/form-data" method="post">
           {% csrf_token %}
           {{ user_form.as_p }}
-          {{ profile_form.as_p }}
           <button class="ui fluid primary big button" type="submit">Registrar</button>
         </form>
       </div>

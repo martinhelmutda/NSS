@@ -25,7 +25,8 @@ from project_app.urls import projects_patterns
 
 urlpatterns = [
     path('', views.index, name='index'), #Despliega lo de la funcion index en appOne/views.py/def index
-    path('proyecto/', include('account_app.urls')),
+    path('user/', include('account_app.urls')),
+
     #path('crearProyecto/',include('appOne.urls')),
     #path('createProyect/',views.form_name_view,name='form_name'),
     path('admin/', admin.site.urls),
