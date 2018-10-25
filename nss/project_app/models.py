@@ -51,12 +51,12 @@ class Project(models.Model):
 
     #Import RichTextField
     pro_description = RichTextField(verbose_name="Descripción")
-    pro_video = EmbedVideoField() # models.URLField()
+    # pro_video = EmbedVideoField() # models.URLField()
     order = models.SmallIntegerField(verbose_name="Orden", default=0)
     pro_about_us = models.TextField(max_length=800, default='')
     pro_phrase = models.CharField(max_length=200, default='')
     pro_creation_date = models.DateField()
-    pro_category = models.ForeignKey('category', on_delete=models.PROTECT,default='')
+    # pro_category = models.ForeignKey('category', on_delete=models.PROTECT,default='')
     pro_location = models.ForeignKey('location', on_delete=models.PROTECT,default='')
     pro_roles = models.ManyToManyField('rolInfo') # https://stackoverflow.com/questions/2216974/django-modelform-for-many-to-many-fields
 
