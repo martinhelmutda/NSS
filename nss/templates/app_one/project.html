@@ -18,11 +18,11 @@
 
 Nombre: <p>{{pro_db.pro_name}}</p>
 Descripcion: <p>{{pro_db.pro_description}}</p>
-Video: <p>{{pro_db.pro_video}}</p>
-{% video pro_db.pro_video '800x600' %}
+Video:
+{% video pro_db.pro_video '800x600' %} <br>
 Sobre nosotros: <p>{{pro_db.pro_about_us}}</p>
-Frase: <p>{{pro_db.pro_phrase}}</p>
-fecha de creacion: <p>{{pro_db.pro_creation_date}}</p>
+Ingresos monetarios: <p>{{pro_db.pro_phrase}}</p>
+Fecha de creacion: <p>{{pro_db.pro_creation_date}}</p>
 Categoría: <p>{{pro_db.pro_category}}</p>
 Imagenes:
 {% for img in img_db %}
@@ -35,7 +35,6 @@ Imagenes:
       <thead>
         <th>Roles</th>
       </thead>
-      {% for x in rol_db %}
       <tr>
         <td>nombre</td>
         <td>fecha limite</td>
@@ -43,6 +42,7 @@ Imagenes:
         <td>descripcion</td>
         <td>ubicacion</td>
       </tr>
+      {% for x in rol_db %}
       <tr>
         <td>{{x.rol_name}}</td>
 
