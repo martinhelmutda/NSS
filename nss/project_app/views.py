@@ -90,8 +90,9 @@ def DataRep(request):
     # Create an object for the column 2D chart using the FusionCharts class constructor
     # The chart data is passed to the `dataSource` parameter.
     column2D = FusionCharts("column2d", "myFirstChart", "600", "400", "myFirstchart-container", "json", dataSource)
+    pie2d = FusionCharts("pie2d", "ex1", '700', '400', "myFirstchart", "json", dataSource )
 
-    return render(request,  'project_app/data.html', {'output': column2D.render()})
+    return render(request,  'project_app/data.html', {'output': column2D.render(), 'output2': pie2d.render()})
     #project_dict = {'proyecto_insert': 'PAGINA DE PROYECTO'}
     #return render(request, 'project_app/data.html', context=project_dict) # app_one/proyecto.html ha ce referencia al html en templates
 
