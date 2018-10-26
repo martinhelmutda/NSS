@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es">
+        <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+             <title>{% block title %}{% endblock %}</title>
+            <link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+            <link rel="stylesheet" href="{% static "css/styles.css" %}">
+            <link rel="stylesheet" href="{% static "css/semantic/out/semantic.css" %}">
+            <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+
+            <link rel ="stylesheet" href="{% static "css/styles.css" %}">
+            <script type ="text/javascript" src="{% static "js/extras/processes.js" %}"></script>  <!--Este link hace que no jale el datepicker de create_project.html-->
+            <script src ="{% static "css/semantic/out/semantic.min.js" %}"></script>
+            <script src ="{% static "js-charts/fusioncharts.js" %}"></script>
+            <script src ="{% static "js-charts/themes/fusioncharts.theme.fusion.js" %}"></script>
+
+        </head>
+    <body class="bg-gray">
+        <!-- Static navbar -->
+        <div class="ui borderless menu stackable shadow number1">
+            <div class="ui container">
+                <div class="header item">
+                    <a href="{% url 'index' %}" class="item"><img class="logo" src="{% static "img/logo.png" %}"><i class="users icon"></i></a>
+                </div>
+                <a class="item" href="{% url 'project_app:DataRep' %}"><i class="chart bar alternate icon"></i>Data representation</a>
+                {% if user.is_authenticated %}
+                <div class="ui right simple dropdown item">
+                  <i class="edit icon"></i>Projects
+                  <i class="dropdown icon"></i>
+                  <div class="menu">
+                    <a class="item" href="{% url 'project_app:form_project' %}">Crear Proyecto</a>
+
+                  </div>
+                </div>
+
+    			      <a class="item" href="{% url 'project_app:projects' %}"><i class="folder icon"></i>MisProyectos</a>
+    			      <a class="item" href="{% url 'project_app:create' %}"><i class="pencil alternate icon"></i>Crear</a>
+                <a class="item"><i class="bell icon"></i></a>
+                <div class="ui simple dropdown item">
+                  <i class="user icon"></i>User
+                  <i class="dropdown icon"></i>
+                  <div class="menu">
+                    <a class="item"><i class="address card outline icon"></i> View Profile</a>
+                    <a class="item"><i class="edit icon"></i> Edit Profile</a>
+                    <a class="item"><i class="globe icon"></i> Choose Language</a>
+                    <a class="item"><i class="settings icon"></i> Account Settings</a>
+                    <a class="item" href="{% url 'logout' %}"><i class="power off icon"></i>Logout</a>
+                  </div>
+                </div>
+              </div>
+                {% else %}
+                <a class="item ui right floated" href="{% url 'account_app:user_login' %}">Log in</a>
+                <div class="item">
+                  <a class="ui primary button" href="{% url 'account_app:register' %}">Registrar</a>
+                </div>
+                {% endif %}
+            </div>
+
+
+
+        </div>
+
+        <div id="myFirstchart-container">{{ output|safe }}</div>
+<br>
+            <div id="myFirstchart">{{ output2|safe }}</div>
+
+    </body> <br><br>
+    <footer>
+      <div class="ui inverted vertical footer segment shadow">
+        <div class="ui center aligned container  shadow">
+          <div class="ui stackable inverted divided grid">
+            <div class="three wide column">
+              <h4 class="ui inverted header ">Group 1</h4>
+              <div class="ui inverted link list ">
+                <a href="#" class="item">Link One</a>
+                <a href="#" class="item">Link Two</a>
+                <a href="#" class="item">Link Three</a>
+                <a href="#" class="item">Link Four</a>
+              </div>
+            </div>
+            <div class="three wide column">
+              <h4 class="ui inverted header ">Group 2</h4>
+              <div class="ui inverted link list ">
+                <a href="#" class="item">Link One</a>
+                <a href="#" class="item">Link Two</a>
+                <a href="#" class="item">Link Three</a>
+                <a href="#" class="item">Link Four</a>
+              </div>
+            </div>
+            <div class="three wide column">
+              <h4 class="ui inverted header ">Group 3</h4>
+              <div class="ui inverted link list ">
+                <a href="#" class="item">Link One</a>
+                <a href="#" class="item">Link Two</a>
+                <a href="#" class="item">Link Three</a>
+                <a href="#" class="item">Link Four</a>
+              </div>
+            </div>
+            <div class="seven wide column">
+              <h4 class="ui inverted header " >Footer Header</h4>
+              <p>Extra space for a call to action inside the footer that could help re-engage users.</p>
+            </div>
+          </div>
+          <div class="ui inverted section divider "></div>
+          <div class="ui horizontal inverted small divided link list ">
+            <a class="item" href="#">Site Map</a>
+            <a class="item" href="#">Contact Us</a>
+            <a class="item" href="#">Terms and Conditions</a>
+            <a class="item" href="#">Privacy Policy</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+</html>

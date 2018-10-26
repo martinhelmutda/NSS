@@ -17,6 +17,9 @@ pip install django-embed-video
 
 #For images
 #pip install pillow
+
+#pip install django-ckeditor
+pip install python-social-auth[django]
 """
 
 
@@ -116,20 +119,16 @@ WSGI_APPLICATION = 'nss.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-DATABASES = {                                   #Nos conectamos a la base de datos mySQL
+DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'kunigo',
-        'USER': 'root',
-        'PASSWORD': '', # '' EN LOCAL
-        'HOST': '127.0.0.1',
-        #'HOST': '192.168.64.2',
-        'PORT': '3306',
-        'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-        },
+        'USER': 'cesar',
+        'PASSWORD': 'Linetes13',
+        'HOST': '138.68.28.164',
+        'PORT': '',
     }
-}
+} #pip install django psycopg2
 
 
 

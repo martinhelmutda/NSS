@@ -8,12 +8,17 @@ from django.urls import reverse, reverse_lazy
 from django.template.defaultfilters import slugify
 from project_app.forms import formImg, formProject, formProjectAddRol, baseProjectAddRol, rol_formset
 from django.shortcuts import render, redirect
+from django.shortcuts import render
+from django.http import HttpResponse
+from collections import OrderedDict
+from fusioncharts import FusionCharts
 
 # Create your views here.
 
 #Returns a complete list of projects
 class ProjectsListView(ListView):
     model = project
+
 
 ##Return a pack of projects
 class ProjectDetailView(DetailView):
@@ -43,6 +48,54 @@ class ProjectDelete(DeleteView):
 def see_project(request):
     project_dict = {'proyecto_insert': 'PAGINA DE PROYECTO'}
     return render(request, 'project_app/project.html', context=project_dict) # app_one/proyecto.html ha ce referencia al html en templates
+
+def DataRep(request):
+    #Chart data is passed to the `dataSource` parameter, like a dictionary in the form of key-value pairs.
+    dataSource = OrderedDict()
+
+    # The `chartConfig` dict contains key-value pairs of data for chart attribute
+    chartConfig = OrderedDict()
+    chartConfig["caption"] = "Proyectos por categoría"
+    chartConfig["subCaption"] = ""
+    chartConfig["xAxisName"] = "Categoría"
+    chartConfig["yAxisName"] = "Cantidad"
+    chartConfig["numberSuffix"] = ""
+    chartConfig["theme"] = "fusion"
+
+    # The `chartData` dict contains key-value pairs of data
+    chartData = OrderedDict()
+    chartData["Música"] = 5
+    chartData["Arte"] = 2
+    chartData["Teatro"] = 8
+    chartData["Computación"] = 6
+    chartData["Literatura"] = 1
+    chartData["Cocina"] = 3
+    chartData["Deportes"] = 7
+    chartData["Idiomas"] = 9
+
+    dataSource["chart"] = chartConfig
+    dataSource["data"] = []
+
+    # Convert the data in the `chartData`array into a format that can be consumed by FusionCharts.
+    #The data for the chart should be in an array wherein each element of the array
+    #is a JSON object# having the `label` and `value` as keys.
+
+    #Iterate through the data in `chartData` and insert into the `dataSource['data']` list.
+    for key, value in chartData.items():
+        data = {}
+        data["label"] = key
+        data["value"] = value
+        dataSource["data"].append(data)
+
+    # Create an object for the column 2D chart using the FusionCharts class constructor
+    # The chart data is passed to the `dataSource` parameter.
+    column2D = FusionCharts("column2d", "myFirstChart", "600", "400", "myFirstchart-container", "json", dataSource)
+    pie2d = FusionCharts("pie2d", "ex1", '700', '400', "myFirstchart", "json", dataSource )
+
+    return render(request,  'project_app/data.html', {'output': column2D.render(), 'output2': pie2d.render()})
+    #project_dict = {'proyecto_insert': 'PAGINA DE PROYECTO'}
+    #return render(request, 'project_app/data.html', context=project_dict) # app_one/proyecto.html ha ce referencia al html en templates
+
 
 def see_project(request, p_db, r_db, i_db):
     pro_db = p_db
