@@ -47,6 +47,13 @@
   font-weight: bold;
   text-transform: none;
 }
+
+/* .ui.footer.segment {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    margin-bottom: 0;
+} */
 /*
 #logo{
     border:2px solid white;

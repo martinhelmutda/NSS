@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% load static %}
+{% load embed_video_tags %}
+
+{% block meta_block %}
+<meta property="og:url"           content="https://www.your-domain.com/your-page.html" />
+ <meta property="og:type"          content="website" />
+ <meta property="og:title"         content="Your Website Title" />
+ <meta property="og:description"   content="Your description" />
+ <meta property="og:image"         content="https://www.your-domain.com/path/image.jpg" />
+
+{% endblock %}
+
+
+{% block body_block %}
+<br><br><br><br><br>
+
+Nombre: <p>{{pro_db.pro_name}}</p>
+Descripcion: <p>{{pro_db.pro_description}}</p>
+Video:
+{% video pro_db.pro_video '800x600' %} <br>
+Sobre nosotros: <p>{{pro_db.pro_about_us}}</p>
+Ingresos monetarios: <p>{{pro_db.pro_phrase}}</p>
+Fecha de creacion: <p>{{pro_db.pro_creation_date}}</p>
+Categoría: <p>{{pro_db.pro_category}}</p>
+Imagenes:
+{% for img in img_db %}
+  <br><img src="{{img}}" alt="Imagen del projecto" width="180" height="100">
+{%endfor%}
+
+<div class="">
+  {% if rol_db %}
+    <table>
+      <thead>
+        <th>Roles</th>
+      </thead>
+      <tr>
+        <td>nombre</td>
+        <td>fecha limite</td>
+        <td>cantidad</td>
+        <td>descripcion</td>
+        <td>ubicacion</td>
+      </tr>
+      {% for x in rol_db %}
+      <tr>
+        <td>{{x.rol_name}}</td>
+
+        <td>{{x.rol_due_date}}</td>
+
+        <td>{{x.rol_amount}}</td>
+
+        <td>{{x.rol_description}}</td>
+
+        <td>{{x.rol_location}}</td>
+      </tr>
+      {%endfor%}
+    </table>
+    {%else%}
+    <p>NO HAY ROLES REGISTRADOS</p>
+    {%endif%}
+</div>
+  <!-- Load Facebook SDK for JavaScript -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = 'https://connect.facebook.net/es_ES/sdk.js#xfbml=1&version=v3.2&appId=1801440776759214&autoLogAppEvents=1';
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+ <!-- Your share button code -->
+<div class="fb-share-button" data-href="http://127.0.0.1:8000/proyecto/createProyecto"
+data-layout="button_count" data-size="large" data-mobile-iframe="true"><a target="_blank"
+href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2F127.0.0.1%3A8000%2Fproyecto%2FcreateProyecto&amp;src=sdkpreparse"
+class="fb-xfbml-parse-ignore">Compartir</a></div>
+{% endblock %}
+<!--
+<div class="ui secondary pointing icon menu prin">
+  <a class="item">
+    Explorar
+  </a>
+  <a class="ui item prin2"> <i class="large icons">
+   <i class="search icon"></i> </i> Buscar </a>
+    <a class="item "> Friends </a>
+
+  <div class="right icon menu prin">
+    <a class="ui item"> Logout </a>
+   <i class=" huge user circle link icon perfil "></i>
+  </div>
+</div>
+
+<div class="container">
+    <div class="ui two column grid">
+        <div class="row">
+            <div class="column">
+                <div class="ui grid container">
+                    <div class="four wide column">
+                        <h3 id="marcador">Proyecto : </h3>
+                    </div>
+                    <div class="seven wide column">
+                        <h2> Proyecto 1  </h2>
+                    </div>
+                    <div class="four wide column">
+                        <p id="marcador">
+                        <i class="ui music link teal icon"></i>
+                        Musica
+                    </p>
+                    </div>
+                </div>
+                <div class="ui small active progress warning">
+                      <div class="bar"></div> <div class="  label">Estado: En desarrollo </div>
+                </div>
+                <div class="container">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia, error molestiae culpa incidunt soluta ratione sed perferendis architecto, quae et provident fugit laborum doloribus. Tempora iusto, odio omnis corporis eos! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis consequatur sint, hic obcaecati iure officia dicta magni inventore excepturi nesciunt! Accusantium veritatis ex corporis beatae porro, mollitia accusamus aliquid asperiores?</p>
+                </div>
+            </div>
+            <div class="column">
+                <div class="ui grid container">
+                    <div class="nine wide column"></div>
+                    <div class="seven wide column">
+                        <p id="marcador">
+                            <i class="ui map marker link teal icon"></i>
+                            Queretaro, Queretaro
+                        </p>
+                    </div>
+                </div>
+                <div class="column">
+                    <img  class="ui huge fluid rounded image" src="{% static "img/proyecto.jpg" %}" alt="Proyecto" id="img2">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="container">
+    <div class="ui two column grid">
+        <div class="row">
+            <div class="column">
+                <div class="ui grid container">
+                    <div class="two wide column"></div>
+                    <div class="three wide column">
+                        <i class="large facebook link fitted icon"></i>
+                        <i class="large twitter  link icon"></i>
+                    </div>
+                </div>
+                <div class="ui grid container">
+                    <div class="two wide column"></div>
+                    <div class="six wide column">
+                        <h2 id="marcador"> Aplicar : </h2>
+                    </div>
+                </div>
+
+            </div>
+            <div class="column">
+                <div class="ui grid container">
+                    <div class="eight wide column"></div>
+                    <div class="four wide column">
+                        <h3>Jack Shaw </h3> Designer, photographer, traveler <br><a href="#"> Ver perfil</a>
+                    </div>
+                    <div class="four wide column">
+                        <img class="ui tiny circular middle aligned image" src="{% static "img/profile.jpg" %}" alt="Profile">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br><br><br>
+<div class="container">
+    <div class="ui grid container">
+        <div class="four wide column " id="box1">
+            <i class="huge camera icon"></i>
+            <h3 id="marcador">Fotografo</h3>
+            <p> 2 lugares </p>
+            <br><br><br>
+            <button class="ui primary button "> Aplicar </button>
+            <p id="marcador"> <br>Recomendar</p>
+        </div>
+
+        <div class="four wide column " id="box1">
+            <i class="huge user circle icon"></i>
+            <h3 id="marcador">Manager</h3>
+            <p> 1 Lugar </p>
+            <br><br><br>
+            <button class="ui primary button "> Aplicar </button>
+            <p id="marcador"> <br>Recomendar</p>
+        </div>
+
+        <div class="four wide column " id="box1">
+            <i class="huge user circle icon"></i>
+            <h3 id="marcador">Marketing</h3>
+            <p> 5 lugares </p>
+            <br><br><br>
+            <button class="ui primary button "> Aplicar </button>
+            <p id="marcador"> <br>Recomendar</p>
+        </div>
+        <div class="four wide column " id="box1">
+            <i class="huge user circle icon"></i>
+            <h3 id="marcador">Productor Musical</h3>
+            <p> 2 lugares </p>
+            <br><br><br>
+            <button class="ui primary button "> Aplicar </button>
+            <p id="marcador"> <br>Recomendar</p>
+        </div>
+
+    </div>
+
+</div>
+
+<br><br><br><br>
+
+<div class="container">
+    <div class="ui grid container">
+        <h2 id="marcador">Sobre Nosotros</h2>
+        <p id="descripcion"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet consectetur explicabo et, odio recusandae voluptatum tempora assumenda vero? Eligendi, natus aut enim excepturi odit? Incidunt, modi quia dolore aliquid dignissimos. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere fuga nam quia iusto magnam dolor quos fugiat, ex quae molestias reprehenderit mollitia, animi voluptatem sequi dolore, recusandae, aut enim aperiam! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos deserunt dolores mollitia eveniet, cupiditate dolor natus autem laborum tempore reiciendis, in fugit perferendis deleniti assumenda temporibus, explicabo ipsam facilis ab.</p>
+    </div>
+<br><br><br>
+    <div class="ui grid container">
+        <div class="four wide column"><i class="ui  user circle icon "></i> Andres</div>
+        <div class="four wide column"><i class="ui  user circle icon "></i> Cesar</div>
+        <div class="four wide column"><i class="ui  user circle icon "></i> Martin</div>
+        <div class="four wide column"><i class="ui  user circle icon "></i> Arturo</div>
+        <div class="four wide column"><i class="ui  user circle icon "></i> Angie</div>
+        <div class="four wide column"><i class="ui  user circle icon "></i> Sergio</div>
+        <div class="four wide column"><i class="ui  user circle icon "></i> Miguel</div>
+        <div class="four wide column"><i class="ui  user circle icon "></i> Jason</div>
+    </div>
+</div>
+
+<div class="ui secondary pointing icon bottom menu prin">
+    <i class=" huge pushed link icon perfil "></i><a class="ui item"> TEEM </a>
+  <a class="item">  </a>
+  <a class="item ">  </a>
+  <a class="item ">  </a>
+  <a class="item ">  </a>
+  <a class="item ">  </a>
+  <a class="ui item ">   NOSOTROS </a>
+  <a class="item "> CONTACTO </a>
+  <a class="item ">  FAQ</a>
+  <a class="item "> INICIO </a>
+  <a class="ui item ">   </a>
+    <a class="ui item ">  </a>
+    <a class="ui item ">   </a>
+    <a class="ui item ">  </a>
+    <div class="right bottom fixed menu">
+        <a class="ui item ">  <i class="ui facebook link  icon"></i> </a>
+        <a class="ui item ">  <i class="ui twitter link icon"></i> </a>
+        <a class="ui item ">  <i class="ui instagram  link icon"></i> </a>
+    </div>
+</div>-->

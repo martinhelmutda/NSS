@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load static %}
+{% block body_block %}
+<div class="ui container">
+  <h1>Bienvenidos a Teem</h1>
+  <h1>{{name}}</h1>
+  <h2>Estas son las areas de la BD: </h2>
+  <div class="areashtml">
+    {% if access_records %}
+      <table>
+        <thead>
+          <th>Areas</th>
+        </thead>
+        {% for acc in access_records %}
+        <tr>
+          <td>{{acc.category}}</td>
+        </tr>
+        {%endfor%}
+      </table>
+      {%else%}
+      <p>NO HAY AREAS REGISTRADAS</p>
+      {%endif%}
+  </div>
+  <p>Ve a /proyecto para ver proyecto</p>
+</div>
+{% endblock %}

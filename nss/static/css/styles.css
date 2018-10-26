@@ -12,7 +12,7 @@ body > .login {
 }
 * {
     font-family: 'Open Sans', sans-serif;
-    font-size: 15px;
+    font-size: 12px;
 }
 
 .small {
@@ -21,28 +21,23 @@ body > .login {
 }
 
 h1{
-    font-family: 'Alegreya Sans SC', sans-serif;
-    font-size: 42px;
+    font-family: 'Fira Sans';
 }
 
 h2{
-    font-family: 'Alegreya Sans SC', sans-serif;
-    font-size: 36px;
+    font-family: 'Fira Sans';
 }
 
 h3{
-    font-family: 'Alegreya Sans SC', sans-serif;
-    font-size: 28px;
+    font-family: 'Fira Sans';
 }
 
 h4{
-    font-family: 'Alegreya Sans SC', sans-serif;
-    font-size: 24px;
+    font-family: 'Fira Sans';
 }
 
 h5{
-    font-family: 'Alegreya Sans SC', sans-serif;
-    font-size: 18px;
+    font-family: 'Fira Sans';
 }
 /*Blue*/
 .bg-prim {
@@ -139,10 +134,6 @@ h5{
 	padding-top: 15px;
 }
 
-.menu {
-	height: 80px;
-}
-
 .prin {
 	padding-bottom: 15px;
 
@@ -157,9 +148,11 @@ a.item {
 	color: grey ;
 }
 /* CONTROL DEL GRID NADA MAS */
-.column {
+
+/*Aquí está lo que no querías César*/
+/* .column {
 	border: 1px solid white;
-}
+} */
 /*
 .row {
 	border: 1px solid blue;
