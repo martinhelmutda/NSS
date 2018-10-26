@@ -27,7 +27,7 @@
                 <div class="header item">
                     <a href="{% url 'index' %}" class="item"><img class="logo" src="{% static "img/logo.png" %}"><i class="users icon"></i></a>
                 </div>
-
+                <a class="item" href="{% url 'project_app:DataRep' %}"><i class="chart bar alternate icon"></i>Data representation</a>
                 {% if user.is_authenticated %}
                 <div class="ui right simple dropdown item">
                   <i class="edit icon"></i>Projects
