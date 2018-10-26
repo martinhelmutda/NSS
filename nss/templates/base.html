@@ -4,9 +4,7 @@
         <head>
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1">
-
              <title>{% block title %}{% endblock %}</title>
-
             <link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
             <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
             <link rel="stylesheet" href="{% static "css/styles.css" %}">
@@ -14,8 +12,8 @@
             <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
             <link rel="stylesheet" href="{% static "css/extras/processes.css" %}">
             <link rel="stylesheet" href="{% static "css/styles.css" %}">
-            <script type="text/javascript" src="{% static "js/extras/processes.js" %}"></script>
-              <script src="{% static "css/semantic/out/semantic.min.js" %}"></script>
+            <script type="text/javascript" src="{% static "js/extras/processes.js" %}"></script>  <!--Este link hace que no jale el datepicker de create_project.html-->
+            <script src="{% static "css/semantic/out/semantic.min.js" %}"></script>
             <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
             <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
             <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>

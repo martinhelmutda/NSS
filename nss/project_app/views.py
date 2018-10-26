@@ -1,4 +1,4 @@
-from .models import project, projectImg, project, rolInfo, rol, location, category
+from .models import project, projectImg, project, rolInfo, location, category
 from .forms import CreateProjectForm
 from django.utils import timezone
 from django.views.generic.list import ListView
@@ -76,6 +76,7 @@ def form_project(request):
             rol_db=[]
             img_db=[]
             print("VALIDATION SUCCESS!")
+            print(request.POST)
             p = project(pro_name=form_pro.cleaned_data['pro_name'],pro_description=form_pro.cleaned_data['pro_description'],
                         pro_video=form_pro.cleaned_data['pro_video'],pro_about_us=form_pro.cleaned_data['pro_about_us'],
                         pro_phrase=form_pro.cleaned_data['pro_phrase'],pro_creation_date=form_pro.cleaned_data['pro_creation_date'],
@@ -88,8 +89,11 @@ def form_project(request):
                     img_db.append(img_url)
                     i.save()
             for x in range(0, cantidad):
-                txt='form-'+str(x)+'-rol_name'
+                txt='form-'+str(x)+'-rol_dropdown_name'
                 name= request.POST.get(txt, "")
+                if name == 'Otro':
+                    txt='form-'+str(x)+'-rol_alternative_name'
+                    name = request.POST.get(txt, "")
                 txt='form-'+str(x)+'-rol_due_date'
                 due_date= request.POST.get(txt, "")
                 txt='form-'+str(x)+'-rol_amount'
@@ -101,7 +105,7 @@ def form_project(request):
                 y={"rol_name": name,"rol_due_date": due_date,"rol_amount": amount,
                     "rol_description":description, "rol_location": location}
                 rol_db.append(y)
-                r = rolInfo(rol_name=rol.objects.get(rol=name),rol_due_date=due_date,rol_amount=amount,
+                r = rolInfo(rol_name=name,rol_due_date=due_date,rol_amount=amount,
                             rol_description=description,rol_location= location.objects.get(location=loc))
 
                 r.save()

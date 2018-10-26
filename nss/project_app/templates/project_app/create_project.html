@@ -49,11 +49,10 @@
         {{ form_pro.pro_location.label_tag }}
         {{ form_pro.pro_location }}
 
-        {{ form_pro.pro_img.errors }}
-        {{ form_pro.pro_location.label_tag }}
-        {{ form_pro.pro_location }}
+
 
         <br>
+        Selecciona todas las imagenes que quieras agregar:
         <input type="file" name="pro_img" id="id_pro_img" accept="image/*" multiple="">
 
       </div>
@@ -61,7 +60,32 @@
       <div class="table">
         {% for form in form_rol %}
         <ul>
-          <li>{{ form }}</li>
+          <li>{{ form.rol_dropdown_name.errors }}
+              {{ form.rol_dropdown_name.label_tag }}
+              {{ form.rol_dropdown_name }}
+          </li>
+
+
+            {{ form.rol_alternative_name.errors }}
+                  {{ form.rol_alternative_name }}
+
+
+          {{ form.rol_due_date.errors }}
+              {{ form.rol_due_date.label_tag }}
+              {{ form.rol_due_date }}
+
+          {{ form.rol_amount.errors }}
+              {{ form.rol_amount.label_tag }}
+              {{ form.rol_amount }}
+
+          {{ form.rol_description.errors }}
+              {{ form.rol_description.label_tag }}
+              {{ form.rol_description }}
+
+          {{ form.rol_location.errors }}
+              {{ form.rol_location.label_tag }}
+              {{ form.rol_location }}
+
         </ul>
       {% endfor %}
       </div>
@@ -82,6 +106,20 @@
 {% block js_block %}
 <!-- Other js go here -->
     <script type="text/javascript">
+    var opcion = document.getElementById("id_form-0-rol_dropdown_name").value;
+    if (opcion=='Otro') {
+      document.getElementById("rol_alternative_name").hidden = false;
+    }else{
+        document.getElementById("rol_alternative_name").hidden = true;
+    }
+    $('div select[name=form-0-rol_dropdown_name]').change(function(e){
+      if ($('div select[name=form-0-rol_dropdown_name]').val() == 'Otro'){
+        $('#rol_alternative_name').show();
+      }else{
+        $('#rol_alternative_name').hide();
+      }
+    });
+
         var dateToday = new Date();
       $(function() {
         $('input[id="id_pro_creation_date"]').daterangepicker({
