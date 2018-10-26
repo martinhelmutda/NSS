@@ -16,6 +16,7 @@ from ckeditor.fields import RichTextField
 #
 #    def __str__(self):
 #        return self.title
+
 class category(models.Model):
      category = models.CharField(primary_key=True,max_length = 50, unique = True, default='')
 
