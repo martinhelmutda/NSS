@@ -118,7 +118,7 @@ WSGI_APPLICATION = 'nss.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
-
+"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -129,7 +129,21 @@ DATABASES = {
         'PORT': '',
     }
 } #pip install django psycopg2
-
+"""
+DATABASES = {                                   #Nos conectamos a la base de datos mySQL
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'kunigo',
+        'USER': 'root',
+        'PASSWORD': 'toor',
+        'HOST': '127.0.0.1',
+        #'HOST': '192.168.64.2',
+        'PORT': '3306',
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
+    }
+}
 
 
 # Password validation
@@ -155,6 +169,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
+#LANGUAGE_CODE = 'fi'
 
 TIME_ZONE = 'UTC'
 
@@ -163,6 +178,13 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+# TRANSLATION
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR,'locale')
+]
+
 
 DATE_INPUT_FORMATS = [
     '%Y-%m-%d', '%m/%d/%Y', '%m/%d/%y', # '2006-10-25', '10/25/2006', '10/25/06'
