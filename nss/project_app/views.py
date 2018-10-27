@@ -38,7 +38,7 @@ class ProjectUpdate(UpdateView):
     template_name_suffix = '_update_form'
 
     def get_success_url(self):
-        return reverse_lazy('project_app:update', args=[self.object.id]) + '?ok'
+        return reverse_lazy('project_app:project', args=[self.object.id, slugify(self.object.pro_name)])+'?updated'
 
 class ProjectDelete(DeleteView):
     model = project
