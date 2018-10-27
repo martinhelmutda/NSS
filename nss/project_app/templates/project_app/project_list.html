@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 {% load static %}
+{% block processes_block %}
+<script type ="text/javascript" src="{% static "js/extras/processes.js" %}"></script>  <!--Este link hace que no jale el datepicker de create_project.html-->
+{% endblock %}
 {% block title %}Páginas{% endblock %}
 {% block body_block %}
 

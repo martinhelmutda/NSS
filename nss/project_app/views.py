@@ -156,7 +156,7 @@ def form_project(request):
                 txt='form-'+str(x)+'-rol_location'
                 loc= request.POST.get(txt, "")
                 y={"rol_name": name,"rol_due_date": due_date,"rol_amount": amount,
-                    "rol_description":description, "rol_location": location}
+                    "rol_description":description, "rol_location": loc}
                 rol_db.append(y)
                 r = rolInfo(rol_name=name,rol_due_date=due_date,rol_amount=amount,
                             rol_description=description,rol_location= location.objects.get(location=loc))

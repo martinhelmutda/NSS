@@ -106,12 +106,9 @@
 {% block js_block %}
 <!-- Other js go here -->
     <script type="text/javascript">
-    var opcion = document.getElementById("id_form-0-rol_dropdown_name").value;
-    if (opcion=='Otro') {
-      document.getElementById("rol_alternative_name").hidden = false;
-    }else{
-        document.getElementById("rol_alternative_name").hidden = true;
-    }
+    $(function() {
+      $('.ui.dropdown').dropdown();
+    });
     $('div select[name=form-0-rol_dropdown_name]').change(function(e){
       if ($('div select[name=form-0-rol_dropdown_name]').val() == 'Otro'){
         $('#rol_alternative_name').show();
@@ -150,9 +147,9 @@
             cloneMore('div.table:last', 'service');
           });
           function cloneMore(selector, type) {
+            //Duplicate rol form
               var newElement = $(selector).clone(true);
-              var total = $('#id_' + type + '-TOTAL_FORMS').val();
-              console.log("total "+total)
+              var total = $('#id_' + type + '-TOTAL_FORMS').val(); //console.log("total "+total)
               newElement.find(':input').each(function() {
                   var name = $(this).attr('name').replace('-' + (co-1) + '-','-' + co+ '-');
                   var id = 'id_' + name;
@@ -164,11 +161,11 @@
                   $(this).attr('for', newFor);
               });
               total=total+1;
-              co=co+1;
-              console.log("total "+total)
-              console.log("co "+co)
+              co=co+1; //console.log("total "+total) console.log("co "+co)
+              //Display dropdown
               $('#id_' + type + '-TOTAL_FORMS').val(co);
               $(selector).after(newElement);
+              //Datepicker
               $('input[class="datepicker"]').daterangepicker({
                 singleDatePicker: true,
                 showDropdowns: true,
@@ -176,8 +173,19 @@
                    format: 'YYYY-MM-DD'
                   }
               });
-              document.getElementById("cantidad").value = co;
-              console.log("cant " +   document.getElementById("cantidad").value);
+              document.getElementById("cantidad").value = co; //console.log("cant " +   document.getElementById("cantidad").value);
+              //Add another rol
+              var temp= 'id_form-'+(co-1)+'-rol_dropdown_name'; console.log('temp: '+ temp);
+              var temp2= '#id_form-'+(co-1)+'-rol_alternative_name'; console.log('temp: '+ temp);
+              $('div select[id='+temp+']').change(function(e){
+                if ($('div select[id='+ temp+']').val() == 'Otro'){
+                  $(temp2).show();
+                }else{
+                  $(temp2).hide();
+                }
+              });
+
+
           }
         </script>
 

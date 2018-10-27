@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-
+{% block processes_block %}
+<script type ="text/javascript" src="{% static "js/extras/processes.js" %}"></script>  <!--Este link hace que no jale el datepicker de create_project.html-->
+{% endblock %}
 {% block body_block %}
     <div class="container">
       <h1 class="content">Actualiza tu proyecto</h1><br><br>
