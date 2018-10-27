@@ -1,7 +1,7 @@
 from django.db import models
 from embed_video.fields import EmbedVideoField
 from ckeditor.fields import RichTextField
-
+from django.contrib.auth.models import User
 #class Page(models.Model):
 #    title = models.CharField(verbose_name="Título", max_length=200)
 #    content = RichTextField(verbose_name="Contenido")
@@ -52,6 +52,7 @@ class project(models.Model):
     pro_category = models.ForeignKey('category', on_delete=models.PROTECT,default='')
     pro_location = models.ForeignKey('location', on_delete=models.PROTECT,default='')
     pro_roles = models.ManyToManyField('rolInfo') # https://stackoverflow.com/questions/2216974/django-modelform-for-many-to-many-fields
+    likes         =    models.ManyToManyField(User, related_name='likes', blank=True)
 
     class Meta:
             verbose_name = "project_app"
@@ -60,6 +61,9 @@ class project(models.Model):
 
     def __str__(self):
         return self.pro_name
+
+    def total_likes(self):
+        return self.likes.count()
 
 class projectImg(models.Model):
     pro_img = models.ImageField(default='', upload_to='pro_img', blank=True)

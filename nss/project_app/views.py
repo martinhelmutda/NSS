@@ -39,6 +39,27 @@ class ProjectDelete(DeleteView):
     model = project
     success_url = reverse_lazy('project_app:project_app')
 
+# LIKES
+def like_post(request):
+    # post = get_object_or_404(Post, id=request.POST.get('post_id'))
+    post = get_object_or_404(project, id=request.POST.get('id'))
+    is_liked = False
+    if post.likes.filter(id=request.user.id).exists():
+        post.likes.remove(request.user)
+        is_liked = False
+    else:
+        post.likes.add(request.user)
+        is_liked = True
+    context = {
+        'post': post,
+        'is_liked': is_liked,
+        'total_likes': post.total_likes(),
+    }
+    if request.is_ajax():
+        html = render_to_string('project_app/like_section.html', context, request=request)
+        return JsonResponse({'form': html})
+# END LIKES
+
 
 def see_project(request):
     project_dict = {'proyecto_insert': 'PAGINA DE PROYECTO'}

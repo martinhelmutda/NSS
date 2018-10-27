@@ -121,7 +121,7 @@ DATABASES = {                                   #Nos conectamos a la base de dat
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'kunigo',
         'USER': 'root',
-        'PASSWORD': '', # '' EN LOCAL
+        'PASSWORD': 'toor', # '' EN LOCAL
         'HOST': '127.0.0.1',
         #'HOST': '192.168.64.2',
         'PORT': '3306',
