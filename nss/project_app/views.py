@@ -24,8 +24,12 @@ class ProjectCreate(CreateView):
     model = project
     form_class = CreateProjectForm
     # success_url=reverse_lazy('project_app:project_app')
-    def get_success_url(self):
-        return reverse_lazy('project_app:project', args=[self.object.id, slugify(self.object.pro_name)])
+    # def get_success_url(self):
+    #     return reverse_lazy('project_app:project', args=[self.object.id, slugify(self.object.pro_name)])
+    def dispatch(self, request, * args, **kwargs):
+        if not request.user.is_staff:
+            return redirect(reverse_lazy('account_app:user_login'))
+        return super(ProjectCreate, self).dispatch(request, *args, **kwargs)
 
 class ProjectUpdate(UpdateView):
     model = project
