@@ -8,12 +8,16 @@ from django.urls import reverse, reverse_lazy
 from django.template.defaultfilters import slugify
 from project_app.forms import formImg, formProject, formProjectAddRol, baseProjectAddRol, rol_formset
 from django.shortcuts import render, redirect
+from django.contrib.admin.views.decorators import staff_member_required
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.http import HttpResponse
 from collections import OrderedDict
 from fusioncharts import FusionCharts
 
 # Create your views here.
+
 
 #Returns a complete list of projects
 class ProjectsListView(ListView):
@@ -25,6 +29,7 @@ class ProjectDetailView(DetailView):
     model = project
 
 ##Creates a project with the given arguments
+@method_decorator(login_required, name='dispatch')
 class ProjectCreate(CreateView):
     model = project
     form_class = CreateProjectForm
@@ -32,6 +37,7 @@ class ProjectCreate(CreateView):
     def get_success_url(self):
         return reverse_lazy('project_app:project', args=[self.object.id, slugify(self.object.pro_name)])
 
+@method_decorator(login_required, name='dispatch')
 class ProjectUpdate(UpdateView):
     model = project
     fields = ['pro_name','pro_description','pro_video', 'pro_about_us', 'pro_phrase', 'pro_creation_date', 'pro_category', 'pro_location', 'pro_roles']
@@ -40,6 +46,7 @@ class ProjectUpdate(UpdateView):
     def get_success_url(self):
         return reverse_lazy('project_app:project', args=[self.object.id, slugify(self.object.pro_name)])+'?updated'
 
+@method_decorator(login_required, name='dispatch')
 class ProjectDelete(DeleteView):
     model = project
     success_url = reverse_lazy('project_app:projects')

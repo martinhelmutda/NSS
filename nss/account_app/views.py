@@ -7,6 +7,7 @@ from . import forms
 from account_app.forms import  UserForm, UserProfileInfoForm, createProfileForm
 from django.urls import reverse
 from urllib.parse import urlencode
+from django.utils.decorators import method_decorator
 
 #login
 from django.contrib.auth import authenticate,login,logout
@@ -87,12 +88,15 @@ def user_login(request):
 
 ###Class Based Views
 
-class MyProjectsView(TemplateView):
-    template_name = "app_one/my_projects.html"
+@method_decorator(login_required, name='dispatch')
+class ProfileAccountUpdate(TemplateView):
+    """docstring for ProfileAccountUpdate."""
+    template_name='account_app/profile_form.html'
+    def __init__(self, arg):
+        super(ProfileAccountUpdate, self).__init__()
+        self.arg = arg
 
 
-    def get(self, request, *args, **kwargs):
-        return render(request, self.template_name, {'title':"Otro pri"})
 
 """
     def form_project(request):
