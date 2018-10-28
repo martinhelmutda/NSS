@@ -8,60 +8,41 @@
 
 <h1>HOLA</h1>
 <main role="main">
-  <div class=" container">
-    <div class="ui stackable centered grid">
-        <div class="ui link cards">
-
-          {% for project in project_list|dictsort:"id" reversed%}
-
-              <div class="card">
-                <div class="image">
-                  <img src="/images/avatar2/large/matthew.png">
-                </div>
-                <div class="content">
-                  <div class="header">{{project.pro_name}}</div>
-                  <div class="meta">
-                    <a>{{project.pro_category}}</a>
-                  </div>
-                  <div class="description">
-                    {{project.pro_description}}
-                  </div>
-                </div>
-                <p><a href="{% url 'project_app:project' project.id project.pro_name|slugify %}">Leer más</a></p>
-
-                  {% if request.user.is_staff %}
-                    | <a href="{% url 'project_app:update' project.id %}">Editar</a>
-                    | <a href="{% url 'project_app:delete' project.id %}">Borrar</a>
-                  {% endif %}
-                <div class="extra content">
-                  <span class="right floated">
-                    Joined in 2013
-                  </span>
-                  <span>
-                    <i class="user icon"></i>
-                    75 Friends
-                  </span>
-
-                </div>
+  <div class="ui very padded fluid container">
+    <div class="ui four column grid">
+      {% for project in project_list|dictsort:"id" reversed%}
+        <div class="column">
+          <div class="ui fluid card">
+            <div class="image">
+              <img src="/images/avatar2/large/matthew.png">
+            </div>
+            <div class="content">
+              <div class="header">{{project.pro_name}}</div>
+              <div class="meta">
+                <a>{{project.pro_category}}</a>
               </div>
-            <div class="row mt-3">
-              <div class="col-md-9 mx-auto">
-                <div>
-                  {# <p>{{project.pro_description|striptags|safe|truncatechars:"200"}}</p> #}
-
-
-                    <script type="text/javascript">
-                    console.log("{% url 'project_app:project' project.id project.pro_name|slugify %}");
-
-                    $('.special.cards .image').dimmer({
-                  on: 'hover'
-                  });
-                    </script>
-                </div>
+              <div class="description">
+                {{project.pro_description}}
               </div>
             </div>
-          {% endfor %}
-      </div>
+            <p><a href="{% url 'project_app:project' project.id project.pro_name|slugify %}">Leer más</a></p>
+
+            {% if request.user.is_staff %}
+            | <a href="{% url 'project_app:update' project.id %}">Editar</a>
+            | <a href="{% url 'project_app:delete' project.id %}">Borrar</a>
+            {% endif %}
+            <div class="extra content">
+              <span class="right floated">
+                Joined in 2013
+              </span>
+              <span>
+                <i class="user icon"></i>
+                75 Friends
+              </span>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
     </div>
   </div>
 </main>

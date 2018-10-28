@@ -1,5 +1,8 @@
+<!DOCTYPE html>
+
 {% extends "base.html" %}
 {% load static %}
+{% load embed_video_tags %}
 {% block processes_block %}
 <script type ="text/javascript" src="{% static "js/extras/processes.js" %}"></script>  <!--Este link hace que no jale el datepicker de create_project.html-->
 {% endblock %}
@@ -56,7 +59,10 @@
                 </div>
                 <div class="column">
                   <div class="ui orange fluid card">
-                    <div class="ui embed" data-url="https://www.youtube.com/embed/O6Xo21L0ybE" data-placeholder="/images/bear-waving.jpg"></div>
+                    <div class="container">
+                        {% video project.pro_video %}
+                    </div>
+                    {# <div class="ui embed" data-url="https://www.youtube.com/embed/O6Xo21L0ybE" data-placeholder="/images/bear-waving.jpg"></div> #}
                   </div>
                 </div>
               </div>
@@ -71,7 +77,16 @@
             {% endif %}
           </div>
         </div>
-        <div class="ui card">
+        <div class="ui horizontal divider">
+            <h3>Sobre Nosotros:</h3>
+        </div>
+        <div class="">
+          {{project.pro_about_us}}
+        </div>
+
+        <div class="ui hidden divider"></div>
+    {# <-- Integrantes --> #}
+        <div class="ui centered grid container">
           <div class="ui horizontal list">
             <div class="item">
               <img class="ui avatar image" src="/images/avatar/small/tom.jpg">
@@ -95,7 +110,8 @@
               </div>
             </div>
           </div>
-    </div>
+        </div>
+      </div>
   </main>
 {% endblock %}
 {% block js_block %}
