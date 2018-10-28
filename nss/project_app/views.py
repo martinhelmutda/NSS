@@ -11,6 +11,16 @@ from django.shortcuts import render, redirect
 
 # Create your views here.
 
+##VAlidate permissions
+class StaffRequiredMixin(object):
+    """Este Mixin requerira que el usuario sea miembro del staff"""
+    def dispatch(self, request, * args, **kwargs):
+        if not request.user.is_staff:
+            return redirect(reverse_lazy('account_app:user_login'))
+        return super(StaffRequiredMixin, self).dispatch(request, *args, **kwargs)
+
+
+
 #Returns a complete list of projects
 class ProjectsListView(ListView):
     model = project
@@ -20,18 +30,14 @@ class ProjectDetailView(DetailView):
     model = project
 
 ##Creates a project with the given arguments
-class ProjectCreate(CreateView):
+class ProjectCreate(StaffRequiredMixin, CreateView):
     model = project
     form_class = CreateProjectForm
     # success_url=reverse_lazy('project_app:project_app')
-    # def get_success_url(self):
-    #     return reverse_lazy('project_app:project', args=[self.object.id, slugify(self.object.pro_name)])
-    def dispatch(self, request, * args, **kwargs):
-        if not request.user.is_staff:
-            return redirect(reverse_lazy('account_app:user_login'))
-        return super(ProjectCreate, self).dispatch(request, *args, **kwargs)
+    def get_success_url(self):
+        return reverse_lazy('project_app:project', args=[self.object.id, slugify(self.object.pro_name)])
 
-class ProjectUpdate(UpdateView):
+class ProjectUpdate(StaffRequiredMixin, UpdateView):
     model = project
     fields = ['pro_name','pro_description','pro_video', 'pro_about_us', 'pro_phrase', 'pro_creation_date', 'pro_category', 'pro_location', 'pro_roles']
     template_name_suffix = '_update_form'
@@ -39,7 +45,7 @@ class ProjectUpdate(UpdateView):
     def get_success_url(self):
         return reverse_lazy('project_app:update', args=[self.object.id]) + '?ok'
 
-class ProjectDelete(DeleteView):
+class ProjectDelete(StaffRequiredMixin, DeleteView):
     model = project
     success_url = reverse_lazy('project_app:projects')
 
