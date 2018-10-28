@@ -10,6 +10,7 @@ urlpatterns=[
     #path('', views.see_project, name = 'see_project'),
     path('registrar/',views.register,name='register'),
     path('login/',views.user_login,name='user_login'),
+    path('profile/', ProfileAccountUpdate.as_view(), name="profile")
 
     #path('create_profile/',views.form_profile, name='form_profile'),
 

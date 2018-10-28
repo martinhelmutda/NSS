@@ -4,8 +4,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.mail import send_mail
 from . import forms
-from account_app.forms import  UserForm, UserProfileInfoForm, createProfileForm
-from django.urls import reverse
+from account_app.forms import  UserForm, UserProfileInfoForm, createProfileForm, ProfileForm
+from django.urls import reverse, reverse_lazy
 from urllib.parse import urlencode
 from django.utils.decorators import method_decorator
 
@@ -14,7 +14,8 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 
 #Class Based views
-from django.views.generic.base import TemplateView
+from django.views.generic.edit import UpdateView
+from .models import Profile
 
 # Create your views here.
 def index(request): #index(request, nombre):
@@ -89,12 +90,13 @@ def user_login(request):
 ###Class Based Views
 
 @method_decorator(login_required, name='dispatch')
-class ProfileAccountUpdate(TemplateView):
-    """docstring for ProfileAccountUpdate."""
+class ProfileAccountUpdate(UpdateView):
+    form_class=ProfileForm
+    success_url = reverse_lazy('account_app:profile')
     template_name='account_app/profile_form.html'
-    def __init__(self, arg):
-        super(ProfileAccountUpdate, self).__init__()
-        self.arg = arg
+    def get_object(self):
+        profile_obj, create = Profile.objects.get_or_create(user=self.request.user)
+        return profile_obj
 
 
 

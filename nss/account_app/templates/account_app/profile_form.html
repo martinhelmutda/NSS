@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block body_block %}
+    <div class="container">
+      <h1 class="content">Crear Perfil </h1><br><br>
+      <div class="ui grid container">
+        <div class="ui vertical segment">
+          <div class="ui header">
+            Crear Perfil
+          </div>
+          <form method="POST" enctype="multipart/form-data" class="ui form">
+          {% csrf_token %}
+          {{form.avatar}}
+
+          <!-- <div class="ui placeholder segment">
+            <div class="ui icon header">
+              <i class="pdf file outline icon"></i>
+              No documents are listed for this customer.
+            </div>
+            <div class="ui primary button">Add Document</div>
+          </div> -->
+
+            <input type="submit" class="positive ui button" value="Submit">
+          <!--  <div class="fieldWrapper">
+                {{ form.ProName.errors }}
+                {{ form.ProName.label_tag }}
+                {{ form.ProName }}
+            </div>-->
+            <!--<button class="ui black button">Agregar Rol</button><br><br>-->
+
+          </form>
+        </div>
+      </div>
+
+    </div>
+{% endblock %}

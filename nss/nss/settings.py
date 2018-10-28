@@ -215,7 +215,7 @@ CRISPY_TEMPLATE_PACK = 'semantic-ui'
 
 LOGIN_URL = 'account_app:user_login'
 
-LOGIN_REDIRECT_URL ='index'
+# LOGIN_REDIRECT_URL ='index'
 
 # PARA EL MAIL Y EL RESET
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
