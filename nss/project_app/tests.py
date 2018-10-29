@@ -1,7 +1,9 @@
 from django.test import TestCase
 
-from .models import project, category, location, rolInfo
+from project_app.models import project, category, location, rolInfo
 from django.contrib.auth.models import User;
+from project.forms import formProject, formProjectAddRol, formImg, rol_formset
+from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your tests here.
 
 class ProjectTestCase(TestCase):
@@ -39,3 +41,192 @@ class ProjectTestCase3(TestCase):
     def test_project_exist(self):
         exists = project.objects.filter(pro_name=' Casa ').exists()
         self.assertEqual(exists, False)
+
+
+""" TESTS DE ANGIE """
+
+class createRol(object): ##Exitoso
+    def setUp(self):
+        rol_location= location.objects.create(location='Morelos');
+        rol= rolInfo.objects.create(rol_name='Periodista', rol_due_date='2018-10-10', rol_amount='2', rol_description='Tendrá que escribir mucho', rol_location = rol_location)
+    def test_createRol_exist(self):
+        self.assertEqual(rol, True)
+
+class createRol2(object): ##NO Exitoso, wrong date format
+    def setUp(self):
+        rol_location= location.objects.create(location='Morelos');
+        rol= rolInfo.objects.create(rol_name='Periodista', rol_due_date='10-10-2018', rol_amount='2', rol_description='Tendrá que escribir mucho', rol_location = rol_location)
+    def test_createRol_exist(self):
+        self.assertEqual(rol, False)
+
+class uploadImage(object):
+    def setUp(self):
+        category_cat=category.objects.create(category="emprendimiento")
+        location_loc= location.objects.create(location='Morelos');
+        rol= rolInfo.objects.create(rol_name='Periodista', rol_due_date='10-10-2018', rol_amount='2', rol_description='Tendrá que escribir mucho', rol_location = location_loc)
+
+        pro_pro = project.objects.create(pro_name='Pitch&Catch', pro_description='Es un evento de emprendimiento',
+               pro_video='https://www.youtube.com/watch?v=CcTl_ln4RNw',pro_about_us="Somos estudiantes",
+                pro_phrase='es sin fines de lucro',pro_creation_date='2018-10-10', pro_category= category_cat,
+                 pro_location=location_loc, pro_roles=rol);
+        img= projectImg.objects.create(pro_img='nombre.png', pro=pro_pro)
+    def test_uploadImage_exist(self):
+        self.assertEqual(img, True)
+
+class uploadImage(object):
+    def setUp(self):
+        category_cat=category.objects.create(category="emprendimiento")
+        location_loc= location.objects.create(location='Morelos');
+        rol= rolInfo.objects.create(rol_name='Periodista', rol_due_date='10-10-2018', rol_amount='2', rol_description='Tendrá que escribir mucho', rol_location = location_loc)
+
+        pro_pro = project.objects.create(pro_name='Pitch&Catch', pro_description='Es un evento de emprendimiento',
+               pro_video='https://www.youtube.com/watch?v=CcTl_ln4RNw',pro_about_us="Somos estudiantes",
+                pro_phrase='es sin fines de lucro',pro_creation_date='2018-10-10', pro_category= category_cat,
+                 pro_location=location_loc, pro_roles=rol);
+        img= projectImg.objects.create(pro_img='hola.jpg', pro=pro_pro)
+    def test_uploadImage_exist(self):
+        self.assertEqual(img, True)
+
+class uploadImage(object):
+    def setUp(self):
+        category_cat=category.objects.create(category="emprendimiento")
+        location_loc= location.objects.create(location='Morelos');
+        rol= rolInfo.objects.create(rol_name='Periodista', rol_due_date='10-10-2018', rol_amount='2', rol_description='Tendrá que escribir mucho', rol_location = location_loc)
+
+        pro_pro = project.objects.create(pro_name='Pitch&Catch', pro_description='Es un evento de emprendimiento',
+               pro_video='https://www.youtube.com/watch?v=CcTl_ln4RNw',pro_about_us="Somos estudiantes",
+                pro_phrase='es sin fines de lucro',pro_creation_date='2018-10-10', pro_category= category_cat,
+                 pro_location=location_loc, pro_roles=rol);
+        img= projectImg.objects.create(pro_img='nombre.txt', pro=pro_pro)
+    def test_uploadImage_exist(self):
+        self.assertEqual(img, False)
+
+class createCategory(object):
+        def setUp(self):
+            pro_category= category.objects.create(category='Basketball');
+        def test_createCategory_exist(self):
+            self.assertEqual(rol, True)
+
+class createCategory(object):
+        def setUp(self):
+            pro_category= category.objects.create(category='');
+        def test_createCategory_exist(self):
+            self.assertEqual(rol, False)
+
+class testLabels(object):
+        def setUpTestData(cls):
+        # Set up non-modified objects used by all test methods
+        category_cat=category.objects.create(category="emprendimiento")
+        location_loc= location.objects.create(location='Morelos');
+        rol= rolInfo.objects.create(rol_name='Periodista', rol_due_date='10-10-2018', rol_amount='2', rol_description='Tendrá que escribir mucho', rol_location = location_loc)
+
+        pro_pro = project.objects.create(pro_name='Pitch&Catch', pro_description='Es un evento de emprendimiento',
+               pro_video='https://www.youtube.com/watch?v=CcTl_ln4RNw',pro_about_us="Somos estudiantes",
+                pro_phrase='es sin fines de lucro',pro_creation_date='2018-10-10', pro_category= category_cat,
+                 pro_location=location_loc, pro_roles=rol);
+        img= projectImg.objects.create(pro_img='nombre.txt', pro=pro_pro)
+
+    def test_category_cat_label(self):
+        category = category.objects.get(id=1)
+        field_label = category._meta.get_field('category_cat').verbose_name
+        self.assertEquals(field_label, 'Categoría')
+
+    def test_location_label(self):
+        location = location.objects.get(id=1)
+        field_label = location._meta.get_field('location').verbose_name
+        self.assertEquals(field_label, 'Ubicación')
+
+    def test_rol_name_label(self):
+        rol_name = rolInfo.objects.get(id=1)
+        field_label = rolInfo._meta.get_field('rol_name').verbose_name
+        self.assertEquals(field_label, 'Nombre del puesto disponible')
+
+    def test_rol_due_date_label(self):
+        due_date = rolInfo.objects.get(id=1)
+        field_label = rolInfo._meta.get_field('rol_due_date').verbose_name
+        self.assertEquals(field_label, 'Fecha límite para aplicar')
+
+    def test_rol_amount_label(self):
+        amount = rolInfo.objects.get(id=1)
+        field_label = rolInfo._meta.get_field('rol_amount').verbose_name
+        self.assertEquals(field_label, 'Cantidad')
+
+    def test_rol_description_label(self):
+        description = rolInfo.objects.get(id=1)
+        field_label = rolInfo._meta.get_field('rol_description').verbose_name
+        self.assertEquals(field_label, 'Descripción del rol')
+
+class testMaxLenght(object):
+        def setUpTestData(cls):
+        # Set up non-modified objects used by all test methods
+        category_cat=category.objects.create(category="emprendimiento")
+        location_loc= location.objects.create(location='Morelos');
+        rol= rolInfo.objects.create(rol_name='Periodista', rol_due_date='10-10-2018', rol_amount='2', rol_description='Tendrá que escribir mucho', rol_location = location_loc)
+
+        pro_pro = project.objects.create(pro_name='Pitch&Catch', pro_description='Es un evento de emprendimiento',
+               pro_video='https://www.youtube.com/watch?v=CcTl_ln4RNw',pro_about_us="Somos estudiantes",
+                pro_phrase='es sin fines de lucro',pro_creation_date='2018-10-10', pro_category= category_cat,
+                 pro_location=location_loc, pro_roles=rol);
+        img= projectImg.objects.create(pro_img='nombre.txt', pro=pro_pro)
+
+    def test_pro_name_max(self):
+        project_Name = project.objects.get(id=1)
+        max_length = project._meta.get_field('pro_name').max_length
+        self.assertEquals(max_length, 40)
+
+    def test_pro_video_max(self):
+        pro_video = project.objects.get(id=1)
+        max_length = project._meta.get_field('pro_video').max_length
+        self.assertEquals(max_length,200 )
+
+    def test_pro_about_us_max(self):
+        pro_about_us = project.objects.get(id=1)
+        max_length = project._meta.get_field('pro_about_us').max_length
+        self.assertEquals(max_length, 800)
+
+    def test_pro_phrase_max(self):
+        pro_phrase = project.objects.get(id=1)
+        max_length = project._meta.get_field('pro_phrase').verbose_name
+        self.assertEquals(max_length, 200)
+
+class testURL(object):
+        def setUpTestData(cls):
+        # Set up non-modified objects used by all test methods
+        category_cat=category.objects.create(category="emprendimiento")
+        location_loc= location.objects.create(location='Morelos');
+        rol= rolInfo.objects.create(rol_name='Periodista', rol_due_date='10-10-2018', rol_amount='2', rol_description='Tendrá que escribir mucho', rol_location = location_loc)
+
+        pro_pro = project.objects.create(pro_name='Pitch&Catch', pro_description='Es un evento de emprendimiento',
+               pro_video='https://www.youtube.com/watch?v=CcTl_ln4RNw',pro_about_us="Somos estudiantes",
+                pro_phrase='es sin fines de lucro',pro_creation_date='2018-10-10', pro_category= category_cat,
+                 pro_location=location_loc, pro_roles=rol);
+        img= projectImg.objects.create(pro_img='nombre.txt', pro=pro_pro)
+
+    def test_get_absolute_url(self):
+        project = project.objects.get(id=1)
+        self.assertEquals(project.get_absolute_url(), '/project_app/project/1')
+
+ class testDates(object):
+        # Set up non-modified objects used by all test methods
+        dateInPast = datetime.date.today() - datetime.timedelta(days=1)
+        dateInFuture = datetime.date.today() + datetime.timedelta(weeks=4) + datetime.timedelta(days=1)
+
+        category_cat=category.objects.create(category="emprendimiento")
+        location_loc= location.objects.create(location='Morelos');
+        rol= rolInfo.objects.create(rol_name='Periodista', rol_due_date=dateInFuture, rol_amount='2', rol_description='Tendrá que escribir mucho', rol_location = location_loc)
+
+        form = project.objects.create(pro_name='Pitch&Catch', pro_description='Es un evento de emprendimiento',
+               pro_video='https://www.youtube.com/watch?v=CcTl_ln4RNw',pro_about_us="Somos estudiantes",
+                pro_phrase='es sin fines de lucro',pro_creation_date=dateInPast, pro_category= category_cat,
+                 pro_location=location_loc, pro_roles=rol);
+        img= projectImg.objects.create(pro_img='nombre.txt', pro=pro_pro)
+
+        def test_date_in_past(self):
+            self.assertTrue(form.is_valid())
+
+class ProjectUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = ProjectUpdate
+    template_name ='project_app/project.html'
+
+    def get_queryset(self):
+        return ProjectUpdate.objects.filter(person=self.request.user).filter(status__exact='o')
