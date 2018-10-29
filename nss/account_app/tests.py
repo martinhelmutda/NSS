@@ -1,6 +1,7 @@
 #Last modified by César Buenfil on Oct 19,2018
 from django.test import TestCase
 from account_app.models import category, location, rol, rolInfo, project
+from django.contrib.auth.models import User
 # Create your tests here.
 
 
@@ -28,3 +29,14 @@ class project(TestCase):
         print(proyecto1)
         #self.assertTrue(form.is_valid())
         #self.assertEqual(lion.speak(), 'The lion says "roar"')
+
+
+
+
+
+##Pruebas Martín
+
+class PruebaUsuario(TestCase):
+    """docstring for PruebaUsuario."""
+    def setUp(self):
+        self.user1 = User.objects.create_user('user1', none, 'test1234')
