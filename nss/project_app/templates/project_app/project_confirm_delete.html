@@ -1,11 +1,9 @@
 {% extends "base.html" %}
-{% block processes_block %}
-<script type ="text/javascript" src="{% static "js/extras/processes.js" %}"></script>  <!--Este link hace que no jale el datepicker de create_project.html-->
-{% endblock %}
+
 {% block body_block %}
   <form class="ui form"  method="post">
     {% csrf_token %}
     <h1>¿Seguro que deseas borrar? "{{object}}"</h1>
-    <input type="submit" name="" value="Sí, borrar">
+    <input type="submit" name="borrar" value="Sí, borrar">
   </form>
 {% endblock %}

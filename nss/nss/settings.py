@@ -149,6 +149,9 @@ DATABASES = {                                   #Nos conectamos a la base de dat
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
         },
+        'TEST': {
+            'NAME': 'test_NSS',
+        },
     }
 }
 
