@@ -11,6 +11,8 @@
             <link rel="stylesheet" href="{% static "css/semantic/out/semantic.css" %}">
             <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
             <link rel="stylesheet" href="{% static "css/extras/processes.css" %}">
+            <script type ="text/javascript" src="{% static "js/extras/processes.js" %}"></script>  <!--Este link hace que no jale el datepicker de create_project.html-->
+
             {% block processes_block %}
 
             {% endblock %}
@@ -32,16 +34,17 @@
                 <a class="item" href="{% url 'project_app:DataRep' %}"><i class="chart bar alternate icon"></i>Data representation</a>
                 {% if user.is_authenticated %}
                 <div class="ui right simple dropdown item">
-                  <i class="edit icon"></i>Projects
+                  <i class="edit icon"></i>Crear
                   <i class="dropdown icon"></i>
                   <div class="menu">
                     <a class="item" href="{% url 'project_app:form_project' %}">Crear Proyecto</a>
+                      <a class="item" href="{% url 'project_app:form_project' %}">Crear grupo</a>
 
                   </div>
                 </div>
 
     			      <a class="item" href="{% url 'project_app:projects' %}"><i class="folder icon"></i>MisProyectos</a>
-    			      <a class="item" href="{% url 'project_app:create' %}"><i class="pencil alternate icon"></i>Crear</a>
+    			      <a class="item" href="{%url 'project_app:create' %}"><i class="pencil alternate icon"></i>Se va</a> <!--" url 'project_app:create' %}"-->
                 <a class="item"><i class="bell icon"></i></a>
                 <div class="ui simple dropdown item">
                   <i class="user icon"></i>User

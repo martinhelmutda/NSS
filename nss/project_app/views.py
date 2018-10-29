@@ -1,6 +1,7 @@
 from .models import project, projectImg, project, rolInfo, location, category
 from .forms import CreateProjectForm
 from django.utils import timezone
+from django.views.generic import FormView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -30,12 +31,19 @@ class ProjectDetailView(DetailView):
 
 ##Creates a project with the given arguments
 @method_decorator(login_required, name='dispatch')
-class ProjectCreate(CreateView):
+class ProjectCreate(FormView):
     model = project
     form_class = CreateProjectForm
+    def post(self, request, *args, **kwargs):
+        answer_form = self.form_class(request.POST)
+        question_form = formProject()
+        if answer_form.is_valid():
+            answer_form.save()
+            return reverse_lazy('project_app:project', args=[self.object.id, slugify(self.object.pro_name)])
+
     # success_url=reverse_lazy('project_app:project_app')
-    def get_success_url(self):
-        return reverse_lazy('project_app:project', args=[self.object.id, slugify(self.object.pro_name)])
+    #def get_success_url(self):
+    #    return reverse_lazy('project_app:project', args=[self.object.id, slugify(self.object.pro_name)])
 
 @method_decorator(login_required, name='dispatch')
 class ProjectUpdate(UpdateView):
@@ -171,8 +179,8 @@ def form_project(request):
                 r.save()
                 p.pro_roles.add(r)
                 print(name)
-
-            return see_project(request, pro_db, rol_db, img_db)
+                    #return reverse_lazy('project_app:project', args=[self.object.id, slugifsy(self.object.pro_name)])
+            return redirect(reverse_lazy('project_app:project',  args=[p.id, slugify(form_pro.cleaned_data['pro_name'])])) #see_project(request, pro_db, rol_db, img_db)
         else:
             print('ERROR EN EL FORM')
     return render(request,'project_app/create_project.html',{'form_rol':form_rol, 'form_pro':form_pro, 'form_img':form_img})

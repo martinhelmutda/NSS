@@ -55,9 +55,9 @@ class project(models.Model):
     pro_roles = models.ManyToManyField('rolInfo') # https://stackoverflow.com/questions/2216974/django-modelform-for-many-to-many-fields
 
     class Meta:
-            verbose_name = "project_app"
-            verbose_name_plural = "project_app"
-            ordering = ['order','pro_name']
+        verbose_name = "project_app"
+        verbose_name_plural = "project_app"
+        ordering = ['order','pro_name']
 
     def __str__(self):
         return self.pro_name
