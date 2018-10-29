@@ -4,6 +4,7 @@ from project_app.models import project, category, location, rolInfo
 from django.contrib.auth.models import User;
 from project_app.forms import formProject, formProjectAddRol, formImg, rol_formset
 from django.contrib.auth.mixins import LoginRequiredMixin
+
 from django.urls import reverse, reverse_lazy
 from django.template.defaultfilters import slugify
 from .views import ProjectDetailView
@@ -352,3 +353,9 @@ class ProjectTest(TestCase):
         create=self.create_project()
         response=self.client.get(reverse_lazy('project_app:project', args=[create.id, slugify(create.pro_name)]))
         self.assertContains(response,"<b>HOLA</b>")
+
+    def test_update_details(self):
+        login = self.client.login(username='norco', password='solecito')
+        create=self.create_project()
+        create.pro_name='Casona'
+        self.assertEquals(create.pro_name, 'Casona')
