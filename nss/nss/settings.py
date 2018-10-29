@@ -150,7 +150,8 @@ DATABASES = {                                   #Nos conectamos a la base de dat
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
         },
         'TEST': {
-            'NAME': 'test_NSS',
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'test_kunigo',
         },
     }
 }
