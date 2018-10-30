@@ -24,9 +24,12 @@ class CreateProjectForm(forms.ModelForm):
             'pro_about_us' : forms.Textarea(),
             'pro_phrase' : forms.Textarea(),
             'pro_creation_date' : forms.DateInput(attrs={'class':'datepicker'}),
-            'pro_category' :forms.Select(attrs={'class': 'ui fluid dropdown'}),
+            'pro_category' :forms.Select( attrs={'class': 'ui fluid dropdown'}),
             'pro_location' : forms.Select(attrs={'class': 'ui fluid dropdown'}),
             'pro_img' : forms.ImageField(label='Imagen'),
+        }
+        labels = {
+            "pro_category": "Categoría",
         }
 
 
@@ -57,14 +60,27 @@ class formProjectAddRol(forms.Form):
     rol_amount = forms.IntegerField(label='Cantidad', widget=forms.TextInput(attrs={'class':'field'}))
     rol_description = forms.CharField(label='Descripción del rol',widget=forms.Textarea)
     rol_location = ModelChoiceField(label='Ubicación del rol',queryset=location.objects.all(), widget=forms.Select(attrs={'class':'ui fluid dropdown'}), initial=0)
-    #def clean(self):
-    #    cleaned_data = super().clean()
+    def clean(self):
+        cleaned_data = super().clean()
+        rol_alt_name = cleaned_data.get("rol_alternative_name")
+        #cc_myself = cleaned_data.get("cc_myself")
+        if rol_alt_name=='':
+            msg='Debe indicar la categoría'
+            self.add_error('cc_myself', msg)
+
 
 class formImg(forms.ModelForm):
     """docstring forformImg."""
+
     class Meta():
         model = projectImg
         fields=('pro_img',)
+    def clean(self):
+        pro_img = self.cleaned_data.get("pro_img", False)
+        filetype = magic.from_buffer(pro_img.read())
+        if not '.png' in filetype or not '.jpg' in filetype:
+            raise ValidationError('No tiene extension valida')
+            return pro_img
 
 
 class baseProjectAddRol(BaseFormSet):
