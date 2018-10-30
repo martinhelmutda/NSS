@@ -47,7 +47,6 @@ class ProjectTestCase3(TestCase):
 
 """
 """ TESTS DE ANGIE """
-"""
 
 class createRol(TestCase): #PASA
     def setUp(self):
@@ -56,7 +55,7 @@ class createRol(TestCase): #PASA
     def test_createRol_exist(self):
         exists = rolInfo.objects.filter(rol_name='Periodista').exists()
         self.assertEqual(exists, True)
-
+"""
 class createRol2(TestCase): #PASA
     def setUp(self):
         rol_location= location.objects.create(location='Morelos');
@@ -89,8 +88,7 @@ class uploadImage2(TestCase): #PASA
     def test_uploadImage2_exist(self):
         exists = projectImg.objects.filter(pro_img='hola.jpg').exists()
         self.assertEqual(exists, True)
-"""
-"""
+
 class uploadImage3(TestCase):
     def setUp(self):
         category_cat=category.objects.create(category="cocina")
@@ -194,14 +192,14 @@ class testMaxLenght(TestCase):      #PASA
         max_length = project._meta.get_field('pro_phrase').max_length
         self.assertEquals(max_length, 200)
 
-"""
+
 class RenewBookFormTest(TestCase):
     def test_renew_form_date_in_past(self):
         date = datetime.date.today() - datetime.timedelta(days=80) #today munus 80 day
         form_data = {'pro_creation_date': date}
         form = formProject(data=form_data)
         self.assertTrue(form.is_valid())
-"""
+
 class createRol(TestCase): #PASA
     #def setUp(self):
         #rol_location= location.objects.create(location='Morelos');
@@ -235,12 +233,14 @@ class testURL(TestCase):
         category_cat=category.objects.create(category="emprendimiento")
         location_loc= location.objects.create(location='Morelos');
         rol= rolInfo.objects.create(rol_name='Periodista2', rol_due_date='2018-10-10', rol_amount='2', rol_description='Tendrá que escribir mucho', rol_location = location_loc)
-        self.project2 = project.objects.create(pro_name='Pitch&Catch2', pro_description='Es un evento de emprendimiento',pro_video='https://www.youtube.com/watch?v=CcTl_ln4RNw',pro_about_us="Somos estudiantes",pro_phrase='es sin fines de lucro',pro_creation_date='2018-10-10', pro_category= category_cat,pro_location=location_loc)
+        self.project2 = project.objects.create(pro_name='Pitch', pro_description='Es un evento de emprendimiento',pro_video='https://www.youtube.com/watch?v=CcTl_ln4RNw',pro_about_us="Somos estudiantes",pro_phrase='es sin fines de lucro',pro_creation_date='2018-10-10', pro_category= category_cat,pro_location=location_loc)
         img= projectImg.objects.create(pro_img='nombre.txt', pro=self.project2)
 
     def test_get_absolute_url(self):
         pro = project.objects.get(id=1)
-        self.assertEquals(pro.get_absolute_url(), '/project_app/project/1')
+        print(pro)
+        print(pro.get_absolute_url())
+        self.assertEquals(pro.get_absolute_url(), '/project_app/project/1/Pitch')
 
 class testDates(TestCase):
     def setUp(self):
@@ -260,7 +260,7 @@ class testDates(TestCase):
         img= projectImg.objects.create( pro_img = 'nombre.txt', pro = pro_pro )
 
     def test_date_in_past(self):
-            self.assertTrue(form.is_valid())
+            self.assertFalse(form.is_valid())
 
 
 

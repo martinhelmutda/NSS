@@ -3,7 +3,7 @@ from django.core.validators import FileExtensionValidator
 from embed_video.fields import EmbedVideoField
 from ckeditor.fields import RichTextField
 from .validators import validate_file_extension, validate_past_date, validate_future_date
-
+from django.urls import reverse
 #class Page(models.Model):
 #    title = models.CharField(verbose_name="Título", max_length=200)
 #    content = RichTextField(verbose_name="Contenido")
@@ -60,6 +60,9 @@ class project(models.Model):
         verbose_name = "project_app"
         verbose_name_plural = "project_app"
         ordering = ['order','pro_name']
+
+    def get_absolute_url(self):
+        return reverse('project', args=[str(self.id),pro_name ])
 
     def __str__(self):
         return self.pro_name
