@@ -2,7 +2,7 @@ from django.db import models
 from django.core.validators import FileExtensionValidator
 from embed_video.fields import EmbedVideoField
 from ckeditor.fields import RichTextField
-from .validators import validate_file_extension, validate_past_date
+from .validators import validate_file_extension, validate_past_date, validate_future_date
 
 #class Page(models.Model):
 #    title = models.CharField(verbose_name="Título", max_length=200)
@@ -51,7 +51,7 @@ class project(models.Model):
     order = models.SmallIntegerField(verbose_name="Orden", default=0)
     pro_about_us = models.TextField(max_length=800, default='', verbose_name="Acerca de nosotros")
     pro_phrase = models.CharField(max_length=200, default='', verbose_name="Indica si el proyecto tiene fines de lucro")
-    pro_creation_date = models.DateField()
+    pro_creation_date = models.DateField(validators=[validate_future_date])
     pro_category = models.ForeignKey('category', on_delete=models.PROTECT,default='')
     pro_location = models.ForeignKey('location', on_delete=models.PROTECT,default='')
     pro_roles = models.ManyToManyField('rolInfo') # https://stackoverflow.com/questions/2216974/django-modelform-for-many-to-many-fields

@@ -6,6 +6,7 @@ from django.contrib.auth.models import User;
 from project_app.forms import formProject, formProjectAddRol, formImg, rol_formset
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
+from project_app.forms import CreateProjectForm, formProject
 # Create your tests here.
 """
 class ProjectTestCase(TestCase):
@@ -194,7 +195,13 @@ class testMaxLenght(TestCase):      #PASA
         self.assertEquals(max_length, 200)
 
 """
-
+class RenewBookFormTest(TestCase):
+    def test_renew_form_date_in_past(self):
+        date = datetime.date.today() - datetime.timedelta(days=80) #today munus 80 day
+        form_data = {'pro_creation_date': date}
+        form = formProject(data=form_data)
+        self.assertTrue(form.is_valid())
+"""
 class createRol(TestCase): #PASA
     #def setUp(self):
         #rol_location= location.objects.create(location='Morelos');
@@ -209,7 +216,7 @@ class createRol(TestCase): #PASA
             #for message in self.verificationErrors:
             print(str(message))
             #raise  # < HERE
-"""
+
 class createRol(TestCase): #PASA
     def setUp(self):
         project_category=category.objects.create(category="emprendimiento2")

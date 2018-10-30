@@ -11,4 +11,9 @@ def validate_file_extension(value):
 def validate_past_date(value):
     date = datetime.date.today()
     if value.year < date.year :
-        raise ValidationError(u'%s is not a valid year!' % value)
+        raise ValidationError(u'%s is not a valid year! Must be future date' % value)
+
+def validate_future_date(value):
+    date = datetime.date.today()
+    if value > date :
+        raise ValidationError(u'%s is not a valid year! Must be past date' % value)

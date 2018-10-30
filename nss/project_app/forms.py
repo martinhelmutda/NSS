@@ -4,6 +4,7 @@ from project_app.models import category, project, location, rolInfo,  projectImg
 from django.forms import formset_factory, CharField, ModelMultipleChoiceField, ModelChoiceField, BaseFormSet
 from django.db import models
 
+import datetime
 ROL_CHOICES= [
     ('---', '---'),
     ('Traductor', 'Traductor'),
@@ -31,6 +32,13 @@ class CreateProjectForm(forms.ModelForm):
         labels = {
             "pro_category": "Categoría",
         }
+        def clean_renewal_date(self):
+            data = self.cleaned_data['pro_creation_date']
+
+            #Check date is not in past.
+            if data > datetime.date.today():
+                raise ValidationError(_('La fecha tiene que ser anterior al dia actual'))
+            return data
 
 
 class formProject(forms.Form):
@@ -50,7 +58,21 @@ class formProject(forms.Form):
     #verify_email = forms.EmailField(label='Enter your email again:')
     def clean(self):
         cleaned_data = super().clean()
+        data = self.cleaned_data['pro_creation_date']
+
+        #Check date is not in past.
+        if data > datetime.date.today():
+            raise ValidationError('La fecha tiene que ser anterior al dia actual')
+        return data
+
         #name=all_clean_data['ProName']
+    def clean_renewal_date(self):
+        ata = self.cleaned_data['pro_creation_date']
+
+        #Check date is not in past.
+        if data > datetime.date.today():
+            raise ValidationError(_('La fecha tiene que ser anterior al dia actual'))
+        return data
 
 class formProjectAddRol(forms.Form):
     #rol_alternative_name = ModelChoiceField(label='rol',widget=forms.Select(attrs={'class': 'ui fluid dropdown'}) ,queryset=rol.objects.all(), initial=0)
