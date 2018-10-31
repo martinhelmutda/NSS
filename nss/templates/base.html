@@ -44,14 +44,14 @@
                 </div>
 
     			      <a class="item" href="{% url 'project_app:projects' %}"><i class="folder icon"></i>MisProyectos</a>
-    			      <a class="item" href="url 'project_app:create' %}"><i class="pencil alternate icon"></i>Se va</a> <!--" url 'project_app:create' %}"-->
+    			      <a class="item" href="{% url 'project_app:create' %}"><i class="pencil alternate icon"></i>Se va</a> <!--" url 'project_app:create' %}"-->
                 <a class="item"><i class="bell icon"></i></a>
                 <div class="ui simple dropdown item">
                   <i class="user icon"></i>User
                   <i class="dropdown icon"></i>
                   <div class="menu">
                     <a class="item"><i class="address card outline icon"></i> View Profile</a>
-                    <a class="item" href="{% url 'account_app:profile' %}"><i class="edit icon"></i> Edit Profile</a>
+                    <a class="item" href="{%url 'account_app:profile' %}"><i class="edit icon"></i> Edit Profile</a>
                     <a class="item"><i class="globe icon"></i> Choose Language</a>
                     <a class="item"><i class="settings icon"></i> Account Settings</a>
                     <a class="item" href="{% url 'logout' %}"><i class="power off icon"></i>Logout</a>

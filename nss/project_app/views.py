@@ -40,10 +40,9 @@ class ProjectCreate(FormView):
         if answer_form.is_valid():
             answer_form.save()
             return reverse_lazy('project_app:project', args=[self.object.id, slugify(self.object.pro_name)])
-
-    # success_url=reverse_lazy('project_app:project_app')
-    #def get_success_url(self):
-    #    return reverse_lazy('project_app:project', args=[self.object.id, slugify(self.object.pro_name)])
+            #success_url=reverse_lazy('project_app:project_app')
+    def get_success_url(self):
+        return reverse_lazy('project_app:project', args=[self.object.id, slugify(self.object.pro_name)])
 
 @method_decorator(login_required, name='dispatch')
 class ProjectUpdate(UpdateView):
