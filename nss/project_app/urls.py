@@ -9,6 +9,6 @@ projects_patterns = ([
     path('DataRep/', views.DataRep, name='DataRep'),
     path('update/<int:pk>/', ProjectUpdate.as_view(), name='update'),
     path('delete/<int:pk>/', ProjectDelete.as_view(), name='delete'),
-    path('createProyecto', views.form_project, name = 'form_project'),
+    path('createProyecto/', views.form_project, name = 'form_project'),
 
 ], 'project_app')

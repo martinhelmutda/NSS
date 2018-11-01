@@ -25,7 +25,7 @@ from project_app.urls import projects_patterns
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    path('', views.index, name='index'), #Despliega lo de la funcion index en appOne/views.py/def index
+    path('',views.IndexView.as_view(),name='index'), #Despliega lo de la funcion index en appOne/views.py/def index
     path('user/', include('account_app.urls')),
 
     #path('crearProyecto/',include('appOne.urls')),

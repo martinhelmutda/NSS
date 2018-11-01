@@ -5,7 +5,7 @@ from .models import project, category, location, rolInfo, projectImg
 class ProjectAdmin(admin.ModelAdmin):
     list_display = ('pro_name','order')
 
-admin.site.register(project, ProjectAdmin)
+admin.site.register(project)
 admin.site.register(category)
 admin.site.register(location)
 admin.site.register(rolInfo)
