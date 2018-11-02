@@ -1,23 +1,216 @@
+<!DOCTYPE html>
+
 {% extends "base.html" %}
 {% load static %}
+{% load embed_video_tags %}
 {% block processes_block %}
 <script type ="text/javascript" src="{% static "js/extras/processes.js" %}"></script>  <!--Este link hace que no jale el datepicker de create_project.html-->
 {% endblock %}
 {% block title %}{{project.pro_name}}{% endblock %}
 {% block body_block %}
-<main role="main">
-  <div class="container">
-    <div class="row mt-3">
-      <div class="col-md-9 mx-auto">
-        <h2 class="section-heading mb-4">{{project.pro_name}}</h2>
-        <div>
-          {{project.pro_description|safe}}
-          {% if request.user.is_staff %}
-            <p><a href="{% url 'project_app:update' project.id %}">Editar</a></p>
-          {% endif %}
+
+  {# Updated Segment #}
+  {% if 'updated' in request.GET %}
+    <div class="ui basic modal">
+      <div class="ui icon header">
+        <i class="archive icon"></i>
+        Archive Old Messages
+      </div>
+      <div class="content">
+        <p>Your inbox is getting full, would you like us to enable automatic archiving of old messages?</p>
+      </div>
+      <div class="actions">
+        <div class="ui red basic cancel inverted button">
+          <i class="remove icon"></i>
+          No
+        </div>
+        <div class="ui green ok inverted button">
+          <i class="checkmark icon"></i>
+          Yes
         </div>
       </div>
     </div>
-  </div>
-</main>
+  {% endif %}
+
+
+  <main role="main">
+    <div class="ui raised padded container segment">
+
+        <div class="col-md-9 mx-auto">
+          <div>
+            <div class="ui stackable grid">
+              <div class="ui equal width row">
+                <div class="column">
+                  <h2 class="section-heading mb-4">
+                    {{project.pro_name}}
+                     {% if request.user.is_staff %}
+                        <p><a href="{% url 'project_app:update' project.id %}">Editar</a></p>
+                      {% endif %}</h2>
+
+                      <div class="ui" id="">
+                        <h5  class="ui right floated segment">{{project.pro_category}}</h5>
+                        <h5 class="ui left floated segment">{{project.pro_location}}</h5>
+                      </div><br><br>
+
+                    <div class="ui indicating progress" id="example2">
+                      <div class="bar"></div>
+                    </div>
+                    {{project.pro_phrase|safe}}
+                    <div class="ui divider"></div>
+                    <div class="ui mini labeled button" tabindex="0">
+                      <div class="ui red button">
+                        <i class="heart icon"></i> Like
+                      </div>
+                      <a class="ui basic red left pointing label">
+                        1,048
+                      </a>
+                    </div>
+                </div>
+                <div class="column">
+                  <div class="ui orange fluid card">
+                    <div class="container">
+                        {% video project.pro_video %}
+                    </div>
+                    {# <div class="ui embed" data-url="https://www.youtube.com/embed/O6Xo21L0ybE" data-placeholder="/images/bear-waving.jpg"></div> #}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="ui hidden divider"></div>
+            {{project.pro_description|safe}}
+          </div>
+        </div>
+
+        {# <-- Puestos --> #}
+        <div class="ui horizontal divider">
+            <h3>Puestos disponibles:</h3>
+        </div>
+            {% if rol_db %}
+            {% for x in project.pro_roles|safe %}
+            <tr>
+              <td>{{x.rol_name}}</td>
+
+              <td>{{x.rol_due_date}}</td>
+
+              <td>{{x.rol_amount}}</td>
+
+              <td>{{x.rol_description}}</td>
+
+              <td>{{x.rol_location}}</td>
+            </tr>
+            {% if request.user.is_staff %}
+                <a href="{% url 'project_app:form_rol_project'  project.id project.pro_name|slugify %}" class="">   <input type="button" class="positive ui button" value="Agregar puestos" id="add_more"></a>
+             {% endif %}</h2>
+
+            {%endfor%}
+          </table>
+          {%else%}
+          <p>Aun no hay puestos disponibles</p>
+          {% if request.user.is_staff %}
+
+              <a href="{% url 'project_app:form_rol_project'  project.id project.pro_name|slugify %}" class="">   <input type="button" class="positive ui button" value="Agregar puestos" id="add_more"></a>
+           {% endif %}</h2>
+
+          {%endif%}
+
+
+
+        {# <-- Integrantes --> #}
+        <div class="ui horizontal divider">
+            <h3>Sobre Nosotros:</h3>
+        </div>
+        <div >
+         <p class="">{{project.pro_about_us}}</p>
+        </div>
+
+        <div class="ui hidden divider"></div>
+        <div class="ui centered grid container">
+          <div class="ui horizontal list">
+            <div class="item">
+              <img class="ui avatar image" src="/images/avatar/small/tom.jpg">
+              <div class="content">
+                <div class="header">Tom</div>
+                Top Contributor
+              </div>
+            </div>
+            <div class="item">
+              <img class="ui avatar image" src="/images/avatar/small/christian.jpg">
+              <div class="content">
+                <div class="header">Christian Rocha</div>
+                Admin
+              </div>
+            </div>
+            <div class="item">
+              <img class="ui avatar image" src="/images/avatar/small/matt.jpg">
+              <div class="content">
+                <div class="header">Matt</div>
+                Top Rated User
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </main>
+{% endblock %}
+{% block js_block %}
+  <script type="text/javascript">
+  $('.ui.basic.modal')
+    .modal('show')
+  ;
+  $('.ui.embed').embed();
+  $('#example2').progress({
+    percent: 52
+  });
+  </script>
+
+  <script type='text/javascript'>
+          co=1;
+            $('#add_more').click(function() {
+              console.log("HOLA")
+          cloneMore('div.table:last', 'service');
+        });
+        function cloneMore(selector, type) {
+          //Duplicate rol form
+            var newElement = $(selector).clone(true);
+            var total = $('#id_' + type + '-TOTAL_FORMS').val(); //console.log("total "+total)
+            newElement.find(':input').each(function() {
+                var name = $(this).attr('name').replace('-' + (co-1) + '-','-' + co+ '-');
+                var id = 'id_' + name;
+                console.log("id "+id)
+                $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
+            });
+            newElement.find('label').each(function() {
+                var newFor = $(this).attr('for').replace('-' + (co-1) + '-','-' + co + '-');
+                $(this).attr('for', newFor);
+            });
+            total=total+1;
+            co=co+1; //console.log("total "+total) console.log("co "+co)
+            //Display dropdown
+            $('#id_' + type + '-TOTAL_FORMS').val(co);
+            $(selector).after(newElement);
+            //Datepicker
+            $('input[class="datepicker"]').daterangepicker({
+              singleDatePicker: true,
+              showDropdowns: true,
+              locale: {
+                 format: 'YYYY-MM-DD'
+                }
+            });
+            document.getElementById("cantidad").value = co; //console.log("cant " +   document.getElementById("cantidad").value);
+            //Add another rol
+            var temp= 'id_form-'+(co-1)+'-rol_dropdown_name'; console.log('temp: '+ temp);
+            var temp2= '#id_form-'+(co-1)+'-rol_alternative_name'; console.log('temp: '+ temp);
+            $('div select[id='+temp+']').change(function(e){
+              if ($('div select[id='+ temp+']').val() == 'Otro'){
+                $(temp2).show();
+              }else{
+                $(temp2).hide();
+              }
+            });
+        }
+      </script>
+
+
+
 {% endblock %}

@@ -16,7 +16,7 @@ ROL_CHOICES= [
 class CreateProjectForm(forms.ModelForm):
     class Meta:
         model = project
-        fields = ['pro_name','pro_description','pro_video', 'pro_about_us', 'pro_phrase', 'pro_creation_date', 'pro_category', 'pro_location', 'pro_roles']
+        exclude = ['pro_roles', "order"]
         widgets = {
             'pro_name' : forms.TextInput(attrs={ 'class': 'field'}),
             'pro_description' : forms.Textarea(),
@@ -28,7 +28,63 @@ class CreateProjectForm(forms.ModelForm):
             'pro_location' : forms.Select(attrs={'class': 'ui fluid dropdown'}),
             'pro_img' : forms.ImageField(label='Imagen'),
         }
+        labels = {
+            'pro_name': "Nombre de proyecto",
+            'pro_description': "Escribe una descripción general de tu proyecto",
+            'pro_video': "Añade algun link a un video relacionado con tu proyecto",
+            'pro_about_us': "¿Quiénes son? Añade una descripción sobre los creadores del proyecto",
+            'pro_phrase': "Indica si el proyetco tiene fines de lucro",
+            'pro_creation_date': "Inicio del proyecto",
+            'pro_location': "Ubicación del proyecto",
+            'pro_category' :"Indica en qué categoria clasifica",
+            'pro_img': "Agrega las imagenes que quieras compartir sobre tu proyecto",
+        }
+        help_texts = { #Sale justo abajo del field
+            #'pro_name': 'Escribe el nombre del proyecto',
+            'pro_description': "Nota: Debe ser un link a un video en youtube.",
+            'pro_creation_date': "Nota: Indica cuanto cuando se comenzó a planear este proyecto",
+            'pro_img': "Nota: Firmato png y jpg",
+        }
+        error_messages = {
+            'pro_name': {
+                'max_length':'Este nombre es demasiado grande',
+            },
+        }
 
+class CreateRolForm(forms.ModelForm):
+    class Meta:
+        model = rolInfo
+        fields = ['rol_name', 'rol_due_date', 'rol_amount', 'rol_description', 'rol_location']
+        widgets = {
+            'rol_name' : forms.TextInput(attrs={ 'class': 'field'}),
+            'rol_due_date' : forms.DateInput(attrs={'class':'datepicker'}),
+            'rol_amount' : forms.TextInput(),
+            'rol_description' :forms.Textarea(),
+            'rol_location' :  forms.Select(attrs={'class': 'ui fluid dropdown'}),
+            #'pro_img' : forms.ImageField(label='Imagen'),
+        }
+        labels = {
+            #'pro_name': "Nombre de proyecto",
+            #'pro_description': "Escribe una descripción general de tu proyecto",
+            #'pro_video': "Añade algun link a un video relacionado con tu proyecto",
+            #'pro_about_us': "¿Quiénes son? Añade una descripción sobre los creadores del proyecto",
+            #'pro_phrase': "Indica si el proyetco tiene fines de lucro",
+            #'pro_creation_date': "Inicio del proyecto",
+            #'pro_location': "Ubicación del proyecto",
+            #'pro_category' :"Indica en qué categoria clasifica",
+            #'pro_img': "Agrega las imagenes que quieras compartir sobre tu proyecto",
+        }
+        help_texts = { #Sale justo abajo del field
+            #'pro_name': 'Escribe el nombre del proyecto',
+            #'pro_description': "Nota: Debe ser un link a un video en youtube.",
+            #'pro_creation_date': "Nota: Indica cuanto cuando se comenzó a planear este proyecto",
+            #'pro_img': "Nota: Firmato png y jpg",
+        }
+        error_messages = {
+            #'pro_name': {
+            #    'max_length':'Este nombre es demasiado grande',
+            #},
+        }
 
 class formProject(forms.Form):
     #Info del project

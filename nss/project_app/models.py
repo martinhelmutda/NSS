@@ -35,8 +35,9 @@ class rolInfo(models.Model):
     rol_description = models.TextField(max_length=800, default='')
     rol_location = models.ForeignKey('location', on_delete=models.PROTECT,default='')
 
+
     def __str__(self):
-        return self.rol_description
+        return self.rol_name
 
 class project(models.Model):
     #Info del proyecto

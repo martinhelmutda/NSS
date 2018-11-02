@@ -1,5 +1,5 @@
 from .models import project, projectImg, project, rolInfo, location, category
-from .forms import CreateProjectForm
+from .forms import CreateProjectForm, CreateRolForm
 from django.utils import timezone
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
@@ -12,6 +12,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from collections import OrderedDict
 from fusioncharts import FusionCharts
+from project_app import templates
 
 # Create your views here.
 
@@ -26,11 +27,23 @@ class ProjectDetailView(DetailView):
 
 ##Creates a project with the given arguments
 class ProjectCreate(CreateView):
-    model = project
+    #model = project
     form_class = CreateProjectForm
+    template_name="project_app/project_form.html"
     # success_url=reverse_lazy('project_app:project_app')
     def get_success_url(self):
         return reverse_lazy('project_app:project', args=[self.object.id, slugify(self.object.pro_name)])
+        #Te manda a project_detail.html y es el projectdetailview
+
+##Creates a project with the given arguments
+class ProjectRolCreate(CreateView):
+    #model = project
+    form_class = CreateRolForm
+    template_name="project_app/project_rol_form.html"
+    # success_url=reverse_lazy('project_app:project_app')
+    def get_success_url(self):
+        return reverse_lazy('project_app:project', args=[self.object.id, slugify(self.object.rol_name)])
+        #Te manda a project_detail.html y es el projectdetailview
 
 class ProjectUpdate(UpdateView):
     model = project
@@ -162,10 +175,4 @@ def form_project(request):
                             rol_description=description,rol_location= location.objects.get(location=loc))
 
                 r.save()
-                p.pro_roles.add(r)
-                print(name)
-
-            return see_project(request, pro_db, rol_db, img_db)
-        else:
-            print('ERROR EN EL FORM')
-    return render(request,'project_app/create_project.html',{'form_rol':form_rol, 'form_pro':form_pro, 'form_img':form_img})
+                p.pro_r

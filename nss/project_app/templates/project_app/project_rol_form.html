@@ -6,19 +6,21 @@
 {% block body_block %}
     <div class="container">
 
-      <h1 class="content">Crea tu proyecto</h1>
+      <h1 class="content">Añade los puestos que buscar</h1>
       <div class="ui grid container">
         <div class="ui vertical segment">
           <div class="ui header">
-            <!--Crear Proyecto-->
+            <!--Crear Puestos-->
           </div>
           <form method="POST" enctype="multipart/form-data"class="ui form">
           {% csrf_token %}
+hola
 
-
+          {{rolInfo.as_p}}
           {{form.as_p}}
 
-            <input type="submit" class="positive ui button" value="Crear proyetco">
+
+            <input type="submit" class="positive ui button" value="Publicar puestos">
 
           </form>
         </div>
@@ -36,7 +38,7 @@
     $('input[class="datepicker"]').daterangepicker({
       singleDatePicker: true,
       showDropdowns: true,
-      minDate: dateToday,
+      maxDate: dateToday,
       locale: {
          format: 'YYYY-MM-DD'
         }
