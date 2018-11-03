@@ -1,6 +1,8 @@
 from .models import project, projectImg, project, rolInfo, location, category
 from .forms import CreateProjectForm, CreateRolForm
 from django.utils import timezone
+from django.shortcuts import get_object_or_404
+from django.views.generic import View
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -13,6 +15,7 @@ from django.http import HttpResponse
 from collections import OrderedDict
 from fusioncharts import FusionCharts
 from project_app import templates
+from django.urls import resolve
 
 # Create your views here.
 
@@ -24,7 +27,7 @@ class ProjectsListView(ListView):
 ##Return a pack of projects
 class ProjectDetailView(DetailView):
     model = project
-
+    #form_class = CreateRolForm
 ##Creates a project with the given arguments
 class ProjectCreate(CreateView):
     #model = project
@@ -40,9 +43,12 @@ class ProjectRolCreate(CreateView):
     #model = project
     form_class = CreateRolForm
     template_name="project_app/project_rol_form.html"
-    # success_url=reverse_lazy('project_app:project_app')
+    #def form_valid():
+
     def get_success_url(self):
-        return reverse_lazy('project_app:project', args=[self.object.id, slugify(self.object.rol_name)])
+        print(self.kwargs['pk'])
+        print(self.kwargs['slug'])
+        return reverse_lazy('project_app:project', args=[self.kwargs['pk'], self.kwargs['slug']])
         #Te manda a project_detail.html y es el projectdetailview
 
 class ProjectUpdate(UpdateView):

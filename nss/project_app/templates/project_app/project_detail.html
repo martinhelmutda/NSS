@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 {% extends "base.html" %}
 {% load static %}
 {% load embed_video_tags %}
@@ -55,7 +54,7 @@
                     <div class="ui indicating progress" id="example2">
                       <div class="bar"></div>
                     </div>
-                    {{project.pro_phrase|safe}}
+                      <p> {{project.pro_phrase|safe}}</p>
                     <div class="ui divider"></div>
                     <div class="ui mini labeled button" tabindex="0">
                       <div class="ui red button">
@@ -78,7 +77,7 @@
             </div>
 
             <div class="ui hidden divider"></div>
-            {{project.pro_description|safe}}
+              <p> {{project.pro_description|safe}}</p>
           </div>
         </div>
 
@@ -86,36 +85,72 @@
         <div class="ui horizontal divider">
             <h3>Puestos disponibles:</h3>
         </div>
-            {% if rol_db %}
-            {% for x in project.pro_roles|safe %}
-            <tr>
-              <td>{{x.rol_name}}</td>
 
-              <td>{{x.rol_due_date}}</td>
+            {% if project.pro_roles.all%}
+            <div class="ui container mb-4">
+                <div class="ui link cards">
+            {% for x in project.pro_roles.all %}
+                 <div class="ui card">
+                 <div class="content">
+                   <div class="header">{{x.rol_name}}</div>
+                 </div>
+                 <div class="content">
+                   <div class="two rows">
+                      <div class="column">
+                        <h4 class="ui sub header">Categoria(pendiente)</h4>
+                      </div>
+                      <div class="column">
+                        <h4 class="ui sub header">{{x.rol_location}}</h4>
+                      </div>
+                   </div>
+                   <div class="ui small feed">
+                     <div class="event">
+                       <div class="content">
+                         <div class="summary">
+                           <p>{{x.rol_description}}</p>
+                            <a>Aplica </a>antes de <a>{{x.rol_due_date}}</a>
+                         </div>
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+                 <div class="extra content">
+                   {% if request.user.is_staff %}
+                     <button class="ui button">Editar</button>
+                    {%else%}
+                    <div class="ui left labeled button" tabindex="0">
+                      <a class="ui basic right pointing label">
+                        Aplicar
+                      </a>
+                      <div class="ui button">
+                         {{x.rol_amount}}
+                      </div>
+                    </div>
+                     <button class="ui button">Aplicar</button>
+                    {% endif %}</h2>
+                 </div>
+                </div>
+              </div>
+            </div>
 
-              <td>{{x.rol_amount}}</td>
-
-              <td>{{x.rol_description}}</td>
-
-              <td>{{x.rol_location}}</td>
-            </tr>
-            {% if request.user.is_staff %}
-                <a href="{% url 'project_app:form_rol_project'  project.id project.pro_name|slugify %}" class="">   <input type="button" class="positive ui button" value="Agregar puestos" id="add_more"></a>
-             {% endif %}</h2>
 
             {%endfor%}
+            {% if request.user.is_staff %}
+               <br>  <a href="{% url 'project_app:form_rol_project'  project.id project.pro_name|slugify %}" class="">   <input type="button" class="positive ui button" value="Agregar puestos" id="add_more"></a>
+             {% endif %}</h2>
           </table>
           {%else%}
           <p>Aun no hay puestos disponibles</p>
           {% if request.user.is_staff %}
-
               <a href="{% url 'project_app:form_rol_project'  project.id project.pro_name|slugify %}" class="">   <input type="button" class="positive ui button" value="Agregar puestos" id="add_more"></a>
            {% endif %}</h2>
 
           {%endif%}
 
 
+            <input type="hidden" name="cantidad" id="cantidad"value="">
 
+          </form>
         {# <-- Integrantes --> #}
         <div class="ui horizontal divider">
             <h3>Sobre Nosotros:</h3>

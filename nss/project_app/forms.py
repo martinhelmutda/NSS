@@ -57,18 +57,18 @@ class CreateRolForm(forms.ModelForm):
         fields = ['rol_name', 'rol_due_date', 'rol_amount', 'rol_description', 'rol_location']
         widgets = {
             'rol_name' : forms.TextInput(attrs={ 'class': 'field'}),
+            'rol_description' :forms.Textarea(),
             'rol_due_date' : forms.DateInput(attrs={'class':'datepicker'}),
             'rol_amount' : forms.TextInput(),
-            'rol_description' :forms.Textarea(),
             'rol_location' :  forms.Select(attrs={'class': 'ui fluid dropdown'}),
             #'pro_img' : forms.ImageField(label='Imagen'),
         }
         labels = {
-            #'pro_name': "Nombre de proyecto",
-            #'pro_description': "Escribe una descripción general de tu proyecto",
-            #'pro_video': "Añade algun link a un video relacionado con tu proyecto",
-            #'pro_about_us': "¿Quiénes son? Añade una descripción sobre los creadores del proyecto",
-            #'pro_phrase': "Indica si el proyetco tiene fines de lucro",
+            'rol_name' : "Nombre del puesto",
+            'rol_due_date' : "Fecha límite para aplicar",
+            'rol_amount' : "¿Cuántos puestos como estos necesitas?",
+            'rol_description':"Descripcion del puesto",
+            'rol_location' :  "Ubicación del rol",
             #'pro_creation_date': "Inicio del proyecto",
             #'pro_location': "Ubicación del proyecto",
             #'pro_category' :"Indica en qué categoria clasifica",
