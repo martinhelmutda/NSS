@@ -44,7 +44,7 @@ class project(models.Model):
     pro_name = models.CharField(max_length=40,default='')
 
     #Import RichTextField
-    pro_description = RichTextField(verbose_name="Descripción")
+    pro_description = RichTextField(verbose_name="Descripción", max_length=800)
     pro_video = EmbedVideoField() # models.URLField()
     order = models.SmallIntegerField(verbose_name="Orden", default=0)
     pro_about_us = models.TextField(max_length=800, default='')

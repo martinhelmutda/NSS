@@ -11,7 +11,7 @@
         <p>
           Página editada console
         </p>
-        <p><a href="{% url 'account_app:project' project.id project.pro_name|slugify %}">Leer más</a></p>
+        <p><a href="{% url 'project_app:project' project.id project.pro_name|slugify %}">Leer más</a></p>
 
       {% endif %}
       <form method="POST" enctype="multipart/form-data"class="ui form">
@@ -30,24 +30,7 @@
           <label>{{form_pro.as_p}}</label>
       </div>
       <p>{{form.as_table}}</p>
-      <h3>Información de los roles</h3>
-      <div class="table">
-        {% for form in form_rol %}
-        <ul>
-          <li>{{ form }}</li>
-        </ul>
-      {% endfor %}
-      </div>
-      <input type="hidden" name="cantidad" id="cantidad"value="">
-
-        <input type="button" value="Add More" id="add_more">
         <input type="submit" class="positive ui button" value="Actualiza">
-      <!--  <div class="fieldWrapper">
-            {{ form.ProName.errors }}
-            {{ form.ProName.label_tag }}
-            {{ form.ProName }}
-        </div>-->
-        <!--<button class="ui black button">Agregar Rol</button><br><br>-->
 
       </form>
     </div>
@@ -65,45 +48,6 @@
         }
     });
   });
-
-
   //document.getElementById('fieldWrapper').innerHTML.setAttribute("multiple", "multiple");
 </script>
-<script type='text/javascript'>
-        co=1;
-          $('#add_more').click(function() {
-            console.log("HOLA")
-        cloneMore('div.table:last', 'service');
-      });
-      function cloneMore(selector, type) {
-          var newElement = $(selector).clone(true);
-          var total = $('#id_' + type + '-TOTAL_FORMS').val();
-          console.log("total "+total)
-          newElement.find(':input').each(function() {
-              var name = $(this).attr('name').replace('-' + (co-1) + '-','-' + co+ '-');
-              var id = 'id_' + name;
-              console.log("id "+id)
-              $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
-          });
-          newElement.find('label').each(function() {
-              var newFor = $(this).attr('for').replace('-' + (co-1) + '-','-' + co + '-');
-              $(this).attr('for', newFor);
-          });
-          total=total+1;
-          co=co+1;
-          console.log("total "+total)
-          console.log("co "+co)
-          $('#id_' + type + '-TOTAL_FORMS').val(co);
-          $(selector).after(newElement);
-          $('input[class="datepicker"]').daterangepicker({
-            singleDatePicker: true,
-            showDropdowns: true,
-            locale: {
-               format: 'YYYY-MM-DD'
-              }
-          });
-          document.getElementById("cantidad").value = co;
-          console.log("cant " +   document.getElementById("cantidad").value);
-      }
-    </script>
 {% endblock %}
