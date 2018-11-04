@@ -33,6 +33,7 @@ class LogInTest(TestCase):
 class CreateProject(TestCase):
     #You can not create a project if you are not login
     def test_view_not_login_create_project(self):
-            response = self.client.post(reverse('project_app:create'))
-            self.assertNotEquals(response.status_code, 200)
-            # self.assertTemplateUsed(response, 'project_form.html')
+        response = self.client.post(reverse('project_app:create'))
+        self.assertNotEquals(response.status_code, 200)
+        #There is a redirection 302
+        # self.assertTemplateUsed(response, 'project_form.html')
