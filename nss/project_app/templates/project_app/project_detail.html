@@ -142,7 +142,9 @@
                     {{x.rol_location}}
                   </div> <hr>
                   <div class="description">
-                    <p>{{x.rol_description | safe}}</p>
+                    <p>{{x.rol_description | safe}}<br>
+                    <a>Aplica </a>antes de <a>{{x.rol_due_date}}</a>
+                    </p>
                   </div>
                   <div class="extra content">
                     {% if request.user.is_staff %}
