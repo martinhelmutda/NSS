@@ -6,19 +6,53 @@
 {% block body_block %}
     <div class="container">
 
-      <h1 class="content">Crea tu proyecto</h1>
+      <h1 class="content">Añade los puestos que buscar</h1>
       <div class="ui grid container">
         <div class="ui vertical segment">
           <div class="ui header">
-            <!--Crear Proyecto-->
+            <!--Crear Puestos-->
           </div>
           <form method="POST" enctype="multipart/form-data"class="ui form">
           {% csrf_token %}
 
 
-          {{form.as_p}}
+          <div class="table">
+            <!-- for form in form_rol -->
+            <ul>
+              <li>{{ form.rol_dropdown_name.errors }}
+                  {{ form.rol_dropdown_name.label_tag }}
+                  {{ form.rol_dropdown_name }}
+              </li>
 
-            <input type="submit" class="positive ui button" value="Crear proyetco">
+
+                {{ form.rol_alternative_name.errors }}
+                      {{ form.rol_alternative_name }}
+
+              {{ form.rol_name.errors }}
+                {{ form.rol_name.label_tag }}
+                {{ form.rol_name }}
+
+              {{ form.rol_due_date.errors }}
+                  {{ form.rol_due_date.label_tag }}
+                  {{ form.rol_due_date }}
+
+              {{ form.rol_amount.errors }}
+                  {{ form.rol_amount.label_tag }}
+                  {{ form.rol_amount }}
+
+              {{ form.rol_description.errors }}
+                  {{ form.rol_description.label_tag }}
+                  {{ form.rol_description }}
+
+              {{ form.rol_location.errors }}
+                  {{ form.rol_location.label_tag }}
+                  {{ form.rol_location }}
+
+            </ul>
+          <!-- endfor %}-->
+          </div>
+
+              <input type="submit" class="positive ui button" value="Publicar puesto">
 
           </form>
         </div>
@@ -36,7 +70,7 @@
     $('input[class="datepicker"]').daterangepicker({
       singleDatePicker: true,
       showDropdowns: true,
-      minDate: dateToday,
+      maxDate: dateToday,
       locale: {
          format: 'YYYY-MM-DD'
         }

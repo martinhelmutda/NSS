@@ -1,6 +1,7 @@
 from .models import project, projectImg, project, rolInfo, location, category
-from .forms import CreateProjectForm
+from .forms import CreateProjectForm, CreateRolForm
 from django.utils import timezone
+from django.shortcuts import get_object_or_404
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -11,13 +12,14 @@ from django.shortcuts import render, redirect
 from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from collections import OrderedDict
 from fusioncharts import FusionCharts
+from project_app import templates
+from django.urls import resolve
 
 # Create your views here.
-
 
 #Returns a complete list of projects
 class ProjectsListView(ListView):
@@ -27,26 +29,38 @@ class ProjectsListView(ListView):
 ##Return a pack of projects
 class ProjectDetailView(DetailView):
     model = project
-
+    #form_class = CreateRolForm
 ##Creates a project with the given arguments
-@method_decorator(login_required, name='dispatch')
 class ProjectCreate(CreateView):
-    model = project
+    #model = project
     form_class = CreateProjectForm
+    template_name="project_app/project_form.html"
     # success_url=reverse_lazy('project_app:project_app')
     def get_success_url(self):
         return reverse_lazy('project_app:project', args=[self.object.id, slugify(self.object.pro_name)])
+        #Te manda a project_detail.html y es el projectdetailview
 
-@method_decorator(login_required, name='dispatch')
+##Creates a project with the given arguments
+class ProjectRolCreate(CreateView):
+    #model = project
+    form_class = CreateRolForm
+    template_name="project_app/project_rol_form.html"
+    #def form_valid():
+
+    def get_success_url(self):
+        print(self.kwargs['pk'])
+        print(self.kwargs['slug'])
+        return reverse_lazy('project_app:project', args=[self.kwargs['pk'], self.kwargs['slug']])
+        #Te manda a project_detail.html y es el projectdetailview
+
 class ProjectUpdate(UpdateView):
     model = project
     fields = ['pro_name','pro_description','pro_video', 'pro_about_us', 'pro_phrase', 'pro_creation_date', 'pro_category', 'pro_location', 'pro_roles']
     template_name_suffix = '_update_form'
 
     def get_success_url(self):
-        return reverse_lazy('project_app:project', args=[self.object.id, slugify(self.object.pro_name)])+'?updated'
+        return reverse_lazy('project_app:update', args=[self.object.id]) + '?ok'
 
-@method_decorator(login_required, name='dispatch')
 class ProjectDelete(DeleteView):
     model = project
     success_url = reverse_lazy('project_app:projects')
@@ -169,10 +183,4 @@ def form_project(request):
                             rol_description=description,rol_location= location.objects.get(location=loc))
 
                 r.save()
-                p.pro_roles.add(r)
-                print(name)
-
-            return see_project(request, pro_db, rol_db, img_db)
-        else:
-            print('ERROR EN EL FORM')
-    return render(request,'project_app/create_project.html',{'form_rol':form_rol, 'form_pro':form_pro, 'form_img':form_img})
+                p.pro_r

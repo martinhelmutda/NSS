@@ -36,15 +36,16 @@ class rolInfo(models.Model):
     rol_description = models.TextField(max_length=800, default='')
     rol_location = models.ForeignKey('location', on_delete=models.PROTECT,default='')
 
+
     def __str__(self):
-        return self.rol_description
+        return self.rol_name
 
 class project(models.Model):
     #Info del proyecto
     pro_name = models.CharField(max_length=40,default='')
 
     #Import RichTextField
-    pro_description = RichTextField(verbose_name="Descripción")
+    pro_description = RichTextField(verbose_name="Descripción", max_length=800)
     pro_video = EmbedVideoField() # models.URLField()
     order = models.SmallIntegerField(verbose_name="Orden", default=0)
     pro_about_us = models.TextField(max_length=800, default='')
