@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     'ckeditor',
     # 'projects.apps.ProjectsConfig',
     'project_app',
+    'profiles_app',
     #SOCIAL AUTH
     'social_django',
 

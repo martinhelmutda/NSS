@@ -1,30 +1,38 @@
 #Last modified by César Buenfil on Oct 19,2018
 from django.test import TestCase
-from account_app.models import category, location, rol, rolInfo, project
+from account_app.models import Profile
+from django.contrib.auth.models import User
+from django.urls import reverse, reverse_lazy
 # Create your tests here.
 
 
-class category(TestCase):
+
+
+
+##Pruebas Martín
+
+class PruebaUsuario(TestCase):
+    """docstring for PruebaUsuario."""
     def setUp(self):
-        category.objects.create(category='Deportes')
+        self.user1 = User.objects.create_user('user1', none, 'test1234')
 
-    def test_area(self):
-        new_category = category.objects.get(category='Deportes')
-        self.assertEqual(str(new_category), 'Deportes')
 
-class project(TestCase):
-    def set_up(self):
-        proyecto.objects.create(
-            pro_name = "Proyecto Chido!",
-            pro_description = "Es un proyecto chido & padre",
-            pro_video = "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-            pro_about_us = "Somos un grupo chido",
-            pro_phrase = "Lo chido está en nosotros",
-            pro_creation_date = date.today()
-        )
+class LogInTest(TestCase):
+    def setUp(self):
+        self.credentials = {
+            'username': 'norco',
+            'password': 'solecito'}
+        User.objects.create_user(**self.credentials)
+    def test_login(self):
+        # send login data
+        response = self.client.post('/user/login/', self.credentials, follow=True)
+        # should be logged in now
+        self.assertTrue(response.context['user'].is_active)
 
-    def correct_input(self):
-        proyecto1 = proyecto.objects.get(pro_name="Proyecto Chido!")
-        print(proyecto1)
-        #self.assertTrue(form.is_valid())
-        #self.assertEqual(lion.speak(), 'The lion says "roar"')
+
+class CreateProject(TestCase):
+    #You can not create a project if you are not login
+    def test_view_not_login_create_project(self):
+            response = self.client.post(reverse('project_app:create'))
+            self.assertNotEquals(response.status_code, 200)
+            # self.assertTemplateUsed(response, 'project_form.html')
