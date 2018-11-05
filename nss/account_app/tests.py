@@ -13,14 +13,16 @@ from django.contrib.auth.models import AnonymousUser, User
 from django.test import RequestFactory, TestCase
 from account_app.views import IndexView
 from django.utils import timezone
+from django.core.files.uploadedfile import SimpleUploadedFile
+from account_app.forms import *
 # Create your tests here.
 
 class Navigation(TestCase):
     def setUp(self):
         self.client = Client()
 
-    def navigate(self):
-        response = self.client.get('createProyecto/')
+    def test_navigate(self):
+        response = self.client.get('/project_app/createProyecto/')
         self.assertEqual(response.status_code, 200)
 
     def test_home_page_status_code(self):
@@ -54,8 +56,8 @@ class CheckHelp(TestCase):
     def setUp(self):
         self.client = Client()
 
-    def registerHelp(self):
-        response = self.client.get('user/registrar/')
+    def test_registerHelp(self):
+        response = self.client.get('/user/registrar/')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, '150 characters')
 
@@ -67,13 +69,13 @@ class LogInOutTest(TestCase):
         self.my_admin.set_password('passphrase') # can't set above because of hashing
         self.my_admin.save()
 
-    def testLogIn(self):
+    def test_LogIn(self):
         loginresponse = self.client.login(username='user',password='passphrase')
         response=self.client.get('/admin/')
         self.assertEqual(response.status_code, 200)
         self.assertTrue(loginresponse) # should now return "true"
 
-    def testLogOut(self):
+    def test_LogOut(self):
         loginresponse = self.client.login(username='user',password='passphrase')
         response=self.client.get('/admin/')
         self.assertEqual(response.status_code, 200)
@@ -89,7 +91,7 @@ class PasswordHashing(TestCase):
         self.my_admin = User(username='user', password= 'passphrase')
         self.my_admin.save()
 
-    def testLogIn(self):
+    def test_LogIn(self):
         loginresponse = self.client.login(username='user',password='passphrase')
         response=self.client.get('/admin/')
         self.assertEqual(response.status_code, 302)
@@ -161,11 +163,17 @@ class UserAccountsInfo(TestCase):
         # Create user
         self.user = User.objects.create_superuser(username='testuser1', email="example2@example.com",
                                                   password='pass1')
+
         self.useraux = UserProfileInfo.objects.create(user = self.user, profile_pic = "me.jpg", portfolio_site = "Google.com")
         self.user.save()
+        self.useraux.save()
 
     def tearDown(self):
         del self.user
+
+    def test_validation(self):
+        user_form = UserProfileInfoForm(data={'profile_pic': self.useraux.profile_pic, 'portfolio_site' : self.useraux.portfolio_site })
+        self.assertTrue(user_form.is_valid())
 
     def test_users_created(self):
         self.client.login(username='testuser1', password='pass1')

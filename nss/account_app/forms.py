@@ -7,6 +7,7 @@ from django.core import validators
 from django.contrib.auth.models import User
 from account_app.models import UserProfileInfo
 from django.conf import settings
+from django.core.validators import FileExtensionValidator
 #from crispy_forms.helper import FormHelper
 
 class UserForm(forms.ModelForm):
@@ -29,7 +30,13 @@ class UserForm(forms.ModelForm):
 class UserProfileInfoForm(forms.ModelForm):
     class Meta():
         model = UserProfileInfo
+        profile_pic = forms.ImageField(validators=[FileExtensionValidator(['jpg', 'png'])])
         fields = ('portfolio_site','profile_pic')
+
+        def clean(self):
+            all_clean_data = super().clean()
+
+
 
 class createProfileForm(forms.Form):
     name = forms.CharField( label='Nombre',required=True)

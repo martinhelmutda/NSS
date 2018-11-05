@@ -31,27 +31,6 @@ class IndexView(SelectRelatedMixin, generic.ListView):
     model = models.project
     select_related = ("pro_category", "pro_location")
 
-    def get_queryset(self):
-        result = super(ListView, self).get_queryset()
-
-        query = self.request.GET.get('q')
-        if query:
-            query_list = query.split()
-            result = result.filter(
-                reduce(operator.and_,
-                       (Q(pro_name__icontains=q) for q in query_list)) |
-                reduce(operator.and_,
-                       (Q(pro_location=q) for q in query_list)) |
-                reduce(operator.and_,
-                       (Q(pro_category=q) for q in query_list))
-            )
-        return result
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['location'] = location.objects.all()
-        context['category'] = category.objects.all()
-        return context
-
 def proper_pagination(posts, index):
     start_index = 0
     end_index = 7
@@ -73,7 +52,7 @@ def register(request):
     registered = False
     if request.method == "POST":
         user_form = UserForm(data=request.POST)
-        profile_form = UserProfileInfoForm(data=request.POST)
+        profile_form = UserProfileInfoForm(request.POST, request.FILES)
 
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save()
