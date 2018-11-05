@@ -1,10 +1,10 @@
-from .models import project, projectImg, project, rolInfo, location, category
+from .models import project, projectImg, project, rolInfo, location, category, project_rol
 from .forms import CreateProjectForm, CreateRolForm
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.urls import reverse, reverse_lazy
 from django.template.defaultfilters import slugify
 from project_app.forms import formImg, formProject, formProjectAddRol, baseProjectAddRol, rol_formset
@@ -46,10 +46,13 @@ class ProjectRolCreate(CreateView):
     form_class = CreateRolForm
     template_name="project_app/project_rol_form.html"
     #def form_valid():
-
+    #def form_valid(self, form):
+        #if form.cleaned_data['rol_name'] == 'Otro' and form.cleaned_data['rol_name'] =='':
+        #    pass
+        #return super().form_valid(form)
     def get_success_url(self):
-        print(self.kwargs['pk'])
-        print(self.kwargs['slug'])
+        pro_temp = project.objects.get(id=self.kwargs['pk'])
+        project_rol.objects.create(pro =pro_temp , rol=self.object )
         return reverse_lazy('project_app:project', args=[self.kwargs['pk'], self.kwargs['slug']])
         #Te manda a project_detail.html y es el projectdetailview
 
@@ -116,7 +119,6 @@ def DataRep(request):
     return render(request,  'project_app/data.html', {'output': column2D.render(), 'output2': pie2d.render()})
     #project_dict = {'proyecto_insert': 'PAGINA DE PROYECTO'}
     #return render(request, 'project_app/data.html', context=project_dict) # app_one/proyecto.html ha ce referencia al html en templates
-
 
 def see_project(request, p_db, r_db, i_db):
     pro_db = p_db

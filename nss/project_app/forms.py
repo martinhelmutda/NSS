@@ -52,19 +52,21 @@ class CreateProjectForm(forms.ModelForm):
         }
 
 class CreateRolForm(forms.ModelForm):
+
     class Meta:
         model = rolInfo
-        fields = ['rol_name', 'rol_due_date', 'rol_amount', 'rol_description', 'rol_location']
+        fields = ['rol_name', 'rol_name_other','rol_due_date', 'rol_amount', 'rol_description', 'rol_location']
         widgets = {
-            'rol_name' : forms.TextInput(attrs={ 'class': 'field'}),
+            'rol_name' :forms.Select(attrs={'class': 'ui fluid dropdown'}, choices=ROL_CHOICES),
+            'rol_name_other' : forms.TextInput( attrs={'placeholder': 'Indique el nombre', 'required':False}),
             'rol_description' :forms.Textarea(),
             'rol_due_date' : forms.DateInput(attrs={'class':'datepicker'}),
             'rol_amount' : forms.TextInput(),
             'rol_location' :  forms.Select(attrs={'class': 'ui fluid dropdown'}),
-            #'pro_img' : forms.ImageField(label='Imagen'),
         }
         labels = {
             'rol_name' : "Nombre del puesto",
+            'rol_name_other' : "",
             'rol_due_date' : "Fecha límite para aplicar",
             'rol_amount' : "¿Cuántos puestos como estos necesitas?",
             'rol_description':"Descripcion del puesto",
@@ -81,10 +83,19 @@ class CreateRolForm(forms.ModelForm):
             #'pro_img': "Nota: Firmato png y jpg",
         }
         error_messages = {
-            #'pro_name': {
-            #    'max_length':'Este nombre es demasiado grande',
-            #},
+            'pro_name': {
+                'invalid':'El número debe ser mayor a 0',
+            },
         }
+
+    def clean(self):
+        super().clean()
+        print(self.cleaned_data['rol_name'])
+        print(self.cleaned_data['rol_name_other'])
+        if self.cleaned_data['rol_name'] == 'Otro' and self.cleaned_data['rol_name_other'] =='':
+            print("ENTRA")
+            msg="Tienes que indicar otro nombre"
+            self.add_error('rol_name', msg)
 
 class formProject(forms.Form):
     #Info del project

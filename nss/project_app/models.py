@@ -31,6 +31,7 @@ class location(models.Model):
 
 class rolInfo(models.Model):
     rol_name =  models.CharField(max_length = 150,  default='')
+    rol_name_other=models.CharField(max_length = 150,  default='', blank=True)
     rol_due_date = models.DateField()
     rol_amount = models.PositiveIntegerField(default=1)
     rol_description = models.TextField(max_length=800, default='')
@@ -53,7 +54,7 @@ class project(models.Model):
     pro_creation_date = models.DateField()
     pro_category = models.ForeignKey('category', on_delete=models.PROTECT,default='')
     pro_location = models.ForeignKey('location', on_delete=models.PROTECT,default='')
-    pro_roles = models.ManyToManyField('rolInfo') # https://stackoverflow.com/questions/2216974/django-modelform-for-many-to-many-fields
+    pro_roles = models.ManyToManyField('rolInfo', through='project_rol') # https://stackoverflow.com/questions/2216974/django-modelform-for-many-to-many-fields
 
     class Meta:
             verbose_name = "project_app"
@@ -69,3 +70,10 @@ class projectImg(models.Model):
 
     def __str__(self):
         return str(self.pro_img)
+
+class project_rol(models.Model):
+    id= models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')
+    pro = models.ForeignKey('project', related_name='project', on_delete=models.CASCADE,default='')
+    rol= models.ForeignKey('rolInfo', related_name='rolInfo', on_delete=models.CASCADE,default='')
+    def __str__(self):
+        return str(self.id)

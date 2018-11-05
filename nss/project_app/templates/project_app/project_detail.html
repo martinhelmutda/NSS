@@ -124,23 +124,27 @@
         <div class="ui horizontal divider">
             <h3>Puestos disponibles</h3>
         </div>
-        <div class="row">
-          <div class="two wide column"></div>
+        <div class="fisteen column row">
           {% if project.pro_roles.all%}
+
           {% for x in project.pro_roles.all %}
+          <div class="two wide column"></div>
             <div class="four wide column">
               <div class="item">
                 <div class="content">
-                  <h4 class="header">{{x.rol_name}}
+                  <h4 class="header"> <br>
+                    {%if x.rol_name != 'Otro'%}
+                      {{x.rol_name}}
+                    {%else%}
+                      {{x.rol_name_other}}
+                    {%endif%}
                     {% if request.user.is_staff %}
                       <a href="">Editar</a>
                     {%endif%}
+                    <div class="meta">
+                      {{x.rol_location}}
+                    </div> <hr>
                   </h4>
-
-                  <div class="meta">
-                     Categoría.
-                    {{x.rol_location}}
-                  </div> <hr>
                   <div class="description">
                     <p>{{x.rol_description | safe}}<br>
                     <a>Aplica </a>antes de <a>{{x.rol_due_date}}</a>
@@ -163,7 +167,7 @@
                 </div>
               </div>
             </div>
-
+            <div class="two wide column"></div>
           {% endfor %}
           </div>
           {% if request.user.is_staff %}

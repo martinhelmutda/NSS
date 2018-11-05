@@ -6,7 +6,7 @@
 {% block body_block %}
     <div class="container">
 
-      <h1 class="content">Añade los puestos que buscar</h1>
+      <h1 class="content">Añade el puesto que buscas</h1>
       <div class="ui grid container">
         <div class="ui vertical segment">
           <div class="ui header">
@@ -17,20 +17,16 @@
 
 
           <div class="table">
-            <!-- for form in form_rol -->
+
             <ul>
-              <li>{{ form.rol_dropdown_name.errors }}
-                  {{ form.rol_dropdown_name.label_tag }}
-                  {{ form.rol_dropdown_name }}
-              </li>
-
-
-                {{ form.rol_alternative_name.errors }}
-                      {{ form.rol_alternative_name }}
-
+            <li>
               {{ form.rol_name.errors }}
                 {{ form.rol_name.label_tag }}
                 {{ form.rol_name }}
+            </li>
+
+            {{form.rol_name_other.errors}}
+              {{form.rol_name_other}}
 
               {{ form.rol_due_date.errors }}
                   {{ form.rol_due_date.label_tag }}
@@ -49,10 +45,10 @@
                   {{ form.rol_location }}
 
             </ul>
-          <!-- endfor %}-->
+
           </div>
 
-              <input type="submit" class="positive ui button" value="Publicar puesto">
+              <input type="submit" class=" green inverted ui button" value="Publicar puesto">
 
           </form>
         </div>
@@ -70,48 +66,22 @@
     $('input[class="datepicker"]').daterangepicker({
       singleDatePicker: true,
       showDropdowns: true,
-      maxDate: dateToday,
+      minDate: dateToday,
       locale: {
          format: 'YYYY-MM-DD'
         }
     });
+    $('#id_rol_name_other').hide();
   });
 </script>
-<script type='text/javascript'>
-        co=1;
-          $('#add_more').click(function() {
-            console.log("HOLA")
-        cloneMore('div.table:last', 'service');
-      });
-      function cloneMore(selector, type) {
-          var newElement = $(selector).clone(true);
-          var total = $('#id_' + type + '-TOTAL_FORMS').val();
-          console.log("total "+total)
-          newElement.find(':input').each(function() {
-              var name = $(this).attr('name').replace('-' + (co-1) + '-','-' + co+ '-');
-              var id = 'id_' + name;
-              console.log("id "+id)
-              $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
-          });
-          newElement.find('label').each(function() {
-              var newFor = $(this).attr('for').replace('-' + (co-1) + '-','-' + co + '-');
-              $(this).attr('for', newFor);
-          });
-          total=total+1;
-          co=co+1;
-          console.log("total "+total)
-          console.log("co "+co)
-          $('#id_' + type + '-TOTAL_FORMS').val(co);
-          $(selector).after(newElement);
-          $('input[class="datepicker"]').daterangepicker({
-            singleDatePicker: true,
-            showDropdowns: true,
-            locale: {
-               format: 'YYYY-MM-DD'
-              }
-          });
-          document.getElementById("cantidad").value = co;
-          console.log("cant " +   document.getElementById("cantidad").value);
-      }
-    </script>
+<script type="text/javascript">
+  $('div select[id=id_rol_name]').change(function(e){
+    if ($('div select option:selected').val() == 'Otro'){
+      $('#id_rol_name_other').show();
+    }else{
+      $('#id_rol_name_other').hide();
+    }
+  });
+</script>
+
 {% endblock %}
