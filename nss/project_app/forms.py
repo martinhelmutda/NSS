@@ -25,8 +25,8 @@ class CreateProjectForm(forms.ModelForm):
             'pro_phrase' : forms.Textarea(),
             'pro_creation_date' : forms.DateInput(attrs={'class':'datepicker'}),
             'pro_category' :forms.Select(attrs={'class': 'ui fluid dropdown'}),
-#            'pro_city' : forms.Select(attrs={}),
-#            'pro_state' : forms.Select(attrs={}),
+            'pro_city' : forms.Select(attrs={'class': 'ui fluid dropdown'}),
+            'pro_state' : forms.Select(attrs={'class': 'ui fluid dropdown'}),
             'pro_img' : forms.ImageField(label='Imagen'),
         }
         labels = {

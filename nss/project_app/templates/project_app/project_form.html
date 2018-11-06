@@ -14,7 +14,94 @@
           <form method="POST" id="projectForm" enctype="multipart/form-data"class="ui form segment" data-cities-url="{% url 'project_app:ajax_load_cities' %}" >
           {% csrf_token %}
 
-          {{form.as_p}}
+          <h2 class="ui dividing header">Crea tu proyecto</h2>
+
+                    <div class="field">
+                      <div class="two fields">
+                        <div class="field">
+                          <label>{{form.pro_name.label}}</label>
+                          {{form.pro_name}}
+                        </div>
+                        <div class="field">
+                          <label>{{form.pro_creation_date.label}}</label>
+                          {{form.pro_creation_date}}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="field">
+                      <div class="two fields">
+                        <div class="field">
+                          <label>{{form.pro_category.label}} </label>
+                        <!--  {{form.pro_category}-->
+                        </div>
+                        <div class="field">
+                          <label>{{form.pro_category.label}}</label>
+                          {{form.pro_category}}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="field">
+                      <label>{{form.pro_description.label}}</label>
+                      <div class="fields">
+                        <div class="sixteen wide field">
+                          <div class="ui fluid">
+                            {{form.pro_description}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="field">
+                      <label>{{form.pro_video.label}}</label>
+                      <div class="one field">
+                        <div class="field">
+                          {{form.pro_video}}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="field">
+                        <h4><label>Ubicación del proyecto</label>  </h4>
+                      <div class="two fields">
+                        <div class="field">
+                          <label>{{form.pro_state.label}}</label>
+                          {{form.pro_state}}
+                        </div>
+                        <div class="field">
+                          <label> {{form.pro_city.label}}</label>
+                          	{{form.pro_city}}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="field">
+                      <div class="two fields">
+                        <div class="field">
+                          <label>{{form.pro_about_us.label}}</label>
+                          {{form.pro_about_us}}
+                        </div>
+                        <div class="field">
+                          <label>{{form.pro_phrase.label}}</label>
+                            {{form.pro_phrase}}
+                        </div>
+                      </div>
+                    </div>
+
+
+                     <div class="ui segment">
+                      <div class="field">
+                        <div class="ui toggle checkbox">
+                          <input type="checkbox" name="gift" tabindex="0" class="hidden">
+                          <label>Recibir correo de confirmación</label>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+
 
             <input type="submit" class=" ui green inverted button" value="Crear proyetco">
 
