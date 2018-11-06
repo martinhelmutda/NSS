@@ -22,6 +22,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from project_app.urls import projects_patterns
 from profiles_app.urls import profiles_patterns
+from messages_app.urls import  messages_app_patterns
 #SOCIAL AUTH
 from django.contrib.auth import views as auth_views
 
@@ -39,6 +40,7 @@ urlpatterns = [
     path('', include('django.contrib.auth.urls')), # EMAIL RESET
     path('oauth/', include('social_django.urls', namespace="social")),
     path('profiles_app/', include(profiles_patterns)),
+    path('messages_app/', include(messages_app_patterns)),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

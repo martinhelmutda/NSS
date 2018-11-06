@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     # 'projects.apps.ProjectsConfig',
     'project_app',
     'profiles_app',
+    'messages_app',
     #SOCIAL AUTH
     'social_django',
 
