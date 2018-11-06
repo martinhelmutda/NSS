@@ -8,30 +8,31 @@
       <h1 class="content">Actualiza tu proyecto</h1><br><br>
 
       {% if 'ok' in request.GET %}
-        <p>
-          Página editada console
-        </p>
-        <p><a href="{% url 'project_app:project' project.id project.pro_name|slugify %}">Leer más</a></p>
-
+      <div class="ui basic modal">
+        <div class="ui icon header">
+          <i class="archive icon"></i>
+          El proyecto se actualizó con éxito.
+        </div>
+        <div class="content">
+          <p class="ui centered grid container">Los cambios se han guardado ¿Desea seguir editando?</p>
+        </div>
+        <div class="actions">
+          <a class="ui red basic cancel inverted button" href="{% url 'project_app:project' project.id project.pro_name|slugify %}">
+            <i class="remove icon"></i>
+            No
+          </a>
+          <div class="ui green ok inverted button">
+            <i class="checkmark icon"></i>
+            Sí
+          </div>
+        </div>
+      </div>
       {% endif %}
       <form method="POST" enctype="multipart/form-data"class="ui form">
       {% csrf_token %}
-      {{ form_rol.management_form }}
-
-
-      <div class="fieldWrapper">
-           {{ project.pro_img.errors }}
-           {{ form.pro_img.label_tag }}
-           {{ form.pro_img }}
-       </div>
-
       <h3>Información del proyetco</h3>
-      <div class="col-2">
-          <label>{{form_pro.as_p}}</label>
-      </div>
       <p>{{form.as_table}}</p>
         <input type="submit" class="positive ui button" value="Actualiza">
-
       </form>
     </div>
 {% endblock %}
@@ -39,6 +40,9 @@
 {% block js_block %}
 <script src="{% static "css/semantic/out/semantic.min.js" %}"></script>
 <script type="text/javascript">
+  $('.ui.basic.modal')
+  .modal('show')
+;
   $(function() {
     $('input[class="datepicker"]').daterangepicker({
       singleDatePicker: true,

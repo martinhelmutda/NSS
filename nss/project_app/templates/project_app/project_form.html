@@ -6,19 +6,19 @@
 {% block body_block %}
     <div class="container">
 
-      <h1 class="content">Crea tu proyecto</h1>
       <div class="ui grid container">
         <div class="ui vertical segment">
           <div class="ui header">
             <!--Crear Proyecto-->
           </div>
-          <form method="POST" enctype="multipart/form-data"class="ui form">
+          <form method="POST" id="projectForm" enctype="multipart/form-data"class="ui form segment" data-cities-url="{% url 'project_app:ajax_load_cities' %}" >
           {% csrf_token %}
-
 
           {{form.as_p}}
 
-            <input type="submit" class="positive ui button" value="Crear proyetco">
+            <input type="submit" class=" ui green inverted button" value="Crear proyetco">
+
+          <!--  <input type="submit" class="ui green inverted button value="Crear proyetco">-->
 
           </form>
         </div>
@@ -30,7 +30,6 @@
 {% block js_block %}
 <script src="{% static "css/semantic/out/semantic.min.js" %}"></script>
 <script type="text/javascript">
-
   $(function() {
     var dateToday = new Date();
     $('input[class="datepicker"]').daterangepicker({
@@ -44,40 +43,23 @@
   });
 </script>
 <script type='text/javascript'>
-        co=1;
-          $('#add_more').click(function() {
-            console.log("HOLA")
-        cloneMore('div.table:last', 'service');
-      });
-      function cloneMore(selector, type) {
-          var newElement = $(selector).clone(true);
-          var total = $('#id_' + type + '-TOTAL_FORMS').val();
-          console.log("total "+total)
-          newElement.find(':input').each(function() {
-              var name = $(this).attr('name').replace('-' + (co-1) + '-','-' + co+ '-');
-              var id = 'id_' + name;
-              console.log("id "+id)
-              $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
-          });
-          newElement.find('label').each(function() {
-              var newFor = $(this).attr('for').replace('-' + (co-1) + '-','-' + co + '-');
-              $(this).attr('for', newFor);
-          });
-          total=total+1;
-          co=co+1;
-          console.log("total "+total)
-          console.log("co "+co)
-          $('#id_' + type + '-TOTAL_FORMS').val(co);
-          $(selector).after(newElement);
-          $('input[class="datepicker"]').daterangepicker({
-            singleDatePicker: true,
-            showDropdowns: true,
-            locale: {
-               format: 'YYYY-MM-DD'
-              }
-          });
-          document.getElementById("cantidad").value = co;
-          console.log("cant " +   document.getElementById("cantidad").value);
-      }
+  $("#id_pro_state").change(function () {
+    console.log("ENTRA");
+  var url = $("#projectForm").attr("data-cities-url");
+  console.log(url);
+  var countryId = $(this).val();
+  console.log(countryId);
+  $.ajax({
+    url: url,
+    data: {
+      'country': countryId
+    },
+    success: function (data) {
+          console.log("ENTRA DOS")
+          console.log(data);
+      $("#id_pro_city").html(data);
+    }
+  });
+  });
     </script>
 {% endblock %}

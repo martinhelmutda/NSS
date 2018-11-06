@@ -1,6 +1,6 @@
 from django import forms
 from .models import project
-from project_app.models import category, project, location, rolInfo,  projectImg
+from project_app.models import category, project, city, state, rolInfo,  projectImg
 from django.forms import formset_factory, CharField, ModelMultipleChoiceField, ModelChoiceField, BaseFormSet
 from django.db import models
 
@@ -19,24 +19,26 @@ class CreateProjectForm(forms.ModelForm):
         exclude = ['pro_roles', "order"]
         widgets = {
             'pro_name' : forms.TextInput(attrs={ 'class': 'field'}),
-            'pro_description' : forms.Textarea(),
-            'pro_video' : forms.TextInput(attrs={'placeholder':'https://www.youtube.com/watch?v=dQw4w9WgXcQ'}),
+            'pro_description' : forms.TextInput(),
+            'pro_video' : forms.TextInput(attrs={'placeholder':'Link de Youtube'}),
             'pro_about_us' : forms.Textarea(),
             'pro_phrase' : forms.Textarea(),
             'pro_creation_date' : forms.DateInput(attrs={'class':'datepicker'}),
             'pro_category' :forms.Select(attrs={'class': 'ui fluid dropdown'}),
-            'pro_location' : forms.Select(attrs={'class': 'ui fluid dropdown'}),
+#            'pro_city' : forms.Select(attrs={}),
+#            'pro_state' : forms.Select(attrs={}),
             'pro_img' : forms.ImageField(label='Imagen'),
         }
         labels = {
-            'pro_name': "Nombre de proyecto",
+            'pro_name': "Nombre del proyecto",
             'pro_description': "Escribe una descripción general de tu proyecto",
             'pro_video': "Añade algun link a un video relacionado con tu proyecto",
             'pro_about_us': "¿Quiénes son? Añade una descripción sobre los creadores del proyecto",
             'pro_phrase': "Indica si el proyetco tiene fines de lucro",
             'pro_creation_date': "Inicio del proyecto",
-            'pro_location': "Ubicación del proyecto",
             'pro_category' :"Indica en qué categoria clasifica",
+            'pro_city': "Municipio",
+            'pro_state' :"Estado",
             'pro_img': "Agrega las imagenes que quieras compartir sobre tu proyecto",
         }
         help_texts = { #Sale justo abajo del field
@@ -50,6 +52,21 @@ class CreateProjectForm(forms.ModelForm):
                 'max_length':'Este nombre es demasiado grande',
             },
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        #self.fields['pro_city'].queryset = city.objects.filter(state=self.data.get('pro_state'))
+        self.fields['pro_city'].queryset = city.objects.none()
+        if 'pro_state' in self.data:
+            print("Hay state")
+            try:
+                country_id = self.data.get('pro_state')
+                self.fields['pro_city'].queryset = city.objects.filter(state=country_id)#.order_by('name')
+            except (ValueError, TypeError):
+                pass  # invalid input from the client; ignore and fallback to empty City queryse
+        elif self.instance.pk:
+            print("No hhuay state")
+            self.fields['pro_city'].queryset = self.instance.country.city_set#.order_by('name')
 
 class CreateRolForm(forms.ModelForm):
 
@@ -106,7 +123,7 @@ class formProject(forms.Form):
     pro_phrase = forms.CharField(label='Indica si el proyecto implica recompensa monetaria', widget=forms.Textarea)
     pro_creation_date = forms.DateField(label='Inició',widget=forms.DateInput(attrs={'class':'datepickerProyect'}), required=False)
     pro_category = ModelChoiceField(label='Categoría',widget=forms.Select(attrs={'class': 'ui fluid dropdown'}) ,queryset=category.objects.all(), initial=0)
-    pro_location = ModelChoiceField(label='Ubicación',widget=forms.Select(attrs={'class': 'ui fluid dropdown'}) ,queryset=location.objects.all(), initial=0)
+    pro_location = ModelChoiceField(label='Ubicación',widget=forms.Select(attrs={'class': 'ui fluid dropdown'}) ,queryset=state.objects.all(), initial=0)
     #Integrantes
 
     #ProConfirmation = forms.BooleanField(label='Recibir correo de confirmación',required=False)
@@ -123,7 +140,7 @@ class formProjectAddRol(forms.Form):
     rol_due_date =  forms.DateField(label='Fecha límite para aplicar',widget=forms.DateInput(attrs={'class':'datepicker'}), required=False)
     rol_amount = forms.IntegerField(label='Cantidad', widget=forms.TextInput(attrs={'class':'field'}))
     rol_description = forms.CharField(label='Descripción del rol',widget=forms.Textarea)
-    rol_location = ModelChoiceField(label='Ubicación del rol',queryset=location.objects.all(), widget=forms.Select(attrs={'class':'ui fluid dropdown'}), initial=0)
+    rol_location = ModelChoiceField(label='Ubicación del rol',queryset=state.objects.all(), widget=forms.Select(attrs={'class':'ui fluid dropdown'}), initial=0)
     #def clean(self):
     #    cleaned_data = super().clean()
 

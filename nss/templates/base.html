@@ -29,19 +29,18 @@
                 <div class="header item">
                     <a href="{% url 'index' %}" class="item"><img class="logo" src="{% static "img/logo.png" %}"><i class="users icon"></i></a>
                 </div>
-                <a class="item" href="{% url 'project_app:DataRep' %}"><i class="chart bar alternate icon"></i>Data representation</a>
+              <!--  <a class="item" href="{% url 'project_app:DataRep' %}"><i class="chart bar alternate icon"></i>Data representation</a>-->
                 {% if user.is_authenticated %}
                 <div class="ui right simple dropdown item">
-                  <i class="edit icon"></i>Projects
+                  <i class="edit icon"></i>Crear
                   <i class="dropdown icon"></i>
                   <div class="menu">
-                    <a class="item" href="{% url 'project_app:form_project' %}">Crear Proyecto</a>
-
+                       <a class="item" href="{% url 'project_app:create' %}"><i class="pencil alternate icon"></i>Crear proyecto</a>
+                        <a class="item" href="{% url 'project_app:create' %}"><i class="pencil alternate icon"></i>Crear Grupo</a>
                   </div>
                 </div>
 
-    			      <a class="item" href="{% url 'project_app:projects' %}"><i class="folder icon"></i>MisProyectos</a>
-    			      <a class="item" href="{% url 'project_app:create' %}"><i class="pencil alternate icon"></i>Crear</a>
+    			      <a class="item" href="{% url 'project_app:projects' %}"><i class="folder icon"></i>Mis creaciones</a>
                 <a class="item"><i class="bell icon"></i></a>
                 <div class="ui simple dropdown item">
                   <i class="user icon"></i>User
