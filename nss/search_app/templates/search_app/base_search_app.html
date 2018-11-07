@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es">
+        <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+             <title>{% block title %}{% endblock %}</title>
+            <link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+            <link rel="stylesheet" href="{% static "css/styles.css" %}">
+            <link rel="stylesheet" href="{% static "css/semantic/out/semantic.css" %}">
+            <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+            <link rel="stylesheet" href="{% static "css/extras/processes.css" %}">
+            <link rel ="stylesheet" href="{% static "css/styles.css" %}">
+            <script type ="text/javascript" src="{% static "js/extras/processes.js" %}"></script>  <!--Este link hace que no jale el datepicker de create_project.html-->
+            <script src ="{% static "css/semantic/out/semantic.min.js" %}"></script>
+            <link rel ="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+            <script type ="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+            <script type ="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+            <script type ="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+            <script type ="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+        </head>
+    <body class="bg-gray">
+        <!-- Static navbar -->
+        <div class="ui borderless menu stackable shadow number1">
+            <div class="ui container">
+                <div class="header item">
+                    <a href="{% url 'index' %}" class="item"><img class="logo" src="{% static "img/logo.png" %}"><i class="users icon"></i>TEEM</a>
+                </div>
+                <a class="item" href="{% url 'project_app:DataRep' %}"><i class="chart bar alternate icon"></i>Data representation</a>
+                {% if user.is_authenticated %}
+                <div class="ui right simple dropdown item">
+                  <i class="edit icon"></i>Projects
+                  <i class="dropdown icon"></i>
+                  <div class="menu">
+                    <a class="item" href="{% url 'project_app:form_project' %}">Crear Proyecto</a>
+
+                  </div>
+                </div>
+
+    			      <a class="item" href="{% url 'project_app:projects' %}"><i class="folder icon"></i>MisProyectos</a>
+    			      <a class="item" href="{% url 'project_app:create' %}"><i class="pencil alternate icon"></i>Crear</a>
+                <a class="item"><i class="bell icon"></i></a>
+                <div class="ui simple dropdown item">
+                  <i class="user icon"></i>User
+                  <i class="dropdown icon"></i>
+                  <div class="menu">
+                    <a class="item"><i class="address card outline icon"></i> View Profile</a>
+                    <a class="item"><i class="edit icon"></i> Edit Profile</a>
+                    <a class="item"><i class="globe icon"></i> Choose Language</a>
+                    <a class="item"><i class="settings icon"></i> Account Settings</a>
+                    <a class="item" href="{% url 'logout' %}"><i class="power off icon"></i>Logout</a>
+                  </div>
+                </div>
+              </div>
+                {% else %}
+                <a class="item ui right floated" href="{% url 'account_app:user_login' %}">Log in</a>
+                <div class="item">
+                  <a class="ui primary button" href="{% url 'account_app:register' %}">Registrar</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="ui secondary three item menu">
+          <ul class="navbar-nav mr-auto">
+            <div class="ui container">
+
+              <form class="ui action input" action='{% url 'search_app:search' %}'>
+
+                <div class="ui form">
+                  <div class="field">
+                    <select name='q'>
+                      <option value="" selected disabled>Opciones</option>
+                      {% for loc in location %}
+                      <option value="{{loc.location}}">{{loc.location}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+
+                <div class="ui form">
+                  <div class="field">
+                    <select name='q'>
+                      <option value="" selected disabled>Opciones</option>
+                      {% for cat in category %}
+                      <option value="{{cat.category}}">{{cat.category}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                <input type="search" placeholder="Buscar" aria-label="Search" name='q'>
+                <button class="ui button" type="submit">Buscar</button>
+
+
+              </form>
+            </div>
+          </ul>
+        </div>
+
+        {% block body_block %}
+        <!-- Other Htmls go here -->
+        {% endblock %}
+
+    </body>
+    <footer>
+      <div class="ui vertical footer segment">
+        <div class="ui center aligned container">
+          <div class="ui section divider "></div>
+          <div class="ui horizontal small divided link list ">
+            <a class="item" href="#">Site Map</a>
+            <a class="item" href="#">Contact Us</a>
+            <a class="item" href="#">Terms and Conditions</a>
+            <a class="item" href="#">Privacy Policy</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+    {% block js_block %}
+    <!-- Other js go here -->
+    {% endblock %}
+</html>

@@ -62,7 +62,12 @@ class createRol2(object): ##NO Exitoso, wrong date format
     def test_createRol_exist(self):
         self.assertEqual(rol, False)
 
-class uploadImage(object):
+    def test_project_no_exist(self):
+        exists = project.objects.filter(pro_name='Micasa2').exists()
+        self.assertEqual(exists, False)
+
+
+class ProjectTestCase2(TestCase):
     def setUp(self):
         category_cat=category.objects.create(category="emprendimiento")
         location_loc= location.objects.create(location='Morelos');
@@ -305,6 +310,22 @@ class ProjectTest(TestCase):
         exists = project.objects.filter(pro_name='nosofa').exists()
         self.assertEqual(exists, True)
 
+<<<<<<< HEAD
+    def test_project_no_exist(self):
+        exists = project.objects.filter(pro_name='sofa2').exists()
+        self.assertEqual(exists, False)
+
+class ProjectTestCase3(TestCase):
+    def setUp(self):
+        # self.project1= project.objects.create(pro_name='Micasa')
+        project_category= category.objects.create(category='');
+        project_location= location.objects.create(location='´Nada');
+        project_rol= rolInfo.objects.create(rol_name='Vendedor', rol_due_date='2018-10-12', rol_amount='1', rol_location = project_location)
+        self.project1= project.objects.create(pro_name='',pro_description= '',pro_video= 'https://www.youtube.com/watch?v=bdQhytHcZnY',pro_about_us= 'Somos creadores de casa', pro_phrase= 'casa casa',pro_creation_date= '2018-10-10', pro_category=project_category, pro_location=project_location)
+        # self.project1.pro_roles.set(project_rol)
+    def test_project_exist(self):
+        exists = project.objects.filter(pro_name=' Casa ').exists()
+=======
     def test_login(self):
         # send login data
         response = self.client.post('/user/login/', self.credentials, follow=True)
@@ -359,4 +380,5 @@ class ProjectTest(TestCase):
         #Redirect and delete
         self.assertEquals(response.status_code, 302)
         exists = project.objects.filter(pro_name='nosofa').exists()
+>>>>>>> develop
         self.assertEqual(exists, False)

@@ -7,6 +7,7 @@ from django.core import validators
 from django.contrib.auth.models import User
 from account_app.models import UserProfileInfo
 from django.conf import settings
+from django.core.validators import FileExtensionValidator
 from .models import Profile
 #from crispy_forms.helper import FormHelper
 
@@ -31,6 +32,13 @@ class UserProfileInfoForm(forms.ModelForm):
     class Meta():
         model = UserProfileInfo
         fields = ('portfolio_site','profile_pic')
+
+
+
+        def clean(self):
+            all_clean_data = super().clean()
+
+
 
 class createProfileForm(forms.Form):
     name = forms.CharField( label='Nombre',required=True)

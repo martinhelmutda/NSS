@@ -27,9 +27,18 @@
         <div class="ui borderless menu stackable shadow number1">
             <div class="ui container">
                 <div class="header item">
-                    <a href="{% url 'index' %}" class="item"><img class="logo" src="{% static "img/logo.png" %}"><i class="users icon"></i></a>
+                    <a href="{% url 'index' %}" class="item"><img class="logo" src="{% static "img/logo.png" %}"><i class="users icon"></i>TEEM</a>
                 </div>
-              <!--  <a class="item" href="{% url 'project_app:DataRep' %}"><i class="chart bar alternate icon"></i>Data representation</a>-->
+                <a class="item" href="{% url 'project_app:DataRep' %}"><i class="chart bar alternate icon"></i>Data representation</a>
+                <ul class="navbar-nav mr-auto">
+
+                  <form class="ui action input" action='{% url 'search_app:search' %}'>
+                    <input type="search" placeholder="Buscar" aria-label="Search" name='q'>
+                    <button class="ui button" type="submit">Buscar</button>
+                  </form>
+
+
+                </ul>
                 {% if user.is_authenticated %}
                 <div class="ui right simple dropdown item">
                   <i class="edit icon"></i>Crear
@@ -61,9 +70,6 @@
                 </div>
                 {% endif %}
             </div>
-
-
-
         </div>
 
         {% block body_block %}

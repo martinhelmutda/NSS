@@ -67,7 +67,11 @@ INSTALLED_APPS = [
     'ckeditor',
     # 'projects.apps.ProjectsConfig',
     'project_app',
+<<<<<<< HEAD
+    'search_app',
+=======
     'profiles_app',
+>>>>>>> develop
     #SOCIAL AUTH
     'social_django',
 
@@ -138,6 +142,7 @@ DATABASES = {
 """
 development
 """
+"""
 DATABASES = {                                   #Nos conectamos a la base de datos mySQL
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -156,7 +161,14 @@ DATABASES = {                                   #Nos conectamos a la base de dat
         },
     }
 }
+"""
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
 
 
 
