@@ -7,7 +7,7 @@ from . import forms
 from account_app.forms import  UserForm, UserProfileInfoForm, createProfileForm, ProfileForm
 from django.urls import reverse, reverse_lazy
 from urllib.parse import urlencode
-from project_app.models import project, projectImg, project, rolInfo, location, category
+from project_app.models import project, projectImg, project, rolInfo, city,state, category, subcategory
 from project_app import models
 from django.db.models import Q
 from functools import reduce
@@ -32,7 +32,7 @@ class IndexView(SelectRelatedMixin, generic.ListView):
     template_name = 'account_app/index.html'
     context_object_name = 'projects'
     model = models.project
-    select_related = ("pro_category", "pro_location")
+    select_related = ("pro_category", "pro_subcategory", "pro_city", "pro_state")
 
 def proper_pagination(posts, index):
     start_index = 0

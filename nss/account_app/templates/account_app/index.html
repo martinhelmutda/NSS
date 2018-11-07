@@ -11,15 +11,20 @@
     {% for project in projects|dictsort:"id" reversed %}
         <div class="card">
           <div class="image">
-            <img src="/images/avatar2/large/matthew.png">
+            {% if project.pro_img %}
+              <img src="../media/{{project.pro_img}}">
+            {% else %}
+              <img src="https://semantic-ui.com/images/wireframe/image.png">
+            {% endif %}
           </div>
           <div class="content">
             <div class="header">{{project.pro_name}}</div>
             <div class="meta">
               <a>{{project.pro_category}}</a>
+              <a>{{project.pro_subcategory}}</a>
             </div>
             <div class="description">
-              {{project.pro_description}}
+              {{project.pro_description | safe}}
             </div>
           </div>
           <div class="extra content">

@@ -6,7 +6,6 @@
 {% block title %}Páginas{% endblock %}
 {% block body_block %}
 
-<<<<<<< HEAD
 
 <br> <!--Navbar de proyectos-->
 <div class="ui container sticky">
@@ -36,7 +35,7 @@
       <div class="item">
         <div class="image">
           {% if project.pro_img %}
-            <img src="../media/{{project.pro_img}}"">
+            <img src="../media/{{project.pro_img}}">
           {% else %}
             <img src="https://semantic-ui.com/images/wireframe/image.png">
           {% endif %}
@@ -60,56 +59,15 @@
                 | <a href="{% url 'project_app:delete' project.id %}">Borrar</a>
               {% endif %}
             </p>
-=======
-<main role="main">
-  <div class="ui very padded fluid container">
-    <div class="ui four column grid">
-      {% for project in project_list|dictsort:"id" reversed%}
-        <div class="column">
-          <div class="ui fluid card">
-            <div class="image">
-              <img src="/images/avatar2/large/matthew.png">
-            </div>
-            <div class="content">
-              <div class="header">{{project.pro_name}}</div>
-              <div class="meta">
-                <a>{{project.pro_category}}</a>
-              </div>
-              <div class="description">
-                {{project.pro_description}}
-              </div>
-            </div>
-            <p><a href="{% url 'project_app:project' project.id project.pro_name|slugify %}">Leer más</a></p>
-
-            {% if request.user.is_authenticated %}
-            | <a href="{% url 'project_app:update' project.id %}">Editar</a>
-            | <a href="{% url 'project_app:delete' project.id %}">Borrar</a>
-            {% endif %}
-            <div class="extra content">
-              <span class="right floated">
-                Joined in 2013
-              </span>
-              <span>
-                <i class="user icon"></i>
-                75 Friends
-              </span>
-            </div>
->>>>>>> CB/Bus
           </div>
         </div>
       </div>
     </div>
-
   {% endfor %}
 </div>
-
-
-
-
 <script type="text/javascript">
   //Sticky barra que dice mis proyectos
   $('.ui.sticky')
   .sticky();
 </script>
-
 {% endblock %}
