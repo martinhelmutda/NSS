@@ -30,8 +30,9 @@ class UserForm(forms.ModelForm):
 class UserProfileInfoForm(forms.ModelForm):
     class Meta():
         model = UserProfileInfo
-        profile_pic = forms.ImageField(validators=[FileExtensionValidator(['jpg', 'png'])])
         fields = ('portfolio_site','profile_pic')
+
+
 
         def clean(self):
             all_clean_data = super().clean()

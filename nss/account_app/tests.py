@@ -15,6 +15,8 @@ from account_app.views import IndexView
 from django.utils import timezone
 from django.core.files.uploadedfile import SimpleUploadedFile
 from account_app.forms import *
+from django.core.validators import FileExtensionValidator
+from django.core.validators import validate_image_file_extension
 # Create your tests here.
 
 class Navigation(TestCase):
@@ -163,8 +165,7 @@ class UserAccountsInfo(TestCase):
         # Create user
         self.user = User.objects.create_superuser(username='testuser1', email="example2@example.com",
                                                   password='pass1')
-
-        self.useraux = UserProfileInfo.objects.create(user = self.user, profile_pic = "me.jpg", portfolio_site = "Google.com")
+        self.useraux = UserProfileInfo.objects.create(user = self.user, profile_pic = SimpleUploadedFile(name='k.png', content=open('media/profile_pics/k.png', 'rb').read(), content_type='image/png'), portfolio_site = "Google.com")
         self.user.save()
         self.useraux.save()
 
@@ -172,6 +173,7 @@ class UserAccountsInfo(TestCase):
         del self.user
 
     def test_validation(self):
+        validate_image_file_extension(self.useraux.profile_pic)
         user_form = UserProfileInfoForm(data={'profile_pic': self.useraux.profile_pic, 'portfolio_site' : self.useraux.portfolio_site })
         self.assertTrue(user_form.is_valid())
 
@@ -180,6 +182,5 @@ class UserAccountsInfo(TestCase):
 
         response = self.client.get('/admin/account_app/userprofileinfo/1/change/')
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "me.jpg")
         self.assertContains(response, "Google.com")
         self.assertNotContains(response, 'testuser2')
