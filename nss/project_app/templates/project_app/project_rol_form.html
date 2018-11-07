@@ -6,47 +6,67 @@
 {% block body_block %}
     <div class="container">
 
-      <h1 class="content">Añade el puesto que buscas</h1>
-      <div class="ui grid container">
+      <div class="ui  container">
         <div class="ui vertical segment">
           <div class="ui header">
             <!--Crear Puestos-->
           </div>
-          <form method="POST" enctype="multipart/form-data"class="ui form">
+          <form method="POST" id="projectForm" class="ui form segment" enctype="multipart/form-data" data-cities-url="{% url 'project_app:ajax_load_cities' %}">
           {% csrf_token %}
 
+          <h2 class="ui dividing header">Añade el puesto que buscas</h2>
 
-          <div class="table">
+                    <div class="field">
+                        <div class="field">
+                          <label>{{ form.rol_name.label_tag }}</label>
+                          {{ form.rol_name.errors }}
+                          {{ form.rol_name }}
+                          {{form.rol_name_other.errors}}
+                          {{form.rol_name_other}}
+                      </div>
+                    </div>
 
-            <ul>
-            <li>
-              {{ form.rol_name.errors }}
-                {{ form.rol_name.label_tag }}
-                {{ form.rol_name }}
-            </li>
+                    <div class="field">
+                      <label>{{form.rol_description.label}}</label>
+                      <div class="fields">
+                        <div class="sixteen wide field">
+                          <div class="ui fluid">
+                            {{form.rol_description}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
 
-            {{form.rol_name_other.errors}}
-              {{form.rol_name_other}}
 
-              {{ form.rol_due_date.errors }}
-                  {{ form.rol_due_date.label_tag }}
-                  {{ form.rol_due_date }}
+                    <div class="field">
+                        <h4><label>Ubicación del rol</label>  </h4>
+                      <div class="two fields">
+                        <div class="field">
+                          <label>{{form.rol_state.label}}</label>
+                          {{form.rol_state}}
+                        </div>
+                        <div class="field">
+                          <label> {{form.rol_city.label}}</label>
+                            {{form.rol_city}}
+                        </div>
+                      </div>
+                    </div>
 
-              {{ form.rol_amount.errors }}
-                  {{ form.rol_amount.label_tag }}
-                  {{ form.rol_amount }}
+                    <div class="field">
+                      <div class="two fields">
+                        <div class="field">
+                          <label>{{form.rol_amount.label}}</label>
+                          {{form.rol_amount}}
+                        </div>
+                        <div class="field">
+                          <label> {{form.rol_due_date.label}}</label>
+                            {{form.rol_due_date}}
+                        </div>
+                      </div>
+                    </div>
 
-              {{ form.rol_description.errors }}
-                  {{ form.rol_description.label_tag }}
-                  {{ form.rol_description }}
 
-              {{ form.rol_location.errors }}
-                  {{ form.rol_location.label_tag }}
-                  {{ form.rol_location }}
 
-            </ul>
-
-          </div>
 
               <input type="submit" class=" green inverted ui button" value="Publicar puesto">
 
@@ -83,5 +103,25 @@
     }
   });
 </script>
+<script type='text/javascript'>
+  $("#id_rol_state").change(function () {
+    console.log("ENTRA");
+  var url = $("#projectForm").attr("data-cities-url");
+  console.log(url);
+  var countryId = $(this).val();
+  console.log(countryId);
+  $.ajax({
+    url: url,
+    data: {
+      'country': countryId
+    },
+    success: function (data) {
+          console.log("ENTRA DOS")
+          console.log(data);
+      $("#id_rol_city").html(data);
+    }
+  });
+  });
+    </script>
 
 {% endblock %}

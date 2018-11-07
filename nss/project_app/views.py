@@ -1,4 +1,4 @@
-from .models import project, projectImg, project, rolInfo, state,city, category, project_rol
+from .models import project, projectImg, project, rolInfo, state,city, category,subcategory, project_rol
 from .forms import CreateProjectForm, CreateRolForm
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
@@ -45,6 +45,14 @@ def load_cities(request):
     cities = city.objects.filter(state=country_id).order_by('city')
     print(cities)
     return render(request, 'project_app/city_dropdown_list_options.html', {'cities': cities})
+
+def load_subcategories(request):
+    country_id =  request.GET.get('category')
+    subcategories = subcategory.objects.filter(category=country_id)#.order_by('subcategory')
+    print(subcategories)
+    return render(request, 'project_app/subcategory_dropdown_list_options.html', {'subcategories': subcategories})
+
+
 ##Creates a project with the given arguments
 class ProjectRolCreate(CreateView):
     #model = project
@@ -63,7 +71,7 @@ class ProjectRolCreate(CreateView):
 
 class ProjectUpdate(UpdateView):
     model = project
-    fields = ['pro_name','pro_description','pro_video', 'pro_about_us', 'pro_phrase', 'pro_creation_date', 'pro_category', 'pro_city', 'pro_state']
+    fields = ['pro_name','pro_description','pro_video', 'pro_about_us', 'pro_phrase', 'pro_creation_date', 'pro_category', 'pro_subcategory', 'pro_city', 'pro_state']
     template_name_suffix = '_update_form'
 
     def get_success_url(self):

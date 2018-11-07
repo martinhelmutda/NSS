@@ -23,6 +23,13 @@ class category(models.Model):
      def __str__(self):
         return self.category
 
+class subcategory(models.Model):
+     subcategory = models.CharField(primary_key=True,max_length = 50, unique = True, default='')
+     category = models.ForeignKey('category', on_delete=models.PROTECT,default='')
+
+     def __str__(self):
+        return self.subcategory
+
 class state(models.Model): #estado
      state = models.CharField(primary_key=True,max_length = 50, unique = True, default='')
 
@@ -41,7 +48,8 @@ class rolInfo(models.Model):
     rol_due_date = models.DateField()
     rol_amount = models.PositiveIntegerField(default=1)
     rol_description = models.TextField(max_length=800, default='')
-    rol_location = models.ForeignKey('state', on_delete=models.PROTECT,default='')
+    rol_city = models.ForeignKey('city', on_delete=models.PROTECT,default='')
+    rol_state = models.ForeignKey('state', on_delete=models.PROTECT,default='')
 
 
     def __str__(self):
@@ -58,9 +66,13 @@ class project(models.Model):
     pro_about_us = models.TextField(max_length=800, default='')
     pro_phrase = models.CharField(max_length=200, default='')
     pro_creation_date = models.DateField()
+
     pro_category = models.ForeignKey('category', on_delete=models.PROTECT,default='')
+    pro_subcategory = models.ForeignKey('subcategory', on_delete=models.PROTECT,default='')
+
     pro_city = models.ForeignKey('city', on_delete=models.PROTECT,default='')
     pro_state = models.ForeignKey('state', on_delete=models.PROTECT,default='')
+
     pro_roles = models.ManyToManyField('rolInfo', through='project_rol') # https://stackoverflow.com/questions/2216974/django-modelform-for-many-to-many-fields
 
     class Meta:

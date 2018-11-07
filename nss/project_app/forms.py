@@ -1,6 +1,6 @@
 from django import forms
 from .models import project
-from project_app.models import category, project, city, state, rolInfo,  projectImg
+from project_app.models import category,subcategory, project, city, state, rolInfo,  projectImg
 from django.forms import formset_factory, CharField, ModelMultipleChoiceField, ModelChoiceField, BaseFormSet
 from django.db import models
 
@@ -25,6 +25,7 @@ class CreateProjectForm(forms.ModelForm):
             'pro_phrase' : forms.Textarea(),
             'pro_creation_date' : forms.DateInput(attrs={'class':'datepicker'}),
             'pro_category' :forms.Select(attrs={'class': 'ui fluid dropdown'}),
+            'pro_subcategory' :forms.Select(attrs={'class': 'ui fluid dropdown'}),
             'pro_city' : forms.Select(attrs={'class': 'ui fluid dropdown'}),
             'pro_state' : forms.Select(attrs={'class': 'ui fluid dropdown'}),
             'pro_img' : forms.ImageField(label='Imagen'),
@@ -57,6 +58,7 @@ class CreateProjectForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         #self.fields['pro_city'].queryset = city.objects.filter(state=self.data.get('pro_state'))
         self.fields['pro_city'].queryset = city.objects.none()
+        self.fields['pro_subcategory'].queryset = subcategory.objects.none()
         if 'pro_state' in self.data:
             print("Hay state")
             try:
@@ -67,19 +69,31 @@ class CreateProjectForm(forms.ModelForm):
         elif self.instance.pk:
             print("No hhuay state")
             self.fields['pro_city'].queryset = self.instance.country.city_set#.order_by('name')
+        if 'pro_category' in self.data:
+            print("Hay category")
+            try:
+                category_id = self.data.get('pro_category')
+                self.fields['pro_subcategory'].queryset = subcategory.objects.filter(category=category_id)#.order_by('name')
+            except (ValueError, TypeError):
+                pass  # invalid input from the client; ignore and fallback to empty City queryse
+        elif self.instance.pk:
+            print("No hhuay state")
+            self.fields['pro_subcategory'].queryset = self.instance.category.subcategory_set#.order_by('name')
+
 
 class CreateRolForm(forms.ModelForm):
 
     class Meta:
         model = rolInfo
-        fields = ['rol_name', 'rol_name_other','rol_due_date', 'rol_amount', 'rol_description', 'rol_location']
+        fields = ['rol_name', 'rol_name_other','rol_due_date', 'rol_amount', 'rol_description', 'rol_city', 'rol_state']
         widgets = {
             'rol_name' :forms.Select(attrs={'class': 'ui fluid dropdown'}, choices=ROL_CHOICES),
             'rol_name_other' : forms.TextInput( attrs={'placeholder': 'Indique el nombre', 'required':False}),
             'rol_description' :forms.Textarea(),
             'rol_due_date' : forms.DateInput(attrs={'class':'datepicker'}),
             'rol_amount' : forms.TextInput(),
-            'rol_location' :  forms.Select(attrs={'class': 'ui fluid dropdown'}),
+            'rol_city' :  forms.Select(attrs={'class': 'ui fluid dropdown'}),
+            'rol_state' :  forms.Select(attrs={'class': 'ui fluid dropdown'}),
         }
         labels = {
             'rol_name' : "Nombre del puesto",
@@ -87,7 +101,8 @@ class CreateRolForm(forms.ModelForm):
             'rol_due_date' : "Fecha límite para aplicar",
             'rol_amount' : "¿Cuántos puestos como estos necesitas?",
             'rol_description':"Descripcion del puesto",
-            'rol_location' :  "Ubicación del rol",
+            'rol_city' :  "Municipio",
+            'rol_state' :  "Estado",
             #'pro_creation_date': "Inicio del proyecto",
             #'pro_location': "Ubicación del proyecto",
             #'pro_category' :"Indica en qué categoria clasifica",
@@ -104,6 +119,20 @@ class CreateRolForm(forms.ModelForm):
                 'invalid':'El número debe ser mayor a 0',
             },
         }
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        #self.fields['pro_city'].queryset = city.objects.filter(state=self.data.get('pro_state'))
+        self.fields['rol_city'].queryset = city.objects.none()
+        if 'rol_state' in self.data:
+            print("Hay state")
+            try:
+                country_id = self.data.get('rol_state')
+                self.fields['rol_city'].queryset = city.objects.filter(state=country_id)#.order_by('name')
+            except (ValueError, TypeError):
+                pass  # invalid input from the client; ignore and fallback to empty City queryse
+        elif self.instance.pk:
+            print("No hhuay state")
+            self.fields['rol_city'].queryset = self.instance.country.city_set#.order_by('name')
 
     def clean(self):
         super().clean()

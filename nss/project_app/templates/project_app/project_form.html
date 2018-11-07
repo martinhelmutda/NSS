@@ -11,7 +11,7 @@
           <div class="ui header">
             <!--Crear Proyecto-->
           </div>
-          <form method="POST" id="projectForm" enctype="multipart/form-data"class="ui form segment" data-cities-url="{% url 'project_app:ajax_load_cities' %}" >
+          <form method="POST" id="projectForm" enctype="multipart/form-data" class="ui form segment" data-cities-url="{% url 'project_app:ajax_load_cities' %}" data-subcategories-url="{% url 'project_app:ajax_load_subcategories' %}" >
           {% csrf_token %}
 
           <h2 class="ui dividing header">Crea tu proyecto</h2>
@@ -33,11 +33,11 @@
                       <div class="two fields">
                         <div class="field">
                           <label>{{form.pro_category.label}} </label>
-                        <!--  {{form.pro_category}-->
+                          {{form.pro_category}}
                         </div>
                         <div class="field">
                           <label>{{form.pro_category.label}}</label>
-                          {{form.pro_category}}
+                          {{form.pro_subcategory}}
                         </div>
                       </div>
                     </div>
@@ -149,4 +149,24 @@
   });
   });
     </script>
+    <script type='text/javascript'>
+      $("#id_pro_category").change(function () {
+        console.log("ENTRA");
+      var url = $("#projectForm").attr("data-subcategories-url");
+      console.log(url);
+      var countryId = $(this).val();
+      console.log(countryId);
+      $.ajax({
+        url: url,
+        data: {
+          'category': countryId
+        },
+        success: function (data) {
+              console.log("ENTRA DOS")
+              console.log(data);
+          $("#id_pro_subcategory").html(data);
+        }
+      });
+      });
+        </script>
 {% endblock %}

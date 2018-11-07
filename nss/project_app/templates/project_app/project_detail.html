@@ -58,7 +58,7 @@
             <div class="ui grid">
               <div class="eight wide column">
                   <i class="tags icon"></i>
-                  {{project.pro_category}}
+                  {{project.pro_category}}, {{project.pro_subcategory}}.
               </div>
               <div class="eight wide column">
                   <i class="map marker alternate icon"></i>
@@ -142,7 +142,7 @@
                       <a href="">Editar</a>
                     {%endif%}
                     <div class="meta">
-                      {{x.rol_location}}
+                      {{x.rol_city}}, {{x.rol_state}}.
                     </div> <hr>
                   </h4>
                   <div class="description">
@@ -222,6 +222,7 @@
 
       </div>
     </div>
+
 
     <div id="fb-root"></div>
     <script>(function(d, s, id) {
