@@ -5,6 +5,7 @@ from django.forms import formset_factory, CharField, ModelMultipleChoiceField, M
 from django.db import models
 
 ROL_CHOICES= [
+    ('---', '---'),
     ('Traductor', 'Traductor'),
     ('Programador', 'Programador'),
     ('Editor_video', 'Editor de video'),
@@ -51,7 +52,7 @@ class formProject(forms.Form):
 class formProjectAddRol(forms.Form):
     #rol_alternative_name = ModelChoiceField(label='rol',widget=forms.Select(attrs={'class': 'ui fluid dropdown'}) ,queryset=rol.objects.all(), initial=0)
     rol_dropdown_name= forms.CharField(label='Nombre del puesto disponible', widget=forms.Select(attrs={'class': 'ui fluid dropdown'}, choices=ROL_CHOICES))
-    rol_alternative_name = forms.CharField(required=False,max_length=40, widget=forms.TextInput(attrs={ 'class': 'field', 'id': 'rol_alternative_name', 'placeholder':'Indica el nombre del puesto'}))
+    rol_alternative_name = forms.CharField(required=False,max_length=40, widget=forms.TextInput(attrs={ 'class': 'field', 'id': 'rol_alternative_name', 'hidden':True,'placeholder':'Indica el nombre del puesto'}))
     rol_due_date =  forms.DateField(label='Fecha límite para aplicar',widget=forms.DateInput(attrs={'class':'datepicker'}), required=False)
     rol_amount = forms.IntegerField(label='Cantidad', widget=forms.TextInput(attrs={'class':'field'}))
     rol_description = forms.CharField(label='Descripción del rol',widget=forms.Textarea)

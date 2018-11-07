@@ -66,7 +66,11 @@ INSTALLED_APPS = [
     'ckeditor',
     # 'projects.apps.ProjectsConfig',
     'project_app',
+<<<<<<< HEAD
     'search_app',
+=======
+    'profiles_app',
+>>>>>>> develop
     #SOCIAL AUTH
     'social_django',
 
@@ -150,6 +154,10 @@ DATABASES = {                                   #Nos conectamos a la base de dat
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
         },
+        'TEST': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'test_kunigo',
+        },
     }
 }
 """
@@ -167,13 +175,13 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
 
-PASSWORD_HASHERS = [
-    'django.contrib.auth.hashers.Argon2PasswordHasher',
-    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
-    'django.contrib.auth.hashers.BCryptPasswordHasher',
-    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
-    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
-]
+# PASSWORD_HASHERS = [
+#     'django.contrib.auth.hashers.Argon2PasswordHasher',
+#     'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+#     'django.contrib.auth.hashers.BCryptPasswordHasher',
+#     'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+#     'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+# ]
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -222,9 +230,9 @@ STATICFILES_DIRS = [
 
 CRISPY_TEMPLATE_PACK = 'semantic-ui'
 
-LOGIN_URL = 'account_app/user_login'
+LOGIN_URL = 'account_app:user_login'
 
-LOGIN_REDIRECT_URL ='index'
+# LOGIN_REDIRECT_URL ='index'
 
 # PARA EL MAIL Y EL RESET
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

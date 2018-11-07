@@ -1,8 +1,9 @@
 {% extends "base.html" %}
+
 {% block body_block %}
   <form class="ui form"  method="post">
     {% csrf_token %}
     <h1>¿Seguro que deseas borrar? "{{object}}"</h1>
-    <input type="submit" name="" value="Sí, borrar">
+    <input type="submit" name="borrar" value="Sí, borrar">
   </form>
 {% endblock %}

@@ -11,8 +11,10 @@
             <link rel="stylesheet" href="{% static "css/semantic/out/semantic.css" %}">
             <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
             <link rel="stylesheet" href="{% static "css/extras/processes.css" %}">
+            {% block processes_block %}
+
+            {% endblock %}
             <link rel ="stylesheet" href="{% static "css/styles.css" %}">
-            <script type ="text/javascript" src="{% static "js/extras/processes.js" %}"></script>  <!--Este link hace que no jale el datepicker de create_project.html-->
             <script src ="{% static "css/semantic/out/semantic.min.js" %}"></script>
             <link rel ="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
             <script type ="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
@@ -54,8 +56,8 @@
                   <i class="user icon"></i>User
                   <i class="dropdown icon"></i>
                   <div class="menu">
-                    <a class="item"><i class="address card outline icon"></i> View Profile</a>
-                    <a class="item"><i class="edit icon"></i> Edit Profile</a>
+                    <a class="item" href="{% url 'profiles_app:list' %}"><i class="address card outline icon"></i> View Profile</a>
+                    <a class="item" href="{% url 'account_app:profile' %}"><i class="edit icon"></i> Edit Profile</a>
                     <a class="item"><i class="globe icon"></i> Choose Language</a>
                     <a class="item"><i class="settings icon"></i> Account Settings</a>
                     <a class="item" href="{% url 'logout' %}"><i class="power off icon"></i>Logout</a>
@@ -76,6 +78,9 @@
         {% endblock %}
 
     </body>
+    {% block js_block %}
+    <!-- Other js go here -->
+    {% endblock %}
     <footer>
       <div class="ui vertical footer segment">
         <div class="ui center aligned container">
@@ -89,7 +94,5 @@
         </div>
       </div>
     </footer>
-    {% block js_block %}
-    <!-- Other js go here -->
-    {% endblock %}
+
 </html>

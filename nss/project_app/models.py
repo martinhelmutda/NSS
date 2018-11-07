@@ -16,6 +16,7 @@ from ckeditor.fields import RichTextField
 #
 #    def __str__(self):
 #        return self.title
+
 class category(models.Model):
      category = models.CharField(primary_key=True,max_length = 50, unique = True, default='')
 
@@ -29,7 +30,7 @@ class location(models.Model):
         return self.location
 
 class rolInfo(models.Model):
-    rol_name =  models.CharField(max_length = 150, unique = True, default='')
+    rol_name =  models.CharField(max_length = 150,  default='')
     rol_due_date = models.DateField()
     rol_amount = models.PositiveIntegerField(default=1)
     rol_description = models.TextField(max_length=800, default='')

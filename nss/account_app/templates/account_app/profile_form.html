@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block body_block %}
+    <style media="screen">
+      .ui.form input[type="file"]{
+        background: transparent;
+      }
+      .ui.primary.button input[type=file] {
+        font-size: 100px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0;
+      }
+    </style>
+    <div class="container">
+      <h1 class="content">Crear Perfil </h1><br><br>
+      <div class="ui centered grid container">
+        <div class="ui vertical segment">
+          <div class="ui header">
+            Crear Perfil
+          </div>
+          <form method="POST" enctype="multipart/form-data" class="ui form">
+          {% csrf_token %}
+          {# {{form.avatar}} #}
+
+
+          {% if request.user.profile.avatar %}
+            <div class="ui segment">
+                <img class="ui fluid image" src="{{request.user.profile.avatar.url}}">
+            </div>
+            <div class="ui toggle checkbox">
+              <input type="checkbox" name="avatar-clear" value="avatar-clear">
+              <label>Borrar imagen al actualizar</label>
+            </div>
+          {% else %}
+            <div class="ui placeholder segment">
+              <div class="ui icon header">
+                <i class="image file outline icon"></i>
+                NO hay imagen de perfil
+              </div>
+              <div class="ui primary button">
+                <input type="file" name="avatar" value="id_avatar">
+                Agregar Imagen
+              </div>
+            </div>
+          {% endif %}
+
+          {{form.bio}}
+
+          {{form.link}}
+            <input type="submit" class="positive ui button" value="Submit">
+          <!--  <div class="fieldWrapper">
+                {{ form.ProName.errors }}
+                {{ form.ProName.label_tag }}
+                {{ form.ProName }}
+            </div>-->
+            <!--<button class="ui black button">Agregar Rol</button><br><br>-->
+
+          </form>
+        </div>
+      </div>
+
+    </div>
+{% endblock %}
