@@ -1,3 +1,10 @@
+<!--
+"""
+Last modified: ANgélica Güemes
+date: November 7
+Time: 8:15
+"""
+-->
 {% extends "base.html" %}
 {% load staticfiles %}
 {% block processes_block %}
@@ -54,10 +61,14 @@
                     </div>
 
                     <div class="field">
-                      <label>{{form.pro_video.label}}</label>
-                      <div class="one field">
+                      <div class="two fields">
                         <div class="field">
+                          <label>{{form.pro_video.label}}</label>
                           {{form.pro_video}}
+                        </div>
+                        <div class="field">
+                          <label>{{form.pro_img.label}}</label>
+                          {{form.pro_img}}
                         </div>
                       </div>
                     </div>

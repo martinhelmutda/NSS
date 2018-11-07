@@ -1,3 +1,8 @@
+"""
+Last modified: ANgélica Güemes
+date: November 7
+Time: 8:15
+"""
 from .models import project, projectImg, project, rolInfo, state,city, category,subcategory, project_rol
 from .forms import CreateProjectForm, CreateRolForm
 from django.utils import timezone

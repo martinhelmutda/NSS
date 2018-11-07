@@ -1,3 +1,8 @@
+"""
+Last modified: ANgélica Güemes
+date: November 7
+Time: 8:15
+"""
 from django import forms
 from .models import project
 from project_app.models import category,subcategory, project, city, state, rolInfo,  projectImg
@@ -28,7 +33,6 @@ class CreateProjectForm(forms.ModelForm):
             'pro_subcategory' :forms.Select(attrs={'class': 'ui fluid dropdown'}),
             'pro_city' : forms.Select(attrs={'class': 'ui fluid dropdown'}),
             'pro_state' : forms.Select(attrs={'class': 'ui fluid dropdown'}),
-            'pro_img' : forms.ImageField(label='Imagen'),
         }
         labels = {
             'pro_name': "Nombre del proyecto",
@@ -40,7 +44,7 @@ class CreateProjectForm(forms.ModelForm):
             'pro_category' :"Indica en qué categoria clasifica",
             'pro_city': "Municipio",
             'pro_state' :"Estado",
-            'pro_img': "Agrega las imagenes que quieras compartir sobre tu proyecto",
+            'pro_img': "Agrega algun logo o imagen de tu proyecto",
         }
         help_texts = { #Sale justo abajo del field
             #'pro_name': 'Escribe el nombre del proyecto',
@@ -60,24 +64,20 @@ class CreateProjectForm(forms.ModelForm):
         self.fields['pro_city'].queryset = city.objects.none()
         self.fields['pro_subcategory'].queryset = subcategory.objects.none()
         if 'pro_state' in self.data:
-            print("Hay state")
             try:
                 country_id = self.data.get('pro_state')
                 self.fields['pro_city'].queryset = city.objects.filter(state=country_id)#.order_by('name')
             except (ValueError, TypeError):
                 pass  # invalid input from the client; ignore and fallback to empty City queryse
         elif self.instance.pk:
-            print("No hhuay state")
             self.fields['pro_city'].queryset = self.instance.country.city_set#.order_by('name')
         if 'pro_category' in self.data:
-            print("Hay category")
             try:
                 category_id = self.data.get('pro_category')
                 self.fields['pro_subcategory'].queryset = subcategory.objects.filter(category=category_id)#.order_by('name')
             except (ValueError, TypeError):
                 pass  # invalid input from the client; ignore and fallback to empty City queryse
         elif self.instance.pk:
-            print("No hhuay state")
             self.fields['pro_subcategory'].queryset = self.instance.category.subcategory_set#.order_by('name')
 
 

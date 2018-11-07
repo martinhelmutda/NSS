@@ -1,3 +1,8 @@
+"""
+Last modified: ANgélica Güemes
+date: November 7
+Time: 8:15
+"""
 from django.db import models
 from embed_video.fields import EmbedVideoField
 from ckeditor.fields import RichTextField
@@ -66,6 +71,7 @@ class project(models.Model):
     pro_about_us = models.TextField(max_length=800, default='')
     pro_phrase = models.CharField(max_length=200, default='')
     pro_creation_date = models.DateField()
+    pro_img = models.ImageField(default='', upload_to='pro_img', blank=True)# null=true se pone null en la base de datos como entrada
 
     pro_category = models.ForeignKey('category', on_delete=models.PROTECT,default='')
     pro_subcategory = models.ForeignKey('subcategory', on_delete=models.PROTECT,default='')
