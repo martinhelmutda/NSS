@@ -86,13 +86,21 @@
   send.addEventListener('click', function(){
     var content= encodeURIComponent(document.getElementById('content').value);
     if (content.length > 0) {
+      document.getElementById('content').value ='';
+      $('#send').addClass('disabled');
       const url= "{% url 'messages_app:add' thread.pk %}" + "?content="+content;
       //Pass user credentials
       fetch(url, {'credentials':'include'}).then(response => response.json()).then(function(data){
         // alert(data.created)
+
         // Si el mensaje se ha creado correctamente...
         if (data.created) {
           // Aquí iría el código de creación del mensaje dinámicamente
+          var message = document.createElement('div');
+          message.classList.add('mine', 'mb-3');
+          message.innerHTML = '<small><i>Hace unos momentos</i></small>' + decodeURIComponent(content);
+          document.getElementById('thread').appendChild(message);
+          ScrollBottomThread();
         } else {
           // Si algo ha ido mal podemos debugear en la consola del inspector
           console.log("Algo ha fallado y el mensaje no se ha podido añadir.")
