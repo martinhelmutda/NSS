@@ -12,10 +12,6 @@
     <div class="ui grid">
       <div class="four wide column">
         <div class="ui vertical fluid tabular menu">
-          <a class="item">
-            Bio
-            <img src="{{user.profile.avatar.url}}" alt="" class="ui avatar image">
-          </a>
           {% for thread in request.user.threads.all %}
             <!-- Sólo mostraremos un Thread si tiene como mínimo 1 mensaje -->
             {% if thread.messages.all|length > 0 %}
@@ -53,13 +49,22 @@
             <div class="thread" id="thread">
               {% for message in object.messages.all %}
                 <!-- Dependiendo del usuario asignamos una clase con un color de fondo u otro en el mensaje -->
-                <div {% if request.user == message.user %}class="mine mb-3"{% else %}class="other mb-3"{% endif %}>
+                <div {% if request.user == message.user %}class="ui mine mb-3"{% else %}class="ui message other mb-3"{% endif %}>
                   <small><i>Hace {{thread.messages.last.created|timesince}}</i></small><br>
                   {{message.content}}
                 </div>
               {% endfor %}
             </div>
             <!-- Aquí crearemos el formulario -->
+            <div class="ui form">
+              <div class="field">
+                <br>
+                <textarea rows="2" id="content" placeholder="Escribe tu mensaje aquí"></textarea>
+              </div>
+              <button class="ui primary disabled button" id="send">
+                Enviar
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -71,6 +76,50 @@
     menuNav.on('click', function (item) {
       menuNav.removeClass('active');
       $(this).addClass('active');
-    });
+  });
+
+  var send = document.getElementById("send");
+  send.addEventListener('click', function(){
+    var content= encodeURIComponent(document.getElementById('content').value);
+    if (content.length > 0) {
+      document.getElementById('content').value ='';
+      $('#send').addClass('disabled');
+      const url= "{% url 'messages_app:add' thread.pk %}" + "?content="+content;
+      //Pass user credentials
+      fetch(url, {'credentials':'include'}).then(response => response.json()).then(function(data){
+        // alert(data.created)
+
+        // Si el mensaje se ha creado correctamente...
+        if (data.created) {
+          // Aquí iría el código de creación del mensaje dinámicamente
+          var message = document.createElement('div');
+          message.classList.add('mine', 'mb-3');
+          message.innerHTML = '<small><i>Hace unos momentos</i></small><br />' + decodeURIComponent(content);
+          document.getElementById('thread').appendChild(message);
+          ScrollBottomThread();
+        } else {
+          // Si algo ha ido mal podemos debugear en la consola del inspector
+          console.log("Algo ha fallado y el mensaje no se ha podido añadir.")
+        }
+      })
+    }
+  })
+
+  //Deactivate the button
+  var content= document.getElementById('content');
+  content.addEventListener("keyup", function () {
+    if(!this.checkValidity()|| !this.value){
+      $('#send').addClass('disabled');
+    }else {
+      $('#send').removeClass('disabled');
+    }
+  })
+
+  function ScrollBottomThread() {
+    var thread = document.getElementById('thread');
+    thread.scrollTop = thread.scrollHeight;
+  }
+
+  ScrollBottomThread();
 </script>
 {% endblock %}
