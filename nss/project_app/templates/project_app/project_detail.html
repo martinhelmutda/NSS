@@ -8,7 +8,14 @@
 {% endblock %}
 {% block title %}{{project.pro_name}}{% endblock %}
 {% block body_block %}
-
+<div class="ui tabular menu">
+  <a class="active item">
+    Bio
+  </a>
+  <a class="item">
+    Photos
+  </a>
+</div>
   {# Updated Segment #}
   {% if 'updated' in request.GET %}
     <div class="ui basic modal">

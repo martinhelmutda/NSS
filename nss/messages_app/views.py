@@ -10,7 +10,7 @@ from django.utils.decorators import method_decorator
 # Create your views here.
 @method_decorator(login_required, name="dispatch")
 class ThreadList(TemplateView):
-    template_name="messages_app/thread_list"
+    template_name="messages_app/thread_list.html"
     # model = Thread
     # def get_queryset(self):
     #     queryset = super(ThreadList, self). get_queryset()
@@ -24,6 +24,6 @@ class ThreadDetail(DetailView):
 
     def get_object(self):
         obj = super(ThreadDetail, self).get_object()
-        if self.request.user not in obj.useres.all():
+        if self.request.user not in obj.users.all():
             raise Http404()
         return obj
