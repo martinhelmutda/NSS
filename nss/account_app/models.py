@@ -4,6 +4,7 @@ from embed_video.fields import EmbedVideoField
 from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.db.models.signals import post_save
+from ckeditor.fields import RichTextField
 
 # Create your models here.
 
@@ -20,7 +21,7 @@ class UserProfileInfo(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
     avatar = models.ImageField(upload_to='profiles', null=True, blank=True)
-    bio = models.TextField(null=True, blank=True)
+    bio = RichTextField(verbose_name="biografía")
     link = models.URLField(max_length=200, null=True, blank=True)
 
 

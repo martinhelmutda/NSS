@@ -15,7 +15,6 @@
       }
     </style>
     <div class="container">
-      <h1 class="content">Crear Perfil </h1><br><br>
       <div class="ui centered grid container">
         <div class="ui vertical segment">
           <div class="ui header">
@@ -25,15 +24,16 @@
           {% csrf_token %}
           {# {{form.avatar}} #}
 
-
           {% if request.user.profile.avatar %}
-            <div class="ui segment">
-                <img class="ui fluid image" src="{{request.user.profile.avatar.url}}">
+            <div class=" container">
+              <img class="ui centered medium rounded bordered image" src="{{request.user.profile.avatar.url}}">
             </div>
             <div class="ui toggle checkbox">
               <input type="checkbox" name="avatar-clear" value="avatar-clear">
               <label>Borrar imagen al actualizar</label>
             </div>
+            <br>
+            <br>
           {% else %}
             <div class="ui placeholder segment">
               <div class="ui icon header">
@@ -46,8 +46,10 @@
               </div>
             </div>
           {% endif %}
+          <div class="field">
+            {{form.bio}}
 
-          {{form.bio}}
+          </div>
 
           {{form.link}}
             <input type="submit" class="positive ui button" value="Submit">
