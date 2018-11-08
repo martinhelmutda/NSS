@@ -4,6 +4,7 @@ from embed_video.fields import EmbedVideoField
 from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.db.models.signals import post_save
+from django.core.validators import FileExtensionValidator
 
 # Create your models here.
 
@@ -12,7 +13,7 @@ class UserProfileInfo(models.Model):
 
     #additional
     portfolio_site = models.URLField(blank=True)
-    profile_pic = models.ImageField(upload_to='profile_pics',blank=True)
+    profile_pic = models.ImageField(upload_to='profile_pics',blank=True, validators=[FileExtensionValidator(['jpg', 'png'])])
 
     def __str__(self):
         return self.user.username

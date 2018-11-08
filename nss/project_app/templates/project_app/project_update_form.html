@@ -5,49 +5,110 @@
 {% endblock %}
 {% block body_block %}
     <div class="container">
-      <h1 class="content">Actualiza tu proyecto</h1><br><br>
+      <!--<h1 class="content">Actualiza tu proyecto</h1>--><br><br>
 
       {% if 'ok' in request.GET %}
-        <p>
-          Página editada console
-        </p>
-        <p><a href="{% url 'project_app:project' project.id project.pro_name|slugify %}">Leer más</a></p>
-
+      <div class="ui basic modal">
+        <div class="ui icon header">
+          <i class="archive icon"></i>
+          El proyecto se actualizó con éxito.
+        </div>
+        <div class="content">
+          <p class="ui centered grid container">Los cambios se han guardado ¿Desea seguir editando?</p>
+        </div>
+        <div class="actions">
+          <a class="ui red basic cancel inverted button" href="{% url 'project_app:project' project.id project.pro_name|slugify %}">
+            <i class="remove icon"></i>
+            No
+          </a>
+          <div class="ui green ok inverted button">
+            <i class="checkmark icon"></i>
+            Sí
+          </div>
+        </div>
+      </div>
       {% endif %}
-      <form method="POST" enctype="multipart/form-data"class="ui form">
+      <form method="POST" id="projectForm"  class="ui form container segment" enctype="multipart/form-data"class="ui form" data-cities-url="{% url 'project_app:ajax_load_cities' %}" data-subcategories-url="{% url 'project_app:ajax_load_subcategories' %}" >
       {% csrf_token %}
-      {{ form_rol.management_form }}
 
 
-      <div class="fieldWrapper">
-           {{ project.pro_img.errors }}
-           {{ form.pro_img.label_tag }}
-           {{ form.pro_img }}
-       </div>
+      <h3>Actualizar información del proyecto</h3>
 
-      <h3>Información del proyetco</h3>
-      <div class="col-2">
-          <label>{{form_pro.as_p}}</label>
-      </div>
-      <p>{{form.as_table}}</p>
-      <h3>Información de los roles</h3>
-      <div class="table">
-        {% for form in form_rol %}
-        <ul>
-          <li>{{ form }}</li>
-        </ul>
-      {% endfor %}
-      </div>
-      <input type="hidden" name="cantidad" id="cantidad"value="">
+                          <div class="field">
+                            <div class="two fields">
+                              <div class="field">
+                                <label>{{form.pro_name.label}}</label>
+                                {{form.pro_name}}
+                              </div>
+                              <div class="field">
+                                <label>{{form.pro_creation_date.label}}</label>
+                                {{form.pro_creation_date}}
+                              </div>
+                            </div>
+                          </div>
 
-        <input type="button" value="Add More" id="add_more">
+                          <div class="field">
+                            <div class="two fields">
+                              <div class="field">
+                                <label>{{form.pro_category.label}} </label>
+                                {{form.pro_category}}
+                              </div>
+                              <div class="field">
+                                <label>{{form.pro_category.label}}</label>
+                                {{form.pro_subcategory}}
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="field">
+                            <label>{{form.pro_description.label}}</label>
+                            <div class="fields">
+                              <div class="sixteen wide field">
+                                <div class="ui fluid">
+                                  {{form.pro_description}}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="field">
+                            <label>{{form.pro_video.label}}</label>
+                            <div class="one field">
+                              <div class="field">
+                                {{form.pro_video}}
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="field">
+                              <h4><label>Ubicación del proyecto</label>  </h4>
+                            <div class="two fields">
+                              <div class="field">
+                                <label>{{form.pro_state.label}}</label>
+                                {{form.pro_state}}
+                              </div>
+                              <div class="field">
+                                <label> {{form.pro_city.label}}</label>
+                                	{{form.pro_city}}
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="field">
+                            <div class="two fields">
+                              <div class="field">
+                                <label>{{form.pro_about_us.label}}</label>
+                                {{form.pro_about_us}}
+                              </div>
+                              <div class="field">
+                                <label>{{form.pro_phrase.label}}</label>
+                                  {{form.pro_phrase}}
+                              </div>
+                            </div>
+                          </div>
+
         <input type="submit" class="positive ui button" value="Actualiza">
-      <!--  <div class="fieldWrapper">
-            {{ form.ProName.errors }}
-            {{ form.ProName.label_tag }}
-            {{ form.ProName }}
-        </div>-->
-        <!--<button class="ui black button">Agregar Rol</button><br><br>-->
+
 
       </form>
     </div>
@@ -57,7 +118,7 @@
 <script src="{% static "css/semantic/out/semantic.min.js" %}"></script>
 <script type="text/javascript">
   $(function() {
-    $('input[class="datepicker"]').daterangepicker({
+    $('input[id="id_pro_creation_date"]').daterangepicker({
       singleDatePicker: true,
       showDropdowns: true,
       locale: {
@@ -65,45 +126,50 @@
         }
     });
   });
-
-
+  $('.ui.basic.modal')
+  .modal('show')
+;
   //document.getElementById('fieldWrapper').innerHTML.setAttribute("multiple", "multiple");
 </script>
 <script type='text/javascript'>
-        co=1;
-          $('#add_more').click(function() {
-            console.log("HOLA")
-        cloneMore('div.table:last', 'service');
-      });
-      function cloneMore(selector, type) {
-          var newElement = $(selector).clone(true);
-          var total = $('#id_' + type + '-TOTAL_FORMS').val();
-          console.log("total "+total)
-          newElement.find(':input').each(function() {
-              var name = $(this).attr('name').replace('-' + (co-1) + '-','-' + co+ '-');
-              var id = 'id_' + name;
-              console.log("id "+id)
-              $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
-          });
-          newElement.find('label').each(function() {
-              var newFor = $(this).attr('for').replace('-' + (co-1) + '-','-' + co + '-');
-              $(this).attr('for', newFor);
-          });
-          total=total+1;
-          co=co+1;
-          console.log("total "+total)
-          console.log("co "+co)
-          $('#id_' + type + '-TOTAL_FORMS').val(co);
-          $(selector).after(newElement);
-          $('input[class="datepicker"]').daterangepicker({
-            singleDatePicker: true,
-            showDropdowns: true,
-            locale: {
-               format: 'YYYY-MM-DD'
-              }
-          });
-          document.getElementById("cantidad").value = co;
-          console.log("cant " +   document.getElementById("cantidad").value);
-      }
+  $("#id_pro_state").change(function () {
+    console.log("ENTRA");
+  var url = $("#projectForm").attr("data-cities-url");
+  console.log(url);
+  var countryId = $(this).val();
+  console.log(countryId);
+  $.ajax({
+    url: url,
+    data: {
+      'country': countryId
+    },
+    success: function (data) {
+          console.log("ENTRA DOS")
+          console.log(data);
+      $("#id_pro_city").html(data);
+    }
+  });
+  });
     </script>
+  </script>
+  <script type='text/javascript'>
+    $("#id_pro_category").change(function () {
+      console.log("ENTRA");
+    var url = $("#projectForm").attr("data-subcategories-url");
+    console.log(url);
+    var countryId = $(this).val();
+    console.log(countryId);
+    $.ajax({
+      url: url,
+      data: {
+        'category': countryId
+      },
+      success: function (data) {
+            console.log("ENTRA DOS")
+            console.log(data);
+        $("#id_pro_subcategory").html(data);
+      }
+    });
+    });
+      </script>
 {% endblock %}

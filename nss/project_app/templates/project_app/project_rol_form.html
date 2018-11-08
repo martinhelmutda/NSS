@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block processes_block %}
+<script type ="text/javascript" src="{% static "js/extras/processes.js" %}"></script>  <!--Este link hace que no jale el datepicker de create_project.html-->
+{% endblock %}
+{% block body_block %}
+    <div class="container">
+
+      <div class="ui  container">
+        <div class="ui vertical segment">
+          <div class="ui header">
+            <!--Crear Puestos-->
+          </div>
+          <form method="POST" id="projectForm" class="ui form segment" enctype="multipart/form-data" data-cities-url="{% url 'project_app:ajax_load_cities' %}">
+          {% csrf_token %}
+
+          <h2 class="ui dividing header">Añade el puesto que buscas</h2>
+
+                    <div class="field">
+                        <div class="field">
+                          <label>{{ form.rol_name.label_tag }}</label>
+                          {{ form.rol_name.errors }}
+                          {{ form.rol_name }}
+                          {{form.rol_name_other.errors}}
+                          {{form.rol_name_other}}
+                      </div>
+                    </div>
+
+                    <div class="field">
+                      <label>{{form.rol_description.label}}</label>
+                      <div class="fields">
+                        <div class="sixteen wide field">
+                          <div class="ui fluid">
+                            {{form.rol_description}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+                    <div class="field">
+                        <h4><label>Ubicación del rol</label>  </h4>
+                      <div class="two fields">
+                        <div class="field">
+                          <label>{{form.rol_state.label}}</label>
+                          {{form.rol_state}}
+                        </div>
+                        <div class="field">
+                          <label> {{form.rol_city.label}}</label>
+                            {{form.rol_city}}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="field">
+                      <div class="two fields">
+                        <div class="field">
+                          <label>{{form.rol_amount.label}}</label>
+                          {{form.rol_amount}}
+                        </div>
+                        <div class="field">
+                          <label> {{form.rol_due_date.label}}</label>
+                            {{form.rol_due_date}}
+                        </div>
+                      </div>
+                    </div>
+
+
+
+
+              <input type="submit" class=" green inverted ui button" value="Publicar puesto">
+
+          </form>
+        </div>
+      </div>
+
+    </div>
+{% endblock %}
+
+{% block js_block %}
+<script src="{% static "css/semantic/out/semantic.min.js" %}"></script>
+<script type="text/javascript">
+
+  $(function() {
+    var dateToday = new Date();
+    $('input[class="datepicker"]').daterangepicker({
+      singleDatePicker: true,
+      showDropdowns: true,
+      minDate: dateToday,
+      locale: {
+         format: 'YYYY-MM-DD'
+        }
+    });
+    $('#id_rol_name_other').hide();
+  });
+</script>
+<script type="text/javascript">
+  $('div select[id=id_rol_name]').change(function(e){
+    if ($('div select option:selected').val() == 'Otro'){
+      $('#id_rol_name_other').show();
+    }else{
+      $('#id_rol_name_other').hide();
+    }
+  });
+</script>
+<script type='text/javascript'>
+  $("#id_rol_state").change(function () {
+    console.log("ENTRA");
+  var url = $("#projectForm").attr("data-cities-url");
+  console.log(url);
+  var countryId = $(this).val();
+  console.log(countryId);
+  $.ajax({
+    url: url,
+    data: {
+      'country': countryId
+    },
+    success: function (data) {
+          console.log("ENTRA DOS")
+          console.log(data);
+      $("#id_rol_city").html(data);
+    }
+  });
+  });
+    </script>
+
+{% endblock %}

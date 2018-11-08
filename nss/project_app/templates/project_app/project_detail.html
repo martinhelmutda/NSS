@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 {% extends "base.html" %}
 {% load static %}
 {% load embed_video_tags %}
@@ -40,96 +39,204 @@
   {% endif %}
 
 
-  <main role="main">
-    <div class="ui raised padded container segment">
 
-        <div class="col-md-9 mx-auto">
-          <div>
-            <div class="ui stackable grid">
-              <div class="ui equal width row">
-                <div class="column">
-                  <h2 class="section-heading mb-4">
-                    {{project.pro_name}}</h2><h5>{{project.pro_category}}</h5>
-                    <div class="ui indicating progress" id="example2">
-                      <div class="bar"></div>
-                    </div>
-                    {{project.pro_phrase|safe}}
-                    <div class="ui divider"></div>
-                    <div class="ui mini labeled button" tabindex="0">
-                      <div class="ui red button">
-                        <i class="heart icon"></i> Like
-                      </div>
-                      <a class="ui basic red left pointing label">
-                        1,048
-                      </a>
-                    </div>
+    <div class="ui segment container"> <!--segment-->
+      <div class="ui grid">
+        <!--Ifo general-->
+        <div class="row">
+          <!--main info-->
+          <div class="eight wide column">
+
+            <div class="ui grid"> <!--Titulo, boton para editar y creador--> <br>
+                <h2 class="section-heading mb-4">
+                       {{project.pro_name}}
+                       {% if request.user.is_staff %}
+                          <a href="{% url 'project_app:update' project.id %}">Editar</a>
+                      {% endif %}
+                </h2>
+            </div>
+            <!--Creador del proyecto-->
+            <div class="ui grid">
+              <div class="item">
+                <img class="ui avatar image" src="https://semantic-ui.com/images/avatar2/large/elyse.png"> Christian Rocha
+              </div>
+            </div>
+            <!--info general del proyecto-->
+            <div class="ui grid">
+              <div class="eight wide column">
+                  <i class="tags icon"></i>
+                  {{project.pro_category}}, {{project.pro_subcategory}}.
+              </div>
+              <div class="eight wide column">
+                  <i class="map marker alternate icon"></i>
+                  {{project.pro_city}}, {{project.pro_state}}.
+              </div>
+            </div>
+            <div class="sixteen wide column">
+              <i class="dollar sign icon"></i>
+              {{project.pro_phrase}}
+            </div>
+            <!--Barra de progreso-->
+            <div class="ui grid">
+              <div class="fifteen wide column">
+                <div class="ui violet progress" id="example2">
+                   <div class="bar"></div>
                 </div>
-                <div class="column">
-                  <div class="ui orange fluid card">
-                    <div class="container">
-                        {% video project.pro_video %}
+              </div>
+            </div>
+            <!--Descripcion-->
+            <div class="sixteen wide column">
+              {{project.pro_description|safe}}
+            </div>
+            <!--Like, Guardar y compartir-->
+            <div class="ui grid">
+              <div class="five wide column">
+                  <div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button" data-size="large" data-mobile-iframe="true"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Compartir</a></div>
+              </div>
+            </div>
+          </div>
+
+          <!--video-->
+          <div class="eight wide column">
+            <div class="ui grid">
+              <div class="eight wide column">
+                  <div class="ui labeled button" tabindex="0">
+                    <div class="ui basic blue button">
+                      <i class="heart icon"></i>
                     </div>
-                    {# <div class="ui embed" data-url="https://www.youtube.com/embed/O6Xo21L0ybE" data-placeholder="/images/bear-waving.jpg"></div> #}
+                    <a class="ui basic left pointing blue label">
+                      1,048
+                    </a>
+                  </div>
+              </div>
+              <div class="eight wide column">
+                  <div class="ui labeled button" tabindex="0">
+                    <div class="ui basic blue button">
+                      <i class="save outline icon"></i>
+                      Guardar
+                    </div>
+                    <a class="ui basic left pointing blue label">
+                      12
+                    </a>
+                  </div>
+              </div>
+            </div>
+            <div class="ui fluid"> <br>
+              {% video project.pro_video %}
+            </div>
+          </div>
+        </div>
+
+        <!--Roles-->
+        <div class="ui horizontal divider">
+            <h3>Puestos disponibles</h3>
+        </div>
+        <div class="fisteen column row">
+          {% if project.pro_roles.all%}
+
+          {% for x in project.pro_roles.all %}
+          <div class="two wide column"></div>
+            <div class="four wide column">
+              <div class="item">
+                <div class="content">
+                  <h4 class="header"> <br>
+                    {%if x.rol_name != 'Otro'%}
+                      {{x.rol_name}}
+                    {%else%}
+                      {{x.rol_name_other}}
+                    {%endif%}
+                    {% if request.user.is_staff %}
+                      <a href="">Editar</a>
+                    {%endif%}
+                    <div class="meta">
+                      {{x.rol_city}}, {{x.rol_state}}.
+                    </div> <hr>
+                  </h4>
+                  <div class="description">
+                    <p>{{x.rol_description | safe}}<br>
+                    <a>Aplica </a>antes de <a>{{x.rol_due_date}}</a>
+                    </p>
+                  </div>
+                  <div class="extra content">
+                    {% if request.user.is_staff %}
+
+                     {%else%}
+                     <div class="ui left labeled button" tabindex="0">
+                       <a class="ui violet right pointing label">
+                         Aplicar
+                       </a>
+                       <div class="ui violet inverted button">
+                          {{x.rol_amount}}
+                       </div>
+                     </div>
+                     {% endif %}
                   </div>
                 </div>
               </div>
             </div>
-            <div class="ui hidden divider"></div>
-            <div class="ui hidden divider"></div>
-            {{project.pro_description|safe}}
-            {{project.pro_description|safe}}
-            {{project.pro_description|safe}}
-            {% if request.user.is_staff %}
-              <p><a href="{% url 'project_app:update' project.id %}">Editar</a></p>
-            {% endif %}
+            <div class="two wide column"></div>
+          {% endfor %}
           </div>
-        </div>
-        <div class="ui horizontal divider">
-            <h3>Sobre Nosotros:</h3>
-        </div>
-        <div class="">
-          {{project.pro_about_us}}
-        </div>
+          {% if request.user.is_staff %}
+             <br>  <a href="{% url 'project_app:form_rol_project'  project.id project.pro_name|slugify %}" class="ui centered grid container">   <input type="button" class="ui grey basic button" value="Agregar puestos" id="add_more"></a>
+          {% endif %}
+        {%else%}<!--Si no hay roles-->
+          <p class="ui centered grid container">¡Oops! Este proyecto no busca integrantes por el momento.</p>
+          {% if request.user.is_staff %}
+            <a href="{% url 'project_app:form_rol_project'  project.id project.pro_name|slugify %}" class="ui centered grid container">   <input type="button" class="ui grey basic button" value="Agregar puestos" id="add_more"></a>
+          {% endif %}
+        {%endif%}
 
-        <div class="ui hidden divider"></div>
-    {# <-- Integrantes --> #}
+
+        <!--Integrantes-->
+        <br>
+        <div class="ui horizontal divider">
+           <h3>Sobre Nosotros</h3>
+       </div>
+       <div class="ui centered grid container">
+         <br> <p class="ui center aligned"><br>{{project.pro_about_us}}<br></p> <br>
+       </div>
+
         <div class="ui centered grid container">
           <div class="ui horizontal list">
             <div class="item">
-              <img class="ui avatar image" src="/images/avatar/small/tom.jpg">
+              <img class="ui avatar image" src="https://semantic-ui.com/images/avatar2/large/kristy.png">
               <div class="content">
                 <div class="header">Tom</div>
                 Top Contributor
               </div>
             </div>
             <div class="item">
-              <img class="ui avatar image" src="/images/avatar/small/christian.jpg">
+              <img class="ui avatar image" src="https://semantic-ui.com/images/avatar2/large/matthew.png">
               <div class="content">
                 <div class="header">Christian Rocha</div>
                 Admin
               </div>
             </div>
             <div class="item">
-              <img class="ui avatar image" src="/images/avatar/small/matt.jpg">
+              <img class="ui avatar image" src="https://semantic-ui.com/images/avatar2/large/molly.png">
               <div class="content">
                 <div class="header">Matt</div>
                 Top Rated User
               </div>
             </div>
           </div>
+          <br><br>
         </div>
-      </div>
-  </main>
-{% endblock %}
-{% block js_block %}
-  <script type="text/javascript">
-  $('.ui.basic.modal')
-    .modal('show')
-  ;
 
-  $('.ui.embed').embed();
-  $('#example2').progress({
-    percent: 52
-  });
-  </script>
+
+
+
+      </div>
+    </div>
+
+
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = 'https://connect.facebook.net/es_ES/sdk.js#xfbml=1&version=v3.2&appId=1801440776759214&autoLogAppEvents=1';
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
 {% endblock %}

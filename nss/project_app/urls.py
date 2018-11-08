@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import ProjectsListView, ProjectDetailView, ProjectCreate, ProjectUpdate, ProjectDelete, DataRep
+from .views import ProjectsListView, ProjectDetailView, ProjectCreate, ProjectUpdate, ProjectDelete, DataRep, ProjectRolCreate
 from project_app import views
 
 projects_patterns = ([
@@ -9,6 +9,8 @@ projects_patterns = ([
     path('DataRep/', views.DataRep, name='DataRep'),
     path('update/<int:pk>/', ProjectUpdate.as_view(), name='update'),
     path('delete/<int:pk>/', ProjectDelete.as_view(), name='delete'),
-    path('createProyecto', views.form_project, name = 'form_project'),
+    path('createRolProyecto/<int:pk>/<slug:slug>/', ProjectRolCreate.as_view(), name = 'form_rol_project'),
+    path('ajax/load-cities/', views.load_cities, name='ajax_load_cities'),
+    path('ajax/load-subcategories/', views.load_subcategories, name='ajax_load_subcategories'),
 
 ], 'project_app')

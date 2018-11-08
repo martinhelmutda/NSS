@@ -1,49 +1,73 @@
 {% extends "base.html" %}
-{% load static %}
+{% load staticfiles %}
 {% block processes_block %}
 <script type ="text/javascript" src="{% static "js/extras/processes.js" %}"></script>  <!--Este link hace que no jale el datepicker de create_project.html-->
 {% endblock %}
 {% block title %}Páginas{% endblock %}
 {% block body_block %}
 
-<h1>HOLA</h1>
-<main role="main">
-  <div class="ui very padded fluid container">
-    <div class="ui four column grid">
-      {% for project in project_list|dictsort:"id" reversed%}
-        <div class="column">
-          <div class="ui fluid card">
-            <div class="image">
-              <img src="/images/avatar2/large/matthew.png">
-            </div>
-            <div class="content">
-              <div class="header">{{project.pro_name}}</div>
-              <div class="meta">
-                <a>{{project.pro_category}}</a>
-              </div>
-              <div class="description">
-                {{project.pro_description}}
-              </div>
-            </div>
-            <p><a href="{% url 'project_app:project' project.id project.pro_name|slugify %}">Leer más</a></p>
 
-            {% if request.user.is_authenticated %}
-            | <a href="{% url 'project_app:update' project.id %}">Editar</a>
-            | <a href="{% url 'project_app:delete' project.id %}">Borrar</a>
-            {% endif %}
-            <div class="extra content">
-              <span class="right floated">
-                Joined in 2013
-              </span>
-              <span>
-                <i class="user icon"></i>
-                75 Friends
-              </span>
-            </div>
+<br> <!--Navbar de proyectos-->
+<div class="ui container sticky">
+  <table class="ui single line table">
+    <tbody>
+      <tr >
+        <td class="ui ribbon label">
+          <a href="#">Mis grupos</a>
+        </td>
+        <td>
+          <h1 class="ui centered">Mis proyectos</h1>
+        </td>
+        <td>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<br>
+<div class="ui container">
+
+  {% for project in project_list|dictsort:"id" reversed%}
+
+
+    <div class="ui unstackable items"  onclick="window.location.href={% url 'project_app:project' project.id project.pro_name|slugify %}">
+      <div class="item">
+        <div class="image">
+          {% if project.pro_img %}
+            <img src="../media/{{project.pro_img}}">
+          {% else %}
+            <img src="https://semantic-ui.com/images/wireframe/image.png">
+          {% endif %}
+        </div>
+        <div class="content">
+          <a class="header">{{project.pro_name}}</a>
+          <div class="meta">
+            <span>{{project.pro_category}}</span>
+            <span>{{project.pro_location}}</span>
+          </div>
+          <div class="description">
+            <p>{{project.pro_description | safe}}</p>
+          </div>
+          <div class="extra">
+            <p>
+              <a href="{% url 'project_app:project' project.id project.pro_name|slugify %}">
+                Leer más
+              </a>
+              {% if request.user.is_staff %}
+                | <a href="{% url 'project_app:update' project.id %}">Editar</a>
+                | <a href="{% url 'project_app:delete' project.id %}">Borrar</a>
+              {% endif %}
+            </p>
           </div>
         </div>
-      {% endfor %}
+      </div>
     </div>
-  </div>
-</main>
+  {% endfor %}
+</div>
+<script type="text/javascript">
+  //Sticky barra que dice mis proyectos
+  $('.ui.sticky')
+  .sticky();
+</script>
 {% endblock %}

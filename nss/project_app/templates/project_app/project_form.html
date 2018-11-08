@@ -1,3 +1,10 @@
+<!--
+"""
+Last modified: ANgélica Güemes
+date: November 7
+Time: 8:15
+"""
+-->
 {% extends "base.html" %}
 {% load staticfiles %}
 {% block processes_block %}
@@ -5,40 +12,111 @@
 {% endblock %}
 {% block body_block %}
     <div class="container">
-      <h1 class="content">Crea tu proyecto</h1><br><br>
+
       <div class="ui grid container">
         <div class="ui vertical segment">
           <div class="ui header">
-            Crear Proyecto
+            <!--Crear Proyecto-->
           </div>
-          <form method="POST" enctype="multipart/form-data"class="ui form">
+          <form method="POST" id="projectForm" enctype="multipart/form-data" class="ui form segment" data-cities-url="{% url 'project_app:ajax_load_cities' %}" data-subcategories-url="{% url 'project_app:ajax_load_subcategories' %}" >
           {% csrf_token %}
-          {{ form_rol.management_form }}
 
-          {{form.as_p}}
-          <div class="fieldWrapper">
-               {{ project.pro_img.errors }}
-               {{ form.pro_img.label_tag }}
-               {{ form.pro_img }}
-           </div>
+          <h2 class="ui dividing header">Crea tu proyecto</h2>
 
-          <div class="table">
-            {% for form in form_rol %}
-            <ul>
-              <li>{{ form }}</li>
-            </ul>
-          {% endfor %}
-          </div>
-          <input type="hidden" name="cantidad" id="cantidad"value="">
+                    <div class="field">
+                      <div class="two fields">
+                        <div class="field">
+                          <label>{{form.pro_name.label}}</label>
+                          {{form.pro_name}}
+                        </div>
+                        <div class="field">
+                          <label>{{form.pro_creation_date.label}}</label>
+                          {{form.pro_creation_date}}
+                        </div>
+                      </div>
+                    </div>
 
-            <input type="button" value="Add More" id="add_more">
-            <input type="submit" class="positive ui button" value="Submit">
-          <!--  <div class="fieldWrapper">
-                {{ form.ProName.errors }}
-                {{ form.ProName.label_tag }}
-                {{ form.ProName }}
-            </div>-->
-            <!--<button class="ui black button">Agregar Rol</button><br><br>-->
+                    <div class="field">
+                      <div class="two fields">
+                        <div class="field">
+                          <label>{{form.pro_category.label}} </label>
+                          {{form.pro_category}}
+                        </div>
+                        <div class="field">
+                          <label>{{form.pro_category.label}}</label>
+                          {{form.pro_subcategory}}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="field">
+                      <label>{{form.pro_description.label}}</label>
+                      <div class="fields">
+                        <div class="sixteen wide field">
+                          <div class="ui fluid">
+                            {{form.pro_description}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="field">
+                      <div class="two fields">
+                        <div class="field">
+                          <label>{{form.pro_video.label}}</label>
+                          {{form.pro_video}}
+                        </div>
+                        <div class="field">
+                          <label>{{form.pro_img.label}}</label>
+                          {{form.pro_img}}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="field">
+                        <h4><label>Ubicación del proyecto</label>  </h4>
+                      <div class="two fields">
+                        <div class="field">
+                          <label>{{form.pro_state.label}}</label>
+                          {{form.pro_state}}
+                        </div>
+                        <div class="field">
+                          <label> {{form.pro_city.label}}</label>
+                          	{{form.pro_city}}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="field">
+                      <div class="two fields">
+                        <div class="field">
+                          <label>{{form.pro_about_us.label}}</label>
+                          {{form.pro_about_us}}
+                        </div>
+                        <div class="field">
+                          <label>{{form.pro_phrase.label}}</label>
+                            {{form.pro_phrase}}
+                        </div>
+                      </div>
+                    </div>
+
+
+                     <div class="ui segment">
+                      <div class="field">
+                        <div class="ui toggle checkbox">
+                          <input type="checkbox" name="gift" tabindex="0" class="hidden">
+                          <label>Recibir correo de confirmación</label>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+
+
+            <input type="submit" class=" ui green inverted button" value="Crear proyetco">
+
+          <!--  <input type="submit" class="ui green inverted button value="Crear proyetco">-->
 
           </form>
         </div>
@@ -51,53 +129,55 @@
 <script src="{% static "css/semantic/out/semantic.min.js" %}"></script>
 <script type="text/javascript">
   $(function() {
+    var dateToday = new Date();
     $('input[class="datepicker"]').daterangepicker({
       singleDatePicker: true,
       showDropdowns: true,
+      maxDate: dateToday,
       locale: {
          format: 'YYYY-MM-DD'
         }
     });
   });
-
-
-  //document.getElementById('fieldWrapper').innerHTML.setAttribute("multiple", "multiple");
 </script>
 <script type='text/javascript'>
-        co=1;
-          $('#add_more').click(function() {
-            console.log("HOLA")
-        cloneMore('div.table:last', 'service');
-      });
-      function cloneMore(selector, type) {
-          var newElement = $(selector).clone(true);
-          var total = $('#id_' + type + '-TOTAL_FORMS').val();
-          console.log("total "+total)
-          newElement.find(':input').each(function() {
-              var name = $(this).attr('name').replace('-' + (co-1) + '-','-' + co+ '-');
-              var id = 'id_' + name;
-              console.log("id "+id)
-              $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
-          });
-          newElement.find('label').each(function() {
-              var newFor = $(this).attr('for').replace('-' + (co-1) + '-','-' + co + '-');
-              $(this).attr('for', newFor);
-          });
-          total=total+1;
-          co=co+1;
-          console.log("total "+total)
-          console.log("co "+co)
-          $('#id_' + type + '-TOTAL_FORMS').val(co);
-          $(selector).after(newElement);
-          $('input[class="datepicker"]').daterangepicker({
-            singleDatePicker: true,
-            showDropdowns: true,
-            locale: {
-               format: 'YYYY-MM-DD'
-              }
-          });
-          document.getElementById("cantidad").value = co;
-          console.log("cant " +   document.getElementById("cantidad").value);
-      }
+  $("#id_pro_state").change(function () {
+    console.log("ENTRA");
+  var url = $("#projectForm").attr("data-cities-url");
+  console.log(url);
+  var countryId = $(this).val();
+  console.log(countryId);
+  $.ajax({
+    url: url,
+    data: {
+      'country': countryId
+    },
+    success: function (data) {
+          console.log("ENTRA DOS")
+          console.log(data);
+      $("#id_pro_city").html(data);
+    }
+  });
+  });
     </script>
+    <script type='text/javascript'>
+      $("#id_pro_category").change(function () {
+        console.log("ENTRA");
+      var url = $("#projectForm").attr("data-subcategories-url");
+      console.log(url);
+      var countryId = $(this).val();
+      console.log(countryId);
+      $.ajax({
+        url: url,
+        data: {
+          'category': countryId
+        },
+        success: function (data) {
+              console.log("ENTRA DOS")
+              console.log(data);
+          $("#id_pro_subcategory").html(data);
+        }
+      });
+      });
+        </script>
 {% endblock %}

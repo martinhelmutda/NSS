@@ -29,6 +29,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 TEMPLATE_DIR = os.path.join(BASE_DIR,"templates") #Creo una variable con el path apuntando a mi carpeta templates
+PROJECT_TEMPLATE_DIR = os.path.join(BASE_DIR, 'project_app', 'template')
 
 STATIC_DIR=os.path.join(BASE_DIR,"static")
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
@@ -66,6 +67,8 @@ INSTALLED_APPS = [
     'ckeditor',
     # 'projects.apps.ProjectsConfig',
     'project_app',
+
+    'search_app',
     'profiles_app',
     'messages_app',
     #SOCIAL AUTH
@@ -100,7 +103,7 @@ ROOT_URLCONF = 'nss.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATE_DIR, MEDIA_ROOT],
+        'DIRS': [TEMPLATE_DIR, MEDIA_ROOT, PROJECT_TEMPLATE_DIR],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -138,6 +141,7 @@ DATABASES = {
 """
 development
 """
+
 DATABASES = {                                   #Nos conectamos a la base de datos mySQL
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -157,8 +161,15 @@ DATABASES = {                                   #Nos conectamos a la base de dat
     }
 }
 
+"""
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
 
-
+"""
 
 
 # Password validation
@@ -192,7 +203,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-mx'
 
 TIME_ZONE = 'UTC'
 

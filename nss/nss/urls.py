@@ -27,8 +27,9 @@ from messages_app.urls import  messages_app_patterns
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    path('', views.index, name='index'), #Despliega lo de la funcion index en appOne/views.py/def index
+    path('',views.IndexView.as_view(),name='index'), #Despliega lo de la funcion index en appOne/views.py/def index
     path('user/', include('account_app.urls')),
+    path('search/', include('search_app.urls')),
 
     #path('crearProyecto/',include('appOne.urls')),
     #path('createProyect/',views.form_name_view,name='form_name'),
