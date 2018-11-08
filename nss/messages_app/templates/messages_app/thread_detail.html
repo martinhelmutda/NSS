@@ -60,6 +60,15 @@
               {% endfor %}
             </div>
             <!-- Aquí crearemos el formulario -->
+            <div class="ui form">
+              <div class="field">
+                <br>
+                <textarea rows="2" id="content" placeholder="Escribe tu mensaje aquí"></textarea>
+              </div>
+              <button class="ui primary disabled button" id="send">
+                Save
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -71,6 +80,42 @@
     menuNav.on('click', function (item) {
       menuNav.removeClass('active');
       $(this).addClass('active');
-    });
+  });
+
+  var send = document.getElementById("send");
+  send.addEventListener('click', function(){
+    var content= encodeURIComponent(document.getElementById('content').value);
+    if (content.length > 0) {
+      const url= "{% url 'messages_app:add' thread.pk %}" + "?content="+content;
+      //Pass user credentials
+      fetch(url, {'credentials':'include'}).then(response => response.json()).then(function(data){
+        // alert(data.created)
+        // Si el mensaje se ha creado correctamente...
+        if (data.created) {
+          // Aquí iría el código de creación del mensaje dinámicamente
+        } else {
+          // Si algo ha ido mal podemos debugear en la consola del inspector
+          console.log("Algo ha fallado y el mensaje no se ha podido añadir.")
+        }
+      })
+    }
+  })
+
+  //Deactivate the button
+  var content= document.getElementById('content');
+  content.addEventListener("keyup", function () {
+    if(!this.checkValidity()|| !this.value){
+      $('#send').addClass('disabled');
+    }else {
+      $('#send').removeClass('disabled');
+    }
+  })
+
+  function ScrollBottomThread() {
+    var thread = document.getElementById('thread');
+    thread.scrollTop = thread.scrollHeight;
+  }
+
+  ScrollBottomThread();
 </script>
 {% endblock %}

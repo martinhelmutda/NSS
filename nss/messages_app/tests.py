@@ -55,3 +55,8 @@ class ThreadTestCase(TestCase):
         #not exist a thread with these two, then it has too create it
         thread = Thread.objects.find_or_create(self.user1, self.user3)
         self.assertIsNotNone(thread)
+
+
+
+
+        ###Evitar que se envíen mensajes vacíos
