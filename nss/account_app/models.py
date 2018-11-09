@@ -22,7 +22,7 @@ class UserProfileInfo(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
     avatar = models.ImageField(upload_to='profiles', null=True, blank=True)
-    bio = RichTextField(verbose_name="biografía")
+    bio = RichTextField(verbose_name="biografía", default="My Bio")
     link = models.URLField(max_length=200, null=True, blank=True)
 
 

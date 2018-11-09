@@ -23,6 +23,7 @@ from collections import OrderedDict
 from fusioncharts import FusionCharts
 from project_app import templates
 from django.urls import resolve
+from account_app.models import Profile
 
 # Create your views here.
 
@@ -137,3 +138,9 @@ def DataRep(request):
     return render(request,  'project_app/data.html', {'output': column2D.render(), 'output2': pie2d.render()})
     #project_dict = {'proyecto_insert': 'PAGINA DE PROYECTO'}
     #return render(request, 'project_app/data.html', context=project_dict) # app_one/proyecto.html ha ce referencia al html en templates
+
+
+
+class ProfileListProject(ListView):
+    model = Profile
+    template_name = 'project_app/profile_detail.html'

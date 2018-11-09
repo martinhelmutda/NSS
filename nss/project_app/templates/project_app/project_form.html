@@ -8,7 +8,7 @@ Time: 8:15
 {% extends "base.html" %}
 {% load staticfiles %}
 {% block processes_block %}
-<script type ="text/javascript" src="{% static "js/extras/processes.js" %}"></script>  <!--Este link hace que no jale el datepicker de create_project.html-->
+  <script type ="text/javascript" src="{% static "js/extras/processes.js" %}"></script>  <!--Este link hace que no jale el datepicker de create_project.html-->
 {% endblock %}
 {% block body_block %}
     <div class="container">
@@ -30,6 +30,7 @@ Time: 8:15
                           {{form.pro_name}}
                         </div>
                         <div class="field">
+                          {{form.pro_creation_date.errors}}
                           <label>{{form.pro_creation_date.label}}</label>
                           {{form.pro_creation_date}}
                         </div>
@@ -39,17 +40,20 @@ Time: 8:15
                     <div class="field">
                       <div class="two fields">
                         <div class="field">
+                          {{form.pro_category.errors}}
                           <label>{{form.pro_category.label}} </label>
                           {{form.pro_category}}
                         </div>
                         <div class="field">
-                          <label>{{form.pro_category.label}}</label>
+                          {{form.pro_subcategory.errors}}
+                          <label>{{form.pro_subcategory.label}}</label>
                           {{form.pro_subcategory}}
                         </div>
                       </div>
                     </div>
 
                     <div class="field">
+                      {{form.pro_description.errors}}
                       <label>{{form.pro_description.label}}</label>
                       <div class="fields">
                         <div class="sixteen wide field">
@@ -67,6 +71,7 @@ Time: 8:15
                           {{form.pro_video}}
                         </div>
                         <div class="field">
+                            {{form.pro_img.errors}}
                           <label>{{form.pro_img.label}}</label>
                           {{form.pro_img}}
                         </div>
@@ -128,39 +133,27 @@ Time: 8:15
 {% block js_block %}
 <script src="{% static "css/semantic/out/semantic.min.js" %}"></script>
 <script type="text/javascript">
-  $(function() {
-    var dateToday = new Date();
-    $('input[class="datepicker"]').daterangepicker({
-      singleDatePicker: true,
-      showDropdowns: true,
-      maxDate: dateToday,
-      locale: {
-         format: 'YYYY-MM-DD'
-        }
+
+
+  $("#id_pro_state").change(function () {
+      console.log("ENTRA");
+    var url = $("#projectForm").attr("data-cities-url");
+    console.log(url);
+    var countryId = $(this).val();
+    console.log(countryId);
+    $.ajax({
+      url: url,
+      data: {
+        'country': countryId
+      },
+      success: function (data) {
+            console.log("ENTRA DOS")
+            console.log(data);
+        $("#id_pro_city").html(data);
+      }
     });
   });
-</script>
-<script type='text/javascript'>
-  $("#id_pro_state").change(function () {
-    console.log("ENTRA");
-  var url = $("#projectForm").attr("data-cities-url");
-  console.log(url);
-  var countryId = $(this).val();
-  console.log(countryId);
-  $.ajax({
-    url: url,
-    data: {
-      'country': countryId
-    },
-    success: function (data) {
-          console.log("ENTRA DOS")
-          console.log(data);
-      $("#id_pro_city").html(data);
-    }
-  });
-  });
-    </script>
-    <script type='text/javascript'>
+
       $("#id_pro_category").change(function () {
         console.log("ENTRA");
       var url = $("#projectForm").attr("data-subcategories-url");
@@ -178,6 +171,6 @@ Time: 8:15
           $("#id_pro_subcategory").html(data);
         }
       });
-      });
-        </script>
+    });
+  </script>
 {% endblock %}

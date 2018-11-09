@@ -80,10 +80,22 @@ $(document).ready(function() {
 });
 
 //This is the function that will run every detepicker calendar
+// $(function() {
+//   $('input[name="pro_creation_date"]').daterangepicker({
+//     singleDatePicker: true,
+//     showDropdowns: true,
+//   });
+// });
+
 $(function() {
-  $('input[name="pro_creation_date"]').daterangepicker({
+  var dateToday = new Date();
+  $('input[class="datepicker"]').daterangepicker({
     singleDatePicker: true,
     showDropdowns: true,
+    maxDate: dateToday,
+    locale: {
+       format: 'YYYY-MM-DD'
+      }
   });
 });
 

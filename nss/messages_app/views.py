@@ -4,7 +4,9 @@ from django.views.generic.detail import DetailView
 from django.views.generic import TemplateView
 from .models import Thread, Message
 from django.http import Http404, JsonResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib.auth.models import User
+from django.urls import reverse_lazy
 
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -44,3 +46,9 @@ def add_message(request, pk):
     else:
         raise Http404("Usted no está autenticado")
     return JsonResponse(json_response)
+
+@login_required
+def start_thread(request, username):
+    user = get_object_or_404(User, username=username)
+    thread = Thread.objects.find_or_create(user, request.user)
+    return redirect(reverse_lazy('messages_app:detail',args=[thread.pk]))

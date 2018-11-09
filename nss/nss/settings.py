@@ -20,6 +20,7 @@ pip install django-embed-video
 
 #pip install django-ckeditor
 pip install python-social-auth[django]
+pip install django-braces
 """
 
 
