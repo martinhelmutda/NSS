@@ -3,7 +3,7 @@
 {% block processes_block %}
 <script type ="text/javascript" src="{% static "js/extras/processes.js" %}"></script>  <!--Este link hace que no jale el datepicker de create_project.html-->
 {% endblock %}
-{% block title %}Teem{% endblock %}
+{% block title %}Páginas{% endblock %}
 {% block body_block %}
 
 
@@ -13,10 +13,10 @@
     <tbody>
       <tr >
         <td class="ui ribbon label">
-          <a  href="{% url 'project_app:groups' %}">Mis grupos</a>
+          <a  href="{% url 'project_app:projects' %}">Mis proyectos</a>
         </td>
         <td>
-          <h1 class="ui centered">Mis proyectos</h1>
+          <h1 class="ui centered">Mis grupos</h1>
         </td>
         <td>
         </td>
@@ -34,7 +34,7 @@
     <div class="item">
       <div class="image">
         {% if project.pro_img %}
-          <img src="..media/{{project.pro_img}}">
+          <img src="../media/{{project.pro_img}}">
         {% else %}
           <img src="https://semantic-ui.com/images/wireframe/image.png">
         {% endif %}

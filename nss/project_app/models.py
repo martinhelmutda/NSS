@@ -1,7 +1,7 @@
 """
 Last modified: ANgélica Güemes
-date: November 7
-Time: 8:15
+date: November 8
+Time: 8:40
 """
 from django.db import models
 from embed_video.fields import EmbedVideoField
@@ -63,7 +63,6 @@ class rolInfo(models.Model):
 class project(models.Model):
     #Info del proyecto
     pro_name = models.CharField(max_length=40,default='')
-
     #Import RichTextField
     pro_description = RichTextField(verbose_name="Descripción", max_length=800)
     pro_video = EmbedVideoField() # models.URLField()
@@ -72,6 +71,9 @@ class project(models.Model):
     pro_phrase = models.CharField(max_length=200, default='')
     pro_creation_date = models.DateField()
     pro_img = models.ImageField(default='', upload_to='pro_img', blank=True)# null=true se pone null en la base de datos como entrada
+    pro_group = models.BooleanField()
+    pro_likes = models.PositiveIntegerField(default=0)
+    pro_save_times = models.PositiveIntegerField(default=0)
 
     pro_category = models.ForeignKey('category', on_delete=models.PROTECT,default='')
     pro_subcategory = models.ForeignKey('subcategory', on_delete=models.PROTECT,default='')

@@ -4,7 +4,7 @@ date: November 7
 Time: 8:15
 """
 from .models import project, projectImg, project, rolInfo, state,city, category,subcategory, project_rol
-from .forms import CreateProjectForm, CreateRolForm
+from .forms import CreateProjectForm, CreateRolForm, CreateGroupForm
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
 from django.views.generic.list import ListView
@@ -12,7 +12,6 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.urls import reverse, reverse_lazy
 from django.template.defaultfilters import slugify
-from project_app.forms import formImg, formProject, formProjectAddRol, baseProjectAddRol, rol_formset
 from django.shortcuts import render, redirect
 from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.decorators import method_decorator
@@ -29,7 +28,15 @@ from django.urls import resolve
 #Returns a complete list of projects
 class ProjectsListView(ListView):
     model = project
+    paginated_by=2
+    queryset = project.objects.filter(pro_group=False)
+    template_name = "project_app/project_list.html"
 
+class GroupsListView(ListView):
+    model = project
+    paginated_by=2
+    queryset = project.objects.filter(pro_group=True)
+    template_name="project_app/group_list.html"
 
 ##Return a pack of projects
 class ProjectDetailView(DetailView):
@@ -45,16 +52,24 @@ class ProjectCreate(CreateView):
         return reverse_lazy('project_app:project', args=[self.object.id, slugify(self.object.pro_name)])
         #Te manda a project_detail.html y es el projectdetailview
 
+class GroupCreate(CreateView):
+    #model = project
+    form_class = CreateGroupForm
+    template_name="project_app/group_form.html"
+    # success_url=reverse_lazy('project_app:project_app')
+    def get_success_url(self):
+        #print(cities)
+        return reverse_lazy('project_app:project', args=[self.object.id, slugify(self.object.pro_name)])
+        #Te manda a project_detail.html y es el projectdetailview
+
 def load_cities(request):
     country_id =  request.GET.get('country')
-    cities = city.objects.filter(state=country_id).order_by('city')
-    print(cities)
+    cities = city.objects.filter(state=country_id).order_by('city')#print(cities)
     return render(request, 'project_app/city_dropdown_list_options.html', {'cities': cities})
 
 def load_subcategories(request):
     country_id =  request.GET.get('category')
-    subcategories = subcategory.objects.filter(category=country_id)#.order_by('subcategory')
-    print(subcategories)
+    subcategories = subcategory.objects.filter(category=country_id)#.order_by('subcategory') print(subcategories)
     return render(request, 'project_app/subcategory_dropdown_list_options.html', {'subcategories': subcategories})
 
 
@@ -85,11 +100,6 @@ class ProjectUpdate(UpdateView):
 class ProjectDelete(DeleteView):
     model = project
     success_url = reverse_lazy('project_app:projects')
-
-
-def see_project(request):
-    project_dict = {'proyecto_insert': 'PAGINA DE PROYECTO'}
-    return render(request, 'project_app/project.html', context=project_dict) # app_one/proyecto.html ha ce referencia al html en templates
 
 def DataRep(request):
     #Chart data is passed to the `dataSource` parameter, like a dictionary in the form of key-value pairs.

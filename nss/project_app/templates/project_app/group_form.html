@@ -21,12 +21,13 @@ Time: 8:15
           <form method="POST" id="projectForm" enctype="multipart/form-data" class="ui form segment" data-cities-url="{% url 'project_app:ajax_load_cities' %}" data-subcategories-url="{% url 'project_app:ajax_load_subcategories' %}" >
           {% csrf_token %}
 
-          <h2 class="ui dividing header">Crea tu proyecto</h2>
+          <h2 class="ui dividing header">Crea tu grupo</h2>
 
                     <div class="field">
-                            {{form.pro_group}}
                       <div class="two fields">
                         <div class="field">
+                          {{form.pro_group}}
+
                           <label>{{form.pro_name.label}}</label>
                           {{form.pro_name}}
                           {{form.pro_name.errors}}
@@ -122,13 +123,13 @@ Time: 8:15
                       </div>
                     </div>
 
-
 -->
 
 
-            <input type="submit" class=" ui green inverted button" value="Crear proyecto">
 
-          <!--  <input type="submit" class="ui green inverted button value="Crear proyecto">-->
+            <input type="submit" class=" ui green inverted button" value="Crear grupo">
+
+          <!--  <input type="submit" class="ui green inverted button value="Crear grupo">-->
 
           </form>
         </div>
@@ -140,7 +141,10 @@ Time: 8:15
 {% block js_block %}
 <script src="{% static "css/semantic/out/semantic.min.js" %}"></script>
 <script type="text/javascript">
+
   $(function() {
+  document.getElementById("id_pro_group").value = True;
+  $("#id_pro_group").val("True");
     var dateToday = new Date();
     $('input[class="datepicker"]').daterangepicker({
       singleDatePicker: true,
