@@ -29,7 +29,7 @@
                 <div class="header item">
                     <a href="{% url 'index' %}" class="item"><img class="logo" src="{% static "img/logo.png" %}"><i class="users icon"></i>TEEM</a>
                 </div>
-                <a class="item" href="{% url 'project_app:DataRep' %}"><i class="chart bar alternate icon"></i>Data representation</a>
+              <!--  <a class="item" href="{% url 'project_app:DataRep' %}"><i class="chart bar alternate icon"></i>Data representation</a>-->
                 <ul class="navbar-nav mr-auto">
 
                   <form class="ui action input" action='{% url 'search_app:search' %}'>
@@ -45,7 +45,7 @@
                   <i class="dropdown icon"></i>
                   <div class="menu">
                        <a class="item" href="{% url 'project_app:create' %}"><i class="pencil alternate icon"></i>Crear proyecto</a>
-                        <a class="item" href="{% url 'project_app:create' %}"><i class="pencil alternate icon"></i>Crear Grupo</a>
+                        <a class="item" href="{% url 'project_app:create_group' %}"><i class="pencil alternate icon"></i>Crear Grupo</a>
                   </div>
                 </div>
 
