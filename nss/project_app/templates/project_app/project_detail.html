@@ -50,7 +50,9 @@
             <!--Creador del proyecto-->
             <div class="ui grid">
               <div class="item">
-                <img class="ui avatar image" src="https://semantic-ui.com/images/avatar2/large/elyse.png"> Christian Rocha
+
+                <img class="ui avatar image" src="{{request.user.profile.avatar.url}}">
+                {{request.user.profile.user}}
               </div>
             </div>
             <!--info general del proyecto-->
@@ -191,6 +193,20 @@
 
         <div class="ui centered grid container">
           <div class="ui horizontal list">
+            {% for profile in profile_list %}
+            <div class="item">
+              {% if profile.avatar %}
+              <img src="{{profile.avatar.url}}" class="ui tiny avatar image">
+              {% else %}
+              <img class="ui avatar image" src="{% static 'registration/img/no-avatar.jpg' %}" >
+              {% endif %}
+              <div class="content">
+                <div class="header">{{profile.user|truncatechars:"16"}}</div>
+                <a href="{% url 'profiles_app:detail' profile.user %}">Ver perfil</a>
+                <p>Jjaojbvixs</p>
+              </div>
+            </div>
+            {% endfor %}
             <div class="item">
               <img class="ui avatar image" src="https://semantic-ui.com/images/avatar2/large/kristy.png">
               <div class="content">
@@ -216,24 +232,9 @@
           <br><br>
         </div>
 
-        <div class="ui massive horizontal divided list">
-          <p>HJIOPOIJHKL</p>
-          {{profile.user}}
-          {% for profile in profile_list %}
-          <div class="item">
-            {% if profile.avatar %}
-            <img src="{{profile.avatar.url}}" class="ui tiny avatar image">
-            {% else %}
-            <img class="ui avatar image" src="{% static 'registration/img/no-avatar.jpg' %}" >
-            {% endif %}
-            <div class="content">
-              <div class="header">{{profile.user|truncatechars:"16"}}</div>
-              <a href="{% url 'profiles_app:detail' profile.user %}">Ver perfil</a>
-              <p>Jjaojbvixs</p>
-            </div>
-          </div>
-          {% endfor %}
-        </div>
+
+
+
 
 
 

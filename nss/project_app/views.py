@@ -42,7 +42,14 @@ class GroupsListView(ListView):
 ##Return a pack of projects
 class ProjectDetailView(DetailView):
     model = project
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        context['profile_list'] = Profile.objects.all()
+        return context
     #form_class = CreateRolForm
+
 ##Creates a project with the given arguments
 class ProjectCreate(CreateView):
     #model = project
@@ -148,9 +155,3 @@ def DataRep(request):
     return render(request,  'project_app/data.html', {'output': column2D.render(), 'output2': pie2d.render()})
     #project_dict = {'proyecto_insert': 'PAGINA DE PROYECTO'}
     #return render(request, 'project_app/data.html', context=project_dict) # app_one/proyecto.html ha ce referencia al html en templates
-
-
-
-class ProfileListProject(ListView):
-    model = Profile
-    template_name = 'project_app/profile_detail.html'

@@ -23,7 +23,7 @@ class CreateProjectForm(forms.ModelForm):
         model = project
         exclude = ['pro_roles', "order", 'pro_likes', 'pro_save_times']
         widgets = {
-            'pro_group': forms.HiddenInput(attrs={'value':'False'}),
+            'pro_group': forms.HiddenInput(attrs={'value':False}),
             'pro_name' : forms.TextInput(attrs={ 'class': 'field'}),
             'pro_description' : forms.TextInput(),
             'pro_video' : forms.TextInput(attrs={'placeholder':'Link de Youtube'}),
@@ -88,7 +88,7 @@ class CreateGroupForm(forms.ModelForm):
         model = project
         exclude = ['pro_roles', "order",  'pro_likes', 'pro_save_times']
         widgets = {
-            'pro_group': forms.HiddenInput(attrs={'value':'True'}),
+            'pro_group': forms.HiddenInput(attrs={'value':True}),
             'pro_name' : forms.TextInput(attrs={ 'class': 'field'}),
             'pro_description' : forms.TextInput(),
             'pro_video' : forms.TextInput(attrs={'placeholder':'Link de Youtube'}),
