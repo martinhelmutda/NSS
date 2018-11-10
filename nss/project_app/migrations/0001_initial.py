@@ -2,6 +2,7 @@
 
 
 import ckeditor.fields
+from django.conf import settings
 from django.db import migrations, models
 import django.db.models.deletion
 import embed_video.fields
@@ -12,6 +13,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
@@ -39,7 +41,7 @@ class Migration(migrations.Migration):
                 ('pro_phrase', models.CharField(default='', max_length=200)),
                 ('pro_creation_date', models.DateField()),
                 ('pro_img', models.ImageField(blank=True, default='', upload_to='pro_img')),
-                ('pro_group', models.BooleanField(default=False)),
+                ('pro_group', models.BooleanField()),
                 ('pro_likes', models.PositiveIntegerField(default=0)),
                 ('pro_save_times', models.PositiveIntegerField(default=0)),
                 ('pro_category', models.ForeignKey(default='', on_delete=django.db.models.deletion.PROTECT, to='project_app.category')),
@@ -115,6 +117,11 @@ class Migration(migrations.Migration):
             model_name='project',
             name='pro_subcategory',
             field=models.ForeignKey(default='', on_delete=django.db.models.deletion.PROTECT, to='project_app.subcategory'),
+        ),
+        migrations.AddField(
+            model_name='project',
+            name='pro_user',
+            field=models.ForeignKey(default='', on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='city',

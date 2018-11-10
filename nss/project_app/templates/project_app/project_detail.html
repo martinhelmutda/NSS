@@ -42,7 +42,7 @@
             <div class="ui grid"> <!--Titulo, boton para editar y creador--> <br>
                 <h2 class="section-heading mb-4">
                        {{project.pro_name}}
-                       {% if request.user.is_staff %}
+                       {% if request.user == project.pro_user %}
                           <a href="{% url 'project_app:update' project.id %}">Editar</a>
                       {% endif %}
                 </h2>
@@ -50,9 +50,14 @@
             <!--Creador del proyecto-->
             <div class="ui grid">
               <div class="item">
-
+                {%if request.user.profile.avatar%}
                 <img class="ui avatar image" src="{{request.user.profile.avatar.url}}">
                 {{request.user.profile.user}}
+                {%else%}
+                <img class="ui avatar image" src="">
+                {{request.user.profile.user}}
+                {%endif%}
+
               </div>
             </div>
             <!--info general del proyecto-->
@@ -121,6 +126,7 @@
           </div>
         </div>
 
+        {% if not project.pro_group %}
         <!--Roles-->
         <div class="ui horizontal divider">
             <h3>Puestos disponibles</h3>
@@ -180,6 +186,7 @@
             <a href="{% url 'project_app:form_rol_project'  project.id project.pro_name|slugify %}" class="ui centered grid container">   <input type="button" class="ui grey basic button" value="Agregar puestos" id="add_more"></a>
           {% endif %}
         {%endif%}
+        {% endif %}
 
 
         <!--Integrantes-->
