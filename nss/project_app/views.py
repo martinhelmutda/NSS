@@ -17,7 +17,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from collections import OrderedDict
 from fusioncharts import FusionCharts
 from project_app import templates
@@ -29,14 +29,18 @@ from django.urls import resolve
 class ProjectsListView(ListView):
     model = project
     paginated_by=2
-    queryset = project.objects.filter(pro_group=False)
     template_name = "project_app/project_list.html"
+    def get_queryset(self):
+        queryset =  project.objects.filter(pro_group=False, pro_user=self.request.user)
+        return queryset
 
 class GroupsListView(ListView):
     model = project
     paginated_by=2
-    queryset = project.objects.filter(pro_group=True)
     template_name="project_app/group_list.html"
+    def get_queryset(self):
+        queryset =  project.objects.filter(pro_group=True, pro_user=self.request.user)
+        return queryset
 
 ##Return a pack of projects
 class ProjectDetailView(DetailView):
@@ -47,8 +51,12 @@ class ProjectCreate(CreateView):
     #model = project
     form_class = CreateProjectForm
     template_name="project_app/project_form.html"
-    # success_url=reverse_lazy('project_app:project_app')
+    def form_valid(self, form):
+        user_form = form.save(commit=False)
+        user_form.pro_user = self.request.user
+        return super(ProjectCreate, self).form_valid(form)
     def get_success_url(self):
+        print(self.object)
         return reverse_lazy('project_app:project', args=[self.object.id, slugify(self.object.pro_name)])
         #Te manda a project_detail.html y es el projectdetailview
 
@@ -56,9 +64,13 @@ class GroupCreate(CreateView):
     #model = project
     form_class = CreateGroupForm
     template_name="project_app/group_form.html"
-    # success_url=reverse_lazy('project_app:project_app')
+    def form_valid(self, form):
+        user_form = form.save(commit=False)
+        user_form.pro_user = self.request.user
+        return super(GroupCreate, self).form_valid(form)
     def get_success_url(self):
         #print(cities)
+        print(self.object)
         return reverse_lazy('project_app:project', args=[self.object.id, slugify(self.object.pro_name)])
         #Te manda a project_detail.html y es el projectdetailview
 

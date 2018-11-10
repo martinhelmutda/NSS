@@ -21,7 +21,7 @@ ROL_CHOICES= [
 class CreateProjectForm(forms.ModelForm):
     class Meta:
         model = project
-        exclude = ['pro_roles', "order", 'pro_likes', 'pro_save_times']
+        exclude = ['pro_roles', "order", 'pro_likes', 'pro_save_times', 'pro_user']
         widgets = {
             'pro_group': forms.HiddenInput(attrs={'value':'False'}),
             'pro_name' : forms.TextInput(attrs={ 'class': 'field'}),
@@ -61,8 +61,9 @@ class CreateProjectForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
-        #self.fields['pro_city'].queryset = city.objects.filter(state=self.data.get('pro_state'))
+        if project.pro_user is None:
+            profile.pro_user =  User.objects.get(user=self.request.user)
+            print(profile.pro_user)
         self.fields['pro_city'].queryset = city.objects.none()
         self.fields['pro_subcategory'].queryset = subcategory.objects.none()
         if 'pro_state' in self.data:

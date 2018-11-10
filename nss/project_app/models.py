@@ -6,6 +6,8 @@ Time: 8:40
 from django.db import models
 from embed_video.fields import EmbedVideoField
 from ckeditor.fields import RichTextField
+from django.contrib.auth.models import User
+
 
 #class Page(models.Model):
 #    title = models.CharField(verbose_name="Título", max_length=200)
@@ -64,7 +66,7 @@ class project(models.Model):
     #Info del proyecto
     pro_name = models.CharField(max_length=40,default='')
     #Import RichTextField
-    pro_description = RichTextField(verbose_name="Descripción", max_length=800)
+    pro_description = RichTextField(verbose_name="Descripción", max_length=5000)
     pro_video = EmbedVideoField() # models.URLField()
     order = models.SmallIntegerField(verbose_name="Orden", default=0)
     pro_about_us = models.TextField(max_length=800, default='')
@@ -82,6 +84,8 @@ class project(models.Model):
     pro_state = models.ForeignKey('state', on_delete=models.PROTECT,default='')
 
     pro_roles = models.ManyToManyField('rolInfo', through='project_rol') # https://stackoverflow.com/questions/2216974/django-modelform-for-many-to-many-fields
+
+    pro_user = models.ForeignKey(User, on_delete=models.CASCADE, default="", blank=True, null=True)
 
     class Meta:
             verbose_name = "project_app"
