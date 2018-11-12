@@ -2,35 +2,42 @@
 {% extends "base.html" %}
 {% load static %}
 {% load embed_video_tags %}
+
+{% block meta_block %}
+  <meta property="og:url"           content="https://www.your-domain.com/your-page.html" />
+   <meta property="og:type"          content="website" />
+   <meta property="og:title"         content="TEEM" />
+   <meta property="og:description"   content="Your description" />
+   <meta property="og:image"         content="https://www.your-domain.com/path/image.jpg" />
+{% endblock %}
 {% block processes_block %}
 <script type ="text/javascript" src="{% static "js/extras/processes.js" %}"></script>  <!--Este link hace que no jale el datepicker de create_project.html-->
 {% endblock %}
 {% block title %}{{project.pro_name}}{% endblock %}
 {% block body_block %}
   {# Updated Segment #}
-  {% if 'updated' in request.GET %}
-    <div class="ui basic modal">
-      <div class="ui icon header">
-        <i class="archive icon"></i>
-        Archive Old Messages
-      </div>
-      <div class="content">
-        <p>Your inbox is getting full, would you like us to enable automatic archiving of old messages?</p>
-      </div>
+
+  <div class="ui mini modal">
+    <div class="ui icon header">
+      <i class="archive icon" ></i>
+      <p id="letrero"> </p>
+    </div>
+    <div class="content">
+      <p class="ui centered grid container">¿Deseas continuar enviadno su aplicación?</p>
+    </div>
+
       <div class="actions">
-        <div class="ui red basic cancel inverted button">
+        <div class="ui red inverted cancel inverted button">
           <i class="remove icon"></i>
           No
         </div>
-        <div class="ui green ok inverted button">
+        <a class="ui green ok inverted button" type="submit"  >
           <i class="checkmark icon"></i>
-          Yes
-        </div>
+          Sí
+        </a>
       </div>
-    </div>
-  {% endif %}
 
-
+  </div>
 
     <div class="ui segment container"> <!--segment-->
       <div class="ui grid">
@@ -52,10 +59,10 @@
               <div class="item">
                 {%if request.user.profile.avatar%}
                 <img class="ui avatar image" src="{{request.user.profile.avatar.url}}">
-                {{request.user.profile.user}}
+                {{owner_project.pro_user}}
                 {%else%}
                 <img class="ui avatar image" src="">
-                {{request.user.profile.user}}
+                            {{owner_project.pro_user}}
                 {%endif%}
 
               </div>
@@ -89,8 +96,10 @@
             </div>
             <!--Like, Guardar y compartir-->
             <div class="ui grid">
-              <div class="five wide column">
-                  <div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button" data-size="large" data-mobile-iframe="true"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Compartir</a></div>
+              <!-- Your share button code -->
+              <div class="fb-share-button"
+                data-href="127.0.0.1"
+                data-layout="button_count">
               </div>
             </div>
           </div>
@@ -131,8 +140,7 @@
         <div class="ui horizontal divider">
             <h3>Puestos disponibles</h3>
         </div>
-        <div class="fisteen column row">
-          {% if project.pro_roles.all%}
+        <div class="fifteen column row">
 
           {% for x in project.pro_roles.all %}
           <div class="two wide column"></div>
@@ -145,7 +153,7 @@
                     {%else%}
                       {{x.rol_name_other}}
                     {%endif%}
-                    {% if request.user.is_staff %}
+                    {% if request.user == project.pro_user %}
                       <a href="">Editar</a>
                     {%endif%}
                     <div class="meta">
@@ -158,16 +166,29 @@
                     </p>
                   </div>
                   <div class="extra content">
-                    {% if request.user.is_staff %}
+                    {% if request.user != project.pro_user %} <!--Si no es el creador aparece boton para aplicar-->
+                     <div class="ui left labeled button" tabindex="0" id="hola" name ={{x.id}} class="aplicar">
 
-                     {%else%}
-                     <div class="ui left labeled button" tabindex="0">
-                       <a class="ui violet right pointing label">
-                         Aplicar
-                       </a>
-                       <div class="ui violet inverted button">
+                       {%for y in user_project%}
+                         {% if x.id != y.up_rolInfo.id%}
+                           <a class="ui violet right pointing label button aplicar" id="texto_boton" name={{x.id}} value="  {{y.up_status.status_text}}">
+                               Aplicar
+                           </a>
+                         {%endif%}
+                       {%endfor%}
+
+                    {%for y in user_project%}
+                      {% if x.id == y.up_rolInfo.id%}
+                        <a class="ui violet right pointing label button aplicar" id="texto_boton" name={{x.id}} value="  {{y.up_status.status_text}}">
+                            {{y.up_status.status_text}}
+                        </a>
+                      {%endif%}
+                    {%endfor%}
+
+                       <div class="ui violet inverted button aplicar">
                           {{x.rol_amount}}
                        </div>
+                       <input type="hidden" name="" value="" id="rol_id">
                      </div>
                      {% endif %}
                   </div>
@@ -175,18 +196,15 @@
               </div>
             </div>
             <div class="two wide column"></div>
+            {%empty%}<!--Si no hay roles-->
+              <p class="ui centered grid container">¡Oops! Este proyecto no busca integrantes por el momento.</p>
           {% endfor %}
           </div>
-          {% if request.user.is_staff %}
-             <br>  <a href="{% url 'project_app:form_rol_project'  project.id project.pro_name|slugify %}" class="ui centered grid container">   <input type="button" class="ui grey basic button" value="Agregar puestos" id="add_more"></a>
+          {% if request.user == project.pro_user %}<br>
+              <a href="{% url 'project_app:form_rol_project'  project.id project.pro_name|slugify %}" class="ui centered grid container">
+              <input type="button" class="ui grey basic button" value="Agregar puestos" id="add_more"></a>
           {% endif %}
-        {%else%}<!--Si no hay roles-->
-          <p class="ui centered grid container">¡Oops! Este proyecto no busca integrantes por el momento.</p>
-          {% if request.user.is_staff %}
-            <a href="{% url 'project_app:form_rol_project'  project.id project.pro_name|slugify %}" class="ui centered grid container">   <input type="button" class="ui grey basic button" value="Agregar puestos" id="add_more"></a>
-          {% endif %}
-        {%endif%}
-        {% endif %}
+          {%endif%}
 
 
         <!--Integrantes-->
@@ -238,23 +256,31 @@
           </div>
           <br><br>
         </div>
-
-
-
-
-
-
-
       </div>
     </div>
 
 
     <div id="fb-root"></div>
-    <script>(function(d, s, id) {
+    <script>
+    (function(d, s, id) {
       var js, fjs = d.getElementsByTagName(s)[0];
       if (d.getElementById(id)) return;
       js = d.createElement(s); js.id = id;
       js.src = 'https://connect.facebook.net/es_ES/sdk.js#xfbml=1&version=v3.2&appId=1801440776759214&autoLogAppEvents=1';
       fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));</script>
+    }(document, 'script', 'facebook-jssdk'));
+  </script>
+ <script type="text/javascript">
+/*  $( ".aplicar" ).click(function() {
+    //$("#rol_id").html($( ".hola").attr("name"));
+    var f= $( this).attr("name");
+    var txt = 'Esta aplicando a {{project.pro_name}}';
+    // con el rol   {%for x in project.pro_roles.all%}   {% if x.id == ' + 2 + '%}   {% if x.rol_name == Otro %}  {{x.rol_name_other}} {% else %} {{x.rol_name}} {% endif %}  {%endif%} {%endfor%}';
+
+    console.log(txt);
+     $("#letrero").text(txt);
+    console.log("APLICO");
+        $('.mini.modal').modal('show');
+  });*/
+  </script>
 {% endblock %}

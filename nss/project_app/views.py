@@ -1,9 +1,9 @@
 """
 Last modified: ANgélica Güemes
-date: November 7
-Time: 8:15
+date: November 11
+Time: 11:24
 """
-from .models import project, projectImg, project, rolInfo, state,city, category,subcategory, project_rol
+from .models import project, projectImg, project, rolInfo, state,city, category,subcategory, project_rol, user_project
 from .forms import CreateProjectForm, CreateRolForm, CreateGroupForm
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
@@ -23,9 +23,7 @@ from fusioncharts import FusionCharts
 from project_app import templates
 from django.urls import resolve
 from account_app.models import Profile
-
 # Create your views here.
-
 #Returns a complete list of projects
 class ProjectsListView(ListView):
     model = project
@@ -47,12 +45,12 @@ class GroupsListView(ListView):
 class ProjectDetailView(DetailView):
     model = project
     def get_context_data(self, **kwargs):
-        # Call the base implementation first to get a context
-        context = super().get_context_data(**kwargs)
-        # Add in a QuerySet of all the books
-        context['profile_list'] = Profile.objects.all()
+        context = super(ProjectDetailView, self).get_context_data(**kwargs)
+        context['user_project'] = user_project.objects.filter(up_user= self.request.user, up_project = self.object.id)
+        context['owner_project'] = project.objects.filter(id=self.object.id)
+        print(context['user_project'])
+        print('id projecto', context['user_project'])
         return context
-    #form_class = CreateRolForm
 
 ##Creates a project with the given arguments
 class ProjectCreate(CreateView):
@@ -98,11 +96,6 @@ class ProjectRolCreate(CreateView):
     #model = project
     form_class = CreateRolForm
     template_name="project_app/project_rol_form.html"
-    #def form_valid():
-    #def form_valid(self, form):
-        #if form.cleaned_data['rol_name'] == 'Otro' and form.cleaned_data['rol_name'] =='':
-        #    pass
-        #return super().form_valid(form)
     def get_success_url(self):
         pro_temp = project.objects.get(id=self.kwargs['pk'])
         project_rol.objects.create(pro =pro_temp , rol=self.object )
@@ -113,13 +106,18 @@ class ProjectUpdate(UpdateView):
     model = project
     fields = ['pro_name','pro_description','pro_video', 'pro_about_us', 'pro_phrase', 'pro_creation_date', 'pro_category', 'pro_subcategory', 'pro_city', 'pro_state']
     template_name_suffix = '_update_form'
-
     def get_success_url(self):
         return reverse_lazy('project_app:update', args=[self.object.id]) + '?ok'
 
 class ProjectDelete(DeleteView):
     model = project
     success_url = reverse_lazy('project_app:projects')
+
+class ProjectStatus(DetailView):
+    """docstring for ProjectStatus."""
+    model = project
+
+
 
 def DataRep(request):
     #Chart data is passed to the `dataSource` parameter, like a dictionary in the form of key-value pairs.

@@ -39,7 +39,7 @@
                     {# <p>{{project.pro_description|striptags|safe|truncatechars:"200"}}</p> #}
                     <p><a href="{% url 'project_app:project' project.id project.pro_name|slugify %}">Leer más</a></p>
 
-                      {% if request.user.is_staff %}
+                    {% if request.user == project.pro_user %}
                         | <a href="{% url 'project_app:update' project.id %}">Editar</a>
                         | <a href="{% url 'project_app:delete' project.id %}">Borrar</a>
                       {% endif %}

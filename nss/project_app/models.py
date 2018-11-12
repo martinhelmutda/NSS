@@ -49,7 +49,7 @@ class city(models.Model): #ciudad
      def __str__(self):
         return self.city
 
-class rolInfo(models.Model):
+class rolInfo(models.Model):#info del rol
     rol_name =  models.CharField(max_length = 150,  default='')
     rol_name_other=models.CharField(max_length = 150,  default='', blank=True)
     rol_due_date = models.DateField()
@@ -95,16 +95,31 @@ class project(models.Model):
     def __str__(self):
         return self.pro_name
 
-class projectImg(models.Model):
+class projectImg(models.Model):#Ya no se usa
     pro_img = models.ImageField(default='', upload_to='pro_img', blank=True)
     pro = models.ForeignKey('project', on_delete=models.CASCADE,default='')
 
     def __str__(self):
         return str(self.pro_img)
 
-class project_rol(models.Model):
+class project_rol(models.Model):#Tabla NN
     id= models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')
     pro = models.ForeignKey('project', related_name='project', on_delete=models.CASCADE,default='')
     rol= models.ForeignKey('rolInfo', related_name='rolInfo', on_delete=models.CASCADE,default='')
     def __str__(self):
-        return str(self.id)
+        return str(self.rol)
+
+class user_project(models.Model):
+    up_project = models.ForeignKey('project', related_name='up_project', on_delete=models.CASCADE,default='')
+    up_user = models.ForeignKey(User, on_delete=models.CASCADE, default="", blank=True, null=True)
+    up_rolInfo =  models.ForeignKey('rolInfo', related_name='up_rolInfo', on_delete=models.CASCADE,default='')
+    up_status = models.ForeignKey('status', related_name='upstatus', on_delete=models.CASCADE,default='')
+    
+    def __str__(self):
+        return str(self.up_project)
+
+class status(models.Model):
+    status= models.CharField(primary_key=True,max_length = 50, unique = True, default='')
+    status_text= models.CharField(max_length=40,default='')
+    def __str__(self):
+        return self.status

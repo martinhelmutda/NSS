@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+{% load static %}
 {% block processes_block %}
 <script type ="text/javascript" src="{% static "js/extras/processes.js" %}"></script>  <!--Este link hace que no jale el datepicker de create_project.html-->
 {% endblock %}
@@ -34,7 +35,7 @@
     <div class="item">
       <div class="image">
         {% if project.pro_img %}
-          <img src="..media/{{project.pro_img}}">
+          <img src="{{project.pro_img}}">
         {% else %}
           <img src="https://semantic-ui.com/images/wireframe/image.png">
         {% endif %}

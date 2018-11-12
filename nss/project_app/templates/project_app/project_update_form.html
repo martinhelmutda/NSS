@@ -8,7 +8,7 @@
       <!--<h1 class="content">Actualiza tu proyecto</h1>--><br><br>
 
       {% if 'ok' in request.GET %}
-      <div class="ui basic modal">
+      <div class="ui mini modal">
         <div class="ui icon header">
           <i class="archive icon"></i>
           El proyecto se actualizó con éxito.
@@ -17,7 +17,7 @@
           <p class="ui centered grid container">Los cambios se han guardado ¿Desea seguir editando?</p>
         </div>
         <div class="actions">
-          <a class="ui red basic cancel inverted button" href="{% url 'project_app:project' project.id project.pro_name|slugify %}">
+          <a class="ui red inverted cancel inverted button" href="{% url 'project_app:project' project.id project.pro_name|slugify %}">
             <i class="remove icon"></i>
             No
           </a>
@@ -28,6 +28,7 @@
         </div>
       </div>
       {% endif %}
+
       <form method="POST" id="projectForm"  class="ui form container segment" enctype="multipart/form-data"class="ui form" data-cities-url="{% url 'project_app:ajax_load_cities' %}" data-subcategories-url="{% url 'project_app:ajax_load_subcategories' %}" >
       {% csrf_token %}
 
@@ -126,7 +127,7 @@
         }
     });
   });
-  $('.ui.basic.modal')
+  $('.mini.modal')
   .modal('show')
 ;
   //document.getElementById('fieldWrapper').innerHTML.setAttribute("multiple", "multiple");
