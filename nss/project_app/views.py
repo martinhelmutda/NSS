@@ -3,7 +3,7 @@ Last modified: ANgélica Güemes
 date: November 11
 Time: 11:24
 """
-from .models import project, projectImg, project, rolInfo, state,city, category,subcategory, project_rol, user_project
+from .models import project, projectImg, project, rolInfo, state,city, category,subcategory, project_rol, user_project, status
 from .forms import CreateProjectForm, CreateRolForm, CreateGroupForm
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
@@ -23,6 +23,7 @@ from fusioncharts import FusionCharts
 from project_app import templates
 from django.urls import resolve
 from account_app.models import Profile
+from django.http import JsonResponse
 # Create your views here.
 #Returns a complete list of projects
 class ProjectsListView(ListView):
@@ -47,12 +48,40 @@ class ProjectDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(ProjectDetailView, self).get_context_data(**kwargs)
         context['user_project'] = user_project.objects.filter(up_user= self.request.user, up_project = self.object.id)
+        print(context['user_project'])
         context['owner_project'] = project.objects.filter(id=self.object.id) #print(context['user_project']) #print('id projecto', context['user_project'])
         return context
 
-def change_user_project_status(request, pk, slug):
-    print("Hago cosas...", pk, slug)
-    #return render(AQUI LLAMO A PROJECTDETAILVIEW)
+def change_user_project_status(request):
+    idRol = request.GET.get('idRol', None)
+    status1 = request.GET.get('status1', None)
+    idUser = request.GET.get('idUser', None)
+    idProject = request.GET.get('idProject', None)
+    #print('id rol',idRol)
+    #print('status1',status1)
+    #print('idUser',idUser)
+    #print('idProject',idProject)
+    if status1 == 'No_enviada':
+        print('status',status1)
+        #get project
+        pro = project.objects.get(id=idProject)
+        #get rolInf
+        rol = rolInfo.objects.get(id=idRol)
+        print(rol)
+        #get up Status
+        stat = status.objects.get(status='enviada')
+        up = user_project(up_project= pro,up_user=request.user, up_rolInfo=rol, up_status= stat)
+        up.save()
+        print('cooool')
+    else:
+        print('no cooool')
+        #row = user_project.objects.get(up_project= idProject,up_user=request.user, up_rolInfo=idRol)
+        #print(row.up_status)
+
+    data = {
+        'is_taken': rolInfo.objects.filter(id=idRol).exists()
+    }
+    return JsonResponse(data)
 
 ##Creates a project with the given arguments
 class ProjectCreate(CreateView):

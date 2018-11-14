@@ -173,15 +173,15 @@
 
                        {%for y in user_project%}
                          {% if x.id != y.up_rolInfo.id%}
-                               <a  class="ui violet right pointing label button aplicar texto_boton" id={{x.id}} name="texto_boton"  value="No_enviada">Aplicar</a>
+                            <a  class="ui violet right pointing label button aplicar texto_boton" data-url="{% url 'project_app:change_user_project_status' %}" id={{x.id}} value="No_enviada">Aplicar</a>
                          {%endif%}
                            {%empty%}
-                            <a  class="ui violet right pointing label button aplicar texto_boton" id={{x.id}} name="texto_boton"  value="No_enviada">Aplicar</a>
+                            <a  class="ui violet right pointing label button aplicar texto_boton" data-url="{% url 'project_app:change_user_project_status' %}" id={{x.id}} value="No_enviada">Aplicar</a>
                        {%endfor%}
 
                       {%for y in user_project%}
                         {% if x.id == y.up_rolInfo.id%}
-                             <a  class="ui violet right pointing label button aplicar texto_boton2" id={{x.id}} name="texto_boton2" value="{{y.up_status.status}}">{{y.up_status.status_text}}</a>
+                             <a  class="ui violet right pointing label button aplicar texto_boton" data-url="{% url 'project_app:change_user_project_status' %}" id={{x.id}} value="{{y.up_status.status}}">{{y.up_status.status_text}}</a>
                         {%endif%}
                       {%endfor%}
 
@@ -271,30 +271,50 @@
       fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
   </script>
- <script type="text/javascript">
- $(".texto_boton").click(function () {
-  var value = $(".texto_boton").attr('value');
-    var value2 = $(".texto_boton").attr('id');
 
-  console.log(value);
-    console.log(value2);
+{% endblock %}
+
+{% block js_block %}
+<script type="text/javascript">
+$( ".texto_boton" ).click(function() {
+     console.log( $(this).attr('id'));
+     console.log( $(this).attr('value'));
+
+     var idRol = $(this).attr('id');
+     var status1 = $(this).attr('value');
+     var idUser ={{request.user.profile.id}} ;
+     var idProject = {{project.id}};
+     console.log( idProject);
+     console.log( idUser);
+     var url = $(this).attr("data-url");
+     $.ajax({
+       url: url,
+       data: {
+         'idRol': idRol,
+         'status1': status1,
+         'idUser': idUser,
+         'idProject': idProject,
+       },
+       dataType: 'json',
+       success: function (data) {
+         if (data.is_taken) {
+           alert("Sí existe el rol");
+         }
+       }
+     });
+
 });
-$(".texto_boton2").click(function () {
- var value = $(".texto_boton2").attr('value');
-     var value2 = $(".texto_boton2").attr('id');
- console.log(value);
-     console.log(value2);
-});
+
 /*  $( ".aplicar" ).click(function() {
-    //$("#rol_id").html($( ".hola").attr("name"));
-    var f= $( this).attr("name");
-    var txt = 'Esta aplicando a {{project.pro_name}}';
-    // con el rol   {%for x in project.pro_roles.all%}   {% if x.id == ' + 2 + '%}   {% if x.rol_name == Otro %}  {{x.rol_name_other}} {% else %} {{x.rol_name}} {% endif %}  {%endif%} {%endfor%}';
+   //$("#rol_id").html($( ".hola").attr("name"));
+   var f= $( this).attr("name");
+   var txt = 'Esta aplicando a {{project.pro_name}}';
+   // con el rol   {%for x in project.pro_roles.all%}   {% if x.id == ' + 2 + '%}   {% if x.rol_name == Otro %}  {{x.rol_name_other}} {% else %} {{x.rol_name}} {% endif %}  {%endif%} {%endfor%}';
 
-    console.log(txt);
-     $("#letrero").text(txt);
-    console.log("APLICO");
-        $('.mini.modal').modal('show');
-  });*/
-  </script>
+   console.log(txt);
+    $("#letrero").text(txt);
+   console.log("APLICO");
+       $('.mini.modal').modal('show');
+ });*/
+ </script>
 {% endblock %}

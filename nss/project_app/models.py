@@ -114,7 +114,7 @@ class user_project(models.Model):
     up_user = models.ForeignKey(User, on_delete=models.CASCADE, default="", blank=True, null=True)
     up_rolInfo =  models.ForeignKey('rolInfo', related_name='up_rolInfo', on_delete=models.CASCADE,default='')
     up_status = models.ForeignKey('status', related_name='upstatus', on_delete=models.CASCADE,default='')
-    
+
     def __str__(self):
         return str(self.up_project)
 
@@ -122,4 +122,4 @@ class status(models.Model):
     status= models.CharField(primary_key=True,max_length = 50, unique = True, default='')
     status_text= models.CharField(max_length=40,default='')
     def __str__(self):
-        return self.status
+        return str(self.status)
