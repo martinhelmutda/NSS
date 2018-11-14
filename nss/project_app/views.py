@@ -47,10 +47,12 @@ class ProjectDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(ProjectDetailView, self).get_context_data(**kwargs)
         context['user_project'] = user_project.objects.filter(up_user= self.request.user, up_project = self.object.id)
-        context['owner_project'] = project.objects.filter(id=self.object.id)
-        print(context['user_project'])
-        print('id projecto', context['user_project'])
+        context['owner_project'] = project.objects.filter(id=self.object.id) #print(context['user_project']) #print('id projecto', context['user_project'])
         return context
+
+def change_user_project_status(request, pk, slug):
+    print("Hago cosas...", pk, slug)
+    #return render(AQUI LLAMO A PROJECTDETAILVIEW)
 
 ##Creates a project with the given arguments
 class ProjectCreate(CreateView):
@@ -65,6 +67,8 @@ class ProjectCreate(CreateView):
         print(self.object)
         return reverse_lazy('project_app:project', args=[self.object.id, slugify(self.object.pro_name)])
         #Te manda a project_detail.html y es el projectdetailview
+
+
 
 class GroupCreate(CreateView):
     #model = project
@@ -90,7 +94,6 @@ def load_subcategories(request):
     subcategories = subcategory.objects.filter(category=country_id)#.order_by('subcategory') print(subcategories)
     return render(request, 'project_app/subcategory_dropdown_list_options.html', {'subcategories': subcategories})
 
-
 ##Creates a project with the given arguments
 class ProjectRolCreate(CreateView):
     #model = project
@@ -112,12 +115,6 @@ class ProjectUpdate(UpdateView):
 class ProjectDelete(DeleteView):
     model = project
     success_url = reverse_lazy('project_app:projects')
-
-class ProjectStatus(DetailView):
-    """docstring for ProjectStatus."""
-    model = project
-
-
 
 def DataRep(request):
     #Chart data is passed to the `dataSource` parameter, like a dictionary in the form of key-value pairs.

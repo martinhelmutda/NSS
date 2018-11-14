@@ -57,12 +57,14 @@
             <!--Creador del proyecto-->
             <div class="ui grid">
               <div class="item">
+
+
                 {%if request.user.profile.avatar%}
                 <img class="ui avatar image" src="{{request.user.profile.avatar.url}}">
-                {{owner_project.pro_user}}
+                {{request.user.profile.user}}
                 {%else%}
-                <img class="ui avatar image" src="">
-                            {{owner_project.pro_user}}
+                <img class="ui avatar image" src="https://semantic-ui.com/images/avatar2/small/lena.png">
+                {{request.user.profile.user}}
                 {%endif%}
 
               </div>
@@ -171,19 +173,18 @@
 
                        {%for y in user_project%}
                          {% if x.id != y.up_rolInfo.id%}
-                           <a class="ui violet right pointing label button aplicar" id="texto_boton" name={{x.id}} value="  {{y.up_status.status_text}}">
-                               Aplicar
-                           </a>
+                               <a  class="ui violet right pointing label button aplicar texto_boton" id={{x.id}} name="texto_boton"  value="No_enviada">Aplicar</a>
                          {%endif%}
+                           {%empty%}
+                            <a  class="ui violet right pointing label button aplicar texto_boton" id={{x.id}} name="texto_boton"  value="No_enviada">Aplicar</a>
                        {%endfor%}
 
-                    {%for y in user_project%}
-                      {% if x.id == y.up_rolInfo.id%}
-                        <a class="ui violet right pointing label button aplicar" id="texto_boton" name={{x.id}} value="  {{y.up_status.status_text}}">
-                            {{y.up_status.status_text}}
-                        </a>
-                      {%endif%}
-                    {%endfor%}
+                      {%for y in user_project%}
+                        {% if x.id == y.up_rolInfo.id%}
+                             <a  class="ui violet right pointing label button aplicar texto_boton2" id={{x.id}} name="texto_boton2" value="{{y.up_status.status}}">{{y.up_status.status_text}}</a>
+                        {%endif%}
+                      {%endfor%}
+
 
                        <div class="ui violet inverted button aplicar">
                           {{x.rol_amount}}
@@ -271,6 +272,19 @@
     }(document, 'script', 'facebook-jssdk'));
   </script>
  <script type="text/javascript">
+ $(".texto_boton").click(function () {
+  var value = $(".texto_boton").attr('value');
+    var value2 = $(".texto_boton").attr('id');
+
+  console.log(value);
+    console.log(value2);
+});
+$(".texto_boton2").click(function () {
+ var value = $(".texto_boton2").attr('value');
+     var value2 = $(".texto_boton2").attr('id');
+ console.log(value);
+     console.log(value2);
+});
 /*  $( ".aplicar" ).click(function() {
     //$("#rol_id").html($( ".hola").attr("name"));
     var f= $( this).attr("name");

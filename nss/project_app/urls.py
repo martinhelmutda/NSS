@@ -1,12 +1,12 @@
 from django.urls import path
-from .views import ProjectsListView,GroupCreate,GroupsListView,ProjectStatus, ProjectDetailView, ProjectCreate, ProjectUpdate, ProjectDelete, DataRep, ProjectRolCreate
+from .views import ProjectsListView,GroupCreate,GroupsListView,change_user_project_status ,ProjectDetailView, ProjectCreate, ProjectUpdate, ProjectDelete, DataRep, ProjectRolCreate
 from project_app import views
 app_name="project_app"
 projects_patterns = ([
     path('p/', ProjectsListView.as_view(), name='projects'),
     path('g/', GroupsListView.as_view(), name='groups'),
     path('<int:pk>/<slug:slug>/', ProjectDetailView.as_view(), name='project'),
-    path('<int:pk>/<slug:slug>/<int:id>', ProjectStatus.as_view(), name='project_status'),
+    path('<int:pk>/<slug:slug>/stat/', views.change_user_project_status, name='change_user_project_status'),
     path('create/', ProjectCreate.as_view(), name='create'),
     path('createGroup/', GroupCreate.as_view(), name='create_group'),
     path('DataRep/', views.DataRep, name='DataRep'),
