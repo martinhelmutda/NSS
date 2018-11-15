@@ -55,33 +55,53 @@ class ProjectDetailView(DetailView):
 def change_user_project_status(request):
     idRol = request.GET.get('idRol', None)
     status1 = request.GET.get('status1', None)
+    print("STATUS!........", status1)
     idUser = request.GET.get('idUser', None)
-    idProject = request.GET.get('idProject', None)
-    #print('id rol',idRol)
-    #print('status1',status1)
-    #print('idUser',idUser)
-    #print('idProject',idProject)
+    idProject = request.GET.get('idProject', None)#print('id rol',idRol)#print('status1',status1)#print('idUser',idUser)#print('idProject',idProject)
+    pro = project.objects.get(id=idProject)#get project
+    rol = rolInfo.objects.get(id=idRol)#get rolInf
     if status1 == 'No_enviada':
-        print('status',status1)
-        #get project
-        pro = project.objects.get(id=idProject)
-        #get rolInf
-        rol = rolInfo.objects.get(id=idRol)
-        print(rol)
-        #get up Status
-        stat = status.objects.get(status='enviada')
+        stat = status.objects.get(status='enviada')#get up Status
         up = user_project(up_project= pro,up_user=request.user, up_rolInfo=rol, up_status= stat)
-        up.save()
-        print('cooool')
+        up.save()#print('cooool')
     else:
         print('no cooool')
-        #row = user_project.objects.get(up_project= idProject,up_user=request.user, up_rolInfo=idRol)
-        #print(row.up_status)
-
+        stat = status.objects.get(status=status1)#get up Status
+        up = user_project.objects.get(up_project= pro ,up_user=request.user, up_rolInfo=rol, up_status=stat)
+        #print(up.up_status)
+        if up.up_status.status == 'aceptada':
+            stat = status.objects.get(status='cancelada')
+        elif up.up_status.status == 'cancelada':
+            stat = status.objects.get(status='enviada')
+        elif up.up_status.status == 'enviada':
+            stat = status.objects.get(status='cancelada')
+        elif up.up_status.status == 'rechazada':
+            stat = status.objects.get(status='enviada')
+        elif up.up_status.status == 'renuncia':
+            stat = status.objects.get(status='enviada')
+        up.up_status= stat
+        up.save()
     data = {
         'is_taken': rolInfo.objects.filter(id=idRol).exists()
     }
     return JsonResponse(data)
+
+def button_text(request):
+    print("ENTRO")
+    idProject = request.GET.get('idProject', None)
+    pro_object = project.objects.get(id=idProject)
+    roles = user_project.objects.filter(up_project=pro_object)
+    dict =	{}
+    dictStatus={}
+    for x in roles: #print(x.up_rolInfo.id)#print(x.up_rolInfo)#print(x.up_status.status_text)
+        dict[x.up_rolInfo.id] = x.up_status.status_text
+        dictStatus[x.up_rolInfo.id] = x.up_status.status
+    data = {
+        'dict': dict,
+        'dictStatus': dictStatus
+    }
+    return JsonResponse(data)
+
 
 ##Creates a project with the given arguments
 class ProjectCreate(CreateView):

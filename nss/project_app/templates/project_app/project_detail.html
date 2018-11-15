@@ -169,23 +169,8 @@
                   </div>
                   <div class="extra content">
                     {% if request.user != project.pro_user %} <!--Si no es el creador aparece boton para aplicar-->
-                     <div class="ui left labeled button" tabindex="0" id="hola" name ={{x.id}} class="aplicar">
-
-                       {%for y in user_project%}
-                         {% if x.id != y.up_rolInfo.id%}
-                            <a  class="ui violet right pointing label button aplicar texto_boton" data-url="{% url 'project_app:change_user_project_status' %}" id={{x.id}} value="No_enviada">Aplicar</a>
-                         {%endif%}
-                           {%empty%}
-                            <a  class="ui violet right pointing label button aplicar texto_boton" data-url="{% url 'project_app:change_user_project_status' %}" id={{x.id}} value="No_enviada">Aplicar</a>
-                       {%endfor%}
-
-                      {%for y in user_project%}
-                        {% if x.id == y.up_rolInfo.id%}
-                             <a  class="ui violet right pointing label button aplicar texto_boton" data-url="{% url 'project_app:change_user_project_status' %}" id={{x.id}} value="{{y.up_status.status}}">{{y.up_status.status_text}}</a>
-                        {%endif%}
-                      {%endfor%}
-
-
+                     <div class="ui left labeled button" tabindex="0" id="boton{{x.id}}" name ={{x.id}} class="aplicar">
+                        <a  class="ui violet right pointing label button aplicar texto_boton" prueba="No_enviada" button-url="{%url 'project_app:button_text'%}" data-url="{% url 'project_app:change_user_project_status' %}" id={{x.id}} value="No_enviada">Aplicar</a>
                        <div class="ui violet inverted button aplicar">
                           {{x.rol_amount}}
                        </div>
@@ -276,16 +261,15 @@
 
 {% block js_block %}
 <script type="text/javascript">
-$( ".texto_boton" ).click(function() {
-     console.log( $(this).attr('id'));
-     console.log( $(this).attr('value'));
+$( document ).ready(function() {
+    whatever();
+});
 
+$( ".texto_boton" ).click(function() {
      var idRol = $(this).attr('id');
-     var status1 = $(this).attr('value');
+     var status1 = $(this).attr('prueba');
      var idUser ={{request.user.profile.id}} ;
      var idProject = {{project.id}};
-     console.log( idProject);
-     console.log( idUser);
      var url = $(this).attr("data-url");
      $.ajax({
        url: url,
@@ -297,14 +281,33 @@ $( ".texto_boton" ).click(function() {
        },
        dataType: 'json',
        success: function (data) {
-         if (data.is_taken) {
-           alert("Sí existe el rol");
-         }
+             whatever();
        }
      });
 
 });
 
+function whatever(){
+  var url = $( ".texto_boton" ).attr("button-url");
+  var idProject = {{project.id}};
+  $.ajax({
+    url: url,
+    data: {
+      'idProject': idProject,
+    },
+    dataType: 'json',
+    success: function (data) {
+
+        console.log(data.dict); //TEXTO
+        console.log(data.dictStatus); //STATUS
+        for (x in data.dict ) {
+          var temp = '#'+x;
+          $( temp ).text(data.dict[x]);
+          $(temp).attr('prueba',data.dictStatus[x]);
+        }
+    }
+  });
+}
 /*  $( ".aplicar" ).click(function() {
    //$("#rol_id").html($( ".hola").attr("name"));
    var f= $( this).attr("name");
