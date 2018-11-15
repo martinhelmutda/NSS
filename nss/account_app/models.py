@@ -31,4 +31,4 @@ def ensure_profile_exists(sender, instance, **kwargs):
     #If there is something that says tha is created, then is not executed. Its false by default
     if kwargs.get('created', False):
         Profile.objects.get_or_create(user=instance)
-        print("Se acaba de crear un usuario y su perfil enlazado")
+        #print("Se acaba de crear un usuario y su perfil enlazado")
