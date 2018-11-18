@@ -150,7 +150,8 @@ class ProjectRolCreate(CreateView):
     template_name="project_app/project_rol_form.html"
     def get_success_url(self):
         pro_temp = project.objects.get(id=self.kwargs['pk'])
-        project_rol.objects.create(pro =pro_temp , rol=self.object )
+        if pro_temp.pro_group == False:
+            project_rol.objects.create(pro =pro_temp , rol=self.object )
         return reverse_lazy('project_app:project', args=[self.kwargs['pk'], self.kwargs['slug']])
         #Te manda a project_detail.html y es el projectdetailview
 

@@ -3,11 +3,11 @@
 <html lang="es">
         <head>
             <meta charset="utf-8">
+            {% block meta_block %}
+
+            {% endblock %}
             <meta name="viewport" content="width=device-width, initial-scale=1">
              <title>{% block title %}{% endblock %}</title>
-             {% block meta_block %}
-
-             {% endblock %}
             <link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
             <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
             <link rel="stylesheet" href="{% static "css/styles.css" %}">
