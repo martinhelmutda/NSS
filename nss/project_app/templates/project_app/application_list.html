@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load static %}
+{% block processes_block %}
+<script type ="text/javascript" src="{% static "js/extras/processes.js" %}"></script>  <!--Este link hace que no jale el datepicker de create_project.html-->
+{% endblock %}
+{% block title %}Teem{% endblock %}
+{% block body_block %}
+  {% for aplication in user_project_list|dictsort:"id" reversed%}
+    hola
+  {%endfor%}
+
+
+{% endblock %}

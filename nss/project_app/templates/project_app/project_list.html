@@ -41,20 +41,22 @@
         {% endif %}
       </div>
       <div class="content">
-        <a class="header">{{project.pro_name}}</a>
+        <a class="header"  href="{% url 'project_app:project' project.id project.pro_name|slugify %}">{{project.pro_name}}</a>
         <div class="meta">
           <span>{{project.pro_category}}</span>
           <span>{{project.pro_location}}</span>
         </div>
         <div class="description">
-          <p>{{project.pro_description | safe}}</p>
-        </div>
-        <div class="extra">
-          <p>
+          <p>{{project.pro_description | truncatewords:50 |safe}}</p>
             <a href="{% url 'project_app:project' project.id project.pro_name|slugify %}">
               Leer más
             </a>
+        </div>
+        <div class="extra">
+          <p>
+
             {% if request.user == project.pro_user %}
+               <a href="{% url 'project_app:applications' project.id %}">Ver solicitudes</a>
               | <a href="{% url 'project_app:update' project.id %}">Editar</a>
               | <a href="{% url 'project_app:delete' project.id %}">Borrar</a>
             {% endif %}

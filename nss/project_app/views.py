@@ -52,6 +52,17 @@ class ProjectDetailView(DetailView):
         context['owner_project'] = project.objects.filter(id=self.object.id) #print(context['user_project']) #print('id projecto', context['user_project'])
         return context
 
+class ApplicationsListView(ListView):
+    model = user_project
+    paginated_by=2
+    template_name="project_app/application_list.html"
+    def get_queryset(self, **kwargs):
+        context = super(ApplicationsListView, self).get_queryset(**kwargs)
+        print(self.kwargs['pk'])
+        id_Project= self.kwargs['pk']
+        queryset =  user_project.objects.filter(up_project=id_Project)#filter(up_project=self.object.id)
+        return queryset
+
 def change_user_project_status(request):
     idRol = request.GET.get('idRol', None)
     status1 = request.GET.get('status1', None)

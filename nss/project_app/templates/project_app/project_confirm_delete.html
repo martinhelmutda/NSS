@@ -7,11 +7,11 @@
   <form class="ui form"  method="post">
     {% csrf_token %}
     <br>
-    <h1 class="ui centered grid container">¿Seguro que deseas borrar? "{{object}}"</h1>
+    <h1 class="ui centered grid container">¿Seguro que deseas borrar "{{object}}" ?</h1>
 
     <div class="ui centered grid container">
 
-    <input type="submit" name=""  value="Sí, borrar">
+    <input   class="ui grey basic button"type="submit" name=""  value="Sí, borrar">
     </div>
 
   </form>

@@ -6,25 +6,34 @@
 {% block body_block %}
 
 <main role="main">
-  <div class="ui container mb-4">
+  <div class="ui container ">
     <div class="ui link cards">
     {% for project in projects|dictsort:"id" reversed %}
         <div class="card">
-          <div class="image">
+
+          <a class="image"href="{% url 'project_app:project' project.id project.pro_name|slugify %}" >
             {% if project.pro_img %}
               <img src="../media/{{project.pro_img}}">
             {% else %}
               <img src="https://semantic-ui.com/images/wireframe/image.png">
             {% endif %}
-          </div>
+          </a>
           <div class="content">
-            <div class="header">{{project.pro_name}}</div>
-            <div class="meta">
-              <a>{{project.pro_category}}</a>
-              <a>{{project.pro_subcategory}}</a>
+            <a class="header" href="{% url 'project_app:project' project.id project.pro_name|slugify %}">{{project.pro_name}} </a>
+
+            <div class=" sixteen wide column">
+              <div class=" eight column">
+                  <i class="tags icon"></i>
+                  {{project.pro_category}}, {{project.pro_subcategory}}.
+              </div>
+              <div class=" eight column">
+                  <i class="map marker alternate icon"></i>
+                  {{project.pro_city}}, {{project.pro_state}}.
+              </div>
             </div>
+<hr>
             <div class="description">
-              {{project.pro_description | safe}}
+              <p>{{project.pro_description | truncatewords:50 |safe}} </p><a href="{% url 'project_app:project' project.id project.pro_name|slugify %}">Leer más</a>
             </div>
           </div>
           <div class="extra content">
@@ -35,12 +44,10 @@
               <i class="user icon"></i>
               <div class="row mt-3">
                 <div class="col-md-9 mx-auto">
-                  <div>
-                    {# <p>{{project.pro_description|striptags|safe|truncatechars:"200"}}</p> #}
-                    <p><a href="{% url 'project_app:project' project.id project.pro_name|slugify %}">Leer más</a></p>
+                  <div class="description">
 
                     {% if request.user == project.pro_user %}
-                        | <a href="{% url 'project_app:update' project.id %}">Editar</a>
+                         <a href="{% url 'project_app:update' project.id %}">Editar</a>
                         | <a href="{% url 'project_app:delete' project.id %}">Borrar</a>
                       {% endif %}
 
