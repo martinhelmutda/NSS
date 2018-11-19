@@ -31,7 +31,6 @@ class SearchView(SelectRelatedMixin, generic.ListView):
 
     def get_queryset(self):
         result = super(ListView, self).get_queryset()
-
         query = self.request.GET.get('q')
         if query:
             query_list = query.split()
@@ -52,8 +51,8 @@ class SearchView(SelectRelatedMixin, generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['state'] = state.objects.all()
-        context['city'] = city.objects.all()
-        context['subcategory'] = subcategory.objects.all()
+        #context['city'] = city.objects.all()
+        #context['subcategory'] = subcategory.objects.all()
         context['category'] = category.objects.all()
         return context
 
