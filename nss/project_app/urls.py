@@ -1,14 +1,16 @@
 from django.urls import path
-from .views import ProjectsListView,GroupCreate,ApplicationsListView,GroupsListView,button_text, change_user_project_status ,ProjectDetailView, ProjectCreate, ProjectUpdate, ProjectDelete, DataRep, ProjectRolCreate
+from .views import ProjectsListView,GroupCreate,ApplicationsDetailView,delete,GroupsListView,accept,button_text, change_user_project_status ,ProjectDetailView, ProjectCreate, ProjectUpdate, ProjectDelete, DataRep, ProjectRolCreate
 from project_app import views
 app_name="project_app"
 projects_patterns = ([
     path('p/', ProjectsListView.as_view(), name='projects'),
     path('g/', GroupsListView.as_view(), name='groups'),
-    path('<int:pk>/a/', ApplicationsListView.as_view(), name='applications'),
+    path('<int:pk>/a/', ApplicationsDetailView.as_view(), name='applications'),
     path('<int:pk>/<slug:slug>/', ProjectDetailView.as_view(), name='project'),
     path('ajax/change_user_project_status/', views.change_user_project_status, name='change_user_project_status'),
     path('ajax/button_text/', views.button_text, name='button_text'),
+    path('ajax/accept/', views.accept, name='accept'),
+    path('ajax/delete/', views.delete, name='delete'),
     path('create/', ProjectCreate.as_view(), name='create'),
     path('createGroup/', GroupCreate.as_view(), name='create_group'),
     path('DataRep/', views.DataRep, name='DataRep'),

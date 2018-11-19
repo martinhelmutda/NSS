@@ -1,14 +1,183 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% load static %}
+
 {% block processes_block %}
-<script type ="text/javascript" src="{% static "js/extras/processes.js" %}"></script>  <!--Este link hace que no jale el datepicker de create_project.html-->
+
 {% endblock %}
+
 {% block title %}Teem{% endblock %}
+
 {% block body_block %}
-  {% for aplication in user_project_list|dictsort:"id" reversed%}
-    hola
-  {%endfor%}
+<div class="container ui grid">
+  <div class="ui  grid">
 
 
+      <div class="fourteen wide column">
+        <div class="ui vertical segment">
+          <h2>Aplicaciones para {{project_name}}</h2>
+
+        <div class="ui styled accordion">
+          {% for rol in applications_rols%}
+          <div class="title">
+            <i class="dropdown icon"></i>
+            {%if rol.rol.rol_name == "Otro"%}{{rol.rol.rol_name_other}}
+            {%else%}{{rol.rol.rol_name}} {%endif%}
+          </div>
+          <div class="content">
+            <table class="ui very basic  celled table">
+              <thead>
+                <tr><th>Usuario</th>
+                <th>Status </th>
+                <th>Acción </th>
+              </tr></thead>
+              <tbody>
+                {% for application in applications%}
+                  {%if application.up_rolInfo == rol.rol%}
+                <tr>
+                  <td>
+                      <h4 class="ui image header">
+                        <img src="https://semantic-ui.com/images/avatar2/small/lena.png" class="ui mini rounded image">
+                        <div class="content">
+                          {{application.up_user}} <a href="{% url 'profiles_app:detail' application.up_user %}">Ver perfil</a>
+                          <div class="sub header">Human Resources
+                        </div>
+                      </div>
+                    </h4>
+                  </td>
+
+                  {% if application.up_status.status == 'cancelada' or application.up_status.status == 'renuncia' or application.up_status.status == 'rechazada' %}
+                    <td class="negative">
+                      {%if application.up_status.status == 'renuncia'%} Ex integrante
+                      {%else%}{{application.up_status.status}}{%endif%}
+                    </td>
+                    <td class="negative">
+                      <a href="{% url 'messages_app:start' application.up_user %}">Contactar</a>
+                    </td>
+
+                  {%elif application.up_status.status == 'aceptada'%}
+                    <td class="positive">
+                      <i class="icon checkmark"></i> {{application.up_status.status}}
+                    </td>
+                    <td class="">
+                      <i class="icon close"></i>     <p class="delete" id={{application.up_user.id}} rol={{rol.rol.id}} delete-url="{% url 'project_app:delete' %}" style="cursor: pointer; color:red;">Eliminar integrante </p><br>
+                        <a href="{% url 'messages_app:start' application.up_user %}">Contactar</a>
+                    </td>
+
+                  {%elif  application.up_status.status == 'enviada'%}
+                  <td class="">
+                    {{application.up_status.status}}
+                  </td>
+                  <td class="">
+                    <i class="icon checkmark"></i> <p class="accept" id={{application.up_user.id}} rol={{rol.rol.id}} accept-url="{% url 'project_app:accept' %}" style="cursor: pointer; color:green;">Aceptar</p><br>
+                    <i class="icon close"></i>     <p class="delete" id={{application.up_user.id}} rol={{rol.rol.id}} delete-url="{% url 'project_app:delete' %}" style="cursor: pointer; color:red;">  Rechazar</p>
+                  </td>
+                  {%endif%}
+                </tr>
+                  {%endif%}
+                {%endfor%}
+              </tbody>
+            </table>
+          </div>
+          {%endfor%}
+        </div>
+        </div>
+      </div>
+
+
+  <div class="two wide column">
+    <div class="ui vertical segment">
+      <div class="ui right close rail">
+       <div class="ui segment">
+         <h4>Integrantes</h4>
+         <table class="ui very basic collapsing celled table">
+  <thead>
+    <tr><th>Usuario</th>
+    <th>Puesto</th>
+  </tr></thead>
+  <tbody>
+
+    {%for integrante in integrantes%}
+    <tr>
+      <td>
+        <h4 class="ui image header">
+          <img src="https://semantic-ui.com/images/avatar2/small/matthew.png" class="ui mini rounded image">
+          <div class="content">
+            {{integrante.up_user}}
+        </div>
+      </h4></td>
+      <td>
+        {%if integrante.up_rolInfo.rol_name == 'Otro'%}{{integrante.up_rolInfo.rol_name_other}}
+        {%else%}{{integrante.up_rolInfo.rol_name}}{%endif%}
+      </td>
+    </tr>
+    {%endfor%}
+
+
+  </tbody>
+</table>
+
+       </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  </div>
+</div>
+
+{% endblock %}
+
+{% block js_block %}
+<!-- Other js go here -->
+<script type="text/javascript">
+            $(document).ready(function(){
+                $('.ui.accordion').accordion();
+                $('.ui.accordion').accordion('refresh');
+             });
+
+//ACEPTAR USUARIO
+$( ".accept" ).click(function() {
+  console.log("ACEPTAR...")
+  var idUser =$(this).attr('id'); ;         console.log("user id: "+idUser)
+  var idRol =$(this).attr('rol'); ;         console.log("id rol: "+idRol)
+  var idProject = {{project.id}};           console.log("id proyect: "+idProject)
+  var url = $(this).attr("accept-url");     console.log("url: "+url)
+  $.ajax({
+    url: url,
+    data: {
+      'idUser': idUser,
+      'idProject': idProject,
+      'idRol': idRol,
+    },
+    dataType: 'json',
+    success: function (data) {
+          console.log("SUCCESS");
+          location.reload();
+    }
+  });
+});
+
+$( ".delete" ).click(function() {
+  console.log("ACEPTAR...")
+  var idUser =$(this).attr('id'); ;         console.log("user id: "+idUser)
+  var idRol =$(this).attr('rol'); ;         console.log("id rol: "+idRol)
+  var idProject = {{project.id}};           console.log("id proyect: "+idProject)
+  var url = $(this).attr("delete-url");     console.log("url: "+url)
+  $.ajax({
+    url: url,
+    data: {
+      'idUser': idUser,
+      'idProject': idProject,
+      'idRol': idRol,
+    },
+    dataType: 'json',
+    success: function (data) {
+          console.log("SUCCESS");
+          location.reload();
+    }
+  });
+});
+</script>
 {% endblock %}

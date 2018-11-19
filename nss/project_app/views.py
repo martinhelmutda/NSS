@@ -6,6 +6,7 @@ Time: 11:24
 from .models import project, projectImg, project, rolInfo, state,city, category,subcategory, project_rol, user_project, status
 from .forms import CreateProjectForm, CreateRolForm, CreateGroupForm
 from django.utils import timezone
+from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
@@ -52,16 +53,25 @@ class ProjectDetailView(DetailView):
         context['owner_project'] = project.objects.filter(id=self.object.id) #print(context['user_project']) #print('id projecto', context['user_project'])
         return context
 
-class ApplicationsListView(ListView):
-    model = user_project
+class ApplicationsDetailView(DetailView):
+    model = project
     paginated_by=2
     template_name="project_app/application_list.html"
-    def get_queryset(self, **kwargs):
-        context = super(ApplicationsListView, self).get_queryset(**kwargs)
-        print(self.kwargs['pk'])
+    def get_context_data(self, **kwargs):
+        context = super(ApplicationsDetailView, self).get_context_data(**kwargs)
         id_Project= self.kwargs['pk']
-        queryset =  user_project.objects.filter(up_project=id_Project)#filter(up_project=self.object.id)
-        return queryset
+        context['applications'] =  user_project.objects.filter(up_project=id_Project)#filter(up_project=self.object.id)
+        context['applications_rols'] =  project_rol.objects.filter(pro=id_Project)#filter(up_project=self.object.id)
+        aceptada = status.objects.get(status='aceptada')
+        context['integrantes']= user_project.objects.filter(up_project=id_Project, up_status=aceptada)
+        for rol in context['applications_rols']:
+            if rol.rol.rol_name == 'Otro':
+                context[rol.rol.rol_name_other]= user_project.objects.filter(up_project=id_Project, up_rolInfo= rol.rol)
+            else:
+                context[rol.rol.rol_name_other]= user_project.objects.filter(up_project=id_Project, up_rolInfo= rol.rol)
+        context['project_name'] =  project.objects.get(id=id_Project)#filter(up_project=self.object.id)
+        return context
+
 
 def change_user_project_status(request):
     idRol = request.GET.get('idRol', None)
@@ -153,6 +163,36 @@ def load_subcategories(request):
     country_id =  request.GET.get('category')
     subcategories = subcategory.objects.filter(category=country_id)#.order_by('subcategory') print(subcategories)
     return render(request, 'project_app/subcategory_dropdown_list_options.html', {'subcategories': subcategories})
+
+def accept(request):
+    idUser = request.GET.get('idUser', None)
+    idProject = request.GET.get('idProject', None)
+    idRol = request.GET.get('idRol', None)
+    user1 = User.objects.get(id=idUser)
+    rol1= rolInfo.objects.get(id=idRol)
+    application = user_project.objects.get(up_project= idProject, up_user=user1, up_rolInfo=rol1)
+    status1 = status.objects.get(status='aceptada')
+    application.up_status = status1
+    application.save()
+    data = {
+        'is_taken': 'application'
+    }
+    return JsonResponse(data)
+
+def delete(request):
+    idUser = request.GET.get('idUser', None)
+    idProject = request.GET.get('idProject', None)
+    idRol = request.GET.get('idRol', None)
+    user1 = User.objects.get(id=idUser)
+    rol1= rolInfo.objects.get(id=idRol)
+    application = user_project.objects.get(up_project= idProject, up_user=user1, up_rolInfo=rol1)
+    status1 = status.objects.get(status='rechazada')
+    application.up_status = status1
+    application.save()
+    data = {
+        'is_taken': 'application'
+    }
+    return JsonResponse(data)
 
 ##Creates a project with the given arguments
 class ProjectRolCreate(CreateView):
