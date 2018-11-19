@@ -1,4 +1,4 @@
-cd nssfrom django.test import TestCase, RequestFactory
+from django.test import TestCase, RequestFactory
 
 from project_app.models import category, subcategory, state, city, rolInfo, project, project_rol, user_project, status
 from django.contrib.auth.models import User
@@ -10,7 +10,6 @@ from django.test import Client
 """ TESTS DE ANGIE """
 class TestCase(TestCase):
     def setUp(self):
-        self.client = Client()
         self.user1= User.objects.create_user('user1', None, 'tes1234')
         #Category
         self.category1=category.objects.create(category="Musica")
@@ -42,6 +41,8 @@ class TestCase(TestCase):
         for application in exists_application1.all():
             print("({}): {}".format(application.up_rolInfo, application.up_project))
         self.assertEqual(len(exists_application1),2)
+
+    #def FUNCION PARA CANCELAR. RECIBE EL ESTADO Y RECISA SI ES CANCELAR Y LO CANCELA
     def test_cancel_application(self): #I want to cancel my application
         application3 = user_project.objects.create(up_project=self.project1, up_user = self.user1, up_rolInfo=self.rol1, up_status=self.status1)
         print("........................TEST test_cancel_application")
@@ -112,6 +113,16 @@ class TestCase(TestCase):
         print("({}): {}".format('about us', project_new.pro_about_us))
         print("({}): {}".format('date', project_new.pro_creation_date))
         self.assertEqual(len(project.objects.all()), 3) #son tres por el self del setUp
+    def test_see_projects(self): #I want to be able to see the projects I created
+        self.client = Client()
+        self.my_admin = User(username='user', is_staff=True)
+        self.my_admin.set_password('passphrase') # can't set above because of hashing
+        self.my_admin.save()
+        loginresponse = self.client.login(username='user',password='passphrase')
+        response=self.client.get('/project_app/p/')
+        print("........................TEST test_see_projects")
+        print('Codigo exitoso', response.status_code)
+        self.assertEqual(response.status_code, 200)
     def test_apply_multiple_projects(self): #I want to be able to see projects even when I'm already in one
         self.user2= User.objects.create_user('user2', None, 'tes1234')
         application1 = user_project.objects.create(up_project=self.project1, up_user = self.user2, up_rolInfo=self.rol1, up_status=self.status1)
@@ -120,5 +131,4 @@ class TestCase(TestCase):
         print("........................TEST test_apply_multiple_projects")
         for x in exists:
             print("({}): {}".format(x.up_project, x.up_rolInfo))
-
         self.assertEqual(len(exists), 2)
