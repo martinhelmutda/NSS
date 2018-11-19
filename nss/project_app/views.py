@@ -46,11 +46,18 @@ class GroupsListView(ListView):
 ##Return a pack of projects
 class ProjectDetailView(DetailView):
     model = project
+
     def get_context_data(self, **kwargs):
         context = super(ProjectDetailView, self).get_context_data(**kwargs)
-        context['user_project'] = user_project.objects.filter(up_user= self.request.user, up_project = self.object.id)
-        print(context['user_project'])
+        id_Project= self.kwargs['pk']
+        if self.request.user.is_anonymous:
+            print("BUUU")
+        else:
+            context['user_project'] = user_project.objects.filter(up_user= self.request.user, up_project = self.object.id)
+            print(context['user_project'])
         context['owner_project'] = project.objects.filter(id=self.object.id) #print(context['user_project']) #print('id projecto', context['user_project'])
+        aceptada = status.objects.get(status='aceptada')
+        context['integrantes']= user_project.objects.filter(up_project=id_Project, up_status=aceptada)
         return context
 
 class ApplicationsDetailView(DetailView):

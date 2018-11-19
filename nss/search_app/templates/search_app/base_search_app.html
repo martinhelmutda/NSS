@@ -41,7 +41,7 @@
                 </div>
 
                 <a class="item" href="{% url 'project_app:projects' %}"><i class="folder icon"></i>Mis creaciones</a>
-                <a class="item"><i class="bell icon"></i></a>
+                <a class="item" href="{% url 'messages_app:list' %}"><i class="envelope icon"></i></a>
                 <div class="ui simple dropdown item">
                   <i class="user icon"></i>User
                   <i class="dropdown icon"></i>
@@ -70,7 +70,7 @@
               <form class="ui action input" action='{% url 'search_app:search' %}'>
 
                 <div class="ui form">
-                  <div class="field">
+                  <div class="ui field">
                     <select name='q'>
                       <option value="" selected disabled>Categoría</option>
                       {% for cat in category %}
@@ -80,7 +80,7 @@
                   </div>
                 </div>
                 <div class="ui form">
-                  <div class="field">
+                  <div class="ui field">
                     <select name='q'>
                       <option value="" selected disabled>Subcategoría</option>
                       {% for subcat in subcategory %}
@@ -91,7 +91,7 @@
                 </div>
 
                 <div class="ui form">
-                  <div class="field">
+                  <div class="ui field">
                     <select name='q'>
                       <option value="" selected disabled>Estado</option>
                       {% for st in state %}
@@ -102,7 +102,7 @@
                 </div>
 
                 <div class="ui form">
-                  <div class="field">
+                  <div class="ui field">
                     <select name='q'>
                       <option value="" selected disabled>Municipio</option>
                       {% for cit in city %}
