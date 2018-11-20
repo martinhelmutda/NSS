@@ -44,7 +44,7 @@ class SearchView(SelectRelatedMixin, generic.ListView):
                 reduce(operator.and_,
                        (Q(pro_city=q) for q in query_list)) |
                 reduce(operator.and_,
-                        (Q(pro_subcategory=q) for q in query_list))
+                       (Q(pro_subcategory=q) for q in query_list))
 
             )
         return result
