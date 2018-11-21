@@ -1,65 +1,131 @@
 <!DOCTYPE html>
-{% extends "search_app/base_search_app.html" %}
+{% extends "base.html" %}
 {% load staticfiles %}
-{% load static %}
-{% block title %}Teem{% endblock %}
+{% block processes_block %}
+<script type ="text/javascript" src="{% static "js/extras/processes.js" %}"></script>  <!--Este link hace que no jale el datepicker de create_project.html-->
+{% endblock %}
+
 {% block body_block %}
-<div class="ui container mb-4">
-  <div class="ui link cards">
-  {% for project in projects|dictsort:"id" reversed %}
-      <div class="card">
-        <div class="image">
-          {% if project.pro_img %}
-            <img src="../media/{{project.pro_img}}">
-          {% else %}
-            <img src="https://semantic-ui.com/images/wireframe/image.png">
-          {% endif %}
-
-        </div>
-        <div class="content">
-          <div class="header">{{project.pro_name}}</div>
-          <div class="meta">
-            <a>{{project.pro_category}}</a>
-          </div>
-          <div class="description">
-            {{project.pro_description |safe}}
-          </div>
-        </div>
-        <div class="extra content">
-          <span class="right floated">
-            Joined in 2013
-          </span>
-          <span>
-            <i class="user icon"></i>
-            <div class="row mt-3">
-              <div class="col-md-9 mx-auto">
-                <div>
-                  {# <p>{{project.pro_description|striptags|safe|truncatechars:"200"}}</p> #}
-                  <p><a href="{% url 'project_app:project' project.id project.pro_name|slugify %}">Leer más</a></p>
-
-                  {% if request.user == project.pro_user %}
-                      | <a href="{% url 'project_app:update' project.id %}">Editar</a>
-                      | <a href="{% url 'project_app:delete' project.id %}">Borrar</a>
-                    {% endif %}
-
-                    <script type="text/javascript">
-                    console.log("{% url 'project_app:project' project.id project.pro_name|slugify %}");
-
-                    </script>
-
-                </div>
-              </div>
-            </div>
-          </span>
-        </div>
-      </div>
-
-  {% endfor %}
+<div class="">
+<form class="ui action input" id="projectForm" action='{% url 'search_app:search' %}' data-cities-url="{% url 'project_app:ajax_load_cities' %}" load_info="{%url 'search_app:load_info'%}" data-subcategories-url="{% url 'project_app:ajax_load_subcategories' %}">
+  <div class="ui form">
+    <div class="field">
+      <select name='q'class="ui fluid dropdown selection" id="id_pro_category" name="pro_category" class="opt">
+        <option value="" selected disabled>Categoría</option>
+        {% for cat in category %}
+        <option value="{{cat.category}}">{{cat.category}}</option>
+        {% endfor %}
+      </select>
+    </div>
   </div>
+
+  <div class="ui form">
+    <div class="field">
+      <select name='q' class="ui fluid dropdown selection" id="id_pro_subcategory" name="pro_subcategory" >
+        <option value="" selected disabled>Subcategoría</option>
+        {% for subcat in subcategory %}
+        <option value="{{subcat.subcategory}}">{{subcat.subcategory}}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+
+  <div class="ui form">
+    <div class="field">
+      <select name='q' class="ui fluid dropdown selection" id="id_pro_state" name="pro_state">
+        <option value="" selected disabled>Estado</option>
+        {% for st in state %}
+        <option value="{{st.state}}">{{st.state}}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+
+  <div class="ui form">
+    <div class="field">
+      <select name='q' class="ui fluid dropdown selection" id="id_pro_city" name="pro_city">
+        <option value="" selected disabled>Municipio</option>
+        {% for cit in city %}
+        <option value="{{cit.city}}">{{cit.city}}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+
+  <input type="search" placeholder="Buscar" aria-label="Search" name='q'>
+  <button class="ui button" type="submit">Buscar</button>
+</form>
 </div>
+
+<div id="content">
+  HOLA
+</div>
+
+
 {% endblock %}
 
 {% block js_block %}
+<script src="{% static "css/semantic/out/semantic.min.js" %}"></script>
+<script type="text/javascript">
+  $("#id_pro_state").change(function () {
+    var url = $("#projectForm").attr("data-cities-url");
+    console.log(url);
+    var countryId = $(this).val();
+    //console.log(countryId);
+    $.ajax({
+      url: url,
+      data: {
+        'country': countryId
+      },
+      success: function (data) {
+            //console.log("ENTRA DOS")
+            //console.log(data);
+        $("#id_pro_city").html(data);
+      }
+    });
+  });
 
+      $("#id_pro_category").change(function () {
+        //console.log("ENTRA");
+      var url = $("#projectForm").attr("data-subcategories-url");
+      //console.log(url);
+      var countryId = $(this).val();
+      //console.log(countryId);
+      $.ajax({
+        url: url,
+        data: {
+          'category': countryId
+        },
+        success: function (data) {
+              //console.log("ENTRA DOS")
+              //console.log(data);
+          $("#id_pro_subcategory").html(data);
+        }
+      });
+    });
+  </script>
 
+<script type="text/javascript">
+$(".selection").change(function () {
+    var url = $("#projectForm").attr("load_info");
+    console.log(url);
+    var id_pro_category = $('#id_pro_category').val();
+    var id_pro_subcategory = $('#id_pro_subcategory').val();
+    //var id_pro_category = $('#id_pro_category').val();
+    //var id_pro_category = $('#id_pro_category').val();
+    $.ajax({
+      url: url,
+      data: {
+        'id_pro_category': id_pro_category,
+        'id_pro_subcategory': id_pro_subcategory
+      },
+      success: function (data) {
+            console.log("ENTRA DOS")
+            //console.log(data);
+        $("#content").html(data);
+      }
+    });
+
+});
+</script>
 {% endblock %}
