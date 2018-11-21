@@ -118,13 +118,25 @@
           <div class="eight wide column">
             <div class="ui grid">
               <div class="eight wide column">
-                  <div class="ui labeled button" tabindex="0">
-                    <div class="ui basic blue button">
-                      <i class="heart icon"></i>
-                    </div>
-                    <a class="ui basic left pointing blue label">
-                      1,048
-                    </a>
+                  <div id="like-section" class="ui labeled button" tabindex="0">
+
+                                          <form action="{%url 'project_app:like_post' %}" method="post">
+                                            {% csrf_token %}
+                                            {% if is_liked %}
+                                                <button type="submit" id= "like" name="post_id" value="{{project.id}}" class="ui basic blue button">
+                                                  <i class="red heart icon"></i>
+                                                </button>
+                                          {% else %}
+                                                <button type="submit" id= "like"  name="post_id" value="{{project.id}}" class="ui basic blue button">
+                                                  <i class="heart icon"></i>
+                                                </button>
+
+                                          </form>
+                                        {% endif %}
+                                        <a class="ui basic left pointing blue label">
+                                          {{total_likes}}
+                                        </a>
+
                   </div>
               </div>
               <div class="eight wide column">

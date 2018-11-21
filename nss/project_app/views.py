@@ -25,6 +25,8 @@ from project_app import templates
 from django.urls import resolve
 from account_app.models import Profile
 from django.http import JsonResponse
+from django.template.loader import render_to_string
+
 # Create your views here.
 #Returns a complete list of projects
 class ProjectsListView(ListView):
@@ -52,12 +54,21 @@ class ProjectDetailView(DetailView):
         id_Project= self.kwargs['pk']
         if self.request.user.is_anonymous:
             print("BUUU")
+            total_likes = 0
         else:
             context['user_project'] = user_project.objects.filter(up_user= self.request.user, up_project = self.object.id)
+            total_likes = project.objects.filter(likes=self.request.user).count()
             print(context['user_project'])
         context['owner_project'] = project.objects.filter(id=self.object.id) #print(context['user_project']) #print('id projecto', context['user_project'])
         aceptada = status.objects.get(status='aceptada')
         context['integrantes']= user_project.objects.filter(up_project=id_Project, up_status=aceptada)
+        is_liked = True
+        context['is_liked']= is_liked
+        context['total_likes']= total_likes
+        #    if post.likes.filter(id=request.user.id).exists():
+            #    is_liked = True
+
+
         return context
 
 class ApplicationsDetailView(DetailView):
@@ -160,6 +171,23 @@ class GroupCreate(CreateView):
         print(self.object)
         return reverse_lazy('project_app:project', args=[self.object.id, slugify(self.object.pro_name)])
         #Te manda a project_detail.html y es el projectdetailview
+
+
+
+def like_post(request):
+    post = get_object_or_404(project, id= request.POST.get('post_id'))
+    #post = get_object_or_404(project, id= request.POST.get('id'))
+    is_liked = False
+    if post.likes.filter(id=request.user.id).exists():
+        post.likes.remove(request.user)
+        is_liked = False
+    else:
+        post.likes.add(request.user)
+        is_liked= True
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+
 
 def load_cities(request):
     country_id =  request.GET.get('country')
