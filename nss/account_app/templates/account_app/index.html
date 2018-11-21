@@ -2,27 +2,69 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% load static %}
+{% block title %}Teem{% endblock %}
 {% block body_block %}
-<div class="ui container">
-  <h1>Bienvenidos a Teem</h1>
-  <h1>{{name}}</h1>
-  <h2>Estas son las areas de la BD: </h2>
-  <div class="areashtml">
-    {% if access_records %}
-      <table>
-        <thead>
-          <th>Areas</th>
-        </thead>
-        {% for acc in access_records %}
-        <tr>
-          <td>{{acc.category}}</td>
-        </tr>
-        {%endfor%}
-      </table>
-      {%else%}
-      <p>NO HAY AREAS REGISTRADAS</p>
-      {%endif%}
+
+<main role="main">
+  <div class="ui container ">
+    <div class="ui link cards">
+    {% for project in projects|dictsort:"id" reversed %}
+        <div class="card">
+
+          <a class="image"href="{% url 'project_app:project' project.id project.pro_name|slugify %}" >
+            {% if project.pro_img %}
+              <img src="../media/{{project.pro_img}}">
+            {% else %}
+              <img src="https://semantic-ui.com/images/wireframe/image.png">
+            {% endif %}
+          </a>
+          <div class="content">
+            <a class="header" href="{% url 'project_app:project' project.id project.pro_name|slugify %}">{{project.pro_name}} </a>
+
+            <div class=" sixteen wide column">
+              <div class=" eight column">
+                  <i class="tags icon"></i>
+                  {{project.pro_category}}, {{project.pro_subcategory}}.
+              </div>
+              <div class=" eight column">
+                  <i class="map marker alternate icon"></i>
+                  {{project.pro_city}}, {{project.pro_state}}.
+              </div>
+            </div>
+<hr>
+            <div class="description">
+              <p>{{project.pro_description | truncatewords:50 |safe}} </p><a href="{% url 'project_app:project' project.id project.pro_name|slugify %}">Leer más</a>
+            </div>
+          </div>
+          <div class="extra content">
+            <span class="right floated">
+              {{project.pro_creation_date}}
+            </span>
+            <span>
+                <img src="" class="ui tiny avatar image">{{project.pro_user}} <!--src="{{project.pro_user.profile.avatar.url-->
+              <div class="row mt-3">
+                <div class="col-md-9 mx-auto">
+                  <div class="description">
+
+                    {% if request.user == project.pro_user %}
+                         <a href="{% url 'project_app:update' project.id %}">Editar</a>
+                        | <a href="{% url 'project_app:delete' project.id %}">Borrar</a>
+                      {% endif %}
+
+                      <script type="text/javascript">
+                      console.log("{% url 'project_app:project' project.id project.pro_name|slugify %}");
+
+                      </script>
+
+                  </div>
+                </div>
+              </div>
+            </span>
+          </div>
+        </div>
+
+    {% endfor %}
+    </div>
   </div>
-  <p>Ve a /proyecto para ver proyecto</p>
-</div>
+</main>
 {% endblock %}

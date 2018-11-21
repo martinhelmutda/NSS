@@ -7,5 +7,6 @@ from django.contrib import admin
 from .models import *
 
 admin.site.register(UserProfileInfo)
+admin.site.register(Profile) 
 
 #Anotamos las clases (tablas) para poder verlas en la pagina de admin.

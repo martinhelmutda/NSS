@@ -7,6 +7,8 @@ from django.core import validators
 from django.contrib.auth.models import User
 from account_app.models import UserProfileInfo
 from django.conf import settings
+from django.core.validators import FileExtensionValidator
+from .models import Profile
 #from crispy_forms.helper import FormHelper
 
 class UserForm(forms.ModelForm):
@@ -31,6 +33,13 @@ class UserProfileInfoForm(forms.ModelForm):
         model = UserProfileInfo
         fields = ('portfolio_site','profile_pic')
 
+
+
+        def clean(self):
+            all_clean_data = super().clean()
+
+
+
 class createProfileForm(forms.Form):
     name = forms.CharField( label='Nombre',required=True)
     email  = forms.EmailField( label='Email', required=True, widget=forms.EmailInput(attrs={'placeholder':'Introduce tu email de contacto'}))
@@ -40,10 +49,20 @@ class createProfileForm(forms.Form):
     cv = forms.CharField(label='Trabajos Anteriores', required=True, widget=forms.Textarea())
     experience = forms.CharField(label='Experiencia', max_length=1000, required=True, widget=forms.Textarea())
 
-    # def __init__(self, arg):
-    #     super(create_profile, self).__init__()
-    #     self.arg = arg
+class ProfileForm(forms.ModelForm):
+    """docstring forProfileForm."""
+    class Meta:
+        model = Profile
+        fields = ['avatar', 'bio', 'link']
+        widgets = {
+            'avatar': forms.ClearableFileInput(attrs={'class':'container'}),
+            'bio': forms.Textarea(attrs={'class':'field'}),
+            'link': forms.URLInput(attrs={'class':'field'}),
+        }
 
+
+# class CustomImageWidget(forms.ClearableFileInput):
+#     input_type = 'image'
 """
 Set required fields on forms
 Set widgets

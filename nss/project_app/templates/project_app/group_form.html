@@ -1,0 +1,199 @@
+<!--
+"""
+Last modified: ANgélica Güemes
+date: November 7
+Time: 8:15
+"""
+-->
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block processes_block %}
+<script type ="text/javascript" src="{% static "js/extras/processes.js" %}"></script>  <!--Este link hace que no jale el datepicker de create_project.html-->
+{% endblock %}
+{% block body_block %}
+    <div class="container">
+
+      <div class="ui grid container">
+        <div class="ui vertical segment">
+          <div class="ui header">
+            <!--Crear Proyecto-->
+          </div>
+          <form method="POST" id="projectForm" enctype="multipart/form-data" class="ui form segment" data-cities-url="{% url 'project_app:ajax_load_cities' %}" data-subcategories-url="{% url 'project_app:ajax_load_subcategories' %}" >
+          {% csrf_token %}
+
+          <h2 class="ui dividing header">Crea tu grupo</h2>
+
+                    <div class="field">
+                      <div class="two fields">
+                        <div class="field">
+                          {{form.pro_group}}
+
+                          <label>{{form.pro_name.label}}</label>
+                          {{form.pro_name}}
+                          {{form.pro_name.errors}}
+                        </div>
+                        <div class="field">
+                          <label>{{form.pro_creation_date.label}}</label>
+                          {{form.pro_creation_date}}
+                          {{form.pro_creation_date.errors}}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="field">
+                      <div class="two fields">
+                        <div class="field">
+                          <label>{{form.pro_category.label}} </label>
+                          {{form.pro_category}}
+                          {{form.pro_category.errors}}
+                        </div>
+                        <div class="field">
+                          <label>{{form.pro_category.label}}</label>
+                          {{form.pro_subcategory}}
+                          {{form.pro_subcategory.errors}}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="field">
+                      <label>{{form.pro_description.label}}</label>
+                      <div class="fields">
+                        <div class="sixteen wide field">
+                          <div class="ui fluid">
+                            {{form.pro_description}}
+                            {{form.pro_description.errors}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="field">
+                      <div class="two fields">
+                        <div class="field">
+                          <label>{{form.pro_video.label}}</label>
+                          {{form.pro_video}}
+                          {{form.pro_video.errors}}
+                        </div>
+                        <div class="field">
+                          <label>{{form.pro_img.label}}</label>
+                          {{form.pro_img}}
+                          {{form.pro_img.errors}}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="field">
+                        <h4><label>Ubicación del proyecto</label>  </h4>
+                      <div class="two fields">
+                        <div class="field">
+                          <label>{{form.pro_state.label}}</label>
+                          {{form.pro_state}}
+                          {{form.pro_state.errors}}
+                        </div>
+                        <div class="field">
+                          <label> {{form.pro_city.label}}</label>
+                          	{{form.pro_city}}
+                            {{form.pro_city.errors}}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="field">
+                      <div class="two fields">
+                        <div class="field">
+                          <label>{{form.pro_about_us.label}}</label>
+                          {{form.pro_about_us}}
+                          {{form.pro_about_us.errors}}
+                        </div>
+                        <div class="field">
+                          <label>{{form.pro_phrase.label}}</label>
+                            {{form.pro_phrase}}
+                            {{form.pro_phrase.errors}}
+                        </div>
+                      </div>
+                    </div>
+
+<!--
+                     <div class="ui segment">
+                      <div class="field">
+                        <div class="ui toggle checkbox">
+                          <input type="checkbox" name="gift" tabindex="0" class="hidden">
+                          <label>Recibir correo de confirmación</label>
+                        </div>
+                      </div>
+                    </div>
+
+-->
+
+
+
+            <input type="submit" class=" ui green inverted button" value="Crear grupo">
+
+          <!--  <input type="submit" class="ui green inverted button value="Crear grupo">-->
+
+          </form>
+        </div>
+      </div>
+
+    </div>
+{% endblock %}
+
+{% block js_block %}
+<script src="{% static "css/semantic/out/semantic.min.js" %}"></script>
+<script type="text/javascript">
+
+  $(function() {
+  document.getElementById("id_pro_group").value = True;
+  $("#id_pro_group").val("True");
+    var dateToday = new Date();
+    $('input[class="datepicker"]').daterangepicker({
+      singleDatePicker: true,
+      showDropdowns: true,
+      maxDate: dateToday,
+      locale: {
+         format: 'YYYY-MM-DD'
+        }
+    });
+  });
+</script>
+<script type='text/javascript'>
+  $("#id_pro_state").change(function () {
+    console.log("ENTRA");
+  var url = $("#projectForm").attr("data-cities-url");
+  console.log(url);
+  var countryId = $(this).val();
+  console.log(countryId);
+  $.ajax({
+    url: url,
+    data: {
+      'country': countryId
+    },
+    success: function (data) {
+          console.log("ENTRA DOS")
+          console.log(data);
+      $("#id_pro_city").html(data);
+    }
+  });
+  });
+    </script>
+    <script type='text/javascript'>
+      $("#id_pro_category").change(function () {
+        console.log("ENTRA");
+      var url = $("#projectForm").attr("data-subcategories-url");
+      console.log(url);
+      var countryId = $(this).val();
+      console.log(countryId);
+      $.ajax({
+        url: url,
+        data: {
+          'category': countryId
+        },
+        success: function (data) {
+              console.log("ENTRA DOS")
+              console.log(data);
+          $("#id_pro_subcategory").html(data);
+        }
+      });
+      });
+        </script>
+{% endblock %}

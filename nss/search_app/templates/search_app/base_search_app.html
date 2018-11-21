@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es">
+        <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+             <title>{% block title %}{% endblock %}</title>
+            <link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+            <link rel="stylesheet" href="{% static "css/styles.css" %}">
+            <link rel="stylesheet" href="{% static "css/semantic/out/semantic.css" %}">
+            <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+            <link rel="stylesheet" href="{% static "css/extras/processes.css" %}">
+            <link rel ="stylesheet" href="{% static "css/styles.css" %}">
+            <script type ="text/javascript" src="{% static "js/extras/processes.js" %}"></script>  <!--Este link hace que no jale el datepicker de create_project.html-->
+            <script src ="{% static "css/semantic/out/semantic.min.js" %}"></script>
+            <link rel ="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+            <script type ="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+            <script type ="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+            <script type ="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+            <script type ="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+        </head>
+    <body class="bg-gray">
+        <!-- Static navbar -->
+        <div class="ui borderless menu stackable shadow number1">
+            <div class="ui container">
+                <div class="header item">
+                    <a href="{% url 'index' %}" class="item"><img class="logo" src="{% static "img/logo.png" %}"><i class="users icon"></i>TEEM</a>
+                </div>
+              <!--  <a class="item" href="{% url 'project_app:DataRep' %}"><i class="chart bar alternate icon"></i>Data representation</a>-->
+                <ul class="navbar-nav mr-auto">
+                </ul>
+                {% if user.is_authenticated %}
+                <div class="ui right simple dropdown item">
+                  <i class="edit icon"></i>Crear
+                  <i class="dropdown icon"></i>
+                  <div class="menu">
+                       <a class="item" href="{% url 'project_app:create' %}"><i class="pencil alternate icon"></i>Crear proyecto</a>
+                        <a class="item" href="{% url 'project_app:create_group' %}"><i class="pencil alternate icon"></i>Crear Grupo</a>
+                  </div>
+                </div>
+
+                <a class="item" href="{% url 'project_app:projects' %}"><i class="folder icon"></i>Mis creaciones</a>
+                <a class="item" href="{% url 'messages_app:list' %}"><i class="envelope icon"></i></a>
+                <div class="ui simple dropdown item">
+                  <i class="user icon"></i>User
+                  <i class="dropdown icon"></i>
+                  <div class="menu">
+                    <a class="item" href="{% url 'profiles_app:list' %}"><i class="address card outline icon"></i> View Profile</a>
+                    <a class="item" href="{% url 'account_app:profile' %}"><i class="edit icon"></i> Edit Profile</a>
+                    <a class="item"><i class="globe icon"></i> Choose Language</a>
+                    <a class="item"><i class="settings icon"></i> Account Settings</a>
+                    <a class="item" href="{% url 'logout' %}"><i class="power off icon"></i>Logout</a>
+                  </div>
+                </div>
+              </div>
+                {% else %}
+                <a class="item ui right floated" href="{% url 'account_app:user_login' %}">Log in</a>
+                <div class="item">
+                  <a class="ui primary button" href="{% url 'account_app:register' %}">Registrar</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="ui secondary three item menu">
+          <ul class="navbar-nav mr-auto">
+            <div class="ui container">
+
+              <form class="ui action input" id="projectForm" action='{% url 'search_app:search' %}' data-cities-url="{% url 'project_app:ajax_load_cities' %}" data-subcategories-url="{% url 'project_app:ajax_load_subcategories' %}">
+
+
+                <div class="ui form">
+                  <div class="field">
+                    <select name='q'class="ui fluid dropdown selection" id="id_pro_category" name="pro_category">
+
+                      <option value="" selected disabled>Categoría</option>
+                      {% for cat in category %}
+                      <option value="{{cat.category}}">{{cat.category}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+
+                <div class="ui form">
+                  <div class="field">
+                    <select name='q' class="ui fluid dropdown selection" id="id_pro_subcategory" name="pro_subcategory">
+                      <option value="" selected disabled>Subcategoría</option>
+                      {% for subcat in subcategory %}
+                      <option value="{{subcat.subcategory}}">{{subcat.subcategory}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+
+                <div class="ui form">
+                  <div class="field">
+                    <select name='q' class="ui fluid dropdown selection" id="id_pro_state" name="pro_state">
+                      <option value="" selected disabled>Estado</option>
+                      {% for st in state %}
+                      <option value="{{st.state}}">{{st.state}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+
+                <div class="ui form">
+                  <div class="field">
+                    <select name='q' class="ui fluid dropdown selection" id="id_pro_city" name="pro_city">
+                      <option value="" selected disabled>Municipio</option>
+                      {% for cit in city %}
+                      <option value="{{cit.city}}">{{cit.city}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+
+                <input type="search" placeholder="Buscar" aria-label="Search" name='q'>
+                <button class="ui button" type="submit">Buscar</button>
+              </form>
+
+            </div>
+          </ul>
+        </div>
+        {% block body_block %}
+        <!-- Other Htmls go here -->
+        {% endblock %}
+        <div class="ui container mb-4">
+          <div class="ui link cards">
+          {% for project in projects|dictsort:"id" reversed %}
+              <div class="card">
+                <div class="image">
+                  {% if project.pro_img %}
+                    <img src="../media/{{project.pro_img}}">
+                  {% else %}
+                    <img src="https://semantic-ui.com/images/wireframe/image.png">
+                  {% endif %}
+
+                </div>
+                <div class="content">
+                  <div class="header">{{project.pro_name}}</div>
+                  <div class="meta">
+                    <a>{{project.pro_category}}</a>
+                  </div>
+                  <div class="description">
+                    {{project.pro_description |safe}}
+                  </div>
+                </div>
+                <div class="extra content">
+                  <span class="right floated">
+                    Joined in 2013
+                  </span>
+                  <span>
+                    <i class="user icon"></i>
+                    <div class="row mt-3">
+                      <div class="col-md-9 mx-auto">
+                        <div>
+                          {# <p>{{project.pro_description|striptags|safe|truncatechars:"200"}}</p> #}
+                          <p><a href="{% url 'project_app:project' project.id project.pro_name|slugify %}">Leer más</a></p>
+
+                          {% if request.user == project.pro_user %}
+                              | <a href="{% url 'project_app:update' project.id %}">Editar</a>
+                              | <a href="{% url 'project_app:delete' project.id %}">Borrar</a>
+                            {% endif %}
+
+                            <script type="text/javascript">
+                            console.log("{% url 'project_app:project' project.id project.pro_name|slugify %}");
+
+                            </script>
+
+                        </div>
+                      </div>
+                    </div>
+                  </span>
+                </div>
+              </div>
+
+          {% endfor %}
+          </div>
+        </div><div class="ui container mb-4">
+          <div class="ui link cards">
+          {% for project in projects|dictsort:"id" reversed %}
+              <div class="card">
+                <div class="image">
+                  {% if project.pro_img %}
+                    <img src="../media/{{project.pro_img}}">
+                  {% else %}
+                    <img src="https://semantic-ui.com/images/wireframe/image.png">
+                  {% endif %}
+
+                </div>
+                <div class="content">
+                  <div class="header">{{project.pro_name}}</div>
+                  <div class="meta">
+                    <a>{{project.pro_category}}</a>
+                  </div>
+                  <div class="description">
+                    {{project.pro_description |safe}}
+                  </div>
+                </div>
+                <div class="extra content">
+                  <span class="right floated">
+                    Joined in 2013
+                  </span>
+                  <span>
+                    <i class="user icon"></i>
+                    <div class="row mt-3">
+                      <div class="col-md-9 mx-auto">
+                        <div>
+                          {# <p>{{project.pro_description|striptags|safe|truncatechars:"200"}}</p> #}
+                          <p><a href="{% url 'project_app:project' project.id project.pro_name|slugify %}">Leer más</a></p>
+
+                          {% if request.user == project.pro_user %}
+                              | <a href="{% url 'project_app:update' project.id %}">Editar</a>
+                              | <a href="{% url 'project_app:delete' project.id %}">Borrar</a>
+                            {% endif %}
+
+                            <script type="text/javascript">
+                            console.log("{% url 'project_app:project' project.id project.pro_name|slugify %}");
+
+                            </script>
+
+                        </div>
+                      </div>
+                    </div>
+                  </span>
+                </div>
+              </div>
+
+          {% endfor %}
+          </div>
+        </div>
+
+    </body>
+    <script src="{% static "css/semantic/out/semantic.min.js" %}"></script>
+    <script type="text/javascript">
+      $("#id_pro_state").change(function () {
+          console.log("ENTRA");
+        var url = $("#projectForm").attr("data-cities-url");
+        console.log(url);
+        var countryId = $(this).val();
+        console.log(countryId);
+        $.ajax({
+          url: url,
+          data: {
+            'country': countryId
+          },
+          success: function (data) {
+                console.log("ENTRA DOS")
+                console.log(data);
+            $("#id_pro_city").html(data);
+          }
+        });
+      });
+
+          $("#id_pro_category").change(function () {
+            console.log("ENTRA");
+          var url = $("#projectForm").attr("data-subcategories-url");
+          console.log(url);
+          var countryId = $(this).val();
+          console.log(countryId);
+          $.ajax({
+            url: url,
+            data: {
+              'category': countryId
+            },
+            success: function (data) {
+                  console.log("ENTRA DOS")
+                  console.log(data);
+              $("#id_pro_subcategory").html(data);
+            }
+          });
+        });
+      </script>
+    {% block js_block %}
+
+
+    {% endblock %}
+    <footer>
+      <div class="ui vertical footer segment">
+        <div class="ui center aligned container">
+          <div class="ui section divider "></div>
+          <div class="ui horizontal small divided link list ">
+            <a class="item" href="#">Site Map</a>
+            <a class="item" href="#">Contact Us</a>
+            <a class="item" href="#">Terms and Conditions</a>
+            <a class="item" href="#">Privacy Policy</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+</html>

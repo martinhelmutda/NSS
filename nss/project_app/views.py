@@ -1,118 +1,272 @@
-from .models import project, projectImg, project, rolInfo, location, category
-from .forms import CreateProjectForm
+"""
+Last modified: ANgélica Güemes
+date: November 11
+Time: 11:24
+"""
+from .models import project, projectImg, project, rolInfo, state,city, category,subcategory, project_rol, user_project, status
+from .forms import CreateProjectForm, CreateRolForm, CreateGroupForm
 from django.utils import timezone
+from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.urls import reverse, reverse_lazy
 from django.template.defaultfilters import slugify
-from project_app.forms import formImg, formProject, formProjectAddRol, baseProjectAddRol, rol_formset
 from django.shortcuts import render, redirect
-
+from django.contrib.admin.views.decorators import staff_member_required
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from django.http import HttpResponse, HttpResponseRedirect
+from collections import OrderedDict
+from fusioncharts import FusionCharts
+from project_app import templates
+from django.urls import resolve
+from account_app.models import Profile
+from django.http import JsonResponse
 # Create your views here.
-
 #Returns a complete list of projects
 class ProjectsListView(ListView):
     model = project
+    paginated_by=2
+    template_name = "project_app/project_list.html"
+    def get_queryset(self):
+        queryset =  project.objects.filter(pro_group=False, pro_user=self.request.user)
+        return queryset
+
+class GroupsListView(ListView):
+    model = project
+    paginated_by=2
+    template_name="project_app/group_list.html"
+    def get_queryset(self):
+        queryset =  project.objects.filter(pro_group=True, pro_user=self.request.user)
+        return queryset
 
 ##Return a pack of projects
 class ProjectDetailView(DetailView):
     model = project
 
+    def get_context_data(self, **kwargs):
+        context = super(ProjectDetailView, self).get_context_data(**kwargs)
+        id_Project= self.kwargs['pk']
+        if self.request.user.is_anonymous:
+            print("BUUU")
+        else:
+            context['user_project'] = user_project.objects.filter(up_user= self.request.user, up_project = self.object.id)
+            print(context['user_project'])
+        context['owner_project'] = project.objects.filter(id=self.object.id) #print(context['user_project']) #print('id projecto', context['user_project'])
+        aceptada = status.objects.get(status='aceptada')
+        context['integrantes']= user_project.objects.filter(up_project=id_Project, up_status=aceptada)
+        return context
+
+class ApplicationsDetailView(DetailView):
+    model = project
+    paginated_by=2
+    template_name="project_app/application_list.html"
+    def get_context_data(self, **kwargs):
+        context = super(ApplicationsDetailView, self).get_context_data(**kwargs)
+        id_Project= self.kwargs['pk']
+        context['applications'] =  user_project.objects.filter(up_project=id_Project)#filter(up_project=self.object.id)
+        context['applications_rols'] =  project_rol.objects.filter(pro=id_Project)#filter(up_project=self.object.id)
+        aceptada = status.objects.get(status='aceptada')
+        context['integrantes']= user_project.objects.filter(up_project=id_Project, up_status=aceptada)
+        for rol in context['applications_rols']:
+            if rol.rol.rol_name == 'Otro':
+                context[rol.rol.rol_name_other]= user_project.objects.filter(up_project=id_Project, up_rolInfo= rol.rol)
+            else:
+                context[rol.rol.rol_name_other]= user_project.objects.filter(up_project=id_Project, up_rolInfo= rol.rol)
+        context['project_name'] =  project.objects.get(id=id_Project)#filter(up_project=self.object.id)
+        return context
+
+
+def change_user_project_status(request):
+    idRol = request.GET.get('idRol', None)
+    status1 = request.GET.get('status1', None)
+    print("STATUS!........", status1)
+    idUser = request.GET.get('idUser', None)
+    idProject = request.GET.get('idProject', None)#print('id rol',idRol)#print('status1',status1)#print('idUser',idUser)#print('idProject',idProject)
+    pro = project.objects.get(id=idProject)#get project
+    rol = rolInfo.objects.get(id=idRol)#get rolInf
+    if status1 == 'No_enviada':
+        stat = status.objects.get(status='enviada')#get up Status
+        up = user_project(up_project= pro,up_user=request.user, up_rolInfo=rol, up_status= stat)
+        up.save()#print('cooool')
+    else:
+        print('no cooool')
+        stat = status.objects.get(status=status1)#get up Status
+        up = user_project.objects.get(up_project= pro ,up_user=request.user, up_rolInfo=rol, up_status=stat)
+        #print(up.up_status)
+        if up.up_status.status == 'aceptada':
+            stat = status.objects.get(status='cancelada')
+        elif up.up_status.status == 'cancelada':
+            stat = status.objects.get(status='enviada')
+        elif up.up_status.status == 'enviada':
+            stat = status.objects.get(status='cancelada')
+        elif up.up_status.status == 'rechazada':
+            stat = status.objects.get(status='enviada')
+        elif up.up_status.status == 'renuncia':
+            stat = status.objects.get(status='enviada')
+        up.up_status= stat
+        up.save()
+    data = {
+        'is_taken': rolInfo.objects.filter(id=idRol).exists()
+    }
+    return JsonResponse(data)
+
+def button_text(request):
+    print("ENTRO")
+    idProject = request.GET.get('idProject', None)
+    pro_object = project.objects.get(id=idProject)
+    roles = user_project.objects.filter(up_project=pro_object)
+    dict =	{}
+    dictStatus={}
+    for x in roles: #print(x.up_rolInfo.id)#print(x.up_rolInfo)#print(x.up_status.status_text)
+        dict[x.up_rolInfo.id] = x.up_status.status_text
+        dictStatus[x.up_rolInfo.id] = x.up_status.status
+    data = {
+        'dict': dict,
+        'dictStatus': dictStatus
+    }
+    return JsonResponse(data)
+
+
 ##Creates a project with the given arguments
 class ProjectCreate(CreateView):
-    model = project
+    #model = project
     form_class = CreateProjectForm
-    # success_url=reverse_lazy('project_app:project_app')
+    template_name="project_app/project_form.html"
+    def form_valid(self, form):
+        user_form = form.save(commit=False)
+        user_form.pro_user = self.request.user
+        return super(ProjectCreate, self).form_valid(form)
     def get_success_url(self):
+        print(self.object)
         return reverse_lazy('project_app:project', args=[self.object.id, slugify(self.object.pro_name)])
+        #Te manda a project_detail.html y es el projectdetailview
+
+
+
+class GroupCreate(CreateView):
+    #model = project
+    form_class = CreateGroupForm
+    template_name="project_app/group_form.html"
+    def form_valid(self, form):
+        user_form = form.save(commit=False)
+        user_form.pro_user = self.request.user
+        return super(GroupCreate, self).form_valid(form)
+    def get_success_url(self):
+        #print(cities)
+        print(self.object)
+        return reverse_lazy('project_app:project', args=[self.object.id, slugify(self.object.pro_name)])
+        #Te manda a project_detail.html y es el projectdetailview
+
+def load_cities(request):
+    country_id =  request.GET.get('country')
+    cities = city.objects.filter(state=country_id).order_by('city')#print(cities)
+    return render(request, 'project_app/city_dropdown_list_options.html', {'cities': cities})
+
+def load_subcategories(request):
+    country_id =  request.GET.get('category')
+    subcategories = subcategory.objects.filter(category=country_id)#.order_by('subcategory') print(subcategories)
+    return render(request, 'project_app/subcategory_dropdown_list_options.html', {'subcategories': subcategories})
+
+def accept(request):
+    idUser = request.GET.get('idUser', None)
+    idProject = request.GET.get('idProject', None)
+    idRol = request.GET.get('idRol', None)
+    user1 = User.objects.get(id=idUser)
+    rol1= rolInfo.objects.get(id=idRol)
+    application = user_project.objects.get(up_project= idProject, up_user=user1, up_rolInfo=rol1)
+    status1 = status.objects.get(status='aceptada')
+    application.up_status = status1
+    application.save()
+    data = {
+        'is_taken': 'application'
+    }
+    return JsonResponse(data)
+
+def delete(request):
+    idUser = request.GET.get('idUser', None)
+    idProject = request.GET.get('idProject', None)
+    idRol = request.GET.get('idRol', None)
+    user1 = User.objects.get(id=idUser)
+    rol1= rolInfo.objects.get(id=idRol)
+    application = user_project.objects.get(up_project= idProject, up_user=user1, up_rolInfo=rol1)
+    status1 = status.objects.get(status='rechazada')
+    application.up_status = status1
+    application.save()
+    data = {
+        'is_taken': 'application'
+    }
+    return JsonResponse(data)
+
+##Creates a project with the given arguments
+class ProjectRolCreate(CreateView):
+    #model = project
+    form_class = CreateRolForm
+    template_name="project_app/project_rol_form.html"
+    def get_success_url(self):
+        pro_temp = project.objects.get(id=self.kwargs['pk'])
+        if pro_temp.pro_group == False:
+            project_rol.objects.create(pro =pro_temp , rol=self.object )
+        return reverse_lazy('project_app:project', args=[self.kwargs['pk'], self.kwargs['slug']])
+        #Te manda a project_detail.html y es el projectdetailview
 
 class ProjectUpdate(UpdateView):
     model = project
-    fields = ['pro_name','pro_description','pro_video', 'pro_about_us', 'pro_phrase', 'pro_creation_date', 'pro_category', 'pro_location', 'pro_roles']
+    fields = ['pro_name','pro_description','pro_video', 'pro_about_us', 'pro_phrase', 'pro_creation_date', 'pro_category', 'pro_subcategory', 'pro_city', 'pro_state']
     template_name_suffix = '_update_form'
-
     def get_success_url(self):
         return reverse_lazy('project_app:update', args=[self.object.id]) + '?ok'
 
 class ProjectDelete(DeleteView):
     model = project
-    success_url = reverse_lazy('project_app:project_app')
+    success_url = reverse_lazy('project_app:projects')
 
+def DataRep(request):
+    #Chart data is passed to the `dataSource` parameter, like a dictionary in the form of key-value pairs.
+    dataSource = OrderedDict()
 
-def see_project(request):
-    project_dict = {'proyecto_insert': 'PAGINA DE PROYECTO'}
-    return render(request, 'project_app/project.html', context=project_dict) # app_one/proyecto.html ha ce referencia al html en templates
+    # The `chartConfig` dict contains key-value pairs of data for chart attribute
+    chartConfig = OrderedDict()
+    chartConfig["caption"] = "Proyectos por categoría"
+    chartConfig["subCaption"] = ""
+    chartConfig["xAxisName"] = "Categoría"
+    chartConfig["yAxisName"] = "Cantidad"
+    chartConfig["numberSuffix"] = ""
+    chartConfig["theme"] = "fusion"
 
-def see_project(request, p_db, r_db, i_db):
-    pro_db = p_db
-    rol_db = r_db
-    img_db=i_db
-    project_dict = {'pro_db':pro_db,'rol_db':rol_db, 'img_db':img_db}
-    return render(request, 'project_app/project.html', context=project_dict) # app_one/proyecto.html ha ce referencia al html en templates
+    # The `chartData` dict contains key-value pairs of data
+    chartData = OrderedDict()
+    chartData["Música"] = 5
+    chartData["Arte"] = 2
+    chartData["Teatro"] = 8
+    chartData["Computación"] = 6
+    chartData["Literatura"] = 1
+    chartData["Cocina"] = 3
+    chartData["Deportes"] = 7
+    chartData["Idiomas"] = 9
 
-def form_project(request):
-    form_pro = formProject()
-    form_rol = rol_formset()
-    form_img = formImg()
+    dataSource["chart"] = chartConfig
+    dataSource["data"] = []
 
-    if request.method == 'POST':
-        form_pro=formProject(request.POST,request.FILES)
-        form_rol=rol_formset(request.POST,request.FILES)
-        form_img=formImg(request.POST,request.FILES)
+    # Convert the data in the `chartData`array into a format that can be consumed by FusionCharts.
+    #The data for the chart should be in an array wherein each element of the array
+    #is a JSON object# having the `label` and `value` as keys.
 
-        cantidad= request.POST.get("cantidad", "")
-        if cantidad=='':
-            cantidad=1
-        else:
-            cantidad=int(cantidad)
+    #Iterate through the data in `chartData` and insert into the `dataSource['data']` list.
+    for key, value in chartData.items():
+        data = {}
+        data["label"] = key
+        data["value"] = value
+        dataSource["data"].append(data)
 
-        if form_pro.is_valid() and form_rol.is_valid():
-            #Las variables con terminacion _db son lstas que se iran al view see_project para mostrar la info de este proyecto.
-            pro_db={"pro_name": str(form_pro.cleaned_data['pro_name']),"pro_description": str(form_pro.cleaned_data['pro_description']),
-                    "pro_video": str(form_pro.cleaned_data['pro_video']),"pro_about_us": str(form_pro.cleaned_data['pro_about_us']),
-                    "pro_phrase": str(form_pro.cleaned_data['pro_phrase']),"pro_creation_date": str(form_pro.cleaned_data['pro_creation_date']),
-                    "pro_category": str(form_pro.cleaned_data['pro_category'])}
-            rol_db=[]
-            img_db=[]
-            print("VALIDATION SUCCESS!")
-            print(request.POST)
-            p = project(pro_name=form_pro.cleaned_data['pro_name'],pro_description=form_pro.cleaned_data['pro_description'],
-                        pro_video=form_pro.cleaned_data['pro_video'],pro_about_us=form_pro.cleaned_data['pro_about_us'],
-                        pro_phrase=form_pro.cleaned_data['pro_phrase'],pro_creation_date=form_pro.cleaned_data['pro_creation_date'],
-                        pro_category=form_pro.cleaned_data['pro_category'],pro_location=form_pro.cleaned_data['pro_location'])
-            p.save()
-            for field in request.FILES.keys():
-                for formfile in request.FILES.getlist(field):
-                    i = projectImg(pro_img=formfile, pro = p)
-                    img_url="../media/pro_img/"+str(formfile)
-                    img_db.append(img_url)
-                    i.save()
-            for x in range(0, cantidad):
-                txt='form-'+str(x)+'-rol_dropdown_name'
-                name= request.POST.get(txt, "")
-                if name == 'Otro':
-                    txt='form-'+str(x)+'-rol_alternative_name'
-                    name = request.POST.get(txt, "")
-                txt='form-'+str(x)+'-rol_due_date'
-                due_date= request.POST.get(txt, "")
-                txt='form-'+str(x)+'-rol_amount'
-                amount= request.POST.get(txt, "")
-                txt='form-'+str(x)+'-rol_description'
-                description= request.POST.get(txt, "")
-                txt='form-'+str(x)+'-rol_location'
-                loc= request.POST.get(txt, "")
-                y={"rol_name": name,"rol_due_date": due_date,"rol_amount": amount,
-                    "rol_description":description, "rol_location": location}
-                rol_db.append(y)
-                r = rolInfo(rol_name=name,rol_due_date=due_date,rol_amount=amount,
-                            rol_description=description,rol_location= location.objects.get(location=loc))
+    # Create an object for the column 2D chart using the FusionCharts class constructor
+    # The chart data is passed to the `dataSource` parameter.
+    column2D = FusionCharts("column2d", "myFirstChart", "600", "400", "myFirstchart-container", "json", dataSource)
+    pie2d = FusionCharts("pie2d", "ex1", '700', '400', "myFirstchart", "json", dataSource )
 
-                r.save()
-                p.pro_roles.add(r)
-                print(name)
-
-            return see_project(request, pro_db, rol_db, img_db)
-        else:
-            print('ERROR EN EL FORM')
-    return render(request,'project_app/create_project.html',{'form_rol':form_rol, 'form_pro':form_pro, 'form_img':form_img})
+    return render(request,  'project_app/data.html', {'output': column2D.render(), 'output2': pie2d.render()})
+    #project_dict = {'proyecto_insert': 'PAGINA DE PROYECTO'}
+    #return render(request, 'project_app/data.html', context=project_dict) # app_one/proyecto.html ha ce referencia al html en templates

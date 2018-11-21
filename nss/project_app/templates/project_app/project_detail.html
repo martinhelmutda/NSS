@@ -1,20 +1,287 @@
+<!DOCTYPE html>
 {% extends "base.html" %}
 {% load static %}
+{% load embed_video_tags %}
+
+{% block meta_block %}
+  <meta property="og:url"           content="https://docs.python.org/2/library/unittest.html" />
+   <meta property="og:type"          content="website" />
+   <meta property="og:title"         content="TEEM" />
+   <meta property="og:description"   content="Your description" />
+   <meta property="og:image"         content="https://scontent-dfw5-1.xx.fbcdn.net/v/t1.0-1/p32x32/29132923_1858922410818998_822734632322596864_n.jpg?_nc_cat=108&_nc_ht=scontent-dfw5-1.xx&oh=34a40e024de1f22a62d850f6b15abcba&oe=5C82DFAF" />
+{% endblock %}
+{% block processes_block %}
+<script type ="text/javascript" src="{% static "js/extras/processes.js" %}"></script>  <!--Este link hace que no jale el datepicker de create_project.html-->
+{% endblock %}
 {% block title %}{{project.pro_name}}{% endblock %}
 {% block body_block %}
-<main role="main">
-  <div class="container">
-    <div class="row mt-3">
-      <div class="col-md-9 mx-auto">
-        <h2 class="section-heading mb-4">{{project.pro_name}}</h2>
-        <div>
-          {{project.pro_description|safe}}
-          {% if request.user.is_staff %}
-            <p><a href="{% url 'project_app:update' project.id %}">Editar</a></p>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+  {# Updated Segment #}
+
+  <div class="ui mini modal">
+    <div class="ui icon header">
+      <i class="archive icon" ></i>
+      <p id="letrero"> </p>
+    </div>
+    <div class="content">
+      <p class="ui centered grid container">¿Deseas continuar enviadno su aplicación?</p>
+    </div>
+
+      <div class="actions">
+        <div class="ui red inverted cancel inverted button">
+          <i class="remove icon"></i>
+          No
+        </div>
+        <a class="ui green ok inverted button" type="submit"  >
+          <i class="checkmark icon"></i>
+          Sí
+        </a>
+      </div>
+
+  </div>
+
+    <div class="ui segment container"> <!--segment-->
+      <div class="ui grid">
+        <!--Ifo general-->
+        <div class="row">
+          <!--main info-->
+          <div class="eight wide column">
+
+            <div class="ui grid"> <!--Titulo, boton para editar y creador--> <br>
+                <h2 class="section-heading mb-4">
+                       {{project.pro_name}}
+                       {% if request.user == project.pro_user %}
+                          <a href="{% url 'project_app:update' project.id %}">Editar</a>
+                      {% endif %}
+                </h2>
+            </div>
+            <!--Creador del proyecto-->
+            <div class="ui grid">
+              <div class="item">
+
+
+                {%if project.pro_user.profile.avatar.url%}
+                <img class="ui avatar image" src="{{project.pro_user.profile.avatar.url}}">
+                {{project.pro_user}}
+                {%else%}
+                <img class="ui avatar image" src="https://semantic-ui.com/images/avatar2/small/lena.png">
+                {{request.user.profile.user}}
+                {%endif%}
+
+
+              </div>
+            </div>
+            <!--info general del proyecto-->
+            <div class="ui grid">
+              <div class="eight wide column">
+                  <i class="tags icon"></i>
+                  {{project.pro_category}}, {{project.pro_subcategory}}.
+              </div>
+              <div class="eight wide column">
+                  <i class="map marker alternate icon"></i>
+                  {{project.pro_city}}, {{project.pro_state}}.
+              </div>
+            </div>
+            <div class="sixteen wide column">
+              <i class="dollar sign icon"></i>
+              {{project.pro_phrase}}
+            </div>
+            <!--Barra de progreso-->
+            <div class="ui grid">
+              <div class="fifteen wide column">
+                <div class="ui violet progress" id="example2">
+                   <div class="bar"></div>
+                </div>
+              </div>
+            </div>
+            <!--Descripcion-->
+            <div class="sixteen wide column">
+              {{project.pro_description|safe}}
+            </div>
+            <!--Like, Guardar y compartir-->
+            <div class="ui grid">
+              <!-- Your share button code -->
+              <div class="fb-share-button" data-href="https://docs.python.org/2/library/unittest.html" data-layout="button" data-size="large" data-mobile-iframe="true"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Compartir</a></div>
+
+
+            </div>
+          </div>
+
+          <!--video-->
+          <div class="eight wide column">
+            <div class="ui grid">
+              <div class="eight wide column">
+                  <div class="ui labeled button" tabindex="0">
+                    <div class="ui basic blue button">
+                      <i class="heart icon"></i>
+                    </div>
+                    <a class="ui basic left pointing blue label">
+                      1,048
+                    </a>
+                  </div>
+              </div>
+              <div class="eight wide column">
+                  <div class="ui labeled button" tabindex="0">
+                    <div class="ui basic blue button">
+                      <i class="save outline icon"></i>
+                      Guardar
+                    </div>
+                    <a class="ui basic left pointing blue label">
+                      12
+                    </a>
+                  </div>
+              </div>
+            </div>
+            <div class="ui fluid"> <br>
+              {% video project.pro_video %}
+            </div>
+          </div>
+        </div>
+
+        {% if not project.pro_group %}
+        <!--Roles-->
+        <div class="ui horizontal divider">
+            <h3>Puestos disponibles</h3>
+        </div>
+        <div class="fifteen column row">
+
+          {% for x in project.pro_roles.all %}
+          <div class="two wide column"></div>
+            <div class="four wide column">
+              <div class="item">
+                <div class="content">
+                  <h4 class="header"> <br>
+                    {%if x.rol_name != 'Otro'%}
+                      {{x.rol_name}}
+                    {%else%}
+                      {{x.rol_name_other}}
+                    {%endif%}
+                    {% if request.user == project.pro_user %}
+                      <a href="">Editar</a>
+                    {%endif%}
+                    <div class="meta">
+                      {{x.rol_city}}, {{x.rol_state}}.
+                    </div> <hr>
+                  </h4>
+                  <div class="description">
+                    <p>{{x.rol_description | safe}}<br>
+                    <a>Aplica </a>antes de <a>{{x.rol_due_date}}</a>
+                    </p>
+                  </div>
+                  <div class="extra content">
+                    {% if request.user != project.pro_user %} <!--Si no es el creador aparece boton para aplicar-->
+                     <div class="ui left labeled button" tabindex="0" id="boton{{x.id}}" name ={{x.id}} class="aplicar">
+                        <a  class="ui violet right pointing label button aplicar texto_boton" prueba="No_enviada" button-url="{%url 'project_app:button_text'%}" data-url="{% url 'project_app:change_user_project_status' %}" id={{x.id}} value="No_enviada">Aplicar</a>
+                       <div class="ui violet inverted button aplicar">
+                          {{x.rol_amount}}
+                       </div>
+                       <input type="hidden" name="" value="" id="rol_id">
+                     </div>
+                     {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="two wide column"></div>
+            {%empty%}<!--Si no hay roles-->
+              <p class="ui centered grid container">¡Oops! Este proyecto no busca integrantes por el momento.</p>
+          {% endfor %}
+          </div>
+          {% if request.user == project.pro_user %}<br>
+              <a href="{% url 'project_app:form_rol_project'  project.id project.pro_name|slugify %}" class="ui centered grid container">
+              <input type="button" class="ui grey basic button" value="Agregar puestos" id="add_more"></a>
           {% endif %}
+          {%endif%}
+
+
+        <!--Integrantes-->
+        <br>
+        <div class="ui horizontal divider">
+           <h3>Sobre Nosotros</h3>
+       </div>
+       <div class="ui centered grid container">
+         <br> <p class="ui center aligned"><br>{{project.pro_about_us}}<br></p> <br>
+       </div>
+
+        <div class="ui centered grid container">
+          <div class="ui horizontal list">
+            {% for integrante in integrantes %}
+            <div class="item">
+              {% if integrante.up_user.profile.avatar %}
+               <img src="{{integrante.up_user.profile.avatar.url}}" class="ui avatar image">
+              {% else %}
+              <img class="ui avatar image" src="https://semantic-ui.com/images/avatar2/large/kristy.png">
+              {% endif %}
+              <div class="content">
+                <div class="header">{{integrante.up_user|truncatechars:"16"}}</div>
+                <a href="{% url 'profiles_app:detail' integrante.up_user %}">Ver perfil</a>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          <br><br>
         </div>
       </div>
     </div>
-  </div>
-</main>
+
+
+
+
+{% endblock %}
+
+{% block js_block %}
+<script type="text/javascript">
+$( document ).ready(function() {
+    whatever();
+});
+$( ".texto_boton" ).click(function() {
+     var idRol = $(this).attr('id');
+     var status1 = $(this).attr('prueba');
+     var idUser ={{request.user.profile.id}} ;
+     var idProject = {{project.id}};
+     var url = $(this).attr("data-url");
+     $.ajax({
+       url: url,
+       data: {
+         'idRol': idRol,
+         'status1': status1,
+         'idUser': idUser,
+         'idProject': idProject,
+       },
+       dataType: 'json',
+       success: function (data) {
+             whatever();
+       }
+     });
+
+});
+function whatever(){
+  var url = $( ".texto_boton" ).attr("button-url");
+  var idProject = {{project.id}};
+  $.ajax({
+    url: url,
+    data: {
+      'idProject': idProject,
+    },
+    dataType: 'json',
+    success: function (data) {
+
+        console.log(data.dict); //TEXTO
+        console.log(data.dictStatus); //STATUS
+        for (x in data.dict ) {
+          var temp = '#'+x;
+          $( temp ).text(data.dict[x]);
+          $(temp).attr('prueba',data.dictStatus[x]);
+        }
+    }
+  });
+}
+ </script>
 {% endblock %}
