@@ -74,7 +74,7 @@ class project(models.Model):
     pro_creation_date = models.DateField()
     pro_img = models.ImageField(default='', upload_to='pro_img', blank=True)# null=true se pone null en la base de datos como entrada
     pro_group = models.BooleanField()
-    pro_likes = models.PositiveIntegerField(default=0)
+    likes = models.ManyToManyField(User,related_name="likes",blank=True)
     pro_save_times = models.PositiveIntegerField(default=0)
 
     pro_category = models.ForeignKey('category', on_delete=models.PROTECT,default='')
@@ -94,6 +94,11 @@ class project(models.Model):
 
     def __str__(self):
         return self.pro_name
+
+    def total_likes(self):
+        return self.likes.count()
+
+
 
 class projectImg(models.Model):#Ya no se usa
     pro_img = models.ImageField(default='', upload_to='pro_img', blank=True)

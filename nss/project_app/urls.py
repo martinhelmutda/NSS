@@ -19,5 +19,6 @@ projects_patterns = ([
     path('createRolProyecto/<int:pk>/<slug:slug>/', ProjectRolCreate.as_view(), name = 'form_rol_project'),
     path('ajax/load-cities/', views.load_cities, name='ajax_load_cities'),
     path('ajax/load-subcategories/', views.load_subcategories, name='ajax_load_subcategories'),
+    path('like/',views.like_post, name ="like_post"),
 
 ], 'project_app')
