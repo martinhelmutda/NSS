@@ -35,19 +35,45 @@ class SearchView(SelectRelatedMixin, generic.ListView):
         context['category'] = category.objects.all()
         return context
 
-def load_info(request):
-    id_pro_category =  request.GET.get('id_pro_category')
-    id_pro_subcategory =  request.GET.get('id_pro_subcategory')
-    print("HOLA")
-    print(id_pro_category)
-    print(id_pro_subcategory)
-    #country_id =  request.GET.get('country')
-    #country_id =  request.GET.get('country')
-    #country_id =  request.GET.get('country')
-    cat = category.objects.get(category=id_pro_category)
-    subcat = subcategory.objects.get(subcategory=id_pro_subcategory)
-    projects = project.objects.filter(pro_category=cat, pro_subcategory=subcat )
-    return render(request, 'search_app/project_list.html', {'projects': projects})
+    def get_queryset(self):
+        result = super(ListView, self).get_queryset()
+
+        if self.request.GET.get('q'):
+            query = self.request.GET.get('q')
+            query_list = query.split()
+            result = result.filter(
+                reduce(operator.and_,
+                       (Q(pro_name__icontains=q) for q in query_list))
+            )
+        if self.request.GET.get('id_pro_category'):
+            id_pro_category = self.request.GET.get('id_pro_category')
+            query_list = id_pro_category.split()
+            result = result.filter(
+                reduce(operator.and_,
+                       (Q(pro_category=id_pro_category) for id_pro_category in query_list))
+            )
+        if self.request.GET.get('id_pro_subcategory'):
+            id_pro_subcategory = self.request.GET.get('id_pro_subcategory')
+            query_list = id_pro_subcategory.split()
+            result = result.filter(
+                reduce(operator.and_,
+                       (Q(pro_subcategory=id_pro_subcategory) for id_pro_subcategory in query_list))
+            )
+        if self.request.GET.get('id_pro_state'):
+            id_pro_state = self.request.GET.get('id_pro_state')
+            query_list = id_pro_state.split()
+            result = result.filter(
+                reduce(operator.and_,
+                       (Q(pro_state=id_pro_state) for id_pro_state in query_list))
+            )
+        if self.request.GET.get('id_pro_city'):
+            id_pro_city = self.request.GET.get('id_pro_city')
+            query_list = id_pro_city.split()
+            result = result.filter(
+                reduce(operator.and_,
+                       (Q(pro_city=id_pro_city) for id_pro_city in query_list))
+            )
+        return result
 
 def proper_pagination(posts, index):
     start_index = 0

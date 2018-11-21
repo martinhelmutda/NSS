@@ -142,7 +142,7 @@ DATABASES = {
 """
 development
 """
-
+"""
 DATABASES = {                                   #Nos conectamos a la base de datos mySQL
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -170,7 +170,7 @@ DATABASES = {
     }
 }
 
-"""
+
 
 
 # Password validation
