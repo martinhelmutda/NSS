@@ -38,13 +38,14 @@ class SearchView(SelectRelatedMixin, generic.ListView):
 def load_info(request):
     id_pro_category =  request.GET.get('id_pro_category')
     id_pro_subcategory =  request.GET.get('id_pro_subcategory')
+    print("HOLA")
     print(id_pro_category)
     print(id_pro_subcategory)
     #country_id =  request.GET.get('country')
     #country_id =  request.GET.get('country')
     #country_id =  request.GET.get('country')
     cat = category.objects.get(category=id_pro_category)
-    subcat = category.objects.get(subcategory=id_pro_scategory)
+    subcat = subcategory.objects.get(subcategory=id_pro_subcategory)
     projects = project.objects.filter(pro_category=cat, pro_subcategory=subcat )
     return render(request, 'search_app/project_list.html', {'projects': projects})
 
