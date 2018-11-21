@@ -34,15 +34,13 @@
                     <a href="{% url 'index' %}" class="item"><img class="logo" src="{% static "img/logo.png" %}"><i class="users icon"></i>TEEM</a>
                 </div>
               <!--  <a class="item" href="{% url 'project_app:DataRep' %}"><i class="chart bar alternate icon"></i>Data representation</a>-->
-                <ul class="navbar-nav mr-auto">
 
+                <div class="item">
                   <form class="ui action input" action='{% url 'search_app:search' %}'>
                     <input type="search" placeholder="Buscar" aria-label="Search" name='q'>
                     <button class="ui button" type="submit">Buscar</button>
                   </form>
-
-
-                </ul>
+                </div>
                 {% if user.is_authenticated %}
                 <div class="ui right simple dropdown item">
                   <i class="edit icon"></i>Crear
@@ -54,7 +52,7 @@
                 </div>
 
     			      <a class="item" href="{% url 'project_app:projects' %}"><i class="folder icon"></i>Mis creaciones</a>
-                <a class="item"><i class="bell icon"></i></a>
+                <a class="item" href="{% url 'messages_app:list' %}"><i class="envelope icon"></i></a>
                 <div class="ui simple dropdown item">
                   <i class="user icon"></i>User
                   <i class="dropdown icon"></i>
@@ -97,5 +95,8 @@
         </div>
       </div>
     </footer>
+    <script type="text/javascript">
+    $('.ui.accordion').accordion();
+    </script>
 
 </html>

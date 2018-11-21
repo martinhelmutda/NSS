@@ -28,13 +28,16 @@
 <br>
 <div class="ui container">
 
-  {% for project in project_list|dictsort:"id" reversed%}
+  {% for project in project_list|dictsort:"id" reversed %}
 
   <div class="ui unstackable items"  onclick="window.location.href={% url 'project_app:project' project.id project.pro_name|slugify %}">
     <div class="item">
       <div class="image">
         {% if project.pro_img %}
-          <img src="../media/{{project.pro_img}}">
+          <img src="{{project.pro_img.url}}">
+          <script type="text/javascript">
+            console.console.log("{{project.pro_img.url}}");
+          </script>
         {% else %}
           <img src="https://semantic-ui.com/images/wireframe/image.png">
         {% endif %}

@@ -8,6 +8,7 @@ from django.template.defaultfilters import slugify
 from django.test import Client
 
 """ TESTS DE ANGIE """
+
 class TestCase(TestCase):
     def setUp(self):
         self.user1= User.objects.create_user('user1', None, 'tes1234')
@@ -41,15 +42,17 @@ class TestCase(TestCase):
         for application in exists_application1.all():
             print("({}): {}".format(application.up_rolInfo, application.up_project))
         self.assertEqual(len(exists_application1),2)
-
-    #def FUNCION PARA CANCELAR. RECIBE EL ESTADO Y RECISA SI ES CANCELAR Y LO CANCELA
     def test_cancel_application(self): #I want to cancel my application
-        application3 = user_project.objects.create(up_project=self.project1, up_user = self.user1, up_rolInfo=self.rol1, up_status=self.status1)
+        def cancel_application(self, aplicacion_por_cancelar):
+            print('CAMBIANDO ESTADO..')
+            status_cancelar =  status.objects.get(status="cancelada")#CANCELADA
+            aplicacion_por_cancelar.up_status=status_cancelar
+        self.application3 = user_project.objects.create(up_project=self.project1, up_user = self.user1, up_rolInfo=self.rol1, up_status=self.status1)
         print("........................TEST test_cancel_application")
-        print(application3.up_rolInfo,'-> ',application3.up_status)
-        application3.up_status=self.status2
-        print(application3.up_rolInfo,'-> ',application3.up_status)
-        self.assertEqual(application3.up_status, self.status2)
+        print(self.application3.up_rolInfo,'-> ',self.application3.up_status)
+        cancel_application(self, self.application3)
+        print(self.application3.up_rolInfo,'-> ',self.application3.up_status)
+        self.assertEqual(self.application3.up_status.status, 'cancelada')
 
     def test_post_multiple_rols(self): #I want to post all the positions that I am looking for, for my project.
         #Rol

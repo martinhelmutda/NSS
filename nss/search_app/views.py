@@ -29,32 +29,25 @@ class SearchView(SelectRelatedMixin, generic.ListView):
     model = models.project
     select_related = ("pro_category","pro_subcategory", "pro_state", "pro_city")
 
-    def get_queryset(self):
-        result = super(ListView, self).get_queryset()
-        query = self.request.GET.get('q')
-        if query:
-            query_list = query.split()
-            result = result.filter(
-                reduce(operator.and_,
-                       (Q(pro_name__icontains=q) for q in query_list)) |
-                reduce(operator.and_,
-                       (Q(pro_state=q) for q in query_list)) |
-                reduce(operator.and_,
-                       (Q(pro_category=q) for q in query_list)) |
-                reduce(operator.and_,
-                       (Q(pro_city=q) for q in query_list)) |
-                reduce(operator.and_,
-                       (Q(pro_subcategory=q) for q in query_list))
-
-            )
-        return result
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['state'] = state.objects.all()
-        #context['city'] = city.objects.all()
-        #context['subcategory'] = subcategory.objects.all()
         context['category'] = category.objects.all()
         return context
+
+def load_info(request):
+    id_pro_category =  request.GET.get('id_pro_category')
+    id_pro_subcategory =  request.GET.get('id_pro_subcategory')
+    print("HOLA")
+    print(id_pro_category)
+    print(id_pro_subcategory)
+    #country_id =  request.GET.get('country')
+    #country_id =  request.GET.get('country')
+    #country_id =  request.GET.get('country')
+    cat = category.objects.get(category=id_pro_category)
+    subcat = subcategory.objects.get(subcategory=id_pro_subcategory)
+    projects = project.objects.filter(pro_category=cat, pro_subcategory=subcat )
+    return render(request, 'search_app/project_list.html', {'projects': projects})
 
 def proper_pagination(posts, index):
     start_index = 0

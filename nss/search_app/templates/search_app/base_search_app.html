@@ -41,7 +41,7 @@
                 </div>
 
                 <a class="item" href="{% url 'project_app:projects' %}"><i class="folder icon"></i>Mis creaciones</a>
-                <a class="item"><i class="bell icon"></i></a>
+                <a class="item" href="{% url 'messages_app:list' %}"><i class="envelope icon"></i></a>
                 <div class="ui simple dropdown item">
                   <i class="user icon"></i>User
                   <i class="dropdown icon"></i>
@@ -63,9 +63,173 @@
             </div>
         </div>
 
+        <div class="ui secondary three item menu">
+          <ul class="navbar-nav mr-auto">
+            <div class="ui container">
+
+              <form class="ui action input" id="projectForm" action='{% url 'search_app:search' %}' data-cities-url="{% url 'project_app:ajax_load_cities' %}" data-subcategories-url="{% url 'project_app:ajax_load_subcategories' %}">
+
+
+                <div class="ui form">
+                  <div class="field">
+                    <select name='q'class="ui fluid dropdown selection" id="id_pro_category" name="pro_category">
+
+                      <option value="" selected disabled>Categoría</option>
+                      {% for cat in category %}
+                      <option value="{{cat.category}}">{{cat.category}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+
+                <div class="ui form">
+                  <div class="field">
+                    <select name='q' class="ui fluid dropdown selection" id="id_pro_subcategory" name="pro_subcategory">
+                      <option value="" selected disabled>Subcategoría</option>
+                      {% for subcat in subcategory %}
+                      <option value="{{subcat.subcategory}}">{{subcat.subcategory}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+
+                <div class="ui form">
+                  <div class="field">
+                    <select name='q' class="ui fluid dropdown selection" id="id_pro_state" name="pro_state">
+                      <option value="" selected disabled>Estado</option>
+                      {% for st in state %}
+                      <option value="{{st.state}}">{{st.state}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+
+                <div class="ui form">
+                  <div class="field">
+                    <select name='q' class="ui fluid dropdown selection" id="id_pro_city" name="pro_city">
+                      <option value="" selected disabled>Municipio</option>
+                      {% for cit in city %}
+                      <option value="{{cit.city}}">{{cit.city}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+
+                <input type="search" placeholder="Buscar" aria-label="Search" name='q'>
+                <button class="ui button" type="submit">Buscar</button>
+              </form>
+
+            </div>
+          </ul>
+        </div>
         {% block body_block %}
         <!-- Other Htmls go here -->
         {% endblock %}
+        <div class="ui container mb-4">
+          <div class="ui link cards">
+          {% for project in projects|dictsort:"id" reversed %}
+              <div class="card">
+                <div class="image">
+                  {% if project.pro_img %}
+                    <img src="../media/{{project.pro_img}}">
+                  {% else %}
+                    <img src="https://semantic-ui.com/images/wireframe/image.png">
+                  {% endif %}
+
+                </div>
+                <div class="content">
+                  <div class="header">{{project.pro_name}}</div>
+                  <div class="meta">
+                    <a>{{project.pro_category}}</a>
+                  </div>
+                  <div class="description">
+                    {{project.pro_description |safe}}
+                  </div>
+                </div>
+                <div class="extra content">
+                  <span class="right floated">
+                    Joined in 2013
+                  </span>
+                  <span>
+                    <i class="user icon"></i>
+                    <div class="row mt-3">
+                      <div class="col-md-9 mx-auto">
+                        <div>
+                          {# <p>{{project.pro_description|striptags|safe|truncatechars:"200"}}</p> #}
+                          <p><a href="{% url 'project_app:project' project.id project.pro_name|slugify %}">Leer más</a></p>
+
+                          {% if request.user == project.pro_user %}
+                              | <a href="{% url 'project_app:update' project.id %}">Editar</a>
+                              | <a href="{% url 'project_app:delete' project.id %}">Borrar</a>
+                            {% endif %}
+
+                            <script type="text/javascript">
+                            console.log("{% url 'project_app:project' project.id project.pro_name|slugify %}");
+
+                            </script>
+
+                        </div>
+                      </div>
+                    </div>
+                  </span>
+                </div>
+              </div>
+
+          {% endfor %}
+          </div>
+        </div><div class="ui container mb-4">
+          <div class="ui link cards">
+          {% for project in projects|dictsort:"id" reversed %}
+              <div class="card">
+                <div class="image">
+                  {% if project.pro_img %}
+                    <img src="../media/{{project.pro_img}}">
+                  {% else %}
+                    <img src="https://semantic-ui.com/images/wireframe/image.png">
+                  {% endif %}
+
+                </div>
+                <div class="content">
+                  <div class="header">{{project.pro_name}}</div>
+                  <div class="meta">
+                    <a>{{project.pro_category}}</a>
+                  </div>
+                  <div class="description">
+                    {{project.pro_description |safe}}
+                  </div>
+                </div>
+                <div class="extra content">
+                  <span class="right floated">
+                    Joined in 2013
+                  </span>
+                  <span>
+                    <i class="user icon"></i>
+                    <div class="row mt-3">
+                      <div class="col-md-9 mx-auto">
+                        <div>
+                          {# <p>{{project.pro_description|striptags|safe|truncatechars:"200"}}</p> #}
+                          <p><a href="{% url 'project_app:project' project.id project.pro_name|slugify %}">Leer más</a></p>
+
+                          {% if request.user == project.pro_user %}
+                              | <a href="{% url 'project_app:update' project.id %}">Editar</a>
+                              | <a href="{% url 'project_app:delete' project.id %}">Borrar</a>
+                            {% endif %}
+
+                            <script type="text/javascript">
+                            console.log("{% url 'project_app:project' project.id project.pro_name|slugify %}");
+
+                            </script>
+
+                        </div>
+                      </div>
+                    </div>
+                  </span>
+                </div>
+              </div>
+
+          {% endfor %}
+          </div>
+        </div>
 
     </body>
     {% block js_block %}
