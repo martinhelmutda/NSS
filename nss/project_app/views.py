@@ -188,7 +188,6 @@ def like_post(request):
 
 
 
-
 def load_cities(request):
     country_id =  request.GET.get('country')
     cities = city.objects.filter(state=country_id).order_by('city')#print(cities)

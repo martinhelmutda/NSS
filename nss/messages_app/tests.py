@@ -59,4 +59,5 @@ class ThreadTestCase(TestCase):
 
 
 
+
         ###Evitar que se envíen mensajes vacíos

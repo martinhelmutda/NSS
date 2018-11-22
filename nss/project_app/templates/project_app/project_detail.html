@@ -54,30 +54,15 @@
           <!--main info-->
           <div class="eight wide column">
 
-            <div class="ui grid"> <!--Titulo, boton para editar y creador--> <br>
                 <h2 class="section-heading mb-4">
                        {{project.pro_name}}
                        {% if request.user == project.pro_user %}
                           <a href="{% url 'project_app:update' project.id %}">Editar</a>
                       {% endif %}
                 </h2>
-            </div>
             <!--Creador del proyecto-->
-            <div class="ui grid">
-              <div class="item">
 
 
-                {%if project.pro_user.profile.avatar.url%}
-                <img class="ui avatar image" src="{{project.pro_user.profile.avatar.url}}">
-                {{project.pro_user}}
-                {%else%}
-                <img class="ui avatar image" src="https://semantic-ui.com/images/avatar2/small/lena.png">
-                {{request.user.profile.user}}
-                {%endif%}
-
-
-              </div>
-            </div>
             <!--info general del proyecto-->
             <div class="ui grid">
               <div class="eight wide column">
@@ -101,6 +86,23 @@
                 </div>
               </div>
             </div>
+
+            <div class="ui  container">
+              <a class="ui image label">
+              {%if project.pro_user.profile.avatar.url%}
+              <img class="ui avatar image" src="{{project.pro_user.profile.avatar.url}}">
+              {{project.pro_user}}
+              {%else%}
+              <img class="ui avatar image" src="https://semantic-ui.com/images/avatar2/small/lena.png">
+              {{request.user.profile.user}}
+              {%endif%}
+              </a>
+              <a class="item" href="{% url 'messages_app:start' project.pro_user.profile.user.username %}">
+                <i class="envelope icon"></i>Enviar mensaje
+              </a>
+            </div>
+
+            <div class="ui divider"></div>
             <!--Descripcion-->
             <div class="sixteen wide column">
               {{project.pro_description|safe}}
