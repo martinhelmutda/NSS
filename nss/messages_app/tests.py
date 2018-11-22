@@ -1,11 +1,15 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
 from .models import Thread, Message
+from project_app.models import project
 
 
 class ThreadTestCase(TestCase):
     def setUp(self):
-        self.user1= User.objects.create_user('user1', None, 'tes1234')
+        self.credentials = {
+            'username': 'user1',
+            'password': 'test1234'}
+        self.user1= User.objects.create_user(**self.credentials)
         self.user2= User.objects.create_user('user2', None, 'tes1234')
         self.user3= User.objects.create_user('user3', None, 'tes1234')
 
@@ -56,6 +60,9 @@ class ThreadTestCase(TestCase):
         thread = Thread.objects.find_or_create(self.user1, self.user3)
         self.assertIsNotNone(thread)
 
+    def test_send_message_to_user(self):
+        response = self.client.post('/user/login/', self.credentials, follow=True)
+        self.assertTrue(response.context['user'].is_active)
 
 
 
