@@ -1,5 +1,7 @@
 <!DOCTYPE html>
+{% load i18n %}
 {% load static %}
+{% get_current_language as LANGUAGE_CODE %}
 <html lang="es">
         <head>
             <meta charset="utf-8">
@@ -43,32 +45,44 @@
                 </div>
                 {% if user.is_authenticated %}
                 <div class="ui right simple dropdown item">
-                  <i class="edit icon"></i>Crear
+                  <i class="edit icon"></i>{% trans Crear %}
                   <i class="dropdown icon"></i>
                   <div class="menu">
-                       <a class="item" href="{% url 'project_app:create' %}"><i class="pencil alternate icon"></i>Crear proyecto</a>
-                        <a class="item" href="{% url 'project_app:create_group' %}"><i class="pencil alternate icon"></i>Crear Grupo</a>
+                       <a class="item" href="{% url 'project_app:create' %}"><i class="pencil alternate icon"></i>{% trans "Crear proyecto" %}</a>
+                        <a class="item" href="{% url 'project_app:create_group' %}"><i class="pencil alternate icon"></i>{%trans "Crear Grupo" %}</a>
                   </div>
                 </div>
 
-    			      <a class="item" href="{% url 'project_app:projects' %}"><i class="folder icon"></i>Mis creaciones</a>
+    			      <a class="item" href="{% url 'project_app:projects' %}"><i class="folder icon"></i>{% trans "Mis creaciones" %}</a>
                 <a class="item" href="{% url 'messages_app:list' %}"><i class="envelope icon"></i></a>
                 <div class="ui simple dropdown item">
-                  <i class="user icon"></i>User
+                  <i class="user icon"></i>{%trans "Usuario"%}
                   <i class="dropdown icon"></i>
                   <div class="menu">
-                    <a class="item" href="{% url 'profiles_app:list' %}"><i class="address card outline icon"></i> View Profile</a>
-                    <a class="item" href="{% url 'account_app:profile' %}"><i class="edit icon"></i> Edit Profile</a>
-                    <a class="item"><i class="globe icon"></i> Choose Language</a>
-                    <a class="item"><i class="settings icon"></i> Account Settings</a>
-                    <a class="item" href="{% url 'logout' %}"><i class="power off icon"></i>Logout</a>
+                    <a class="item" href="{% url 'profiles_app:list' %}"><i class="address card outline icon"></i> {%trans "Ver Perfil" %}</a>
+                    <a class="item" href="{% url 'account_app:profile' %}"><i class="edit icon"></i>{% trans "Editar Perfil "%}</a>
+                    <a class="item"><form action="{%url 'set_language'%}" method="post">{%csrf_token%}
+                    <input type="hidden" name="text" value="{{redirect_to}}">
+                    <select name="language" id="">
+                      {% get_available_languages as LANGUAGES %}
+                      {% get_language_info_list for LANGUAGES as languages %}
+                      {% for language in languages %}
+                        <option value="{{language.code}}" {% if language.code == LANGUAGE_CODE %} selected {%endif %}>
+                          {{language.name_local}}({{language.code}})
+                        </option>
+                      {%endfor%}
+                    </select>
+                    <input type="submit" value="{%trans 'Ir' %}">
+                    </form></a>
+                    <a class="item"><i class="settings icon"></i> {%trans "Ajustes"%}</a>
+                    <a class="item" href="{% url 'logout' %}"><i class="power off icon"></i>{%trans "Salir"%}</a>
                   </div>
                 </div>
               </div>
                 {% else %}
-                <a class="item ui right floated" href="{% url 'account_app:user_login' %}">Log in</a>
+                <a class="item ui right floated" href="{% url 'account_app:user_login' %}">{%trans "Iniciar Sesion"%}</a>
                 <div class="item">
-                  <a class="ui primary button" href="{% url 'account_app:register' %}">Registrar</a>
+                  <a class="ui primary button" href="{% url 'account_app:register' %}">{%trans "Registrarse "%}</a>
                 </div>
                 {% endif %}
             </div>
@@ -88,10 +102,10 @@
         <div class="ui center aligned container">
           <div class="ui section divider "></div>
           <div class="ui horizontal small divided link list ">
-            <a class="item" href="#">Site Map</a>
-            <a class="item" href="#">Contact Us</a>
-            <a class="item" href="#">Terms and Conditions</a>
-            <a class="item" href="#">Privacy Policy</a>
+            <a class="item" href="#">{%trans "Mapa del Sitio"%}</a>
+            <a class="item" href="#">{%trans "Contactanos"%}</a>
+            <a class="item" href="#">{%trans "Terminos y Condiciones"%}</a>
+            <a class="item" href="#">{%trans "Politica de Privacidad"%}</a>
           </div>
         </div>
       </div>

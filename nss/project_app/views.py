@@ -33,17 +33,12 @@ class ProjectsListView(ListView):
     model = project
     paginated_by=2
     template_name = "project_app/project_list.html"
-    def get_queryset(self):
-        queryset =  project.objects.filter(pro_group=False, pro_user=self.request.user)
-        return queryset
+    def get_context_data(self, **kwargs):
+        context = super(ProjectsListView, self).get_context_data(**kwargs)
+        context['integrantes'] = user_project.objects.filter(up_user=self.request.user) #print(context['user_project']) #print('id projecto', context['user_project'])
+        context['project_list'] = project.objects.filter( pro_user=self.request.user)
+        return context
 
-class GroupsListView(ListView):
-    model = project
-    paginated_by=2
-    template_name="project_app/group_list.html"
-    def get_queryset(self):
-        queryset =  project.objects.filter(pro_group=True, pro_user=self.request.user)
-        return queryset
 
 ##Return a pack of projects
 class ProjectDetailView(DetailView):
@@ -54,11 +49,10 @@ class ProjectDetailView(DetailView):
         id_Project= self.kwargs['pk']
         if self.request.user.is_anonymous:
             print("BUUU")
-            total_likes = 0
         else:
             context['user_project'] = user_project.objects.filter(up_user= self.request.user, up_project = self.object.id)
-            total_likes = project.objects.filter(likes=self.request.user).count()
             print(context['user_project'])
+            total_likes = project.objects.filter(likes=self.request.user).count()
         context['owner_project'] = project.objects.filter(id=self.object.id) #print(context['user_project']) #print('id projecto', context['user_project'])
         aceptada = status.objects.get(status='aceptada')
         context['integrantes']= user_project.objects.filter(up_project=id_Project, up_status=aceptada)
@@ -165,6 +159,7 @@ class GroupCreate(CreateView):
     def form_valid(self, form):
         user_form = form.save(commit=False)
         user_form.pro_user = self.request.user
+        user_form.pro_group=True
         return super(GroupCreate, self).form_valid(form)
     def get_success_url(self):
         #print(cities)

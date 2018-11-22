@@ -9,65 +9,133 @@
 
 
 <br> <!--Navbar de proyectos-->
-<div class="ui container sticky">
-  <table class="ui single line table">
-    <tbody>
-      <tr >
-        <td class="ui ribbon label">
-          <a  href="{% url 'project_app:groups' %}">Mis grupos</a>
-        </td>
-        <td>
-          <h1 class="ui centered">Mis proyectos</h1>
-        </td>
-        <td>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
 <br>
-<div class="ui container">
+<div class="ui container  grid">
+  <div class="thirteen wide column">
+  <div class="ui link cards">
+  {% for project in project_list%}
+  <div class="card">
 
-  {% for project in project_list|dictsort:"id" reversed%}
+    <a class="image"href="{% url 'project_app:project' project.id project.pro_name|slugify %}" >
+      {% if project.pro_img %}
+        <img src="{{project.pro_img.url}}">
+      {% else %}
+        <img src="https://semantic-ui.com/images/wireframe/image.png">
+      {% endif %}
+    </a>
+    <div class="content">
+      <a class="header" href="{% url 'project_app:project' project.id project.pro_name|slugify %}">{{project.pro_name}} </a>
 
-  <div class="ui unstackable items"  onclick="window.location.href={% url 'project_app:project' project.id project.pro_name|slugify %}">
-    <div class="item">
-      <div class="image">
-        {% if project.pro_img %}
-          <img src="{{project.pro_img.url}}">
-        {% else %}
-          <img src="https://semantic-ui.com/images/wireframe/image.png">
-        {% endif %}
+      <div class=" sixteen wide column">
+        <div class=" eight column">
+            <i class="tags icon"></i>
+            {{project.pro_category}}, {{project.pro_subcategory}}.
+        </div>
+        <div class=" eight column">
+            <i class="map marker alternate icon"></i>
+            {{project.pro_city}}, {{project.pro_state}}.
+        </div>
       </div>
-      <div class="content">
-        <a class="header"  href="{% url 'project_app:project' project.id project.pro_name|slugify %}">{{project.pro_name}}</a>
-        <div class="meta">
-          <span>{{project.pro_category}}</span>
-          <span>{{project.pro_location}}</span>
-        </div>
-        <div class="description">
-          <p>{{project.pro_description | truncatewords:50 |safe}}</p>
-            <a href="{% url 'project_app:project' project.id project.pro_name|slugify %}">
-              Leer más
-            </a>
-        </div>
-        <div class="extra">
-          <p>
-
-            {% if request.user == project.pro_user %}
-               <a href="{% url 'project_app:applications' project.id %}">Ver solicitudes</a>
-              | <a href="{% url 'project_app:update' project.id %}">Editar</a>
-              | <a href="{% url 'project_app:delete' project.id %}">Borrar</a>
-            {% endif %}
-          </p>
-        </div>
+<hr>
+      <div class="description">
+        <p>{{project.pro_description | truncatewords:50 |safe}} </p><a href="{% url 'project_app:project' project.id project.pro_name|slugify %}">Leer más</a>
       </div>
     </div>
-  </div>
+    <div class="extra content">
+      <span class="right floated">
+        {{project.pro_creation_date}}
+      </span>
+      <span>
 
+        <a class="ui image label" href="{% url 'profiles_app:detail' project.pro_user.profile.user.username %}">
+        {%if project.pro_user.profile.avatar.url%}
+        <img class="ui avatar image" src="{{project.pro_user.profile.avatar.url}}">
+        {{project.pro_user}}
+        {%else%}
+        <img class="ui avatar image" src="https://semantic-ui.com/images/avatar2/small/lena.png">
+        {{request.user.profile.user}}
+        {%endif%}
+        </a>
+
+        <div class="row mt-3">
+          <div class="col-md-9 mx-auto">
+            <div class="description">
+
+              {% if request.user == project.pro_user %}
+                    <a href="{% url 'project_app:applications' project.id %}">Ver solicitudes</a>
+                  | <a href="{% url 'project_app:update' project.id %}">Editar</a>
+                  | <a href="{% url 'project_app:delete' project.id %}">Borrar</a>
+                {% endif %}
+
+                <script type="text/javascript">
+                console.log("{% url 'project_app:project' project.id project.pro_name|slugify %}");
+
+                </script>
+
+            </div>
+          </div>
+        </div>
+      </span>
+    </div>
+  </div>
+  {%empty%}<!--Si no hay roles-->
+  <div class="ui content">
+    <br> <br> <p class="ui centered grid container">¡Oops! Un no haz creado ningun proyecto o grupo.</p>
+  </div>
   {% endfor %}
 </div>
+</div>
+
+<div class=" three wide column">
+
+<h4>Mis aplicaciones</h4>
+<table class="ui very basic collapsing celled table">
+ <thead>
+   <tr><th>Proyecto</th>
+   <th>Puesto</th>
+   <th>Status</th>
+ </tr></thead>
+ <tbody>
+   {%for integrante in integrantes%}
+   <tr>
+     <td>
+       <h4 class="ui image header">
+
+         <div class="content">
+           {{integrante.up_project.pro_name}}
+       </div>
+       </h4>
+     </td>
+     <td>
+       {%if integrante.up_rolInfo.rol_name == 'Otro'%}{{integrante.up_rolInfo.rol_name_other}}
+       {%else%}{{integrante.up_rolInfo.rol_name}}{%endif%}
+     </td>
+
+     {%if integrante.up_status.status == 'aceptada'%}
+       <td class="positive">
+           <i class="icon checkmark"></i>{{integrante.up_status.status}}
+       </td>
+     {%elif integrante.up_status.status == 'rechazada'%}
+       <td class="negative">
+         {{integrante.up_status.status}}
+       </td>
+     {%else%}
+     <td class="">
+       {{integrante.up_status.status}}
+     </td>
+     {%endif%}
+   </tr>
+   {%empty%}
+   <div class="ui content">
+     <br> <br> <p class="ui centered grid container">¡Oops! No has enviado ninguna aplciación.</p>
+   </div>
+   {%endfor%}
+ </tbody>
+ </table>
+</div>
+  </div>
+
+
 <script type="text/javascript">
   //Sticky barra que dice mis proyectos
   $('.ui.sticky')

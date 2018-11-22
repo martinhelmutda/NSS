@@ -1,10 +1,9 @@
 from django.urls import path
-from .views import ProjectsListView,GroupCreate,ApplicationsDetailView,delete,GroupsListView,accept,button_text, change_user_project_status ,ProjectDetailView, ProjectCreate, ProjectUpdate, ProjectDelete, DataRep, ProjectRolCreate
+from .views import ProjectsListView,GroupCreate,ApplicationsDetailView,delete,accept,button_text, change_user_project_status ,ProjectDetailView, ProjectCreate, ProjectUpdate, ProjectDelete, DataRep, ProjectRolCreate
 from project_app import views
 app_name="project_app"
 projects_patterns = ([
     path('p/', ProjectsListView.as_view(), name='projects'),
-    path('g/', GroupsListView.as_view(), name='groups'),
     path('<int:pk>/a/', ApplicationsDetailView.as_view(), name='applications'),
     path('<int:pk>/<slug:slug>/', ProjectDetailView.as_view(), name='project'),
     path('ajax/change_user_project_status/', views.change_user_project_status, name='change_user_project_status'),

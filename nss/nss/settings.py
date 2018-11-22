@@ -91,6 +91,7 @@ AUTHENTICATION_BACKENDS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -148,7 +149,7 @@ DATABASES = {                                   #Nos conectamos a la base de dat
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'kunigo',
         'USER': 'root',
-        'PASSWORD': '',
+        'PASSWORD': 'toor',
         'HOST': '127.0.0.1',
         #'HOST': '192.168.64.2',
         'PORT': '3306',
@@ -204,7 +205,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-US'#'es-mx'
+LANGUAGE_CODE = 'es-mx'#'es-mx'
 
 TIME_ZONE = 'UTC'
 
@@ -213,6 +214,18 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR,'locale')
+]
+
+LANGUAGES =[
+    ('en','English'),
+    ('es-mx','Espanol'),
+    ('it','Italiano')
+
+]
 
 DATE_INPUT_FORMATS = [
     '%Y-%m-%d', '%m/%d/%Y', '%m/%d/%y', # '2006-10-25', '10/25/2006', '10/25/06'
