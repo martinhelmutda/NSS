@@ -24,13 +24,13 @@ class CreateProjectForm(forms.ModelForm):
         exclude = ['pro_roles', "order", 'pro_likes', 'pro_save_times', 'pro_user']
         widgets = {
             'pro_group': forms.HiddenInput(attrs={'value':False}),
-            'pro_name' : forms.TextInput(attrs={ 'class': 'field'}),
+            'pro_name' : forms.TextInput(attrs={ 'placeholder':'Nombre'}),
             'pro_description' : forms.TextInput(),
             'pro_video' : forms.TextInput(attrs={'placeholder':'Link de Youtube'}),
             'pro_about_us' : forms.Textarea(),
             'pro_phrase' : forms.Textarea(),
             'pro_creation_date' : forms.DateInput(attrs={'class':'datepicker'}),
-            'pro_category' :forms.Select(attrs={'class': 'ui fluid dropdown'}),
+            'pro_category' :forms.Select(attrs={'class': 'ui fluid dropdown', 'placeholder':'Categoría'}),
             'pro_subcategory' :forms.Select(attrs={'class': 'ui fluid dropdown'}),
             'pro_city' : forms.Select(attrs={'class': 'ui fluid dropdown'}),
             'pro_state' : forms.Select(attrs={'class': 'ui fluid dropdown'}),
@@ -64,6 +64,7 @@ class CreateProjectForm(forms.ModelForm):
         if project.pro_user is None:
             profile.pro_user =  User.objects.get(user=self.request.user)
             print(profile.pro_user)
+
         self.fields['pro_city'].queryset = city.objects.none()
         self.fields['pro_subcategory'].queryset = subcategory.objects.none()
         if 'pro_state' in self.data:
@@ -110,6 +111,7 @@ class CreateGroupForm(forms.ModelForm):
             'pro_phrase': "Indica si existe algun tipo de cuota",
             'pro_creation_date': "Inicio del grupo",
             'pro_category' :"Indica en qué categoria clasifica",
+            'pro_subcategory' : "¿En qué área encaja tu proyecto?",
             'pro_city': "Municipio",
             'pro_state' :"Estado",
             'pro_img': "Agrega algun logo o imagen del grupo",
@@ -129,8 +131,8 @@ class CreateGroupForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         #self.fields['pro_city'].queryset = city.objects.filter(state=self.data.get('pro_state'))
-        self.fields['pro_city'].queryset = city.objects.none()
-        self.fields['pro_subcategory'].queryset = subcategory.objects.none()
+        # self.fields['pro_city'].queryset = city.objects.none()
+        # self.fields['pro_subcategory'].queryset = subcategory.objects.none()
         if 'pro_state' in self.data:
             try:
                 country_id = self.data.get('pro_state')
