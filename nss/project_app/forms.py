@@ -151,11 +151,11 @@ class CreateGroupForm(forms.ModelForm):
     def clean(self):
         super().clean()
         print(self.cleaned_data['pro_video'])
-        a=self.cleaned_data['pro_video']
-        if not a.contains('youtube') :
-            print("ENTRA")
-            msg="Debe ser un video en youtube para que se pueda desplegar en tu proyecto"
-            self.add_error('pro_video', msg)
+        #a=self.cleaned_data['pro_video']
+        #if not a.contains('youtube') :
+        #    print("ENTRA")
+        #    msg="Debe ser un video en youtube para que se pueda desplegar en tu proyecto"
+        #    self.add_error('pro_video', msg)
 
 class CreateRolForm(forms.ModelForm):
 
