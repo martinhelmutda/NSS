@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+{% load i18n %}
 {% block body_block %}
 
 <div class="ui middle aligned center aligned grid login">
@@ -12,17 +13,17 @@
         <form class="ui form" action="{% url 'account_app:user_login' %}" method="post">
           {% csrf_token %}
           <div class="field">
-            <label for="username">Username:</label>
+            <label for="username">{%trans 'Usuario' %}:</label>
             <input type="text" name="username" placeholder="Enter Username">
           </div>
           <div class="field">
-            <label for="password">Password:</label>
+            <label for="password">{%trans 'Contrasena'%}:</label>
             <input type="password" name="password" placeholder="********">
           </div>
 
-          <button class="ui fluid primary big button cnt" type="submit">Log in</button>
+          <button class="ui fluid primary big button cnt" type="submit">{%trans 'Inicia Sesion'%}</button>
           <br /><br />
-          <p>-- OR --</p>
+          <p>-- {%trans 'O' %} --</p>
 
           <a href="{% url 'social:begin' 'google-oauth2' %}">
             <button type="button" name="button" class="ui fluid primary basic big button cnt">Google+</button>
@@ -30,15 +31,27 @@
         </form>
         <div class="extra content">
           <div class="ui message">
-            No tienes una cuenta? <a href="{% url 'account_app:register' %}">Registrar</a>
+            {%trans 'No tienes una cuenta?'%} <a href="{% url 'account_app:register' %}">{%trans 'Registrate'%}</a>
             <br>
-            <a href="{% url 'password_reset' %}">Olvidaste tu contrasena?</a>
+            <a href="{% url 'password_reset' %}">{%trans 'Olvidaste tu contrasena?'%}</a>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-
+<a class="item"><form action="{%url 'set_language'%}" method="post">{%csrf_token%}
+<input type="hidden" name="text" value="{{redirect_to}}">
+<select name="language" id="">
+  {% get_available_languages as LANGUAGES %}
+  {% get_language_info_list for LANGUAGES as languages %}
+  {% for language in languages %}
+    <option value="{{language.code}}" {% if language.code == LANGUAGE_CODE %} selected {%endif %}>
+      {{language.name_local}}({{language.code}})
+    </option>
+  {%endfor%}
+</select>
+<input type="submit" value="{%trans 'Ir' %}">
+</form></a>
 
 {% endblock %}
