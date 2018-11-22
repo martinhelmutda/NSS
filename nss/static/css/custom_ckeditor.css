@@ -1,0 +1,9 @@
+#cke_id_pro_description{
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 100%;
+}
+
+.django-ckeditor-widget{
+  width: 100%;
+}
