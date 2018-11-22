@@ -48,11 +48,11 @@
   </div>
 
     <div class="ui segment container"> <!--segment-->
-      <div class="ui grid">
+      <div class="ui segment fake">
         <!--Ifo general-->
-        <div class="row">
+        <div class="ui two column very relaxed stackable grid">
           <!--main info-->
-          <div class="eight wide column">
+          <div class="column">
 
                 <h2 class="section-heading mb-4">
                        {{project.pro_name}}
@@ -88,7 +88,7 @@
             </div>
 
             <div class="ui  container">
-              <a class="ui image label">
+              <a class="ui image label" href="{% url 'profiles_app:detail' project.pro_user.profile.user.username %}">
               {%if project.pro_user.profile.avatar.url%}
               <img class="ui avatar image" src="{{project.pro_user.profile.avatar.url}}">
               {{project.pro_user}}
@@ -97,10 +97,17 @@
               {{request.user.profile.user}}
               {%endif%}
               </a>
-              <a class="item" href="{% url 'messages_app:start' project.pro_user.profile.user.username %}">
-                <i class="envelope icon"></i>Enviar mensaje
-              </a>
+              {% if request.user != project.pro_user.profile.user%}
+                <a class="item" href="{% url 'messages_app:start' project.pro_user.profile.user.username %}">
+                  <i class="envelope icon"></i>Enviar mensaje
+                </a>
+              {% endif %}
             </div>
+
+            <script type="text/javascript">
+              console.log({{project.pro_user.profile.user.username}});
+              console.log({{request.user}});
+            </script>
 
             <div class="ui divider"></div>
             <!--Descripcion-->
@@ -116,60 +123,63 @@
             </div>
           </div>
 
+
           <!--video-->
-          <div class="eight wide column">
-            <div class="ui grid">
-              <div class="eight wide column">
-                  <div id="like-section" class="ui labeled button" tabindex="0">
+          <div class="column">
+              {% video project.pro_video '100% x 80%' %}
+              <div class="ui grid">
 
-                                          <form action="{%url 'project_app:like_post' %}" method="post">
-                                            {% csrf_token %}
-                                            {% if is_liked %}
-                                                <button type="submit" id= "like" name="post_id" value="{{project.id}}" class="ui basic blue button">
-                                                  <i class="red heart icon"></i>
-                                                </button>
-                                          {% else %}
-                                                <button type="submit" id= "like"  name="post_id" value="{{project.id}}" class="ui basic blue button">
-                                                  <i class="heart icon"></i>
-                                                </button>
+                <div class="two column row">
+                  <div class="column">
 
-                                          </form>
-                                        {% endif %}
-                                        <a class="ui basic left pointing blue label">
-                                          {{total_likes}}
-                                        </a>
-
+                    <form action="{%url 'project_app:like_post' %}" method="post" id="like-section" class="ui mini labeled button" tabindex="0">
+                      {% csrf_token %}
+                      {% if is_liked %}
+                      <button type="submit" id= "like" name="post_id" value="{{project.id}}" class="ui mini red button">
+                        <i class="heart icon"></i>
+                      </button>
+                      {% else %}
+                      <button type="submit" id= "like"  name="post_id" value="{{project.id}}" class="ui basic blue button">
+                        <i class="heart icon"></i>
+                      </button>
+                      {% endif %}
+                      <a class="ui basic left pointing red label">
+                        {{total_likes}}
+                      </a>
+                    </form>
                   </div>
-              </div>
-              <div class="eight wide column">
-                  <div class="ui labeled button" tabindex="0">
-                    <div class="ui basic blue button">
-                      <i class="save outline icon"></i>
-                      Guardar
-                    </div>
-                    <a class="ui basic left pointing blue label">
-                      12
-                    </a>
+
+                  <div class="column">
+                    <form class="" action="index.html" method="post">
+
+                      <div class="ui mini right floated labeled button" tabindex="0">
+                        <div class="ui mini basic blue button">
+                          <i class="save outline icon"></i>
+                          Guardar
+                        </div>
+                        <a class="ui basic left pointing blue label">
+                          12
+                        </a>
+                      </div>
+                    </form>
                   </div>
+
+                </div>
               </div>
-            </div>
-            <div class="ui fluid"> <br>
-              {% video project.pro_video %}
-            </div>
-          </div>
+              </div>
         </div>
+
+        <br><br>
 
         {% if not project.pro_group %}
         <!--Roles-->
         <div class="ui horizontal divider">
             <h3>Puestos disponibles</h3>
         </div>
-        <div class="fifteen column row">
+        <div class="ui cards">
 
           {% for x in project.pro_roles.all %}
-          <div class="two wide column"></div>
-            <div class="four wide column">
-              <div class="item">
+              <div class="card">
                 <div class="content">
                   <h4 class="header"> <br>
                     {%if x.rol_name != 'Otro'%}
@@ -189,7 +199,7 @@
                     <a>Aplica </a>antes de <a>{{x.rol_due_date}}</a>
                     </p>
                   </div>
-                  <div class="extra content">
+
                     {% if request.user != project.pro_user %} <!--Si no es el creador aparece boton para aplicar-->
                      <div class="ui left labeled button" tabindex="0" id="boton{{x.id}}" name ={{x.id}} class="aplicar">
                         <a  class="ui violet right pointing label button aplicar texto_boton" prueba="No_enviada" button-url="{%url 'project_app:button_text'%}" data-url="{% url 'project_app:change_user_project_status' %}" id={{x.id}} value="No_enviada">Aplicar</a>
@@ -199,10 +209,10 @@
                        <input type="hidden" name="" value="" id="rol_id">
                      </div>
                      {% endif %}
-                  </div>
+
                 </div>
               </div>
-            </div>
+
             <div class="two wide column"></div>
             {%empty%}<!--Si no hay roles-->
               <p class="ui centered grid container">¡Oops! Este proyecto no busca integrantes por el momento.</p>
