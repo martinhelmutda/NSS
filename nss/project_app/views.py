@@ -54,10 +54,8 @@ class ProjectDetailView(DetailView):
         id_Project= self.kwargs['pk']
         if self.request.user.is_anonymous:
             print("BUUU")
-            total_likes = 0
         else:
             context['user_project'] = user_project.objects.filter(up_user= self.request.user, up_project = self.object.id)
-            total_likes = project.objects.filter(likes=self.request.user).count()
             print(context['user_project'])
         context['owner_project'] = project.objects.filter(id=self.object.id) #print(context['user_project']) #print('id projecto', context['user_project'])
         aceptada = status.objects.get(status='aceptada')
