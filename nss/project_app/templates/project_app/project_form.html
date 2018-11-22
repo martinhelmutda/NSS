@@ -11,135 +11,120 @@ Time: 8:15
   <script type ="text/javascript" src="{% static "js/extras/processes.js" %}"></script>  <!--Este link hace que no jale el datepicker de create_project.html-->
 {% endblock %}
 {% block body_block %}
-    <div class="container">
 
-      <div class="ui grid container">
-        <div class="ui vertical segment">
-          <div class="ui header">
-            <!--Crear Proyecto-->
+<div class="ui relaxed container segment">
+  <div class="ui very centered relaxed grid">
+    <div class="une colum row">
+      <div class="column">
+        <h2 class="ui dividing header" style="color:#218380">Crea tu proyecto</h2>
+      </div>
+    </div>
+  </div>
+  <br>
+    <form method="POST" id="projectForm" enctype="multipart/form-data" class="ui form" data-cities-url="{% url 'project_app:ajax_load_cities' %}" data-subcategories-url="{% url 'project_app:ajax_load_subcategories' %}">
+      {% csrf_token %}
+      <div class="field">
+        {{form.pro_group}}
+        <div class="two fields">
+          <div class="field">
+            <label>{{form.pro_name.label}}</label>
+            {{form.pro_name}}
           </div>
-          <form method="POST" id="projectForm" enctype="multipart/form-data" class="ui form segment" data-cities-url="{% url 'project_app:ajax_load_cities' %}" data-subcategories-url="{% url 'project_app:ajax_load_subcategories' %}" >
-          {% csrf_token %}
-
-          <h2 class="ui dividing header">Crea tu proyecto</h2>
-
-                    <div class="field">
-                            {{form.pro_group}}
-                      <div class="two fields">
-                        <div class="field">
-                          <label>{{form.pro_name.label}}</label>
-                          {{form.pro_name}}
-                          {{form.pro_name.errors}}
-                        </div>
-                        <div class="field">
-                          {{form.pro_creation_date.errors}}
-                          <label>{{form.pro_creation_date.label}}</label>
-                          {{form.pro_creation_date}}
-                          {{form.pro_creation_date.errors}}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="field">
-                      <div class="two fields">
-                        <div class="field">
-                          {{form.pro_category.errors}}
-                          <label>{{form.pro_category.label}} </label>
-                          {{form.pro_category}}
-                          {{form.pro_category.errors}}
-                        </div>
-                        <div class="field">
-                          {{form.pro_subcategory.errors}}
-                          <label>{{form.pro_subcategory.label}}</label>
-                          {{form.pro_subcategory}}
-                          {{form.pro_subcategory.errors}}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="field">
-                      {{form.pro_description.errors}}
-                      <label>{{form.pro_description.label}}</label>
-                      <div class="fields">
-                        <div class="sixteen wide field">
-                          <div class="ui fluid">
-                            {{form.pro_description}}
-                            {{form.pro_description.errors}}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="field">
-                      <div class="two fields">
-                        <div class="field">
-                          <label>{{form.pro_video.label}}</label>
-                          {{form.pro_video}}
-                          {{form.pro_video.errors}}
-                        </div>
-                        <div class="field">
-                            {{form.pro_img.errors}}
-                          <label>{{form.pro_img.label}}</label>
-                          {{form.pro_img}}
-                          {{form.pro_img.errors}}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="field">
-                        <h4><label>Ubicación del proyecto</label>  </h4>
-                      <div class="two fields">
-                        <div class="field">
-                          <label>{{form.pro_state.label}}</label>
-                          {{form.pro_state}}
-                          {{form.pro_state.errors}}
-                        </div>
-                        <div class="field">
-                          <label> {{form.pro_city.label}}</label>
-                          	{{form.pro_city}}
-                            {{form.pro_city.errors}}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="field">
-                      <div class="two fields">
-                        <div class="field">
-                          <label>{{form.pro_about_us.label}}</label>
-                          {{form.pro_about_us}}
-                          {{form.pro_about_us.errors}}
-                        </div>
-                        <div class="field">
-                          <label>{{form.pro_phrase.label}}</label>
-                            {{form.pro_phrase}}
-                            {{form.pro_phrase.errors}}
-                        </div>
-                      </div>
-                    </div>
-
-<!--
-                     <div class="ui segment">
-                      <div class="field">
-                        <div class="ui toggle checkbox">
-                          <input type="checkbox" name="gift" tabindex="0" class="hidden">
-                          <label>Recibir correo de confirmación</label>
-                        </div>
-                      </div>
-                    </div>
-
-
--->
-
-
-            <input type="submit" class=" ui green inverted button" value="Crear proyecto">
-
-          <!--  <input type="submit" class="ui green inverted button value="Crear proyecto">-->
-
-          </form>
+          <div class="field">
+            {{form.pro_creation_date.errors}}
+            <label>{{form.pro_creation_date.label}}</label>
+            {{form.pro_creation_date}}
+          </div>
         </div>
       </div>
 
+      <div class="field">
+        <div class="two fields">
+          <div class="field">
+            <label>{{form.pro_category.label}} </label>
+            {{form.pro_category }}
+          </div>
+          <div class="field">
+            <label>{{form.pro_subcategory.label}}</label>
+            {{form.pro_subcategory}}
+          </div>
+        </div>
+      </div>
+
+      <div class="ui fluid container">
+        {{form.pro_description.errors}}
+        <label>{{form.pro_description.label}}</label><br>
+        {{form.pro_description}}
+      </div>
+
+
+
+      <div class="field">
+        <div class="two fields">
+          <div class="field">
+            <label>{{form.pro_video.label}}</label>
+            {{form.pro_video}}
+          </div>
+          <div class="field">
+            {{form.pro_img.errors}}
+            <label>{{form.pro_img.label}}</label>
+            {{form.pro_img}}
+          </div>
+        </div>
+      </div>
+
+      <div class="ui section horizontal divider" style="color:#8f2d56">
+        Ubicación del proyecto
+      </div>
+      <div class="field">
+        <div class="two fields">
+          <div class="field">
+            <label>{{form.pro_state.label}}</label>
+            {{form.pro_state}}
+          </div>
+          <div class="field">
+            <label> {{form.pro_city.label}}</label>
+            {{form.pro_city}}
+          </div>
+        </div>
+      </div>
+
+      <div class="ui section horizontal divider" style="color:#8f2d56">
+        Información general
+      </div>
+
+      <div class="field">
+        <div class="two fields">
+          <div class="field">
+            <label>{{form.pro_about_us.label}}</label>
+            {{form.pro_about_us}}
+          </div>
+          <div class="field">
+            <label>{{form.pro_phrase.label}}</label>
+            {{form.pro_phrase}}
+          </div>
+        </div>
+      </div>
+
+      <!--
+      <div class="ui segment">
+      <div class="field">
+      <div class="ui toggle checkbox">
+      <input type="checkbox" name="gift" tabindex="0" class="hidden">
+      <label>Recibir correo de confirmación</label>
     </div>
+  </div>
+</div>
+-->
+
+<input type="submit" class=" ui green inverted button" value="Crear proyecto">
+
+<!--  <input type="submit" class="ui green inverted button value="Crear proyecto">-->
+<div class="ui error message"></div>
+</form>
+
+</div>
+
 {% endblock %}
 
 {% block js_block %}
@@ -165,23 +150,117 @@ Time: 8:15
     });
   });
 
-      $("#id_pro_category").change(function () {
-        console.log("ENTRA");
-      var url = $("#projectForm").attr("data-subcategories-url");
-      console.log(url);
-      var countryId = $(this).val();
-      console.log(countryId);
-      $.ajax({
-        url: url,
-        data: {
-          'category': countryId
-        },
-        success: function (data) {
-              console.log("ENTRA DOS")
-              console.log(data);
-          $("#id_pro_subcategory").html(data);
-        }
-      });
+    $("#id_pro_category").change(function () {
+      console.log("ENTRA");
+    var url = $("#projectForm").attr("data-subcategories-url");
+    console.log(url);
+    var countryId = $(this).val();
+    console.log(countryId);
+    $.ajax({
+      url: url,
+      data: {
+        'category': countryId
+      },
+      success: function (data) {
+            console.log("ENTRA DOS")
+            console.log(data);
+        $("#id_pro_subcategory").html(data);
+      }
     });
+  });
+
+
+  $('#projectForm')
+  .form({
+    on: 'blur',
+    inline : true,
+    fields: {
+      pro_name: {
+        identifier: 'pro_name',
+        rules: [
+          {
+            type   : 'empty',
+            prompt : 'Por favor, introduce un nombre para el proyecto'
+          }
+        ]
+      },
+      creation_date: {
+        identifier: 'pro_creation_date',
+        rules: [
+          {
+            type   : 'empty',
+            prompt : 'Introduce la fecha de creación del proyecto'
+          }
+        ]
+      },
+      categoria: {
+        identifier: 'pro_category',
+        rules: [
+          {
+            type   : 'empty',
+            prompt : 'Selecciona una categoría para el proyecto'
+          }
+        ]
+      },
+      suncategoria: {
+        identifier: 'pro_subcategory',
+        rules: [
+          {
+            type   : 'empty',
+            prompt : 'Selecciona una opción válida'
+          }
+        ]
+      },
+      descripcion: {
+        identifier: 'pro_description',
+        rules: [
+          {
+            type   : 'empty',
+            prompt : 'Introduce una descripción para que el público sepa de qué se trata tu proyecto'
+          },
+          {
+            type   : 'minLength[60]',
+            prompt : 'Cuéntanos un poco más'
+          }
+        ]
+      },
+      video: {
+        identifier: 'pro_video',
+        rules: [
+          {
+            type   : 'url',
+            prompt : 'Introduce una dirección url válida'
+          }
+        ]
+      },estado: {
+        identifier: 'pro_state',
+        rules: [{
+            type: 'empty',
+            prompt: 'Selecciona un estado de origen'
+          }]
+      },ciudad: {
+        identifier: 'pro_city',
+        rules:[{
+            type: 'empty',
+            prompt: 'Selecciona una ciudad de origen'
+          }]
+      },nosotros: {
+        identifier: 'pro_about_us',
+        rules:[{
+          type: 'empty',
+          prompt: 'Cuéntanos un poco sobre los integrantes del equipo'
+        }]
+      },lucro: {
+        identifier: 'pro_phrase',
+        rules:[{
+          type: 'empty',
+          prompt: 'Describe si tu proyecto tiene fines de lucro'
+        }]
+      },
+    }
+  });
+
+
+
   </script>
 {% endblock %}
