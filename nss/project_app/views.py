@@ -36,6 +36,7 @@ class ProjectsListView(ListView):
     def get_context_data(self, **kwargs):
         context = super(ProjectsListView, self).get_context_data(**kwargs)
         context['integrantes'] = user_project.objects.filter(up_user=self.request.user) #print(context['user_project']) #print('id projecto', context['user_project'])
+        print(context['integrantes'])
         context['project_list'] = project.objects.filter( pro_user=self.request.user)
         return context
 
@@ -194,15 +195,21 @@ def load_subcategories(request):
     return render(request, 'project_app/subcategory_dropdown_list_options.html', {'subcategories': subcategories})
 
 def accept(request):
+    #Get de la funcion de AJAX
     idUser = request.GET.get('idUser', None)
     idProject = request.GET.get('idProject', None)
     idRol = request.GET.get('idRol', None)
+    #Get de la base de datos
     user1 = User.objects.get(id=idUser)
     rol1= rolInfo.objects.get(id=idRol)
-    application = user_project.objects.get(up_project= idProject, up_user=user1, up_rolInfo=rol1)
     status1 = status.objects.get(status='aceptada')
+    #Cambio su estado a ACEPTADO
+    application = user_project.objects.get(up_project= idProject, up_user=user1, up_rolInfo=rol1)
     application.up_status = status1
     application.save()
+    #Resto uno a rol_amount
+    rol1.rol_amount=rol1.rol_amount-1
+    print(rol1.rol_amount)
     data = {
         'is_taken': 'application'
     }
