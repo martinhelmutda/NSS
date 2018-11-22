@@ -1,0 +1,107 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-11-22 10:14-0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\account_app\templates\account_app\login.html:16 .\templates\base.html:59
+msgid "Usuario"
+msgstr "Utente"
+
+#: .\account_app\templates\account_app\login.html:20
+msgid "Contrasena"
+msgstr "Password"
+
+#: .\account_app\templates\account_app\login.html:24
+#, fuzzy
+#| msgid "Iniciar Sesion"
+msgid "Inicia Sesion"
+msgstr "Inizia Sessione"
+
+#: .\account_app\templates\account_app\login.html:26
+msgid "O"
+msgstr "O"
+
+#: .\account_app\templates\account_app\login.html:34
+msgid "No tienes una cuenta?"
+msgstr "Non hai un account?"
+
+#: .\account_app\templates\account_app\login.html:34
+#, fuzzy
+#| msgid "Registrarse "
+msgid "Registrate"
+msgstr "Registrazione"
+
+#: .\account_app\templates\account_app\login.html:36
+msgid "Olvidaste tu contrasena?"
+msgstr "Hai dimenticato la password?"
+
+#: .\templates\base.html:51
+msgid "Crear proyecto"
+msgstr "Crea un progetto"
+
+#: .\templates\base.html:52
+msgid "Crear Grupo"
+msgstr "Crea gruppo"
+
+#: .\templates\base.html:56
+msgid "Mis creaciones"
+msgstr "Le mie creazioni"
+
+#: .\templates\base.html:62
+msgid "Ver Perfil"
+msgstr "Vedi Profilo"
+
+#: .\templates\base.html:63
+msgid "Editar Perfil "
+msgstr "Modifica profilo"
+
+#: .\templates\base.html:75
+msgid "Ir"
+msgstr "Andare"
+
+#: .\templates\base.html:77
+msgid "Ajustes"
+msgstr "Impostazioni"
+
+#: .\templates\base.html:78
+msgid "Salir"
+msgstr "Uscita"
+
+#: .\templates\base.html:83
+msgid "Iniciar Sesion"
+msgstr "Inizia Sessione"
+
+#: .\templates\base.html:85
+msgid "Registrarse "
+msgstr "Registrazione"
+
+#: .\templates\base.html:105
+msgid "Mapa del Sitio"
+msgstr "Mappa del sito"
+
+#: .\templates\base.html:106
+msgid "Contactanos"
+msgstr "Contattaci"
+
+#: .\templates\base.html:107
+msgid "Terminos y Condiciones"
+msgstr "Termini e condizioni"
+
+#: .\templates\base.html:108
+msgid "Politica de Privacidad"
+msgstr "Informativa sulla privacy"
