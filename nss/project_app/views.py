@@ -208,7 +208,8 @@ def accept(request):
     application.up_status = status1
     application.save()
     #Resto uno a rol_amount
-    rol1.rol_amount=rol1.rol_amount-1
+    x = rol1.rol_amount - 1
+    rol1.rol_amount=x
     print(rol1.rol_amount)
     data = {
         'is_taken': 'application'
