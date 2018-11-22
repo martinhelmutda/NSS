@@ -203,7 +203,7 @@
                     {% if request.user != project.pro_user %} <!--Si no es el creador aparece boton para aplicar-->
                      <div class="ui left labeled button" tabindex="0" id="boton{{x.id}}" name ={{x.id}} class="aplicar">
                         <a  class="ui violet right pointing label button aplicar texto_boton" prueba="No_enviada" button-url="{%url 'project_app:button_text'%}" data-url="{% url 'project_app:change_user_project_status' %}" id={{x.id}} value="No_enviada">Aplicar</a>
-                       <div class="ui violet inverted button aplicar">
+                       <div class="ui violet inverted button aplicar" data-content="Quedan {{x.rol_amount}} lugares">
                           {{x.rol_amount}}
                        </div>
                        <input type="hidden" name="" value="" id="rol_id">
@@ -263,6 +263,7 @@
 {% block js_block %}
 <script type="text/javascript">
 $( document ).ready(function() {
+
     whatever();
 });
 $( ".texto_boton" ).click(function() {
