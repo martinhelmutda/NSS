@@ -36,13 +36,6 @@
                 <div class="header item">
                     <a href="{% url 'index' %}" class="item text-white"><img class="logo" src="{% static "img/Teem.png" %}"></a>
                 </div>
-
-                <div class="item right">
-                  <form class="ui action input" action='{% url 'search_app:search' %}'>
-                    <input type="search" placeholder="Buscar" aria-label="Search" name='q'>
-                    <button class="ui button teal" type="submit">Buscar</button>
-                  </form>
-                </div>
               <!--  <a class="item" href="{% url 'project_app:DataRep' %}"><i class="chart bar alternate icon"></i>Data representation</a>-->
                 {% if user.is_authenticated %}
                 <a class="item right text-white" href="{% url 'profiles_app:list' %}"><i class="users icon"></i> {%trans "Ver Perfiles" %}</a>

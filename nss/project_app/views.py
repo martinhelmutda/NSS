@@ -44,7 +44,6 @@ class ProjectsListView(ListView):
 ##Return a pack of projects
 class ProjectDetailView(DetailView):
     model = project
-"""
     def get_context_data(self, **kwargs):
         context = super(ProjectDetailView, self).get_context_data(**kwargs)
         id_Project= self.kwargs['pk']
@@ -54,7 +53,7 @@ class ProjectDetailView(DetailView):
         else:
             context['user_project'] = user_project.objects.filter(up_user= self.request.user, up_project = self.object.id)
             print(context['user_project'])
-            # total_likes = project.objects.filter(likes=self.request.user).count()
+            total_likes = project.objects.filter(likes=self.request.user).count()
         context['owner_project'] = project.objects.filter(id=self.object.id) #print(context['user_project']) #print('id projecto', context['user_project'])
         aceptada = status.objects.get(status='aceptada')
         context['integrantes']= user_project.objects.filter(up_project=id_Project, up_status=aceptada)
@@ -65,7 +64,7 @@ class ProjectDetailView(DetailView):
             #    is_liked = True
 
         return context
-"""
+
 class ApplicationsDetailView(DetailView):
     model = project
     paginated_by=2
