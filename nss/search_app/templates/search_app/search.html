@@ -53,7 +53,25 @@
       </div>
     </div>
 
-    <input type="search" placeholder="Buscar" aria-label="Search" id="id_pro_name" name='q'>
+    <div class="ui form">
+      <div class="grouped fields">
+        <label>Select type:</label>
+        <div class="field">
+          <div class="ui radio checkbox">
+            <input type="radio" name="id_pro_project" value"project" tabindex="0" class="hidden">
+            <label>Proyectos</label>
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui radio checkbox">
+            <input type="radio" name="id_pro_group" value"group" tabindex="0" class="hidden">
+            <label>Grupos</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <input type="search" placeholder="Buscar" aria-label="Search" name='q'>
     <button class="ui button" type="submit">Buscar</button>
   </form>
 
@@ -153,6 +171,11 @@
       }
     });
   });
+
+  $('.ui.checkbox')
+  .checkbox()
+  console.log()
+;
 </script>
 
 

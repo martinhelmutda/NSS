@@ -71,3 +71,10 @@ class SearchTests(TestCase):
         self.assertContains(response, 'proyecto LDAW')
         self.assertContains(response, 'proyecto LDAW')
         self.assertNotContains(response, 'proyecto otro')
+
+    def test_search_group(self):
+        response = self.client.get('/search/?id_pro_group=on&q=')
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, 'proyecto LDAW')
+        self.assertNotContains(response, 'proyecto LDAW')
+        self.assertContains(response, 'proyecto otro')
