@@ -36,8 +36,9 @@
                   <p><a href="{% url 'project_app:project' project.id project.pro_name|slugify %}">Leer más</a></p>
 
                   {% if request.user == project.pro_user %}
-                      | <a href="{% url 'project_app:update' project.id %}">Editar</a>
-                      | <a href="{% url 'project_app:delete' project.id %}">Borrar</a>
+                  <a href="{% url 'project_app:applications' project.id %}">Ver solicitudes</a>
+                | <a href="{% url 'project_app:update' project.id %}">Editar</a>
+                | <a href="{% url 'project_app:delete' project.id %}">Borrar</a>
                     {% endif %}
 
                     <script type="text/javascript">

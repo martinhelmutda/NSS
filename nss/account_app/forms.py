@@ -13,26 +13,36 @@ from .models import Profile
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
-    verify_password = forms.CharField(widget=forms.PasswordInput(),label='Enter your password again')
+    verify_password = forms.CharField(widget=forms.PasswordInput(),label='Ingresa tu contraseña nuevamente')
     botcatcher = forms.CharField(required=False,widget=forms.HiddenInput, validators=[validators.MaxLengthValidator(0)])
 
     class Meta():
         model = User
         fields = ('username','first_name','last_name','email','password')
-
+        labels = {
+            "username": "Nombre de usuario",
+            "first_name": "Nombre",
+            "last_name": "Apellido",
+            "email": "E-mail",
+            "password": "Contraseña",
+        }
     def clean(self):
         all_clean_data = super().clean()
         password = all_clean_data['password']
         verify_password = all_clean_data['verify_password']
 
         if password != verify_password:
-            raise forms.ValidationError("Passwords must match")
+            raise forms.ValidationError("La contraseña debe ser la misma")
 
 class UserProfileInfoForm(forms.ModelForm):
     class Meta():
         model = UserProfileInfo
         fields = ('portfolio_site','profile_pic')
+        labels = {
+            "portfolio_site": "Portafolio de usuario",
+            "profile_pic": "Foto de perfil",
 
+        }
 
 
         def clean(self):
