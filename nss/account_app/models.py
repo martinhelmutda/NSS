@@ -14,7 +14,7 @@ class UserProfileInfo(models.Model):
 
     #additional
     portfolio_site = models.URLField(blank=True)
-    profile_pic = models.ImageField(upload_to='profile_pics',blank=True, validators=[FileExtensionValidator(['jpg', 'png'])])
+    profile_pic = models.ImageField(upload_to='profile_pics',blank=True, validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])])
 
     def __str__(self):
         return self.user.username

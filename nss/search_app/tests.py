@@ -10,7 +10,7 @@ from django.test import Client
 # Create your tests here.
 class SearchTests(TestCase):
     def setUp(self):
-        self.user1= User.objects.create_user('user1', 'test1234')
+        self.user1= User.objects.create_superuser('user2', None,'test1234')
         #Category
         self.category1=category.objects.create(category="Musica")
         self.subcategory1=subcategory.objects.create(subcategory="Salsa", category=self.category1)
@@ -66,7 +66,7 @@ class SearchTests(TestCase):
         self.assertNotContains(response, 'proyecto otro')
 
     def test_various_fields(self):
-        response = self.client.get('/search/&q=proyecto LDAW?id_pro_category=Musica&id_pro_subcategory=Salsa&id_pro_state=Morelos&id_pro_city=Cuernavaca')
+        response = self.client.get('/search/?q=proyecto LDAW&id_pro_category=Musica&id_pro_subcategory=Salsa&id_pro_state=Morelos&id_pro_city=Cuernavaca')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'proyecto LDAW')
         self.assertContains(response, 'proyecto LDAW')
