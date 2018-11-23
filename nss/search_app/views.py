@@ -78,8 +78,8 @@ class SearchView(SelectRelatedMixin, generic.ListView):
             id_pro_group = self.request.GET.get('id_pro_group')
             result = result.filter(pro_group=True)
 
-        if self.request.GET.get('id_pro_project') == 'proyectos':
-            id_pro_project = self.request.GET.get('id_pro_project')
+        if self.request.GET.get('id_pro_group') == 'proyectos':
+            id_pro_project = self.request.GET.get('id_pro_group')
             result = result.filter(pro_group=False)
 
         return result

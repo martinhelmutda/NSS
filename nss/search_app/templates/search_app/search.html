@@ -91,7 +91,8 @@
 <div class="ui four column doubling stackable grid container">
     {% for project in projects|dictsort:"id" reversed %}
         <div class="column">
-          <div class="ui fluid card">
+          <div class="ui link cards">
+            <div class="ui card">
             <a class="image"href="{% url 'project_app:project' project.id project.pro_name|slugify %}">
                 {% if project.pro_img %}
                   <img src="{{project.pro_img.url}}">
@@ -152,6 +153,7 @@
             <div class="ui attached bottom buttons">
                 <a class="ui teal button" href="{% url 'project_app:project' project.id project.pro_name|slugify %}"><i class="pencil alternate icon"></i>Leer más</a>
               </div>
+          </div>
           </div>
         </div>
     {% endfor %}

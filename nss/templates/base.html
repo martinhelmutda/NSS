@@ -29,7 +29,7 @@
             <script type ="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
             <script type ="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
         </head>
-    <body class="bg-gray">
+    <body class="bg-gray text-white">
         <!-- Static navbar -->
         <div class="ui borderless menu bg-prim stackable shadow number1">
             <div class="ui container">
@@ -56,7 +56,7 @@
                 </div>
                 <a class="item right text-white" href="{% url 'profiles_app:list' %}"><i class="address card outline icon"></i> Ver Perfiles</a>
 
-                <a class="item text-white" href="{% url 'messages_app:list' %}"><i class="envelope icon"></i></a>
+                <a class="item text-white" href="{% url 'project_app:projects' %}"><i class="folder open icon"></i>{% trans "Mis Creaciones" %}</a>
                 <div class="ui simple dropdown item text-white">
                   <i class="user icon text-white"></i>{{ user.username }}
                   <i class="dropdown icon text-white"></i>

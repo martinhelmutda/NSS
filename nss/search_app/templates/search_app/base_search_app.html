@@ -38,9 +38,9 @@
                 </div>
               <!--  <a class="item" href="{% url 'project_app:DataRep' %}"><i class="chart bar alternate icon"></i>Data representation</a>-->
                 {% if user.is_authenticated %}
-                <a class="item right text-white" href="{% url 'profiles_app:list' %}"><i class="address card outline icon"></i> {%trans "Ver Perfiles" %}</a>
-                <div class="ui simple dropdown item">
-                  <i class="edit icon text-white"></i>{% trans Crear %}
+                <a class="item right text-white" href="{% url 'profiles_app:list' %}"><i class="users icon"></i> {%trans "Ver Perfiles" %}</a>
+                <div class="ui simple dropdown item text-white">
+                  <i class="edit icon text-white"></i>Crear
                   <i class="dropdown icon text-white"></i>
                   <div class="menu">
                        <a class="item" href="{% url 'project_app:create' %}"><i class="pencil alternate icon"></i>{% trans "Crear proyecto" %}</a>
@@ -48,22 +48,22 @@
                   </div>
                 </div>
 
-                <a class="item text-white" href="{% url 'messages_app:list' %}"><i class="envelope icon"></i></a>
+                <a class="item text-white" href="{% url 'project_app:projects' %}"><i class="folder open icon"></i>{% trans "Mis Creaciones" %}</a>
                 <div class="ui simple dropdown item text-white">
                   <i class="user icon text-white"></i>{{ user.username }}
                   <i class="dropdown icon text-white"></i>
                   <div class="menu">
-                    <a class="item text-white" href="{% url 'project_app:projects' %}"><i class="folder icon"></i>{% trans "Mis Proyectos" %}</a>
-                    <a class="item text-white" href="{% url 'profiles_app:detail' user %}"><i class="address card outline icon"></i>{%trans "Ver Perfil" %}</a>
-                    <a class="item text-white" href="{% url 'account_app:profile' %}"><i class="edit icon"></i>{% trans "Editar Perfil "%}</a>
+                    <a class="item text-white" href="{% url 'messages_app:list' %}"><i class="comment alternate outline icon"></i>Mensaje directo</a>
+                    <a class="item text-white" href="{% url 'profiles_app:detail' user %}"><i class="user circle outline icon"></i>{%trans "Ver Perfil" %}</a>
+                    <a class="item text-white" href="{% url 'account_app:profile' %}"><i class="edit outline icon"></i>{% trans "Editar Perfil "%}</a>
                     <a class="item text-white" href="{% url 'logout' %}"><i class="power off icon"></i>{%trans "Salir"%}</a>
                   </div>
                 </div>
               </div>
                 {% else %}
-                <a class="item ui right text-white floated" href="{% url 'account_app:user_login' %}">{%trans "Iniciar Sesion"%}</a>
+                <a class="item ui right floated text-white" href="{% url 'account_app:user_login' %}">{%trans "Iniciar Sesion"%}</a>
                 <div class="item">
-                  <a class="ui teal button" href="{% url 'account_app:register' %}">{%trans "Registrarse "%}</a>
+                  <a class="ui button teal" href="{% url 'account_app:register' %}">{%trans "Registrarse "%}</a>
                 </div>
                 {% endif %}
             </div>
