@@ -76,7 +76,7 @@ class ApplicationsDetailView(DetailView):
         context['applications'] =  user_project.objects.filter(up_project=id_Project)#filter(up_project=self.object.id)
         context['applications_rols'] =  project_rol.objects.filter(pro=id_Project)#filter(up_project=self.object.id)
         aceptada = status.objects.get(status='aceptada')
-        context['integrantes']= user_project.objects.filter(up_project=id_Project, up_status=aceptada)
+        context['integrantes']= user_project.objects.filter(up_project=id_Project, up_status=aceptada).order_by('up_rolInfo', 'up_user')
         for rol in context['applications_rols']:
             if rol.rol.rol_name == 'Otro':
                 context[rol.rol.rol_name_other]= user_project.objects.filter(up_project=id_Project, up_rolInfo= rol.rol)
@@ -124,15 +124,23 @@ def button_text(request):
     print("ENTRO")
     idProject = request.GET.get('idProject', None)
     pro_object = project.objects.get(id=idProject)
-    roles = user_project.objects.filter(up_project=pro_object)
+    roles = user_project.objects.filter(up_project=pro_object, up_user=request.user)
+    roles_todos = user_project.objects.filter(up_project=pro_object)
+    status1 = status.objects.get(status='aceptada')
     dict =	{}
     dictStatus={}
+    dictRestantes={}
+
     for x in roles: #print(x.up_rolInfo.id)#print(x.up_rolInfo)#print(x.up_status.status_text)
         dict[x.up_rolInfo.id] = x.up_status.status_text
         dictStatus[x.up_rolInfo.id] = x.up_status.status
+    for x in roles_todos:
+        dictRestantes[x.up_rolInfo.id] = x.up_rolInfo.rol_amount - user_project.objects.filter(up_project= pro_object, up_status=status1, up_rolInfo=x.up_rolInfo).count()
+    print(dictRestantes)
     data = {
         'dict': dict,
-        'dictStatus': dictStatus
+        'dictStatus': dictStatus,
+        'dictRestantes': dictRestantes,
     }
     return JsonResponse(data)
 
@@ -151,8 +159,6 @@ class ProjectCreate(CreateView):
         return reverse_lazy('project_app:project', args=[self.object.id, slugify(self.object.pro_name)])
         #Te manda a project_detail.html y es el projectdetailview
 
-
-
 class GroupCreate(CreateView):
     #model = project
     form_class = CreateGroupForm
@@ -168,8 +174,6 @@ class GroupCreate(CreateView):
         return reverse_lazy('project_app:project', args=[self.object.id, slugify(self.object.pro_name)])
         #Te manda a project_detail.html y es el projectdetailview
 
-
-
 def like_post(request):
     post = get_object_or_404(project, id= request.POST.get('post_id'))
     #post = get_object_or_404(project, id= request.POST.get('id'))
@@ -181,8 +185,6 @@ def like_post(request):
         post.likes.add(request.user)
         is_liked= True
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-
-
 
 def load_cities(request):
     country_id =  request.GET.get('country')
@@ -208,11 +210,10 @@ def accept(request):
     application.up_status = status1
     application.save()
     #Resto uno a rol_amount
-    x = rol1.rol_amount - 1
-    rol1.rol_amount=x
-    print(rol1.rol_amount)
+    x = rol1.rol_amount - user_project.objects.filter(up_project= idProject, up_status=status1, up_rolInfo=rol1).count()
+    print(x)
     data = {
-        'is_taken': 'application'
+        'cantidad': x,
     }
     return JsonResponse(data)
 
@@ -253,6 +254,26 @@ class ProjectUpdate(UpdateView):
 class ProjectDelete(DeleteView):
     model = project
     success_url = reverse_lazy('project_app:projects')
+
+def DataRepGoogle(request):
+    idProject = request.GET.get('idProject', None)
+    print("id Pro ",idProject)
+    pieData=[]
+    pro1 = project.objects.get(id=idProject)
+    rols = project_rol.objects.filter(pro=pro1)
+    for rol in rols: ##Por cada rol que haya en el proyecto
+        #Busco los integrantes que ya estan aceptados en el proyecto con este rol1
+        r = rolInfo.objects.get(rol_name=rol.rol.rol_name)
+        s= status.objects.get(status='aceptada')
+        cantidad = user_project.objects.filter(up_rolInfo=r,up_project=pro1, up_status=s).count()
+        pieData.append([rol.rol.rol_name, cantidad])
+        print("1: ",rol.rol.rol_name)
+        print("2: ", cantidad)
+
+    data = {
+        'pieData': pieData,
+    }
+    return JsonResponse(data)
 
 def DataRep(request):
     #Chart data is passed to the `dataSource` parameter, like a dictionary in the form of key-value pairs.

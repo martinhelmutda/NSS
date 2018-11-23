@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import ProjectsListView,GroupCreate,ApplicationsDetailView,delete,accept,button_text, change_user_project_status ,ProjectDetailView, ProjectCreate, ProjectUpdate, ProjectDelete, DataRep, ProjectRolCreate
+from .views import ProjectsListView,GroupCreate,DataRepGoogle,ApplicationsDetailView,delete,accept,button_text, change_user_project_status ,ProjectDetailView, ProjectCreate, ProjectUpdate, ProjectDelete, DataRep, ProjectRolCreate
 from project_app import views
 app_name="project_app"
 projects_patterns = ([
@@ -13,6 +13,7 @@ projects_patterns = ([
     path('create/', ProjectCreate.as_view(), name='create'),
     path('createGroup/', GroupCreate.as_view(), name='create_group'),
     path('DataRep/', views.DataRep, name='DataRep'),
+    path('DataRepGoogle/', views.DataRepGoogle, name='DataRepGoogle'),
     path('update/<int:pk>/', ProjectUpdate.as_view(), name='update'),
     path('delete/<int:pk>/', ProjectDelete.as_view(), name='delete'),
     path('createRolProyecto/<int:pk>/<slug:slug>/', ProjectRolCreate.as_view(), name = 'form_rol_project'),
