@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+{% block title %}Teem: {{profile.user}}{% endblock %}
 {% block body_block %}
   <div class="ui segment container">
     {% if profile.avatar %}
