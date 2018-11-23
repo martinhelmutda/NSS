@@ -41,11 +41,11 @@ h5{
 }
 /*Blue*/
 .bg-prim {
-    background-color: #218380;
+    background-color: #218380 !important;
 }
 /*Purple*/
 .bg-sec {
-    background-color: #8f2d56;
+    background-color: #8f2d56 !important;
 }
 /*Pink*/
 .bg-ter {
@@ -86,7 +86,7 @@ h5{
     color: #ffbc42;
 }
 .text-white {
-    color: #FFFFFF;
+    color: #FFFFFF !important;
 }
 .text-black {
     color: black;

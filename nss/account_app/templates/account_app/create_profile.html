@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+{% block title %}Teem:Perfil {{ user.username }}{% endblock %}
 {% block body_block %}
   <div class="ui container segment">
     {% if 'ok' in request.GET %}

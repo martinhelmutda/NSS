@@ -74,11 +74,11 @@ class SearchView(SelectRelatedMixin, generic.ListView):
                        (Q(pro_city=id_pro_city) for id_pro_city in query_list))
             )
 
-        if self.request.GET.get('id_pro_group'):
+        if self.request.GET.get('id_pro_group') == 'grupos':
             id_pro_group = self.request.GET.get('id_pro_group')
             result = result.filter(pro_group=True)
 
-        if self.request.GET.get('id_pro_project'):
+        if self.request.GET.get('id_pro_project') == 'proyectos':
             id_pro_project = self.request.GET.get('id_pro_project')
             result = result.filter(pro_group=False)
 
