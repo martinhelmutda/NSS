@@ -6,11 +6,22 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse, reverse_lazy
 from django.template.defaultfilters import slugify
 from django.test import Client
+from django.core.files.uploadedfile import SimpleUploadedFile
+from account_app.forms import *
+from django.core.validators import FileExtensionValidator
+from django.core.validators import validate_image_file_extension
+from account_app.models import Profile
+from django.contrib.auth.models import User
+from django.urls import reverse, reverse_lazy
 
 # Create your tests here.
 class SearchTests(TestCase):
     def setUp(self):
-        self.user1= User.objects.create_user('user1', None, 'tes1234')
+        self.user1 = User.objects.create_superuser(username='testuser1', email="example2@example.com",
+                                                  password='pass1')
+        self.useraux = UserProfileInfo.objects.create(user = self.user1, profile_pic = SimpleUploadedFile(name='k.png', content=open('media/profile_pics/k.png', 'rb').read(), content_type='image/png'), portfolio_site = "Google.com")
+        self.user1.save()
+        self.useraux.save()
         #Category
         self.category1=category.objects.create(category="Musica")
         self.subcategory1=subcategory.objects.create(subcategory="Salsa", category=self.category1)
@@ -30,50 +41,52 @@ class SearchTests(TestCase):
         self.project2 = project.objects.create(pro_name="proyecto LDAW", pro_description="Es un buen chido", pro_video="https://www.youtube.com/watch?v=G1FIfaP7Tu0",pro_about_us="LDAW students", pro_phrase="No", pro_creation_date="2017-01-10", pro_group=False, pro_category= self.category1, pro_subcategory= self.subcategory1, pro_city=self.city1, pro_state=self.state1, pro_user=self.user1)
         self.project1 = project.objects.create(pro_name="proyecto chido", pro_description="Es un buen projecto", pro_video="https://www.youtube.com/watch?v=G1FIfaP7Tu0",pro_about_us="we are students", pro_phrase="No", pro_creation_date="2017-01-10", pro_group=False, pro_category= self.category1, pro_subcategory= self.subcategory1, pro_city=self.city1, pro_state=self.state1, pro_user=self.user1)
         self.project1_rol= project_rol.objects.create(pro=self.project1, rol=self.rol1)
+    def tearDown(self):
+        del self.user1
 
     def test_search_name(self):
-        response = self.client.get('/search/?q=proyecto LDAW')
+        response = self.client.get('/search/?q=proyecto+LDAW')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'proyecto LDAW')
         self.assertNotContains(response, 'proyecto chido')
 
     def test_search_category(self):
-        response = self.client.get('/search/?id_pro_category=Musica&id_pro_subcategory=&q=')
+        response = self.client.get('/search/?q=&id_pro_category=Musica&id_pro_subcategory=')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'proyecto LDAW')
         self.assertContains(response, 'proyecto chido')
         self.assertNotContains(response, 'proyecto otro')
 
     def test_search_state(self):
-        response = self.client.get('/search/?id_pro_state=Morelos&id_pro_city=&q=')
+        response = self.client.get('/search/?q=&id_pro_state=Morelos&id_pro_city=')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'proyecto LDAW')
         self.assertContains(response, 'proyecto LDAW')
         self.assertNotContains(response, 'proyecto otro')
 
     def test_search_subcategory(self):
-        response = self.client.get('/search/?id_pro_category=Musica&id_pro_subcategory=Salsa&q=')
+        response = self.client.get('/search/?q=&id_pro_category=Musica&id_pro_subcategory=Salsa')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'proyecto LDAW')
         self.assertContains(response, 'proyecto chido')
         self.assertNotContains(response, 'proyecto otro')
 
     def test_search_city(self):
-        response = self.client.get('/search/?id_pro_state=Morelos&id_pro_city=Cuernavaca&q=')
+        response = self.client.get('/search/?q=&id_pro_state=Morelos&id_pro_city=Cuernavaca')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'proyecto LDAW')
         self.assertContains(response, 'proyecto LDAW')
         self.assertNotContains(response, 'proyecto otro')
 
     def test_various_fields(self):
-        response = self.client.get('/search/?id_pro_category=Musica&id_pro_subcategory=Salsa&id_pro_state=Morelos&id_pro_city=Cuernavaca&q=proyecto LDAW')
+        response = self.client.get('/search/?q=proyecto LDAW&id_pro_category=Musica&id_pro_subcategory=Salsa&id_pro_state=Morelos&id_pro_city=Cuernavaca')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'proyecto LDAW')
         self.assertContains(response, 'proyecto LDAW')
         self.assertNotContains(response, 'proyecto otro')
 
     def test_search_group(self):
-        response = self.client.get('/search/?id_pro_group=on&q=')
+        response = self.client.get('/search/?q=&id_pro_group=grupos')
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, 'proyecto LDAW')
         self.assertNotContains(response, 'proyecto LDAW')

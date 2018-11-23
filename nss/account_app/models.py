@@ -14,14 +14,14 @@ class UserProfileInfo(models.Model):
 
     #additional
     portfolio_site = models.URLField(blank=True)
-    profile_pic = models.ImageField(upload_to='profile_pics',blank=True, validators=[FileExtensionValidator(['jpg', 'png'])])
+    profile_pic = models.ImageField(upload_to='profile_pics',blank=True, validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])])
 
     def __str__(self):
         return self.user.username
 
 class Profile(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
-    avatar = models.ImageField(upload_to='profiles', null=True, blank=True)
+    avatar = models.ImageField(upload_to='profiles', null=True, blank=True, validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])])
     bio = RichTextField(verbose_name="biografía", default="My Bio")
     link = models.URLField(max_length=200, null=True, blank=True)
 

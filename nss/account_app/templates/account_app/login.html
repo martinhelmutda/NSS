@@ -5,7 +5,7 @@
 
 <div class="ui middle aligned center aligned grid login">
   <div class="column columnlogin">
-    <div class="ui placeholder segment">
+    <div class="ui">
       <div class="content">
         <div class="header"><h1>Log in</h1></div>
       </div>
@@ -21,14 +21,15 @@
             <input type="password" name="password" placeholder="********">
           </div>
 
-          <button class="ui fluid primary big button cnt" type="submit">{%trans 'Inicia Sesion'%}</button>
+          <button class="ui fluid teal big button cnt" type="submit">{%trans 'Inicia Sesion'%}</button>
           <br /><br />
           <p>-- {%trans 'O' %} --</p>
 
           <a href="{% url 'social:begin' 'google-oauth2' %}">
-            <button type="button" name="button" class="ui fluid primary basic big button cnt">Google+</button>
+            <button type="button" name="button" class="ui fluid teal basic big button cnt">Google+</button>
           </a>
         </form>
+        <br /><br />
         <div class="extra content">
           <div class="ui message">
             {%trans 'No tienes una cuenta?'%} <a href="{% url 'account_app:register' %}">{%trans 'Registrate'%}</a>
@@ -40,18 +41,6 @@
     </div>
   </div>
 </div>
-<a class="item"><form action="{%url 'set_language'%}" method="post">{%csrf_token%}
-<input type="hidden" name="text" value="{{redirect_to}}">
-<select name="language" id="">
-  {% get_available_languages as LANGUAGES %}
-  {% get_language_info_list for LANGUAGES as languages %}
-  {% for language in languages %}
-    <option value="{{language.code}}" {% if language.code == LANGUAGE_CODE %} selected {%endif %}>
-      {{language.name_local}}({{language.code}})
-    </option>
-  {%endfor%}
-</select>
-<input type="submit" value="{%trans 'Ir' %}">
-</form></a>
+
 
 {% endblock %}
