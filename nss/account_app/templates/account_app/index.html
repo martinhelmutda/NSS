@@ -41,11 +41,11 @@
               {{project.pro_creation_date}}
             </span>
             <span>
-              {%if project.pro_user.profile.avatar.url%}
-              <img src="{{project.pro_user.profile.avatar.url}}" class="ui tiny avatar image">
-              {%else%}
+              {% if project.pro_user.profile.avatar %}
+                <img src="{{project.pro_user.profile.avatar.url}}" class="ui tiny avatar image">
+              {% else %}
               <img src="" class="ui tiny avatar image">
-              {%endif%}
+              {% endif %}
               {{project.pro_user}}
               <div class="row mt-3">
                 <div class="col-md-9 mx-auto">

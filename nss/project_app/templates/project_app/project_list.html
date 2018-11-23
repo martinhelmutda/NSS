@@ -15,9 +15,6 @@
   <div class="ui link cards">
   {% for project in project_list%}
   <div class="card">
-    {% if request.user == project.pro_user %}
-      <a class="ui positive top attached button" href="{% url 'project_app:applications' project.id %}" style="background-color: #218380"><i class="user plus icon"></i>Ver solicitudes</a>
-    {% endif %}
 
     <a class="image"href="{% url 'project_app:project' project.id project.pro_name|slugify %}" >
       {% if project.pro_img %}
@@ -39,7 +36,7 @@
             {{project.pro_city}}, {{project.pro_state}}.
         </div>
       </div>
-      <hr>
+<hr>
       <div class="description">
         <p>{{project.pro_description | truncatewords:50 |safe}} </p><a href="{% url 'project_app:project' project.id project.pro_name|slugify %}">Leer más</a>
       </div>
@@ -51,7 +48,7 @@
       <span>
 
         <a class="ui image label" href="{% url 'profiles_app:detail' project.pro_user.profile.user.username %}">
-        {%if project.pro_user.profile.avatar.url%}
+        {%if project.pro_user.profile.avatar%}
         <img class="ui avatar image" src="{{project.pro_user.profile.avatar.url}}">
         {{project.pro_user}}
         {%else%}
@@ -60,18 +57,26 @@
         {%endif%}
         </a>
 
+        <div class="row mt-3">
+          <div class="col-md-9 mx-auto">
+            <div class="description">
+
+              {% if request.user == project.pro_user %}
+                    <a href="{% url 'project_app:applications' project.id %}">Ver solicitudes</a>
+                  | <a href="{% url 'project_app:update' project.id %}">Editar</a>
+                  | <a href="{% url 'project_app:delete' project.id %}">Borrar</a>
+                {% endif %}
+
+                <script type="text/javascript">
+                console.log("{% url 'project_app:project' project.id project.pro_name|slugify %}");
+
+                </script>
+
+            </div>
+          </div>
+        </div>
       </span>
     </div>
-    {% if request.user == project.pro_user %}
-    <div class="ui two attached bottom buttons">
-        <a class="ui button" href="{% url 'project_app:update' project.id %}"><i class="pencil alternate icon"></i>Editar</a>
-        <a class="ui button" href="{% url 'project_app:delete' project.id %}"><i class="trash alternate icon"></i>Borrar</a>
-      <script type="text/javascript">
-      console.log("{% url 'project_app:project' project.id project.pro_name|slugify %}");
-      </script>
-    </div>
-    {% endif %}
-
   </div>
   {%empty%}<!--Si no hay roles-->
   <div class="ui content">
@@ -122,7 +127,7 @@
    </tr>
    {%empty%}
    <div class="ui content">
-     <br> <br> <p class="ui centered grid container">¡Oops! No has enviado ninguna aplciación.</p>
+     <br> <br> <p class="ui centerediv>
    </div>
    {%endfor%}
  </tbody>

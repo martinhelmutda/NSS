@@ -89,7 +89,7 @@
 
             <div class="ui  container">
               <a class="ui image label" href="{% url 'profiles_app:detail' project.pro_user.profile.user.username %}">
-              {%if project.pro_user.profile.avatar.url%}
+              {%if project.pro_user.profile.avatar%}
               <img class="ui avatar image" src="{{project.pro_user.profile.avatar.url}}">
               {{project.pro_user}}
               {%else%}
@@ -242,7 +242,7 @@
          <div class="item">
 
 
-           {%if project.pro_user.profile.avatar.url%}
+           {%if project.pro_user.profile.avatar%}
            <img class="ui avatar image" src="{{project.pro_user.profile.avatar.url}}">
            {%else%}
            <img class="ui avatar image" src="https://semantic-ui.com/images/avatar2/small/lena.png">

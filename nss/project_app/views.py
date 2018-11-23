@@ -48,18 +48,19 @@ class ProjectDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(ProjectDetailView, self).get_context_data(**kwargs)
         id_Project= self.kwargs['pk']
+
         if self.request.user.is_anonymous:
             print("BUUU")
         else:
             context['user_project'] = user_project.objects.filter(up_user= self.request.user, up_project = self.object.id)
             print(context['user_project'])
-            total_likes = project.objects.filter(likes=self.request.user).count()
+            # total_likes = project.objects.filter(likes=self.request.user).count()
         context['owner_project'] = project.objects.filter(id=self.object.id) #print(context['user_project']) #print('id projecto', context['user_project'])
         aceptada = status.objects.get(status='aceptada')
         context['integrantes']= user_project.objects.filter(up_project=id_Project, up_status=aceptada)
         is_liked = True
         context['is_liked']= is_liked
-        context['total_likes']= total_likes
+        # context['total_likes']= total_likes
         #    if post.likes.filter(id=request.user.id).exists():
             #    is_liked = True
 
@@ -146,6 +147,7 @@ def button_text(request):
 
 
 ##Creates a project with the given arguments
+@method_decorator(login_required, name='dispatch')
 class ProjectCreate(CreateView):
     #model = project
     form_class = CreateProjectForm
@@ -159,6 +161,7 @@ class ProjectCreate(CreateView):
         return reverse_lazy('project_app:project', args=[self.object.id, slugify(self.object.pro_name)])
         #Te manda a project_detail.html y es el projectdetailview
 
+@method_decorator(login_required, name='dispatch')
 class GroupCreate(CreateView):
     #model = project
     form_class = CreateGroupForm
@@ -174,6 +177,7 @@ class GroupCreate(CreateView):
         return reverse_lazy('project_app:project', args=[self.object.id, slugify(self.object.pro_name)])
         #Te manda a project_detail.html y es el projectdetailview
 
+@method_decorator(login_required, name='dispatch')
 def like_post(request):
     post = get_object_or_404(project, id= request.POST.get('post_id'))
     #post = get_object_or_404(project, id= request.POST.get('id'))
