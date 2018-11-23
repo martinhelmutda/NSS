@@ -1,101 +1,263 @@
+<!--
+"""
+Last modified: ANgélica Güemes
+date: November 7
+Time: 8:15
+"""
+-->
 {% extends "base.html" %}
 {% load staticfiles %}
-
+{% block processes_block %}
+  <script type ="text/javascript" src="{% static "js/extras/processes.js" %}"></script>  <!--Este link hace que no jale el datepicker de create_project.html-->
+{% endblock %}
+{% block title %}Teem: Crear Proyecto{% endblock %}
 {% block body_block %}
-    <div class="container">
-      <h1 class="content">Crea tu proyecto</h1><br><br>
-      <div class="ui grid container">
-        <div class="ui vertical segment">
-          <div class="ui header">
-            Crear Proyecto
+
+<div class="ui relaxed container segment">
+  <div class="ui very centered relaxed grid">
+    <div class="une colum row">
+      <div class="column">
+        <h2 class="ui dividing header" style="color:#218380">Crea tu proyecto</h2>
+      </div>
+    </div>
+  </div>
+  <br>
+    <form method="POST" id="projectForm" enctype="multipart/form-data" class="ui form" data-cities-url="{% url 'project_app:ajax_load_cities' %}" data-subcategories-url="{% url 'project_app:ajax_load_subcategories' %}">
+      {% csrf_token %}
+      <div class="field">
+        {{form.pro_group}}
+        <div class="two fields">
+          <div class="field">
+            <label>{{form.pro_name.label}}</label>
+            {{form.pro_name}}
           </div>
-          <form method="POST" enctype="multipart/form-data"class="ui form">
-          {% csrf_token %}
-          {{ form_rol.management_form }}
-
-          {{form.as_p}}
-          <div class="fieldWrapper">
-               {{ project.pro_img.errors }}
-               {{ form.pro_img.label_tag }}
-               {{ form.pro_img }}
-           </div>
-
-          <div class="table">
-            {% for form in form_rol %}
-            <ul>
-              <li>{{ form }}</li>
-            </ul>
-          {% endfor %}
+          <div class="field">
+            {{form.pro_creation_date.errors}}
+            <label>{{form.pro_creation_date.label}}</label>
+            {{form.pro_creation_date}}
           </div>
-          <input type="hidden" name="cantidad" id="cantidad"value="">
-
-            <input type="button" value="Add More" id="add_more">
-            <input type="submit" class="positive ui button" value="Submit">
-          <!--  <div class="fieldWrapper">
-                {{ form.ProName.errors }}
-                {{ form.ProName.label_tag }}
-                {{ form.ProName }}
-            </div>-->
-            <!--<button class="ui black button">Agregar Rol</button><br><br>-->
-
-          </form>
         </div>
       </div>
 
+      <div class="field">
+        <div class="two fields">
+          <div class="field">
+            <label>{{form.pro_category.label}} </label>
+            {{form.pro_category }}
+          </div>
+          <div class="field">
+            <label>{{form.pro_subcategory.label}}</label>
+            {{form.pro_subcategory}}
+          </div>
+        </div>
+      </div>
+
+      <div class="ui fluid container">
+        {{form.pro_description.errors}}
+        <label>{{form.pro_description.label}}</label><br>
+        {{form.pro_description}}
+      </div>
+
+
+
+      <div class="field">
+        <div class="two fields">
+          <div class="field">
+            <label>{{form.pro_video.label}}</label>
+            {{form.pro_video}}
+          </div>
+          <div class="field">
+            {{form.pro_img.errors}}
+            <label>{{form.pro_img.label}}</label>
+            {{form.pro_img}}
+          </div>
+        </div>
+      </div>
+
+      <div class="ui section horizontal divider" style="color:#8f2d56">
+        Ubicación del proyecto
+      </div>
+      <div class="field">
+        <div class="two fields">
+          <div class="field">
+            <label>{{form.pro_state.label}}</label>
+            {{form.pro_state}}
+          </div>
+          <div class="field">
+            <label> {{form.pro_city.label}}</label>
+            {{form.pro_city}}
+          </div>
+        </div>
+      </div>
+
+      <div class="ui section horizontal divider" style="color:#8f2d56">
+        Información general
+      </div>
+
+      <div class="field">
+        <div class="two fields">
+          <div class="field">
+            <label>{{form.pro_about_us.label}}</label>
+            {{form.pro_about_us}}
+          </div>
+          <div class="field">
+            <label>{{form.pro_phrase.label}}</label>
+            {{form.pro_phrase}}
+          </div>
+        </div>
+      </div>
+
+      <!--
+      <div class="ui segment">
+      <div class="field">
+      <div class="ui toggle checkbox">
+      <input type="checkbox" name="gift" tabindex="0" class="hidden">
+      <label>Recibir correo de confirmación</label>
     </div>
+  </div>
+</div>
+-->
+
+<input type="submit" class=" ui green inverted button" value="Crear proyecto">
+
+<!--  <input type="submit" class="ui green inverted button value="Crear proyecto">-->
+<div class="ui error message"></div>
+</form>
+
+</div>
+
 {% endblock %}
 
 {% block js_block %}
 <script src="{% static "css/semantic/out/semantic.min.js" %}"></script>
 <script type="text/javascript">
-  $(function() {
-    $('input[class="datepicker"]').daterangepicker({
-      singleDatePicker: true,
-      showDropdowns: true,
-      locale: {
-         format: 'YYYY-MM-DD'
-        }
+
+  $("#id_pro_state").change(function () {
+      console.log("ENTRA");
+    var url = $("#projectForm").attr("data-cities-url");
+    console.log(url);
+    var countryId = $(this).val();
+    console.log(countryId);
+    $.ajax({
+      url: url,
+      data: {
+        'country': countryId
+      },
+      success: function (data) {
+            console.log("ENTRA DOS")
+            console.log(data);
+        $("#id_pro_city").html(data);
+      }
+    });
+  });
+
+    $("#id_pro_category").change(function () {
+      console.log("ENTRA");
+    var url = $("#projectForm").attr("data-subcategories-url");
+    console.log(url);
+    var countryId = $(this).val();
+    console.log(countryId);
+    $.ajax({
+      url: url,
+      data: {
+        'category': countryId
+      },
+      success: function (data) {
+            console.log("ENTRA DOS")
+            console.log(data);
+        $("#id_pro_subcategory").html(data);
+      }
     });
   });
 
 
-  //document.getElementById('fieldWrapper').innerHTML.setAttribute("multiple", "multiple");
-</script>
-<script type='text/javascript'>
-        co=1;
-          $('#add_more').click(function() {
-            console.log("HOLA")
-        cloneMore('div.table:last', 'service');
-      });
-      function cloneMore(selector, type) {
-          var newElement = $(selector).clone(true);
-          var total = $('#id_' + type + '-TOTAL_FORMS').val();
-          console.log("total "+total)
-          newElement.find(':input').each(function() {
-              var name = $(this).attr('name').replace('-' + (co-1) + '-','-' + co+ '-');
-              var id = 'id_' + name;
-              console.log("id "+id)
-              $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
-          });
-          newElement.find('label').each(function() {
-              var newFor = $(this).attr('for').replace('-' + (co-1) + '-','-' + co + '-');
-              $(this).attr('for', newFor);
-          });
-          total=total+1;
-          co=co+1;
-          console.log("total "+total)
-          console.log("co "+co)
-          $('#id_' + type + '-TOTAL_FORMS').val(co);
-          $(selector).after(newElement);
-          $('input[class="datepicker"]').daterangepicker({
-            singleDatePicker: true,
-            showDropdowns: true,
-            locale: {
-               format: 'YYYY-MM-DD'
-              }
-          });
-          document.getElementById("cantidad").value = co;
-          console.log("cant " +   document.getElementById("cantidad").value);
-      }
-    </script>
+  $('#projectForm')
+  .form({
+    on: 'blur',
+    inline : true,
+    fields: {
+      pro_name: {
+        identifier: 'pro_name',
+        rules: [
+          {
+            type   : 'empty',
+            prompt : 'Por favor, introduce un nombre para el proyecto'
+          }
+        ]
+      },
+      creation_date: {
+        identifier: 'pro_creation_date',
+        rules: [
+          {
+            type   : 'empty',
+            prompt : 'Introduce la fecha de creación del proyecto'
+          }
+        ]
+      },
+      categoria: {
+        identifier: 'pro_category',
+        rules: [
+          {
+            type   : 'empty',
+            prompt : 'Selecciona una categoría para el proyecto'
+          }
+        ]
+      },
+      suncategoria: {
+        identifier: 'pro_subcategory',
+        rules: [
+          {
+            type   : 'empty',
+            prompt : 'Selecciona una opción válida'
+          }
+        ]
+      },
+      descripcion: {
+        identifier: 'pro_description',
+        rules: [
+          {
+            type   : 'empty',
+            prompt : 'Introduce una descripción para que el público sepa de qué se trata tu proyecto'
+          }
+        ]
+      },
+      video: {
+        identifier: 'pro_video',
+        rules: [
+          {
+            type   : 'url',
+            prompt : 'Introduce una dirección url válida'
+          }
+        ]
+      },estado: {
+        identifier: 'pro_state',
+        rules: [{
+            type: 'empty',
+            prompt: 'Selecciona un estado de origen'
+          }]
+      },ciudad: {
+        identifier: 'pro_city',
+        rules:[{
+            type: 'empty',
+            prompt: 'Selecciona una ciudad de origen'
+          }]
+      },nosotros: {
+        identifier: 'pro_about_us',
+        rules:[{
+          type: 'empty',
+          prompt: 'Cuéntanos un poco sobre los integrantes del equipo'
+        }]
+      },lucro: {
+        identifier: 'pro_phrase',
+        rules:[{
+          type: 'empty',
+          prompt: 'Describe si tu proyecto tiene fines de lucro'
+        }]
+      },
+    }
+  });
+
+
+
+  </script>
 {% endblock %}

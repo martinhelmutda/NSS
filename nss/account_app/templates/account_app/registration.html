@@ -1,11 +1,13 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+{% block title %}Teem: Registrar{% endblock %}
 {% block body_block %}
+<br /><br />
 
 {% if registered %}
 <div class="ui middle aligned center aligned grid">
   <div class="column columnlogin">
-    <div class="ui placeholder segment">
+    <div class="ui">
       <div class="content">
         <div class="header"><h1>Gracias por registrarte!</h1></div>
       </div>
@@ -14,18 +16,49 @@
 </div>
 
 {% else %}
-<div class="ui middle aligned center aligned grid login">
+<div class="ui center aligned grid">
   <div class="column columnlogin">
-    <div class="ui placeholder segment">
+    <div class="ui">
       <div class="content">
         <div class="header"><h1>Crear Cuenta</h1></div>
       </div>
       <div class="content">
         <form class="ui form" enctype="multipart/form-data" method="post">
           {% csrf_token %}
-          {{ user_form.as_p }}
-          {{ profile_form.as_p }}
-          <button class="ui fluid primary big button" type="submit">Registrar</button>
+          <div class="field">
+            <label>{{ user_form.username.label }}</label>
+            {{ user_form.username }}
+          </div>
+          <div class="field">
+            <div class="two fields">
+              <div class="field">
+                <label>{{ user_form.first_name.label }}</label>
+                {{ user_form.first_name }}
+              </div>
+              <div class="field">
+                <label>{{ user_form.last_name.label }}</label>
+                {{ user_form.last_name }}
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <label>{{ user_form.email.label }}</label>
+            {{ user_form.email }}
+          </div>
+          <div class="field">
+            <div class="two fields">
+              <div class="field">
+                <label>{{ user_form.password.label }}</label>
+                {{ user_form.password }}
+              </div>
+              <div class="field">
+                <label>{{ user_form.verify_password.label }}</label>
+                {{ user_form.verify_password }}
+              </div>
+            </div>
+          </div>
+          <br />
+          <button class="ui fluid teal big button" type="submit">Registrar</button>
         </form>
       </div>
     </div>

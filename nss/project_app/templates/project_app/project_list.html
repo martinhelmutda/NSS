@@ -1,57 +1,144 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 {% load static %}
-{% block title %}Páginas{% endblock %}
+{% block processes_block %}
+<script type ="text/javascript" src="{% static "js/extras/processes.js" %}"></script>  <!--Este link hace que no jale el datepicker de create_project.html-->
+{% endblock %}
+{% block title %}Teem: Proyectos de {{user}}{% endblock %}
 {% block body_block %}
 
-<h1>HOLA</h1>
-<main role="main">
-  <div class="container mb-4">
-    {% for project in project_list|dictsort:"id" reversed%}
-      <div class="ui link cards" onclick="window.location.href={% url 'project_app:project' project.id project.pro_name|slugify %}">
-        <div class="card">
-          <div class="image">
-            <img src="/images/avatar2/large/matthew.png">
-          </div>
-          <div class="content">
-            <div class="header">{{project.pro_name}}</div>
-            <div class="meta">
-              <a>{{project.pro_category}}</a>
-            </div>
+
+<br> <!--Navbar de proyectos-->
+<br>
+<div class="ui container  grid">
+  <div class="thirteen wide column">
+  <div class="ui link cards">
+  {% for project in project_list%}
+  <div class="card">
+
+    <a class="image"href="{% url 'project_app:project' project.id project.pro_name|slugify %}" >
+      {% if project.pro_img %}
+        <img src="{{project.pro_img.url}}">
+      {% else %}
+        <img src="https://semantic-ui.com/images/wireframe/image.png">
+      {% endif %}
+    </a>
+    <div class="content">
+      <a class="header" href="{% url 'project_app:project' project.id project.pro_name|slugify %}">{{project.pro_name}} </a>
+
+      <div class=" sixteen wide column">
+        <div class=" eight column">
+            <i class="tags icon"></i>
+            {{project.pro_category}}, {{project.pro_subcategory}}.
+        </div>
+        <div class=" eight column">
+            <i class="map marker alternate icon"></i>
+            {{project.pro_city}}, {{project.pro_state}}.
+        </div>
+      </div>
+<hr>
+      <div class="description">
+        <p>{{project.pro_description | truncatewords:50 |safe}} </p><a href="{% url 'project_app:project' project.id project.pro_name|slugify %}">Leer más</a>
+      </div>
+    </div>
+    <div class="extra content">
+      <span class="right floated">
+        {{project.pro_creation_date}}
+      </span>
+      <span>
+
+        <a class="ui image label" href="{% url 'profiles_app:detail' project.pro_user.profile.user.username %}">
+        {%if project.pro_user.profile.avatar%}
+        <img class="ui avatar image" src="{{project.pro_user.profile.avatar.url}}">
+        {{project.pro_user}}
+        {%else%}
+        <img class="ui avatar image" src="https://semantic-ui.com/images/avatar2/small/lena.png">
+        {{request.user.profile.user}}
+        {%endif%}
+        </a>
+
+        <div class="row mt-3">
+          <div class="col-md-9 mx-auto">
             <div class="description">
-              {{project.pro_description}}
+
+              {% if request.user == project.pro_user %}
+                    <a href="{% url 'project_app:applications' project.id %}">Ver solicitudes</a>
+                  | <a href="{% url 'project_app:update' project.id %}">Editar</a>
+                  | <a href="{% url 'project_app:delete' project.id %}">Borrar</a>
+                {% endif %}
+
+                <script type="text/javascript">
+                console.log("{% url 'project_app:project' project.id project.pro_name|slugify %}");
+
+                </script>
+
             </div>
           </div>
-          <div class="extra content">
-            <span class="right floated">
-              Joined in 2013
-            </span>
-            <span>
-              <i class="user icon"></i>
-              75 Friends
-            </span>
-          </div>
         </div>
-      </div>
-      <div class="row mt-3">
-        <div class="col-md-9 mx-auto">
-          <div>
-            {# <p>{{project.pro_description|striptags|safe|truncatechars:"200"}}</p> #}
-            <p><a href="{% url 'project_app:project' project.id project.pro_name|slugify %}">Leer más</a></p>
-
-              {% if request.user.is_staff %}
-                | <a href="{% url 'project_app:update' project.id %}">Editar</a>
-                | <a href="{% url 'project_app:delete' project.id %}">Borrar</a>
-              {% endif %}
-
-              <script type="text/javascript">
-              console.log("{% url 'project_app:project' project.id project.pro_name|slugify %}");
-
-              </script>
-
-          </div>
-        </div>
-      </div>
-    {% endfor %}
+      </span>
+    </div>
   </div>
-</main>
+  {%empty%}<!--Si no hay roles-->
+  <div class="ui content">
+    <br> <br> <p class="ui centered grid container">¡Oops! Un no haz creado ningun proyecto o grupo.</p>
+  </div>
+  {% endfor %}
+</div>
+</div>
+
+<div class=" three wide column">
+
+<h4>Mis aplicaciones</h4>
+<table class="ui very basic collapsing celled table">
+ <thead>
+   <tr><th>Proyecto</th>
+   <th>Puesto</th>
+   <th>Status</th>
+ </tr></thead>
+ <tbody>
+   {%for integrante in integrantes%}
+   <tr>
+     <td>
+       <h4 class="ui image header">
+
+         <div class="content">
+           {{integrante.up_project.pro_name}}
+       </div>
+       </h4>
+     </td>
+     <td>
+       {%if integrante.up_rolInfo.rol_name == 'Otro'%}{{integrante.up_rolInfo.rol_name_other}}
+       {%else%}{{integrante.up_rolInfo.rol_name}}{%endif%}
+     </td>
+
+     {%if integrante.up_status.status == 'aceptada'%}
+       <td class="positive">
+           <i class="icon checkmark"></i>{{integrante.up_status.status}}
+       </td>
+     {%elif integrante.up_status.status == 'rechazada'%}
+       <td class="negative">
+         {{integrante.up_status.status}}
+       </td>
+     {%else%}
+     <td class="">
+       {{integrante.up_status.status}}
+     </td>
+     {%endif%}
+   </tr>
+   {%empty%}
+   <div class="ui content">
+     <br> <br> <p class="ui centerediv>
+   </div>
+   {%endfor%}
+ </tbody>
+ </table>
+</div>
+  </div>
+
+
+<script type="text/javascript">
+  //Sticky barra que dice mis proyectos
+  $('.ui.sticky')
+  .sticky();
+</script>
 {% endblock %}

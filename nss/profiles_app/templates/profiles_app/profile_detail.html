@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}Teem: {{profile.user}}{% endblock %}
+{% block body_block %}
+  <div class="ui segment container">
+    {% if profile.avatar %}
+      <img src="{{profile.avatar.url}}" class="ui small left floated circular image">
+    {% else %}
+      <img class="ui small left floated circular image" src="{% static 'registration/img/no-avatar.jpg' %}" >
+    {% endif %}
+
+        <h1 class="header">{{profile.user|truncatechars:"16"}}</h1>
+        {% if request.user != profile.user %}
+          <a href="{% url 'messages_app:start' profile.user.username %}"><i class="envelope icon"></i>Enviar mensaje</a>
+        {% endif %}
+        {{profile.bio|safe}}
+
+        <div class="ui feed">
+          <div class="event">
+            <div class="label">
+              <img src="/images/avatar/small/helen.jpg">
+            </div>
+            <div class="content">
+              <div class="date">
+                3 days ago
+              </div>
+              <div class="summary">
+                 <a>Helen Troy</a> added 2 photos
+              </div>
+              <div class="extra images">
+                <a><img src="/images/wireframe/image.png"></a>
+                <a><img src="/images/wireframe/image.png"></a>
+              </div>
+            </div>
+          </div>
+          <div class="event">
+            <div class="label">
+              <img src="/images/avatar/small/laura.jpg">
+            </div>
+            <div class="content">
+              <div class="date">
+                3 days ago
+              </div>
+              <div class="summary">
+                 <a>Laura Faucet</a> created a post
+              </div>
+              <div class="extra text">
+                Have you seen what's going on in Israel? Can you believe it.
+              </div>
+            </div>
+          </div>
+        </div>
+  </div>
+
+{% endblock %}

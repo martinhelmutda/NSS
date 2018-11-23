@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+{% load i18n %}
+{% load static %}
+{% get_current_language as LANGUAGE_CODE %}
+<html lang="es">
+        <head>
+            <meta charset="utf-8">
+            {% block meta_block %}
+
+            {% endblock %}
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+             <title>{% block title %}{% endblock %}</title>
+            <link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+            <link rel="stylesheet" href="{% static "css/semantic/out/semantic.min.css" %}">
+
+            <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+            <script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
+            <link rel="stylesheet" href="{% static "css/extras/processes.css" %}">
+            {% block processes_block %}
+
+            {% endblock %}
+            <link rel ="stylesheet" href="{% static "css/styles.css" %}">
+            <link href="{% static "css/custom_ckeditor.css" %}" rel="stylesheet">
+            <link rel ="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+            <script type ="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+
+            <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+            <script type ="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+            <script type ="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+        </head>
+    <body class="bg-gray">
+        <!-- Static navbar -->
+        <div class="ui borderless menu bg-prim stackable shadow number1">
+            <div class="ui container">
+                <div class="header item">
+                    <a href="{% url 'index' %}" class="item text-white"><img class="logo" src="{% static "img/Teem.png" %}"></a>
+                </div>
+              <!--  <a class="item" href="{% url 'project_app:DataRep' %}"><i class="chart bar alternate icon"></i>Data representation</a>-->
+                {% if user.is_authenticated %}
+                <a class="item right text-white" href="{% url 'profiles_app:list' %}"><i class="address card outline icon"></i> {%trans "Ver Perfiles" %}</a>
+                <div class="ui simple dropdown item">
+                  <i class="edit icon text-white"></i>{% trans Crear %}
+                  <i class="dropdown icon text-white"></i>
+                  <div class="menu">
+                       <a class="item" href="{% url 'project_app:create' %}"><i class="pencil alternate icon"></i>{% trans "Crear proyecto" %}</a>
+                       <a class="item" href="{% url 'project_app:create_group' %}"><i class="pencil alternate icon"></i>{%trans "Crear Grupo" %}</a>
+                  </div>
+                </div>
+
+                <a class="item text-white" href="{% url 'messages_app:list' %}"><i class="envelope icon"></i></a>
+                <div class="ui simple dropdown item text-white">
+                  <i class="user icon text-white"></i>{{ user.username }}
+                  <i class="dropdown icon text-white"></i>
+                  <div class="menu">
+                    <a class="item text-white" href="{% url 'project_app:projects' %}"><i class="folder icon"></i>{% trans "Mis Proyectos" %}</a>
+                    <a class="item text-white" href="{% url 'profiles_app:detail' user %}"><i class="address card outline icon"></i>{%trans "Ver Perfil" %}</a>
+                    <a class="item text-white" href="{% url 'account_app:profile' %}"><i class="edit icon"></i>{% trans "Editar Perfil "%}</a>
+                    <a class="item text-white" href="{% url 'logout' %}"><i class="power off icon"></i>{%trans "Salir"%}</a>
+                  </div>
+                </div>
+              </div>
+                {% else %}
+                <a class="item ui right text-white floated" href="{% url 'account_app:user_login' %}">{%trans "Iniciar Sesion"%}</a>
+                <div class="item">
+                  <a class="ui teal button" href="{% url 'account_app:register' %}">{%trans "Registrarse "%}</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        {% block body_block %}
+        <!-- Other Htmls go here -->
+        {% endblock %}
+
+    </body>
+    {% block js_block %}
+
+
+    {% endblock %}
+    <footer>
+      <div class="ui vertical footer segment">
+        <div class="ui center aligned container">
+          <div class="ui section divider "></div>
+          <div class="ui horizontal small divided link list ">
+            <a class="item" href="#">{%trans "Mapa del Sitio"%}</a>
+            <a class="item" href="#">{%trans "Contactanos"%}</a>
+            <a class="item" href="#">{%trans "Terminos y Condiciones"%}</a>
+            <a class="item" href="#">{%trans "Politica de Privacidad"%}</a>
+            <a class="item"><form action="{%url 'set_language'%}" method="post">{%csrf_token%}
+            <input type="hidden" name="text" value="{{redirect_to}}">
+            <select name="language" id="">
+              {% get_available_languages as LANGUAGES %}
+              {% get_language_info_list for LANGUAGES as languages %}
+              {% for language in languages %}
+                <option value="{{language.code}}" {% if language.code == LANGUAGE_CODE %} selected {%endif %}>
+                  {{language.name_local}}({{language.code}})
+                </option>
+              {%endfor%}
+            </select>
+            <input type="submit" value="{%trans 'Ir' %}">
+          </form></a>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script type="text/javascript">
+    $('.ui.accordion').accordion();
+    </script>
+
+</html>

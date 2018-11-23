@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}Teem: Perfiles{% endblock %}
+{% block body_block %}
+<div class="ui container">
+  <div class="ui grid">
+  <div class="four column row">
+    <div class="left floated column"></div>
+    <div class="right floated column">
+      <form class="ui action input" id="projectForm" action='{% url 'profiles_app:list' %}'>
+        <input type="search" placeholder="Buscar" aria-label="Search" name='q'>
+        <button class="ui button" type="submit">Buscar</button>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="ui container segment">
+  <div class="ui massive horizontal divided list">
+    {% for profile in profile_list %}
+    <div class="item">
+      {% if profile.avatar %}
+      <img src="{{profile.avatar.url}}" class="ui tiny avatar image">
+      {% else %}
+      <img class="ui avatar image" src="{% static 'registration/img/no-avatar.jpg' %}" >
+      {% endif %}
+      <div class="content">
+        <div class="header">{{profile.user|truncatechars:"16"}}</div>
+        <a href="{% url 'profiles_app:detail' profile.user %}">Ver perfil</a>
+        <p>Jjaojbvixs</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+  {% endblock %}

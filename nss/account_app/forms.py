@@ -7,11 +7,17 @@ from django.core import validators
 from django.contrib.auth.models import User
 from account_app.models import UserProfileInfo
 from django.conf import settings
+from django.core.validators import FileExtensionValidator
+from .models import Profile
 #from crispy_forms.helper import FormHelper
 
 class UserForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput())
-    verify_password = forms.CharField(widget=forms.PasswordInput(),label='Enter your password again')
+    username = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Introduce tu nombre de usuario'}),label='Nombre de usuario')
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Introduce tu nombre'}),label='Nombre')
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Introduce tu apellido'}),label='Apellido')
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': '*********'}))
+    verify_password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': '*********'}),label='Ingresa tu contraseña nuevamente')
+    email  = forms.EmailField( label='E-mail', required=True, widget=forms.EmailInput(attrs={'placeholder':'Introduce tu E-mail de contacto'}))
     botcatcher = forms.CharField(required=False,widget=forms.HiddenInput, validators=[validators.MaxLengthValidator(0)])
 
     class Meta():
@@ -24,12 +30,9 @@ class UserForm(forms.ModelForm):
         verify_password = all_clean_data['verify_password']
 
         if password != verify_password:
-            raise forms.ValidationError("Passwords must match")
+            raise forms.ValidationError("La contraseña debe ser la misma")
 
-class UserProfileInfoForm(forms.ModelForm):
-    class Meta():
-        model = UserProfileInfo
-        fields = ('portfolio_site','profile_pic')
+
 
 class createProfileForm(forms.Form):
     name = forms.CharField( label='Nombre',required=True)
@@ -40,10 +43,20 @@ class createProfileForm(forms.Form):
     cv = forms.CharField(label='Trabajos Anteriores', required=True, widget=forms.Textarea())
     experience = forms.CharField(label='Experiencia', max_length=1000, required=True, widget=forms.Textarea())
 
-    # def __init__(self, arg):
-    #     super(create_profile, self).__init__()
-    #     self.arg = arg
+class ProfileForm(forms.ModelForm):
+    """docstring forProfileForm."""
+    class Meta:
+        model = Profile
+        fields = ['avatar', 'bio', 'link']
+        widgets = {
+            'avatar': forms.ClearableFileInput(attrs={'class':'container'}),
+            'bio': forms.Textarea(attrs={'class':'field'}),
+            'link': forms.URLInput(attrs={'class':'field'}),
+        }
 
+
+# class CustomImageWidget(forms.ClearableFileInput):
+#     input_type = 'image'
 """
 Set required fields on forms
 Set widgets

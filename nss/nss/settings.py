@@ -20,6 +20,7 @@ pip install django-embed-video
 
 #pip install django-ckeditor
 pip install python-social-auth[django]
+pip install django-braces
 """
 
 
@@ -29,6 +30,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 TEMPLATE_DIR = os.path.join(BASE_DIR,"templates") #Creo una variable con el path apuntando a mi carpeta templates
+PROJECT_TEMPLATE_DIR = os.path.join(BASE_DIR, 'project_app', 'template')
 
 STATIC_DIR=os.path.join(BASE_DIR,"static")
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
@@ -66,6 +68,10 @@ INSTALLED_APPS = [
     'ckeditor',
     # 'projects.apps.ProjectsConfig',
     'project_app',
+
+    'search_app',
+    'profiles_app',
+    'messages_app',
     #SOCIAL AUTH
     'social_django',
 
@@ -85,6 +91,7 @@ AUTHENTICATION_BACKENDS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -98,7 +105,7 @@ ROOT_URLCONF = 'nss.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATE_DIR, MEDIA_ROOT],
+        'DIRS': [TEMPLATE_DIR, MEDIA_ROOT, PROJECT_TEMPLATE_DIR],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -119,6 +126,8 @@ WSGI_APPLICATION = 'nss.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
+"""
+PRODUCTION
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -129,11 +138,52 @@ DATABASES = {
         'PORT': '',
     }
 } #pip install django psycopg2
+"""
+
+"""
+development
+"""
+"""
+DATABASES = {                                   #Nos conectamos a la base de datos mySQL
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'kunigo',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': '127.0.0.1',
+        #'HOST': '192.168.64.2',
+        'PORT': '3306',
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
+        'TEST': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'test_kunigo',
+        },
+    }
+}
+
+"""
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+
 
 
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
+
+# PASSWORD_HASHERS = [
+#     'django.contrib.auth.hashers.Argon2PasswordHasher',
+#     'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+#     'django.contrib.auth.hashers.BCryptPasswordHasher',
+#     'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+#     'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+# ]
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -151,10 +201,11 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-mx'#'es-mx'
 
 TIME_ZONE = 'UTC'
 
@@ -163,6 +214,18 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR,'locale')
+]
+
+LANGUAGES =[
+    ('en','English'),
+    ('es-mx','Espanol'),
+    ('it','Italiano')
+
+]
 
 DATE_INPUT_FORMATS = [
     '%Y-%m-%d', '%m/%d/%Y', '%m/%d/%y', # '2006-10-25', '10/25/2006', '10/25/06'
@@ -181,9 +244,9 @@ STATICFILES_DIRS = [
 
 CRISPY_TEMPLATE_PACK = 'semantic-ui'
 
-LOGIN_URL = 'account_app/user_login'
+LOGIN_URL = 'account_app:user_login'
 
-LOGIN_REDIRECT_URL ='index'
+# LOGIN_REDIRECT_URL ='index'
 
 # PARA EL MAIL Y EL RESET
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

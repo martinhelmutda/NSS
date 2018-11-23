@@ -1,10 +1,12 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+{% load i18n %}
+{% block title %}Teem: Log In{% endblock %}
 {% block body_block %}
 
 <div class="ui middle aligned center aligned grid login">
   <div class="column columnlogin">
-    <div class="ui placeholder segment">
+    <div class="ui">
       <div class="content">
         <div class="header"><h1>Log in</h1></div>
       </div>
@@ -12,27 +14,28 @@
         <form class="ui form" action="{% url 'account_app:user_login' %}" method="post">
           {% csrf_token %}
           <div class="field">
-            <label for="username">Username:</label>
+            <label for="username">{%trans 'Usuario' %}:</label>
             <input type="text" name="username" placeholder="Enter Username">
           </div>
           <div class="field">
-            <label for="password">Password:</label>
+            <label for="password">{%trans 'Contrasena'%}:</label>
             <input type="password" name="password" placeholder="********">
           </div>
 
-          <button class="ui fluid primary big button cnt" type="submit">Log in</button>
+          <button class="ui fluid teal big button cnt" type="submit">{%trans 'Inicia Sesion'%}</button>
           <br /><br />
-          <p>-- OR --</p>
+          <p>-- {%trans 'O' %} --</p>
 
           <a href="{% url 'social:begin' 'google-oauth2' %}">
-            <button type="button" name="button" class="ui fluid primary basic big button cnt">Google+</button>
+            <button type="button" name="button" class="ui fluid teal basic big button cnt">Google+</button>
           </a>
         </form>
+        <br /><br />
         <div class="extra content">
           <div class="ui message">
-            No tienes una cuenta? <a href="{% url 'account_app:register' %}">Registrar</a>
+            {%trans 'No tienes una cuenta?'%} <a href="{% url 'account_app:register' %}">{%trans 'Registrate'%}</a>
             <br>
-            <a href="{% url 'password_reset' %}">Olvidaste tu contrasena?</a>
+            <a href="{% url 'password_reset' %}">{%trans 'Olvidaste tu contrasena?'%}</a>
           </div>
         </div>
       </div>

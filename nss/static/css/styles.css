@@ -16,36 +16,41 @@ body > .login {
 }
 
 .small {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Montserrat', sans-serif !important;
   font-size: 12px;
 }
 
 h1{
-    font-family: 'Fira Sans';
+    font-family: 'Fira Sans' !important;
+    color: #8f2d56 !important;
 }
 
 h2{
-    font-family: 'Fira Sans';
+    font-family: 'Fira Sans' !important;
+    color: #8f2d56 !important;
 }
 
 h3{
-    font-family: 'Fira Sans';
+    font-family: 'Fira Sans' !important;
+    color: #8f2d56 !important;
 }
 
 h4{
-    font-family: 'Fira Sans';
+    font-family: 'Fira Sans' !important;
+    color: #8f2d56 !important;
 }
 
 h5{
-    font-family: 'Fira Sans';
+    font-family: 'Fira Sans' !important;
+    color: #8f2d56 !important;
 }
 /*Blue*/
 .bg-prim {
-    background-color: #218380;
+    background-color: #218380 !important;
 }
 /*Purple*/
 .bg-sec {
-    background-color: #8f2d56;
+    background-color: #8f2d56 !important;
 }
 /*Pink*/
 .bg-ter {
@@ -86,7 +91,7 @@ h5{
     color: #ffbc42;
 }
 .text-white {
-    color: #FFFFFF;
+    color: #FFFFFF !important;
 }
 .text-black {
     color: black;
@@ -182,4 +187,11 @@ a.item {
 
 body {
 	font-size: 18px;
+}
+
+.ui.segment.fake{
+  /* background: #2a8bec; */
+  border-color: rgba(34, 36, 38, 0.25);
+  -webkit-box-shadow: 0px 2px 25px 0 rgba(34, 36, 38, 0.25) inset;
+  box-shadow: 0px 2px 25px 0 rgba(34, 36, 38, 0.20) inset;
 }

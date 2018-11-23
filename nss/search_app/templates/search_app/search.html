@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+{% extends "search_app/base_search_app.html" %}
+{% load staticfiles %}
+{% block processes_block %}
+<script type ="text/javascript" src="{% static "js/extras/processes.js" %}"></script>  <!--Este link hace que no jale el datepicker de create_project.html-->
+{% endblock %}
+{% block title %}Teem: Buscar{% endblock %}
+{% block body_block %}
+<div class="container">
+  <form id="projectForm" action='{% url 'search_app:search' %}' data-cities-url="{% url 'project_app:ajax_load_cities' %}" data-subcategories-url="{% url 'project_app:ajax_load_subcategories' %}">
+    <div class="ui five column doubling stackable grid container">
+      <div class="column">
+        <div class="ui form">
+          <div class="field">
+            <label>Nombre del Proyecto</label>
+            <input type="text" class="ui" placeholder="Nombre del Proyecto" aria-label="Search" name='q'>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="ui form">
+          <div class="field">
+            <label>Categoría</label>
+            <select class="ui dropdown selection" id="id_pro_category" name="id_pro_category" class="opt">
+              <option value="" selected disabled>Categoría</option>
+              {% for cat in category %}
+              <option value="{{cat.category}}">{{cat.category}}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+
+        <div class="ui form">
+          <div class="field">
+            <label>Subcategoría</label>
+            <select class="ui dropdown selection" id="id_pro_subcategory" name="id_pro_subcategory" >
+              <option value="" selected disabled>Subcategoría</option>
+              {% for subcat in subcategory %}
+              <option value="{{subcat.subcategory}}">{{subcat.subcategory}}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="ui form">
+          <div class="field">
+          <label>Estado</label>
+            <select class="ui dropdown selection" id="id_pro_state" name="id_pro_state">
+              <option value="" selected disabled>Estado</option>
+              {% for st in state %}
+              <option value="{{st.state}}">{{st.state}}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+
+        <div class="ui form">
+          <div class="field">
+          <label>Municipio</label>
+            <select class="ui dropdown selection" id="id_pro_city" name="id_pro_city">
+              <option value="" selected disabled>Municipio</option>
+              {% for cit in city %}
+              <option value="{{cit.city}}">{{cit.city}}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="ui form">
+          <div class="field">
+            <label>Tipo</label>
+            <input type="radio" name="id_pro_group" value="proyectos"> Proyectos<br>
+            <input type="radio" name="id_pro_group" value="grupos"> Grupos<br>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="ui form">
+          <div class="field">
+            <button class="ui big teal button" id="go" type="submit">Buscar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<br />
+<div class="ui four column doubling stackable grid container">
+    {% for project in projects|dictsort:"id" reversed %}
+        <div class="column">
+          <div class="ui fluid card">
+            <a class="image"href="{% url 'project_app:project' project.id project.pro_name|slugify %}">
+                {% if project.pro_img %}
+                  <img src="{{project.pro_img.url}}">
+                {% else %}
+                  <img src="https://semantic-ui.com/images/wireframe/image.png">
+                {% endif %}
+              </a>
+            <div class="content">
+              <a class="header" href="{% url 'project_app:project' project.id project.pro_name|slugify %}">{{project.pro_name}} </a>
+              <div class="meta">
+                <i class="tags icon"></i>
+                      {{project.pro_category}}, {{project.pro_subcategory}}.
+              </div>
+              <div class="meta">
+                <i class="map marker alternate icon"></i>
+                      {{project.pro_city}}, {{project.pro_state}}.
+              </div>
+              <div class="description">
+                   <p>{{project.pro_description | truncatewords:50 |safe}} </p>
+                 </div>
+            </div>
+            <div class="extra content">
+              <span class="right floated">
+                {{project.pro_creation_date}}
+              </span>
+              <span>
+
+                <a class="ui image label" href="{% url 'profiles_app:detail' project.pro_user.profile.user.username %}">
+                {%if project.pro_user.profile.avatar%}
+                <img class="ui avatar image" src="{{project.pro_user.profile.avatar.url}}">
+                {{project.pro_user}}
+                {%else%}
+                <img class="ui avatar image" src="https://semantic-ui.com/images/avatar2/small/lena.png">
+                {{request.user.profile.user}}
+                {%endif%}
+                </a>
+
+                   <div class="row mt-3">
+                     <div class="col-md-9 mx-auto">
+                       <div class="description">
+
+                         {% if request.user == project.pro_user %}
+                               <a href="{% url 'project_app:applications' project.id %}">Ver solicitudes</a>
+                             | <a href="{% url 'project_app:update' project.id %}">Editar</a>
+                             | <a href="{% url 'project_app:delete' project.id %}">Borrar</a>
+                           {% endif %}
+
+                           <script type="text/javascript">
+                           console.log("{% url 'project_app:project' project.id project.pro_name|slugify %}");
+
+                           </script>
+
+                       </div>
+                     </div>
+                   </div>
+                 </span>
+            </div>
+            <div class="ui attached bottom buttons">
+                <a class="ui teal button" href="{% url 'project_app:project' project.id project.pro_name|slugify %}"><i class="pencil alternate icon"></i>Leer más</a>
+              </div>
+          </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
+
+{% block js_block %}
+<script src="{% static "css/semantic/out/semantic.min.js" %}"></script>
+<script type="text/javascript">
+  $("#id_pro_state").change(function () {
+    var url = $("#projectForm").attr("data-cities-url");
+    console.log(url);
+    var countryId = $(this).val();
+    //console.log(countryId);
+    $.ajax({
+      url: url,
+      data: {
+        'country': countryId
+      },
+      success: function (data) {
+            //console.log("ENTRA DOS")
+            //console.log(data);
+        $("#id_pro_city").html(data);
+      }
+    });
+  });
+
+  $("#id_pro_category").change(function () {
+      //console.log("ENTRA");
+    var url = $("#projectForm").attr("data-subcategories-url");
+    //console.log(url);
+    var countryId = $(this).val();
+    //console.log(countryId);
+    $.ajax({
+      url: url,
+      data: {
+        'category': countryId
+      },
+      success: function (data) {
+        $("#id_pro_subcategory").html(data);
+      }
+    });
+  });
+</script>
+
+
+{% endblock %}
