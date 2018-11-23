@@ -1,64 +1,134 @@
 <!DOCTYPE html>
-{% extends "base.html" %}
+{% extends "search_app/base_search_app.html" %}
 {% load staticfiles %}
 {% block processes_block %}
 <script type ="text/javascript" src="{% static "js/extras/processes.js" %}"></script>  <!--Este link hace que no jale el datepicker de create_project.html-->
 {% endblock %}
 
 {% block body_block %}
-<div class="">
-<form class="ui action input" id="projectForm" action='{% url 'search_app:search' %}' data-cities-url="{% url 'project_app:ajax_load_cities' %}" load_info="{%url 'search_app:load_info'%}" data-subcategories-url="{% url 'project_app:ajax_load_subcategories' %}">
-  <div class="ui form">
-    <div class="field">
-      <select name='q'class="ui fluid dropdown selection" id="id_pro_category" name="pro_category" class="opt">
-        <option value="" selected disabled>Categoría</option>
-        {% for cat in category %}
-        <option value="{{cat.category}}">{{cat.category}}</option>
-        {% endfor %}
-      </select>
-    </div>
-  </div>
+<div class="ui container">
 
-  <div class="ui form">
-    <div class="field">
-      <select name='q' class="ui fluid dropdown selection" id="id_pro_subcategory" name="pro_subcategory" >
-        <option value="" selected disabled>Subcategoría</option>
-        {% for subcat in subcategory %}
-        <option value="{{subcat.subcategory}}">{{subcat.subcategory}}</option>
-        {% endfor %}
-      </select>
+  <form class="ui action input" id="projectForm" action='{% url 'search_app:search' %}' data-cities-url="{% url 'project_app:ajax_load_cities' %}" data-subcategories-url="{% url 'project_app:ajax_load_subcategories' %}">
+    <div class="ui form">
+      <div class="field">
+        <select class="ui fluid dropdown selection" id="id_pro_category" name="id_pro_category" class="opt">
+          <option value="" selected disabled>Categoría</option>
+          {% for cat in category %}
+          <option value="{{cat.category}}">{{cat.category}}</option>
+          {% endfor %}
+        </select>
+      </div>
     </div>
-  </div>
 
-  <div class="ui form">
-    <div class="field">
-      <select name='q' class="ui fluid dropdown selection" id="id_pro_state" name="pro_state">
-        <option value="" selected disabled>Estado</option>
-        {% for st in state %}
-        <option value="{{st.state}}">{{st.state}}</option>
-        {% endfor %}
-      </select>
+    <div class="ui form">
+      <div class="field">
+        <select class="ui fluid dropdown selection" id="id_pro_subcategory" name="id_pro_subcategory" >
+          <option value="" selected disabled>Subcategoría</option>
+          {% for subcat in subcategory %}
+          <option value="{{subcat.subcategory}}">{{subcat.subcategory}}</option>
+          {% endfor %}
+        </select>
+      </div>
     </div>
-  </div>
 
-  <div class="ui form">
-    <div class="field">
-      <select name='q' class="ui fluid dropdown selection" id="id_pro_city" name="pro_city">
-        <option value="" selected disabled>Municipio</option>
-        {% for cit in city %}
-        <option value="{{cit.city}}">{{cit.city}}</option>
-        {% endfor %}
-      </select>
+    <div class="ui form">
+      <div class="field">
+        <select class="ui fluid dropdown selection" id="id_pro_state" name="id_pro_state">
+          <option value="" selected disabled>Estado</option>
+          {% for st in state %}
+          <option value="{{st.state}}">{{st.state}}</option>
+          {% endfor %}
+        </select>
+      </div>
     </div>
-  </div>
 
-  <input type="search" placeholder="Buscar" aria-label="Search" name='q'>
-  <button class="ui button" type="submit">Buscar</button>
-</form>
+    <div class="ui form">
+      <div class="field">
+        <select class="ui fluid dropdown selection" id="id_pro_city" name="id_pro_city">
+          <option value="" selected disabled>Municipio</option>
+          {% for cit in city %}
+          <option value="{{cit.city}}">{{cit.city}}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <div class="ui form">
+      <div class="grouped fields">
+        <label>Select type:</label>
+        <div class="field">
+          <div class="ui radio checkbox">
+            <input type="radio" name="id_pro_project" value"project" tabindex="0" class="hidden">
+            <label>Proyectos</label>
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui radio checkbox">
+            <input type="radio" name="id_pro_group" value"group" tabindex="0" class="hidden">
+            <label>Grupos</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <input type="search" placeholder="Buscar" aria-label="Search" name='q'>
+    <button class="ui button" type="submit">Buscar</button>
+  </form>
+
 </div>
 
-<div id="content">
-  HOLA
+<br /><br />
+<div class="ui container mb-4">
+  <div class="ui link cards">
+  {% for project in projects|dictsort:"id" reversed %}
+      <div class="card">
+        <div class="image">
+          {% if project.pro_img %}
+            <img src="../media/{{project.pro_img}}">
+          {% else %}
+            <img src="https://semantic-ui.com/images/wireframe/image.png">
+          {% endif %}
+
+        </div>
+        <div class="content">
+          <div class="header">{{project.pro_name}}</div>
+          <div class="meta">
+            <a>{{project.pro_category}}</a>
+          </div>
+          <div class="description">
+            {{project.pro_description |safe}}
+          </div>
+        </div>
+        <div class="extra content">
+          <span class="right floated">
+            Joined in 2013
+          </span>
+          <span>
+            <i class="user icon"></i>
+            <div class="row mt-3">
+              <div class="col-md-9 mx-auto">
+                <div>
+                  {# <p>{{project.pro_description|striptags|safe|truncatechars:"200"}}</p> #}
+                  <p><a href="{% url 'project_app:project' project.id project.pro_name|slugify %}">Leer más</a></p>
+
+                  {% if request.user == project.pro_user %}
+                      | <a href="{% url 'project_app:update' project.id %}">Editar</a>
+                      | <a href="{% url 'project_app:delete' project.id %}">Borrar</a>
+                    {% endif %}
+
+                    <script type="text/javascript">
+                    console.log("{% url 'project_app:project' project.id project.pro_name|slugify %}");
+
+                    </script>
+
+                </div>
+              </div>
+            </div>
+          </span>
+        </div>
+      </div>
+  {% endfor %}
+  </div>
 </div>
 
 
@@ -85,47 +155,28 @@
     });
   });
 
-      $("#id_pro_category").change(function () {
-        //console.log("ENTRA");
-      var url = $("#projectForm").attr("data-subcategories-url");
-      //console.log(url);
-      var countryId = $(this).val();
-      //console.log(countryId);
-      $.ajax({
-        url: url,
-        data: {
-          'category': countryId
-        },
-        success: function (data) {
-              //console.log("ENTRA DOS")
-              //console.log(data);
-          $("#id_pro_subcategory").html(data);
-        }
-      });
-    });
-  </script>
-
-<script type="text/javascript">
-$(".selection").change(function () {
-    var url = $("#projectForm").attr("load_info");
-    console.log(url);
-    var id_pro_category = $('#id_pro_category').val();
-    var id_pro_subcategory = $('#id_pro_subcategory').val();
-    //var id_pro_category = $('#id_pro_category').val();
-    //var id_pro_category = $('#id_pro_category').val();
+  $("#id_pro_category").change(function () {
+      //console.log("ENTRA");
+    var url = $("#projectForm").attr("data-subcategories-url");
+    //console.log(url);
+    var countryId = $(this).val();
+    //console.log(countryId);
     $.ajax({
       url: url,
       data: {
-        'id_pro_category': id_pro_category,
-        'id_pro_subcategory': id_pro_subcategory
+        'category': countryId
       },
       success: function (data) {
-            console.log("ENTRA DOS")
-            //console.log(data);
-        $("#content").html(data);
+        $("#id_pro_subcategory").html(data);
       }
     });
+  });
 
-});
+  $('.ui.checkbox')
+  .checkbox()
+  console.log()
+;
 </script>
+
+
 {% endblock %}

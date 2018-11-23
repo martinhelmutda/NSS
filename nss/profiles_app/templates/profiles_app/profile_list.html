@@ -1,7 +1,20 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% block body_block %}
-  <h1>HOOO</h1>
+<div class="ui container">
+  <div class="ui grid">
+  <div class="four column row">
+    <div class="left floated column"></div>
+    <div class="right floated column">
+      <form class="ui action input" id="projectForm" action='{% url 'profiles_app:list' %}'>
+        <input type="search" placeholder="Buscar" aria-label="Search" name='q'>
+        <button class="ui button" type="submit">Buscar</button>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+
 <div class="ui container segment">
   <div class="ui massive horizontal divided list">
     {% for profile in profile_list %}
