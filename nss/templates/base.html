@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-
+{% load i18n %}
 {% load static %}
-
+{% get_current_language as LANGUAGE_CODE %}
 <html lang="es">
         <head>
             <meta charset="utf-8">
@@ -29,7 +29,7 @@
             <script type ="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
             <script type ="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
         </head>
-    <body class="bg-gray text-white">
+    <body class="bg-gray">
         <!-- Static navbar -->
         <div class="ui borderless menu bg-prim stackable shadow number1">
             <div class="ui container">
@@ -45,24 +45,25 @@
                 </div>
               <!--  <a class="item" href="{% url 'project_app:DataRep' %}"><i class="chart bar alternate icon"></i>Data representation</a>-->
                 {% if user.is_authenticated %}
-                <div class="ui simple dropdown item text-white">
-                  <i class="plus icon"></i>Crear
+                <div class="ui simple dropdown item">
+                  <i class="plus icon text-white"></i>
+                  <span class="text-white">Crear</span>
                   <i class="dropdown icon text-white"></i>
                   <div class="menu">
-                       <a class="item" href="{% url 'project_app:create' %}"><i class="pencil alternate icon"></i></a>
-                       <a class="item" href="{% url 'project_app:create_group' %}"><i class="pencil alternate icon"></i></a>
+                    <a class="item" href="{% url 'project_app:create' %}"><i class="pencil alternate icon"></i>Crear proyecto</a>
+                    <a class="item" href="{% url 'project_app:create_group' %}"><i class="pencil alternate icon"></i>Crear Grupo</a>
                   </div>
                 </div>
-                <a class="item right text-white" href="{% url 'profiles_app:list' %}"><i class="users icon"></i></a>
+                <a class="item right text-white" href="{% url 'profiles_app:list' %}"><i class="address card outline icon"></i> Ver Perfiles</a>
 
-                <a class="item text-white" href="{% url 'project_app:projects' %}"><i class="folder open icon"></i></a>
+                <a class="item text-white" href="{% url 'messages_app:list' %}"><i class="envelope icon"></i></a>
                 <div class="ui simple dropdown item text-white">
                   <i class="user icon text-white"></i>{{ user.username }}
                   <i class="dropdown icon text-white"></i>
                   <div class="menu">
-                    <a class="item text-white" href="{% url 'messages_app:list' %}"><i class="comment alternate outline icon"></i>Mensaje directo</a>
-                    <a class="item text-white" href="{% url 'profiles_app:detail' user %}"><i class="user circle outline icon"></i>Ver Perfil</a>
-                    <a class="item text-white" href="{% url 'account_app:profile' %}"><i class="edit outline icon"></i>Editar Perfil</a>
+                    <a class="item text-white" href="{% url 'project_app:projects' %}"><i class="folder icon"></i>Mis Proyectos</a>
+                    <a class="item text-white" href="{% url 'profiles_app:detail' user %}"><i class="address card outline icon"></i>Ver Perfil</a>
+                    <a class="item text-white" href="{% url 'account_app:profile' %}"><i class="edit icon"></i>Editar Perfil</a>
                     <a class="item text-white" href="{% url 'logout' %}"><i class="power off icon"></i>Salir</a>
                   </div>
                 </div>
@@ -94,6 +95,7 @@
             <a class="item" href="#">Contactanos</a>
             <a class="item" href="#">Terminos y Condiciones</a>
             <a class="item" href="#">Politica de Privacidad</a>
+
           </div>
         </div>
       </div>
