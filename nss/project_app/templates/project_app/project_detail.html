@@ -2,7 +2,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% load embed_video_tags %}
-
+{% load readmore %}
 {% block meta_block %}
   <meta property="og:url"           content="https://docs.python.org/2/library/unittest.html" />
    <meta property="og:type"          content="website" />
@@ -11,7 +11,7 @@
    <meta property="og:image"         content="https://scontent-dfw5-1.xx.fbcdn.net/v/t1.0-1/p32x32/29132923_1858922410818998_822734632322596864_n.jpg?_nc_cat=108&_nc_ht=scontent-dfw5-1.xx&oh=34a40e024de1f22a62d850f6b15abcba&oe=5C82DFAF" />
 {% endblock %}
 {% block processes_block %}
-<script type ="text/javascript" src="{% static "js/extras/processes.js" %}"></script>  <!--Este link hace que no jale el datepicker de create_project.html-->
+
 {% endblock %}
 {% block title %}{{project.pro_name}}{% endblock %}
 {% block body_block %}
@@ -188,14 +188,14 @@
                       {{x.rol_name_other}}
                     {%endif%}
                     {% if request.user == project.pro_user %}
-                      <a href="">Editar</a>
+                    <!--  <a href="">Editar</a>-->
                     {%endif%}
                     <div class="meta">
                       {{x.rol_city}}, {{x.rol_state}}.
                     </div> <hr>
                   </h4>
                   <div class="description">
-                    <p>{{x.rol_description | safe}}<br>
+                    <p>{{x.rol_description | readmore:50 |safe}}<br>
                     <a>Aplica </a>antes de <a>{{x.rol_due_date}}</a>
                     </p>
                   </div>
@@ -203,7 +203,7 @@
                     {% if request.user != project.pro_user %} <!--Si no es el creador aparece boton para aplicar-->
                      <div class="ui left labeled button" tabindex="0" id="boton{{x.id}}" name ={{x.id}} class="aplicar">
                         <a  class="ui violet right pointing label button aplicar texto_boton" prueba="No_enviada" button-url="{%url 'project_app:button_text'%}" data-url="{% url 'project_app:change_user_project_status' %}" id={{x.id}} value="No_enviada">Aplicar</a>
-                       <div class="ui violet inverted button aplicar" data-content="Quedan {{x.rol_amount}} lugares">
+                       <div class="ui violet inverted button aplicar" data-tooltip="Quedan {{x.rol_amount}} lugares" data-position="right center" id="puestos_restantes{{x.id}}">
                           {{x.rol_amount}}
                        </div>
                        <input type="hidden" name="" value="" id="rol_id">
@@ -232,10 +232,33 @@
        </div>
        <div class="ui centered grid container">
          <br> <p class="ui center aligned"><br>{{project.pro_about_us}}<br></p> <br>
+         <!--Div that will hold the pie chart-->
+         <div id="chart_div" pie-data="{%url 'project_app:DataRepGoogle'%}"></div>
        </div>
+
+
+       <div class="ui centered grid container">
+       <div class="ui horizontal list  ">
+         <div class="item">
+
+
+           {%if project.pro_user.profile.avatar.url%}
+           <img class="ui avatar image" src="{{project.pro_user.profile.avatar.url}}">
+           {%else%}
+           <img class="ui avatar image" src="https://semantic-ui.com/images/avatar2/small/lena.png">
+           {%endif%}
+
+         <div class="content">
+           <div class="header">{{project.pro_user}}</div>
+           <a href="{% url 'profiles_app:detail' project.pro_user.profile.user.username %}">Ver perfil</a>
+         </div>
+         </div>
+       </div>
+     </div>
 
         <div class="ui centered grid container">
           <div class="ui horizontal list">
+
             {% for integrante in integrantes %}
             <div class="item">
               {% if integrante.up_user.profile.avatar %}
@@ -249,13 +272,14 @@
               </div>
             </div>
             {% endfor %}
+
           </div>
           <br><br>
         </div>
+
+
       </div>
     </div>
-
-
 
 
 {% endblock %}
@@ -265,6 +289,7 @@
 $( document ).ready(function() {
 
     whatever();
+    getPieData();
 });
 $( ".texto_boton" ).click(function() {
      var idRol = $(this).attr('id');
@@ -296,15 +321,76 @@ function whatever(){
     },
     dataType: 'json',
     success: function (data) {
+        console.log("HOLA BAIBI")
         console.log(data.dict); //TEXTO
         console.log(data.dictStatus); //STATUS
-        for (x in data.dict ) {
+        console.log(data.dictRestantes); //STATUS
+        for (x in data.dict ) { //Un for que pasa por cada rol del proyecto en la tabla user_project
+          console.log("HOLA BAIBI LOOP")
           var temp = '#'+x;
+          var temp2 = '#puestos_restantes'+x;
           $( temp ).text(data.dict[x]);
           $(temp).attr('prueba',data.dictStatus[x]);
+        }
+        for (x in data.dictRestantes) {
+          var temp2 = '#puestos_restantes'+x;
+          var txt = "Quedan "+data.dictRestantes[x]+ " lugares";
+          $(temp2).text(data.dictRestantes[x]);
+          console.log("temp2 text"+$(temp2).text());
+          $(temp2).attr('data-tooltip',txt);
         }
     }
   });
 }
  </script>
+ <!--Load the AJAX API-->
+     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+     <script type="text/javascript">
+     function getPieData(){
+
+       var url =   $( "#chart_div" ).attr("pie-data");
+       var idProject = {{project.id}};
+       $.ajax({
+         url: url,
+         data: {
+           'idProject': idProject,
+         },
+         dataType: 'json',
+         success: function (data) {
+           console.log("Regresó con bien");
+           console.log(data);
+
+             if (data != Array(0) && data != []) {
+               // Load the Visualization API and the corechart package.
+               google.charts.load('current', {'packages':['corechart']});
+               // Set a callback to run when the Google Visualization API is loaded.
+               google.charts.setOnLoadCallback(drawChart);
+               // Callback that creates and populates a data table,
+               // instantiates the pie chart, passes in the data and
+               // draws it.
+               function drawChart() {
+                 // Create the data table.
+                 var data2 = new google.visualization.DataTable();
+                 data2.addColumn('string', 'Topping');
+                 data2.addColumn('number', 'Slices');
+                 data2.addRows(data.pieData);
+
+                 // Set chart options
+                 var options = {'title':'Habilidades de integrantes','width':400,'height':300};
+
+                 // Instantiate and draw our chart, passing in some options.
+               console.log("no esta vacio");
+               var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+                chart.draw(data2, options);
+             }
+           }
+
+         }
+       });
+
+     }
+
+
+     </script>
+
 {% endblock %}

@@ -73,7 +73,7 @@
                     <i class="icon close"></i>     <p class="delete" id={{application.up_user.id}} rol={{rol.rol.id}} delete-url="{% url 'project_app:delete' %}" style="cursor: pointer; color:red;">  Rechazar</p>
                   </td>
                   {%endif%}
-                </tr>
+              </tr>
                   {%endif%}
                 {%endfor%}
               </tbody>
@@ -91,11 +91,15 @@
          <h4>Integrantes</h4>
          <table class="ui very basic collapsing celled table">
   <thead>
-    <tr><th>Usuario</th>
-    <th>Puesto</th>
-  </tr></thead>
+    <tr>
+      <th>Usuario</th>
+      <th>Puesto</th>
+      <th>#</th>
+    </tr>
+  </thead>
   <tbody>
     {%for integrante in integrantes%}
+
     <tr>
       <td>
         <h4 class="ui image header">
@@ -103,10 +107,14 @@
           <div class="content">
             {{integrante.up_user}}
         </div>
-      </h4></td>
+        </h4>
+      </td>
       <td>
         {%if integrante.up_rolInfo.rol_name == 'Otro'%}{{integrante.up_rolInfo.rol_name_other}}
         {%else%}{{integrante.up_rolInfo.rol_name}}{%endif%}
+      </td>
+      <td>
+        1/{{integrante.up_rolInfo.rol_amount}}
       </td>
     </tr>
     {%endfor%}

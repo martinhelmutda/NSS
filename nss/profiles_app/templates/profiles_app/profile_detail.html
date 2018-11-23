@@ -10,7 +10,7 @@
 
         <h1 class="header">{{profile.user|truncatechars:"16"}}</h1>
         {% if request.user != profile.user %}
-          <a href="{% url 'messages_app:start' profile.user.username %}">Enviar mensaje</a>
+          <a href="{% url 'messages_app:start' profile.user.username %}"><i class="envelope icon"></i>Enviar mensaje</a>
         {% endif %}
         {{profile.bio|safe}}
 
