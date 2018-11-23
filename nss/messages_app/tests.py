@@ -40,7 +40,7 @@ class ThreadTestCase(TestCase):
         #The number of messages in the thread is 2
 
     def test_add_message_from_user_not_in_thread(self):
-        self.thread.users.add(self.user1, self.user2)
+        self.thread.users.add(self.user1, self.user2, self.user3)
         message1 = Message.objects.create(user=self.user1, content="HOLa krnal")
         message2 = Message.objects.create(user=self.user2, content="Sup")
         message3 = Message.objects.create(user=self.user3, content="Soy espía")

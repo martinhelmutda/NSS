@@ -15,6 +15,9 @@
   <div class="ui link cards">
   {% for project in project_list%}
   <div class="card">
+    {% if request.user == project.pro_user %}
+      <a class="ui positive top attached button" href="{% url 'project_app:applications' project.id %}" style="background-color: #218380"><i class="user plus icon"></i>Ver solicitudes</a>
+    {% endif %}
 
     <a class="image"href="{% url 'project_app:project' project.id project.pro_name|slugify %}" >
       {% if project.pro_img %}
@@ -57,27 +60,20 @@
         {%endif%}
         </a>
 
-        <div class="row mt-3">
-          <div class="col-md-9 mx-auto">
-            <div class="description">
-
-              {% if request.user == project.pro_user %}
-                    <a href="{% url 'project_app:applications' project.id %}">Ver solicitudes</a>
-                  | <a href="{% url 'project_app:update' project.id %}">Editar</a>
-                  | <a href="{% url 'project_app:delete' project.id %}">Borrar</a>
-                {% endif %}
-
-                <script type="text/javascript">
-                console.log("{% url 'project_app:project' project.id project.pro_name|slugify %}");
-
-                </script>
-
-            </div>
-          </div>
-        </div>
       </span>
     </div>
-  </div>
+    {% if request.user == project.pro_user %}
+    <div class="ui two attached bottom buttons">
+        <a class="ui button" href="{% url 'project_app:update' project.id %}"><i class="pencil alternate icon"></i>Editar</a>
+        <a class="ui button" href="{% url 'project_app:delete' project.id %}"><i class="trash alternate icon"></i>Borrar</a>
+      <script type="text/javascript">
+      console.log("{% url 'project_app:project' project.id project.pro_name|slugify %}");
+      </script>
+    </div>
+    {% endif %}
+
+
+    </div>
   {%empty%}<!--Si no hay roles-->
   <div class="ui content">
     <br> <br> <p class="ui centered grid container">¡Oops! Un no haz creado ningun proyecto o grupo.</p>
