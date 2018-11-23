@@ -34,7 +34,7 @@
         <div class="ui borderless menu bg-prim stackable shadow number1">
             <div class="ui container">
                 <div class="header item">
-                    <a href="{% url 'index' %}" class="item text-white"><i class="users icon"></i>TEEM</a>
+                    <a href="{% url 'index' %}" class="item text-white"><img class="logo" src="{% static "img/Teem.png" %}"></a>
                 </div>
               <!--  <a class="item" href="{% url 'project_app:DataRep' %}"><i class="chart bar alternate icon"></i>Data representation</a>-->
                 {% if user.is_authenticated %}
@@ -61,9 +61,9 @@
                 </div>
               </div>
                 {% else %}
-                <a class="item ui right floated" href="{% url 'account_app:user_login' %}">{%trans "Iniciar Sesion"%}</a>
+                <a class="item ui right text-white floated" href="{% url 'account_app:user_login' %}">{%trans "Iniciar Sesion"%}</a>
                 <div class="item">
-                  <a class="ui primary button" href="{% url 'account_app:register' %}">{%trans "Registrarse "%}</a>
+                  <a class="ui teal button" href="{% url 'account_app:register' %}">{%trans "Registrarse "%}</a>
                 </div>
                 {% endif %}
             </div>

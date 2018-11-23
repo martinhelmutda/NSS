@@ -1,11 +1,12 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% block body_block %}
+<br /><br />
 
 {% if registered %}
 <div class="ui middle aligned center aligned grid">
   <div class="column">
-    <div class="ui placeholder segment">
+    <div class="ui">
       <div class="content">
         <div class="header"><h1>Gracias por registrarte!</h1></div>
       </div>
@@ -16,7 +17,7 @@
 {% else %}
 <div class="ui middle aligned center aligned grid">
   <div class="column columnlogin">
-    <div class="ui placeholder segment">
+    <div class="ui">
       <div class="content">
         <div class="header"><h1>Crear Cuenta</h1></div>
       </div>
@@ -24,8 +25,7 @@
         <form class="ui form" enctype="multipart/form-data" method="post">
           {% csrf_token %}
           {{ user_form.as_p }}
-          {{ profile_form.as_p }}
-          <button class="ui fluid primary big button" type="submit">Registrar</button>
+          <button class="ui fluid teal big button" type="submit">Registrar</button>
         </form>
       </div>
     </div>
