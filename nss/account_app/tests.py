@@ -168,7 +168,7 @@ class UserAccountsInfo(TestCase):
         # Create user
         self.user = User.objects.create_superuser(username='testuser1', email="example2@example.com",
                                                   password='pass1')
-        self.useraux = UserProfileInfo.objects.create(user = self.user, profile_pic = SimpleUploadedFile(name='k.png', content=open('media/profile_pics/k.png', 'rb').read(), content_type='image/png'), portfolio_site = "Google.com")
+        self.useraux = Profile.objects.create(user = self.user, avatar = SimpleUploadedFile(name='k.png', content=open('media/profile_pics/k.png', 'rb').read(), content_type='image/png'), link = "Google.com")
         self.user.save()
         self.useraux.save()
 
@@ -177,7 +177,7 @@ class UserAccountsInfo(TestCase):
 
     def test_validation(self):
         validate_image_file_extension(self.useraux.profile_pic)
-        user_form = UserProfileInfoForm(data={'profile_pic': self.useraux.profile_pic, 'portfolio_site' : self.useraux.portfolio_site })
+        user_form = ProfileForm(data={'avatar': self.useraux.avatar, 'bio': self.useraux.bio, 'link' : self.useraux.link })
         self.assertTrue(user_form.is_valid())
 
     def test_users_created(self):

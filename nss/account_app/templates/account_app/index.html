@@ -6,76 +6,62 @@
 {% block body_block %}
 
 <main role="main">
-  <div class="ui container ">
-    <div class="ui link cards">
-    {% for project in projects|dictsort:"id" reversed %}
-        <div class="card">
-
-          <a class="image"href="{% url 'project_app:project' project.id project.pro_name|slugify %}" >
-            {% if project.pro_img %}
-              <img src="../media/{{project.pro_img}}">
-            {% else %}
-              <img src="https://semantic-ui.com/images/wireframe/image.png">
-            {% endif %}
-          </a>
-          <div class="content">
-            <a class="header" href="{% url 'project_app:project' project.id project.pro_name|slugify %}">{{project.pro_name}} </a>
-
-            <div class=" sixteen wide column">
-              <div class=" eight column">
+  <div class="ui four column doubling stackable grid container">
+      {% for project in projects|dictsort:"id" reversed %}
+          <div class="column">
+            <div class="ui fluid teal card">
+              <a class="image"href="{% url 'project_app:project' project.id project.pro_name|slugify %}">
+                  {% if project.pro_img %}
+                    <img src="{{project.pro_img.url}}">
+                  {% else %}
+                    <img src="https://semantic-ui.com/images/wireframe/image.png">
+                  {% endif %}
+                </a>
+              <div class="content">
+                <a class="header" href="{% url 'project_app:project' project.id project.pro_name|slugify %}">{{project.pro_name}} </a>
+                <div class="meta">
                   <i class="tags icon"></i>
-                  {{project.pro_category}}, {{project.pro_subcategory}}.
-              </div>
-              <div class=" eight column">
-                  <i class="map marker alternate icon"></i>
-                  {{project.pro_city}}, {{project.pro_state}}.
-              </div>
-            </div>
-<hr>
-            <div class="description">
-              <p>{{project.pro_description | truncatewords:50 |safe}} </p><a href="{% url 'project_app:project' project.id project.pro_name|slugify %}">Leer más</a>
-            </div>
-          </div>
-          <div class="extra content">
-            <span class="right floated">
-              {{project.pro_creation_date}}
-            </span>
-            <span>
-              {%if project.pro_user.profile.avatar.url%}
-              <img src="{{project.pro_user.profile.avatar.url}}" class="ui tiny avatar image">
-              {%else%}
-              <img src="" class="ui tiny avatar image">
-              {%endif%}
-              {{project.pro_user}}
-              <div class="row mt-3">
-                <div class="col-md-9 mx-auto">
-                  <div class="description">
-
-                    {% if request.user == project.pro_user %}
-                    <a href="{% url 'project_app:applications' project.id %}">Ver solicitudes</a>
-                  | <a href="{% url 'project_app:update' project.id %}">Editar</a>
-                  | <a href="{% url 'project_app:delete' project.id %}">Borrar</a>
-                      {% endif %}
-
-                      <script type="text/javascript">
-                      console.log("{% url 'project_app:project' project.id project.pro_name|slugify %}");
-
-                      </script>
-
-                  </div>
+                        {{project.pro_category}}, {{project.pro_subcategory}}.
                 </div>
+                <div class="meta">
+                  <i class="map marker alternate icon"></i>
+                        {{project.pro_city}}, {{project.pro_state}}.
+                </div>
+                <div class="description">
+                     <p>{{project.pro_description | truncatewords:50 |safe}} </p><a href="{% url 'project_app:project' project.id project.pro_name|slugify %}">Leer más</a>
+                   </div>
               </div>
-            </span>
+              <div class="extra content">
+                <span class="right floated">
+                  {{project.pro_creation_date}}
+                </span>
+                <span>
+
+
+
+                     <div class="row mt-3">
+                       <div class="col-md-9 mx-auto">
+                         <div class="description">
+
+                           {% if request.user == project.pro_user %}
+                                 <a href="{% url 'project_app:applications' project.id %}">Ver solicitudes</a>
+                               | <a href="{% url 'project_app:update' project.id %}">Editar</a>
+                               | <a href="{% url 'project_app:delete' project.id %}">Borrar</a>
+                             {% endif %}
+
+                             <script type="text/javascript">
+                             console.log("{% url 'project_app:project' project.id project.pro_name|slugify %}");
+
+                             </script>
+
+                         </div>
+                       </div>
+                     </div>
+                   </span>
+              </div>
+            </div>
           </div>
-        </div>
-        {%empty%}<!--Si no hay roles-->
-        <div class="ui content">
-          <br> <br> <p class="ui centered grid container">¡Oops! No hay ningun proyecto por el momento.</p>
-        </div>
-
-
-    {% endfor %}
-    </div>
+      {% endfor %}
   </div>
 </main>
 {% endblock %}

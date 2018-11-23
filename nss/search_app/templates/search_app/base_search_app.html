@@ -31,39 +31,32 @@
         </head>
     <body class="bg-gray">
         <!-- Static navbar -->
-        <div class="ui borderless menu stackable shadow number1">
+        <div class="ui borderless menu bg-prim stackable shadow number1">
             <div class="ui container">
                 <div class="header item">
-                    <a href="{% url 'index' %}" class="item"><img class="logo" src="{% static "img/logo.png" %}"><i class="users icon"></i>TEEM</a>
+                    <a href="{% url 'index' %}" class="item text-white"><i class="users icon"></i>TEEM</a>
                 </div>
               <!--  <a class="item" href="{% url 'project_app:DataRep' %}"><i class="chart bar alternate icon"></i>Data representation</a>-->
-
-                <div class="item">
-                  <form class="ui action input" action='{% url 'search_app:search' %}'>
-                    <input type="search" placeholder="Buscar" aria-label="Search" name='q'>
-                    <button class="ui button" type="submit">Buscar</button>
-                  </form>
-                </div>
                 {% if user.is_authenticated %}
-                <a class="item right" href="{% url 'profiles_app:list' %}"><i class="address card outline icon"></i> {%trans "Ver Perfiles" %}</a>
+                <a class="item right text-white" href="{% url 'profiles_app:list' %}"><i class="address card outline icon"></i> {%trans "Ver Perfiles" %}</a>
                 <div class="ui simple dropdown item">
-                  <i class="edit icon"></i>{% trans Crear %}
-                  <i class="dropdown icon"></i>
+                  <i class="edit icon text-white"></i>{% trans Crear %}
+                  <i class="dropdown icon text-white"></i>
                   <div class="menu">
                        <a class="item" href="{% url 'project_app:create' %}"><i class="pencil alternate icon"></i>{% trans "Crear proyecto" %}</a>
                        <a class="item" href="{% url 'project_app:create_group' %}"><i class="pencil alternate icon"></i>{%trans "Crear Grupo" %}</a>
                   </div>
                 </div>
 
-                <a class="item" href="{% url 'messages_app:list' %}"><i class="envelope icon"></i></a>
-                <div class="ui simple dropdown item">
-                  <i class="user icon"></i>{{ user.username }}
-                  <i class="dropdown icon"></i>
+                <a class="item text-white" href="{% url 'messages_app:list' %}"><i class="envelope icon"></i></a>
+                <div class="ui simple dropdown item text-white">
+                  <i class="user icon text-white"></i>{{ user.username }}
+                  <i class="dropdown icon text-white"></i>
                   <div class="menu">
-                    <a class="item" href="{% url 'project_app:projects' %}"><i class="folder icon"></i>{% trans "Mis creaciones" %}</a>
-                    <a class="item" href="{% url 'profiles_app:detail' user %}"><i class="address card outline icon"></i> {%trans "Ver Perfil" %}</a>
-                    <a class="item" href="{% url 'account_app:profile' %}"><i class="edit icon"></i>{% trans "Editar Perfil "%}</a>
-                    <a class="item" href="{% url 'logout' %}"><i class="power off icon"></i>{%trans "Salir"%}</a>
+                    <a class="item text-white" href="{% url 'project_app:projects' %}"><i class="folder icon"></i>{% trans "Mis Proyectos" %}</a>
+                    <a class="item text-white" href="{% url 'profiles_app:detail' user %}"><i class="address card outline icon"></i>{%trans "Ver Perfil" %}</a>
+                    <a class="item text-white" href="{% url 'account_app:profile' %}"><i class="edit icon"></i>{% trans "Editar Perfil "%}</a>
+                    <a class="item text-white" href="{% url 'logout' %}"><i class="power off icon"></i>{%trans "Salir"%}</a>
                   </div>
                 </div>
               </div>
@@ -79,112 +72,6 @@
         {% block body_block %}
         <!-- Other Htmls go here -->
         {% endblock %}
-        <div class="ui container mb-4">
-          <div class="ui link cards">
-          {% for project in projects|dictsort:"id" reversed %}
-              <div class="card">
-                <div class="image">
-                  {% if project.pro_img %}
-                    <img src="../media/{{project.pro_img}}">
-                  {% else %}
-                    <img src="https://semantic-ui.com/images/wireframe/image.png">
-                  {% endif %}
-
-                </div>
-                <div class="content">
-                  <div class="header">{{project.pro_name}}</div>
-                  <div class="meta">
-                    <a>{{project.pro_category}}</a>
-                  </div>
-                  <div class="description">
-                    {{project.pro_description |safe}}
-                  </div>
-                </div>
-                <div class="extra content">
-                  <span class="right floated">
-                    Joined in 2013
-                  </span>
-                  <span>
-                    <i class="user icon"></i>
-                    <div class="row mt-3">
-                      <div class="col-md-9 mx-auto">
-                        <div>
-                          {# <p>{{project.pro_description|striptags|safe|truncatechars:"200"}}</p> #}
-                          <p><a href="{% url 'project_app:project' project.id project.pro_name|slugify %}">Leer más</a></p>
-
-                          {% if request.user == project.pro_user %}
-                          <a href="{% url 'project_app:applications' project.id %}">Ver solicitudes</a>
-                        | <a href="{% url 'project_app:update' project.id %}">Editar</a>
-                        | <a href="{% url 'project_app:delete' project.id %}">Borrar</a>
-                            {% endif %}
-
-                            <script type="text/javascript">
-                            console.log("{% url 'project_app:project' project.id project.pro_name|slugify %}");
-
-                            </script>
-
-                        </div>
-                      </div>
-                    </div>
-                  </span>
-                </div>
-              </div>
-
-          {% endfor %}
-          </div>
-        </div><div class="ui container mb-4">
-          <div class="ui link cards">
-          {% for project in projects|dictsort:"id" reversed %}
-              <div class="card">
-                <div class="image">
-                  {% if project.pro_img %}
-                    <img src="../media/{{project.pro_img}}">
-                  {% else %}
-                    <img src="https://semantic-ui.com/images/wireframe/image.png">
-                  {% endif %}
-
-                </div>
-                <div class="content">
-                  <div class="header">{{project.pro_name}}</div>
-                  <div class="meta">
-                    <a>{{project.pro_category}}</a>
-                  </div>
-                  <div class="description">
-                    {{project.pro_description |safe}}
-                  </div>
-                </div>
-                <div class="extra content">
-                  <span class="right floated">
-                    Joined in 2013
-                  </span>
-                  <span>
-                    <i class="user icon"></i>
-                    <div class="row mt-3">
-                      <div class="col-md-9 mx-auto">
-                        <div>
-                          {# <p>{{project.pro_description|striptags|safe|truncatechars:"200"}}</p> #}
-                          <p><a href="{% url 'project_app:project' project.id project.pro_name|slugify %}">Leer más</a></p>
-
-                          {% if request.user == project.pro_user %}
-                              | <a href="{% url 'project_app:update' project.id %}">Editar</a>
-                              | <a href="{% url 'project_app:delete' project.id %}">Borrar</a>
-                            {% endif %}
-
-                            <script type="text/javascript">
-                            console.log("{% url 'project_app:project' project.id project.pro_name|slugify %}");
-
-                            </script>
-
-                        </div>
-                      </div>
-                    </div>
-                  </span>
-                </div>
-              </div>
-
-          {% endfor %}
-          </div>
-        </div>
 
     </body>
     {% block js_block %}
