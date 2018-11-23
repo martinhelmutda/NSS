@@ -44,7 +44,7 @@ class ProjectsListView(ListView):
 ##Return a pack of projects
 class ProjectDetailView(DetailView):
     model = project
-
+"""
     def get_context_data(self, **kwargs):
         context = super(ProjectDetailView, self).get_context_data(**kwargs)
         id_Project= self.kwargs['pk']
@@ -63,9 +63,8 @@ class ProjectDetailView(DetailView):
         #    if post.likes.filter(id=request.user.id).exists():
             #    is_liked = True
 
-
         return context
-
+"""
 class ApplicationsDetailView(DetailView):
     model = project
     paginated_by=2
