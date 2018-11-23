@@ -6,5 +6,4 @@ from project_app.urls import projects_patterns
 app_name = 'search_app'
 urlpatterns=[
     path('',views.SearchView.as_view(),name='search'),
-    path('ajax/load_info/', views.load_info, name='load_info'),
 ]
