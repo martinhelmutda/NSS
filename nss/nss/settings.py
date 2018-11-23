@@ -143,7 +143,7 @@ DATABASES = {
 """
 development
 """
-
+"""
 DATABASES = {                                   #Nos conectamos a la base de datos mySQL
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -170,7 +170,7 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-"""
+
 
 
 
