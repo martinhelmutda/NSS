@@ -91,7 +91,7 @@
 <div class="ui four column doubling stackable grid container">
     {% for project in projects|dictsort:"id" reversed %}
         <div class="column">
-          <div class="ui fluid teal card">
+          <div class="ui fluid card">
             <a class="image"href="{% url 'project_app:project' project.id project.pro_name|slugify %}">
                 {% if project.pro_img %}
                   <img src="{{project.pro_img.url}}">
@@ -110,7 +110,7 @@
                       {{project.pro_city}}, {{project.pro_state}}.
               </div>
               <div class="description">
-                   <p>{{project.pro_description | truncatewords:50 |safe}} </p><a href="{% url 'project_app:project' project.id project.pro_name|slugify %}">Leer más</a>
+                   <p>{{project.pro_description | truncatewords:50 |safe}} </p>
                  </div>
             </div>
             <div class="extra content">
@@ -119,7 +119,7 @@
               </span>
               <span>
 
-                
+
 
                    <div class="row mt-3">
                      <div class="col-md-9 mx-auto">
@@ -141,6 +141,9 @@
                    </div>
                  </span>
             </div>
+            <div class="ui attached bottom buttons">
+                <a class="ui teal button" href="{% url 'project_app:project' project.id project.pro_name|slugify %}"><i class="pencil alternate icon"></i>Leer más</a>
+              </div>
           </div>
         </div>
     {% endfor %}

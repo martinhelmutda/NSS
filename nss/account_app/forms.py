@@ -12,20 +12,18 @@ from .models import Profile
 #from crispy_forms.helper import FormHelper
 
 class UserForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput())
-    verify_password = forms.CharField(widget=forms.PasswordInput(),label='Ingresa tu contraseña nuevamente')
+    username = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Introduce tu nombre de usuario'}),label='Nombre de usuario')
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Introduce tu nombre'}),label='Nombre')
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Introduce tu apellido'}),label='Apellido')
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': '*********'}))
+    verify_password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': '*********'}),label='Ingresa tu contraseña nuevamente')
+    email  = forms.EmailField( label='E-mail', required=True, widget=forms.EmailInput(attrs={'placeholder':'Introduce tu E-mail de contacto'}))
     botcatcher = forms.CharField(required=False,widget=forms.HiddenInput, validators=[validators.MaxLengthValidator(0)])
 
     class Meta():
         model = User
         fields = ('username','first_name','last_name','email','password')
-        labels = {
-            "username": "Nombre de usuario",
-            "first_name": "Nombre",
-            "last_name": "Apellido",
-            "email": "E-mail",
-            "password": "Contraseña",
-        }
+
     def clean(self):
         all_clean_data = super().clean()
         password = all_clean_data['password']
@@ -33,20 +31,6 @@ class UserForm(forms.ModelForm):
 
         if password != verify_password:
             raise forms.ValidationError("La contraseña debe ser la misma")
-
-class UserProfileInfoForm(forms.ModelForm):
-    class Meta():
-        model = UserProfileInfo
-        fields = ('portfolio_site','profile_pic')
-        labels = {
-            "portfolio_site": "Portafolio de usuario",
-            "profile_pic": "Foto de perfil",
-
-        }
-
-
-        def clean(self):
-            all_clean_data = super().clean()
 
 
 
