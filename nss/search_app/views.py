@@ -73,6 +73,15 @@ class SearchView(SelectRelatedMixin, generic.ListView):
                 reduce(operator.and_,
                        (Q(pro_city=id_pro_city) for id_pro_city in query_list))
             )
+
+        if self.request.GET.get('id_pro_group'):
+            id_pro_group = self.request.GET.get('id_pro_group')
+            result = result.filter(pro_group=True)
+
+        if self.request.GET.get('id_pro_project'):
+            id_pro_project = self.request.GET.get('id_pro_project')
+            result = result.filter(pro_group=False)
+
         return result
 
 def proper_pagination(posts, index):
